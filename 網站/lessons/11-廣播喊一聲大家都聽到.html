@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 11 課 · 廣播：喊一聲，大家都聽到</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 11 課 · 大約 1 節課</span>
+    <h1>廣播：<em>喊一聲，大家都聽到</em></h1>
+    <p class="lede">上禮拜你算秒數算到煩。今天這塊積木出現以後，<strong style="color:#FFBF00">你再也不用算了</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>把上禮拜的對話<strong style="color:#FFBF00">重做一次</strong>——這次台詞改多長都不會亂掉。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的兩塊積木（一對的）</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--events">廣播 <i>換你說 ▾</i></div>
+          <div class="blk blk--events blk--hat">當收到訊息 <i>換你說 ▾</i></div>
+        </div>
+        <p style="font-size:.88rem;margin-top:.6rem">一塊負責<strong style="color:#FFBF00">喊</strong>，一塊負責<strong style="color:#FFBF00">聽</strong>。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 上禮拜的問題 ───────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先回想上禮拜的問題</h2>
+  <p>上禮拜做兩個角色對話，狗只能<strong>猜時間</strong>——「大概等 2 秒吧，小貓應該講完了」。</p>
+  <p>結果只要小貓的台詞一改，狗就會插嘴或呆等，然後你要回去把所有秒數重算一次。</p>
+
+  <p>當時我們的結論是：</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💭 我們需要的是……</h3>
+    <ul>
+      <li><strong>小貓講完之後，能主動通知狗「換你了」。</strong></li>
+      <li>這樣狗就不用猜時間——它只要<strong>等通知</strong>就好。</li>
+    </ul>
+  </div>
+
+  <p>Scratch 真的有這個東西，它叫做<strong>廣播</strong>。</p>
+</section>
+
+<!-- ── 2. 廣播是什麼 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>廣播就是「喊一聲」</h2>
+  <p>你其實每天都在用廣播，只是沒發現。</p>
+
+  <div class="sos" style="background:#FFF9E6;border-color:var(--b-events)">
+    <h3>🔔 想想上課的時候</h3>
+    <ul>
+      <li>老師在教室前面喊一聲：<strong>「起立！」</strong></li>
+      <li>全班都聽到了，然後<strong>一起站起來</strong>。</li>
+      <li>老師沒有走到每個人面前一個一個講，也沒有算「小明大概 3 秒後會站起來」。<strong>喊一聲，聽到的人自己動。</strong></li>
+    </ul>
+  </div>
+
+  <p>Scratch 的廣播一模一樣，只是分成兩塊積木：</p>
+
+  <div class="names">
+    <div class="names__col" style="background:var(--card);border-color:var(--b-events)">
+      <h4>📢 喊的那一塊</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events">廣播 <i>起立 ▾</i></div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">放在<strong>要通知別人的時候</strong>。喊完就繼續做下一塊，不會停下來等。</p>
+    </div>
+    <div class="names__col" style="background:var(--card);border-color:var(--b-events)">
+      <h4>👂 聽的那一塊</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat">當收到訊息 <i>起立 ▾</i></div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">是<strong>帽子形狀</strong>，自己開一串。聽到那個訊息才開始跑。</p>
+    </div>
+  </div>
+
+  <p>兩塊都在<strong>「事件」</strong>分類裡，就在綠旗積木下面一點的地方。</p>
+
+  <h3>試試看</h3>
+  <p>下面有一隻貓和三個朋友。三個朋友身上都裝了<strong>「當收到訊息 開始跳舞」</strong>。按按看：</p>
+
+  <div class="predict">
+    <div class="bcast">
+      <div class="stack" style="align-items:center;margin:.2rem 0 .6rem">
+        <div class="blk blk--events">廣播 <i>開始跳舞 ▾</i></div>
+      </div>
+      <button class="btn" id="send">📢 按我廣播</button>
+
+      <div class="bcast__signal" id="wave">🔊 「開始跳舞」～～～</div>
+
+      <div class="bcast__actors" id="crowd">
+        <div class="bcast__actor" data-hear="1"><span class="bcast__face">🐶</span><small>當收到<br>開始跳舞</small></div>
+        <div class="bcast__actor" data-hear="1"><span class="bcast__face">🐰</span><small>當收到<br>開始跳舞</small></div>
+        <div class="bcast__actor" data-hear="1"><span class="bcast__face">🐻</span><small>當收到<br>開始跳舞</small></div>
+        <div class="bcast__actor deaf" data-hear="0"><span class="bcast__face">🐢</span><small>沒有裝<br>收訊息的積木</small></div>
+      </div>
+
+      <p class="kdemo__hint" id="bSay">按按看上面那個按鈕。注意最右邊那隻烏龜。</p>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 兩個重點</h3>
+    <ul>
+      <li>喊一聲，<strong>所有裝了那塊積木的角色都會動</strong>——不用一個一個叫。</li>
+      <li>沒裝的角色<strong>完全不受影響</strong>（那隻烏龜）。廣播不是命令，是訊號；聽到的人自己決定要不要做事。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 3. 重做上禮拜的對話 ───────────── -->
+<section>
+  <h2 class="h2"><b>3</b>重做上禮拜的對話</h2>
+  <p>現在用廣播重寫一次。注意狗那邊<strong>完全沒有「等待」了</strong>：</p>
+
+  <div class="names">
+    <div class="names__col" style="background:var(--card);border-color:var(--b-looks)">
+      <h4>🐱 小貓</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--looks">說出 <i>你好</i> 持續 <i>2</i> 秒</div>
+        <div class="blk blk--events">廣播 <i>換你說 ▾</i></div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">講完<strong>才</strong>喊一聲</p>
+    </div>
+    <div class="names__col" style="background:var(--card);border-color:var(--b-control)">
+      <h4>🐶 狗</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat">當收到訊息 <i>換你說 ▾</i></div>
+        <div class="blk blk--looks">說出 <i>你也好</i> 持續 <i>2</i> 秒</div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)"><strong>沒有等待</strong>，也不用綠旗</p>
+    </div>
+  </div>
+
+  <p>拉拉看下面的桿子——<strong>跟上禮拜同一個桿子</strong>，但這次結果不一樣：</p>
+
+  <div class="predict">
+    <div class="talk">
+      <div class="talk__stage">
+        <div class="talk__actor">🐱<span class="talk__bubble" id="bubA">你好</span></div>
+        <div class="talk__actor">🐶<span class="talk__bubble" id="bubB">你也好</span></div>
+      </div>
+
+      <div class="slide">
+        <label for="tRange">小貓講幾秒：</label>
+        <input type="range" id="tRange" min="0.5" max="5" step="0.5" value="2">
+        <strong class="slide__val" id="tShow">2</strong>
+      </div>
+
+      <p class="talk__verdict" id="tSay" data-k="ok">不管小貓講幾秒，狗都是<strong>等它講完才開口</strong>——因為狗在等的是訊號，不是時間。</p>
+    </div>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">同一齣對話，改長改短都不會壞</b>
+    <p class="shot__how">拍舞台區，同一個作品跑兩次：第一次 A 講短句，第二次<b>當場把 A 的台詞改長</b>再跑一次 —— 兩次 B 都剛好接話。約 8 秒。<b>這是跟第 10 課那張「插嘴」對照用的，兩張放在一起講最有力。</b></p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🎉 這就是廣播的威力</h3>
+    <ul>
+      <li>小貓講 0.5 秒還是 5 秒，<strong>狗永遠不會插嘴，也不會呆等</strong>。</li>
+      <li>你可以隨便改台詞，<strong>不用回去重算任何秒數</strong>。</li>
+      <li>三個角色、十句對話也一樣簡單——講完喊一聲，下一個接。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 訊息名字要取好 ─────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>訊息的名字要取好</h2>
+  <p>第一次用廣播的時候，Scratch 會請你<strong>建立新訊息</strong>，然後給它取個名字。</p>
+  <p>預設的名字是「訊息1」。<strong>千萬不要用它。</strong></p>
+
+  <div class="names">
+    <div class="names__col names__col--good">
+      <h4>✓ 這樣取很好</h4>
+      <ul>
+        <li>換你說</li>
+        <li>開始跳舞</li>
+        <li>遊戲結束</li>
+        <li>換第二幕</li>
+      </ul>
+      <p style="font-size:.85rem;margin:.7rem 0 0;color:var(--ink-soft)">看到名字就知道<strong>要做什麼事</strong>。</p>
+    </div>
+    <div class="names__col names__col--bad">
+      <h4>✗ 這樣取會出事</h4>
+      <ul>
+        <li>訊息1<small>三個訊息之後你會分不出誰是誰</small></li>
+        <li>aaa<small>兩天後你就忘了它在幹嘛</small></li>
+        <li>小貓<small>這是角色的名字，不是「要做什麼」</small></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="predict__hint">💡 訣竅：訊息的名字要像<strong>一句口令</strong>——「起立」「開動」「換你說」。念出來就知道聽到的人該做什麼。</p>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">建立一個新訊息</b>
+    <p class="shot__how">拖出「廣播」積木 → 點下拉選單 → 選「<b>新的訊息</b>」→ 跳出視窗 → 打上「換你說」→ 確定。約 6 秒。<b>學生第一次用廣播都會卡在這</b>——他們找不到自己的訊息在哪裡建立。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">兩個角色分開寫 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>點<strong>角色 A</strong>：綠旗 → 說出「你好」持續 2 秒</li>
+      <li>接上 <strong>廣播</strong>，下拉選單選「新的訊息」，取名 <strong>換你說</strong></li>
+      <li>點<strong>角色 B</strong>：拖出 <strong>當收到訊息「換你說」</strong>（帽子，自己開一串）</li>
+      <li>接上 說出「你也好」持續 2 秒。<strong>不要放等待，也不要放綠旗</strong></li>
+      <li>按綠旗看效果，然後<strong>把 A 的台詞改長一點再試一次</strong>——還是完全正常</li>
+    </ol>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>下拉選單裡找不到我的訊息</strong> —— 訊息要先<strong>建立</strong>才會出現。點下拉選單 → 選「新的訊息」。</li>
+      <li><strong>B 完全沒反應</strong> —— 檢查兩邊選的是<strong>同一個訊息</strong>。名字不同就聽不到。</li>
+      <li><strong>B 一開始就講話了</strong> —— B 那串的帽子是不是放成綠旗了？要用<strong>「當收到訊息」</strong>。</li>
+      <li><strong>A 講完就沒事了</strong> —— 廣播積木有沒有接在 A 的<strong>說話下面</strong>？放在上面的話，B 會在 A 還沒講完就開口。</li>
+      <li>四個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這題是<strong>角色 A 的程式</strong>。想清楚「通知對方」要放在哪一步。</p>
+
+  <div class="sortbox"
+       data-answer="1234"
+       data-swap="2>3"
+       data-msg-ok="✓ 完全正確！叫一聲、說完話，最後才通知對方 —— 順序對了對方就不會插嘴。"
+       data-msg-nohat="再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？"
+       data-msg-swap="再讀一次小魚的要求 —— 她要「先叫一聲」，說話是之後的事。"
+       data-msg-near="快好了！想想廣播的意思 —— 它是「我講完了，換你」。如果廣播排在說話前面，對方會在你還在講的時候就開口，又變成上禮拜那樣了。">
+    <p class="predict__hint" style="margin-top:0">
+      小魚想讓角色 A 這樣做 ——
+      <strong>先叫一聲，再說「哈囉」，說完才通知對方換他講。</strong><br>
+      下面四塊積木順序被打亂了，拖成小魚要的順序。
+    </p>
+    <div class="slots">
+      <div class="blk blk--events drag" data-k="4">廣播 <i>換你說 ▾</i></div>
+      <div class="blk blk--looks drag" data-k="3">說出 <i>哈囉</i> 持續 <i>2</i> 秒</div>
+      <div class="blk blk--events blk--hat drag" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <div class="blk blk--sound drag" data-k="2">播放音效 <i>喵</i></div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都只要<strong>加一塊廣播或收訊息</strong>就做得到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>做三句來回的對話</b><small>貓說完廣播、狗說完再廣播另一個訊息、貓再接。</small></div>
+      <div class="play"><b>把 A 的台詞改超長</b><small>改成講 8 秒。B 還是會乖乖等嗎？</small></div>
+      <div class="play"><b>兩邊選不同的訊息</b><small>A 廣播「換你說」，B 收「開始跳舞」。會怎樣？</small></div>
+      <div class="play"><b>讓角色收到訊息就變大</b><small>當收到訊息 → 尺寸改變 50。</small></div>
+      <div class="play"><b>把廣播放在說話前面</b><small>故意放錯，看看是不是又變回上禮拜那樣。</small></div>
+      <div class="play"><b>用按鍵觸發廣播</b><small>當空白鍵被按下 → 廣播。按一下全部角色一起動。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>做一段<strong>四句來回</strong>的對話：貓、狗、貓、狗。全部用廣播接力，<strong>一個「等待」都不准用</strong>。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>四句話需要<strong style="color:#FFBF00">三個訊息</strong>（第一句由綠旗啟動，後面三句各要一個通知）。</p>
+      <p>訊息名字建議取成 <strong style="color:#FFBF00">第二句、第三句、第四句</strong>，或是照劇情取名。每個角色可以有好幾串「當收到訊息」，各接各的。</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做一個<strong>「開演」按鈕</strong>：按下空白鍵，兩個角色<strong>同時</strong>開始表演（一個跳舞、一個轉圈）。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想剛剛那三隻動物</span></summary>
+    <div class="reveal__in">
+      <p>還記得剛剛按廣播按鈕，<strong style="color:#FFBF00">三隻動物一起動</strong>嗎？同一個訊息可以有<strong style="color:#FFBF00">很多個角色一起收</strong>。</p>
+      <p>所以：一串「當空白鍵被按下 → 廣播『開演』」，然後兩個角色<strong style="color:#FFBF00">都</strong>裝上「當收到訊息 開演」，各做各的表演。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第11課_廣播對話_範例.sb3" download>
+      <span class="ic">📢</span>
+      <span>第11課_廣播對話_範例.sb3<small>用廣播寫的版本。把台詞改長改短試試看，都不會亂</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 11 課 · 廣播：喊一聲，大家都聽到</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用 1：廣播示範 —— 喊一聲，有裝收訊息積木的都會動 */
+(() => {
+  const btn = document.getElementById('send');
+  if (!btn) return;
+  const wave = document.getElementById('wave'),
+        crowd = document.getElementById('crowd'),
+        say = document.getElementById('bSay');
+  let times = 0;
+  btn.addEventListener('click', () => {
+    times++;
+    wave.classList.add('on');
+    setTimeout(() => wave.classList.remove('on'), 900);
+    crowd.querySelectorAll('.bcast__actor').forEach((a, i) => {
+      if (a.dataset.hear !== '1') return;
+      setTimeout(() => {
+        a.classList.add('fire');
+        setTimeout(() => a.classList.remove('fire'), 700);
+      }, 180 + i * 90);
+    });
+    say.innerHTML = times === 1
+      ? '三隻一起動了！但<strong>烏龜完全沒反應</strong> —— 因為牠身上沒有裝「當收到訊息」的積木。'
+      : '再按幾次也一樣：<strong>喊一聲，有裝的都動，沒裝的不理。</strong> 這就是廣播。';
+  });
+})();
+
+/* 本課專用 2：廣播版對話 —— 對照第 10 課同一個滑桿，這次不會壞 */
+(() => {
+  const tR = document.getElementById('tRange');
+  if (!tR) return;
+  const A = document.getElementById('bubA'), B = document.getElementById('bubB'),
+        val = document.getElementById('tShow'), say = document.getElementById('tSay');
+  let timers = [];
+  const clear = () => { timers.forEach(clearTimeout); timers = []; };
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+  const run = () => {
+    clear();
+    A.classList.remove('on'); B.classList.remove('on');
+    const a = +tR.value, scale = 400;
+    at(200, () => A.classList.add('on'));
+    // 關鍵：B 不是等固定秒數，而是等 A 講完那一刻
+    at(200 + a * scale, () => { A.classList.remove('on'); B.classList.add('on'); });
+    at(200 + (a + 2) * scale, () => B.classList.remove('on'));
+    at(200 + (a + 3) * scale, run);
+  };
+
+  const draw = () => {
+    const a = +tR.value;
+    const shown = a % 1 ? a.toFixed(1) : a;
+    val.textContent = shown;
+    say.dataset.k = 'ok';
+    say.innerHTML = `小貓講 <strong>${shown} 秒</strong>，狗還是<strong>剛好接話</strong> —— 沒插嘴、也沒呆等。<br>因為狗等的是<strong>訊號</strong>，不是時間。你怎麼拉都不會壞。`;
+    run();
+  };
+
+  tR.addEventListener('input', draw);
+  draw();
+})();
+</script>
+</body>
+</html>

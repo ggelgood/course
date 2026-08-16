@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 6 課 · 作品：走路動畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 6 課 · 作品 · 大約 1 節課</span>
+    <h1>作品：<em>走路動畫</em></h1>
+    <p class="lede">今天<strong style="color:#FFBF00">不教新積木</strong>。用你這五節課學會的東西，做一個真的在走路的角色。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個角色<strong style="color:#FFBF00">邊走邊擺動手腳</strong>，看起來真的在走路——不是滑過去的。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天怎麼上</h2>
+        <p>沒有標準答案。角色、場景、速度<strong style="color:#FFBF00">你自己決定</strong>。做完最少的要求之後，還可以一直加東西上去。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 今天不一樣 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>今天不一樣</h2>
+  <p>前面五節課，每一節都在學新積木。今天<strong>一塊新的都沒有</strong>——今天是把學過的東西<strong>組起來</strong>，做出一個自己的作品。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🙋 前面有沒跟上的，今天是最好的補課時間</h3>
+    <ul>
+      <li>如果你前面有哪一課沒做完，<strong>今天可以回去補</strong>，不用急著做作品。</li>
+      <li>今天沒有進度壓力。做到哪裡算哪裡，重點是<strong>你自己弄懂了</strong>。</li>
+      <li>做完最低要求之後，下面還有一堆可以加的東西，做多久都可以。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 積木小抄 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>你會用到這些積木</h2>
+  <p>全部都是<strong>第 1 到 5 課學過的</strong>。忘記哪一塊做什麼，看這裡就好，不用翻回去。</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <small>程式的<b>開始訊號</b>。每一段程式最上面都要有它。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">移動 <i>10</i> 點</div>
+      <small>往<b>面對的方向</b>走。數字前面加小橫槓就是倒退走。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--looks">造型換成下一個</div>
+      <small>換成下一個樣子。<b>換得夠快就像在動</b>——走路動畫的關鍵。</small>
+    </div>
+    <div class="cheat">
+      <div class="cwrap">
+        <div class="blk blk--control">重複無限次</div>
+        <div class="cwrap__in"><div class="blk blk--motion">移動 <i>10</i> 點</div></div>
+        <div class="cwrap__end cwrap__end--loop"></div>
+      </div>
+      <small>肚子裡的事<b>永遠做下去</b>，直到你按紅色停止鈕。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--control">等待 <i>0.2</i> 秒</div>
+      <small>停一下再繼續。<b>沒有它，快到看不清楚</b>。可以填小數。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">碰到邊緣就反彈</div>
+      <small>走到舞台邊邊會自己轉頭。<b>這塊還沒正式教，但你可以直接拿來用。</b></small>
+    </div>
+  </div>
+
+  <p class="predict__hint">💡 最後那塊「碰到邊緣就反彈」在<strong>動作</strong>分類裡。第 8 課才會正式教，但今天想用的話儘管拿去——角色就不會走出舞台不見了。</p>
+</section>
+
+<!-- ── 3. 先挑一個好角色 ─────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>先挑一個好角色</h2>
+  <p>這一步<strong>比你想的重要</strong>。有些角色只有一個造型，換來換去都一樣，做不出走路的效果。</p>
+  <p>挑角色的時候，看角色庫裡名字有 <strong>Walking</strong>、<strong>Running</strong>、<strong>Dance</strong> 的，通常造型最多。挑好之後，點「造型」頁籤數數看有幾個。</p>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">造型多的角色長什麼樣</b>
+    <p class="shot__how">挑一個走路造型完整的角色（例如 Avery Walking），拍「造型」頁籤左邊那一整排，讓學生看到<b>四個造型連在一起就是一個走路循環</b>。可以在旁邊標「1、2、3、4」。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <details class="reveal">
+    <summary>我挑的角色只有一個造型怎麼辦？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>兩個辦法：</p>
+      <p><strong>換一個角色</strong>——最快。回角色庫挑一個造型多的。</p>
+      <p><strong>用別的方式做出動的感覺</strong>——例如一邊走一邊<strong>轉一點點</strong>，或一邊走一邊<strong>變大變小</strong>。雖然不是走路，但一樣有動畫效果。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 4. 走路的三個零件 ─────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>走路 ＝ 三個零件</h2>
+  <p>看起來很難，其實只要三塊積木一直重複：</p>
+
+  <div class="stack">
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--motion">移動 <i>10</i> 點</div>
+        <div class="blk blk--looks">造型換成下一個</div>
+        <div class="blk blk--control">等待 <i>0.2</i> 秒</div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p><strong>往前挪一點</strong> ＋ <strong>換個姿勢</strong> ＋ <strong>停一下下</strong>，一直重複。就這樣。</p>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">滑過去 vs 真的在走</b>
+    <p class="shot__how">分兩段拍舞台區：左邊只有「移動」（角色像貼紙一樣滑過去），右邊加了「造型換成下一個」（腳真的在動）。約 6 秒。<b>這一張就說明了整節課在做什麼</b>，值得放在最顯眼的地方。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <h3>速度是這個作品的關鍵</h3>
+  <p>「等待」填多少，決定它看起來像走路、像抖動、還是像跳格子。<strong>先在這裡試，找到你喜歡的速度，再去 Scratch 裡填那個數字。</strong></p>
+
+  <div class="predict">
+    <div class="walkbox">
+      <div class="walkbox__stage">
+        <svg id="wFig" viewBox="0 0 44 62" width="88" height="124" aria-label="走路示範">
+          <circle cx="22" cy="9" r="8" fill="#4C97FF"/>
+          <line id="body" x1="22" y1="17" x2="22" y2="38" stroke="#3373CC" stroke-width="5" stroke-linecap="round"/>
+          <line id="armL" x1="22" y1="23" x2="11" y2="31" stroke="#4C97FF" stroke-width="4.5" stroke-linecap="round"/>
+          <line id="armR" x1="22" y1="23" x2="33" y2="31" stroke="#4C97FF" stroke-width="4.5" stroke-linecap="round"/>
+          <line id="legL" x1="22" y1="38" x2="12" y2="57" stroke="#3373CC" stroke-width="5" stroke-linecap="round"/>
+          <line id="legR" x1="22" y1="38" x2="32" y2="57" stroke="#3373CC" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="stack" style="margin:.6rem 0 0;align-items:center">
+        <div class="blk blk--control">等待 <i id="kNum">0.2</i> 秒</div>
+      </div>
+
+      <div class="slide">
+        <label for="kRange">等待幾秒：</label>
+        <input type="range" id="kRange" min="0.05" max="0.6" step="0.05" value="0.2">
+        <strong class="slide__val" id="kShow">0.2</strong>
+      </div>
+      <p id="kSay" style="font-size:.92rem;color:var(--ink-soft);margin:.7rem 0 0">
+        <strong>0.2 秒</strong> —— 這是大部分人覺得最像走路的速度。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>動手做</h2>
+  <p>分成三關。<strong>第一關一定要做到</strong>，後面兩關做得到多少算多少。</p>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 第一關 · 一定要做到</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>挑一個<strong>造型多</strong>的角色（至少 2 個造型）</li>
+      <li>放好 <strong>當綠旗被點擊</strong> ＋ <strong>重複無限次</strong></li>
+      <li>肚子裡放：<strong>移動</strong> → <strong>造型換成下一個</strong> → <strong>等待</strong></li>
+      <li>按綠旗，角色會一直走。看夠了按<strong>紅色停止鈕</strong></li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 第二關 · 做完了再加</b>
+      <span class="dobox__tip">讓作品變好看 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>加一塊 <strong>碰到邊緣就反彈</strong>，讓角色不會走出舞台</li>
+      <li>換一個好看的<strong>背景</strong>（第 2 課學過）</li>
+      <li>調整<strong>等待的秒數</strong>，找出最像走路的速度</li>
+      <li>調整<strong>移動的點數</strong>，讓步伐看起來自然</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🥇 第三關 · 還有時間就挑戰</b>
+      <span class="dobox__tip">挑你想做的，不用全做 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>開場時<strong>播放一次音效</strong>（記得放在無限重複<strong>上面</strong>）</li>
+      <li>讓角色一邊走一邊<strong>慢慢變大</strong>，像走近你</li>
+      <li>再加<strong>第二個角色</strong>，讓它們用不同速度走</li>
+      <li>讓角色走一走<strong>說一句話</strong>（想想「說出」要放哪裡才看得到）</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">完成的走路動畫長什麼樣</b>
+    <p class="shot__how">拍舞台區，角色在背景前面來回走、碰到邊緣會轉頭。錄一個完整來回，約 6 秒。<b>拍你自己做的版本就好</b>——學生看到老師的作品會更想做。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>角色是滑過去的，腳沒有動</strong> —— 這個角色可能只有一個造型。點「造型」頁籤數數看，只有一個就換一個角色。</li>
+      <li><strong>角色抖得很誇張</strong> —— 「等待」太小了，改成 0.2 秒試試。</li>
+      <li><strong>角色走出去就不見了</strong> —— 加一塊 <strong>碰到邊緣就反彈</strong>，或用滑鼠把它拖回中間。</li>
+      <li><strong>角色倒過來走</strong> —— 點角色左邊的「方向」，把迴轉方式改成<strong>左右翻轉</strong>。</li>
+      <li><strong>停不下來</strong> —— 按舞台右上角的<strong>紅色停止鈕 🛑</strong>。</li>
+      <li>五個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 6. 存檔 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>做完了，記得存檔</h2>
+  <p>這是<strong>你的第一個作品</strong>，不要讓它消失。存檔的方法跟第 2 課一樣：</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>💾 存檔</b>
+      <span class="dobox__tip">三步，一定要做完 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>點<strong>「檔案 → 儲存到你的電腦」</strong></li>
+      <li>檔名取 <strong>座號_姓名_走路動畫</strong></li>
+      <li>存在老師說的那個資料夾裡</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ── 7. 給同學看 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>7</b>給同學看看</h2>
+  <p>做完的人，把椅子轉過去看看隔壁在做什麼。看的時候可以問這三個問題：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">「你的等待填多少？」</b>
+      <small>每個人喜歡的速度不一樣。看看別人的比較快還是比較慢。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">「你怎麼讓它不會走出去？」</b>
+      <small>有人用反彈積木，有人手動拖回來。哪一種比較好？</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">「這個角色有幾個造型？」</b>
+      <small>造型越多，走起來越順。看看誰挑到最好的角色。</small>
+    </div>
+  </div>
+
+  <p class="predict__hint">💡 <strong>講給別人聽，是最好的檢查方法。</strong> 如果你講得出自己每一塊積木在做什麼，就代表你真的懂了。</p>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第6課_走路動畫_範例.sb3" download>
+      <span class="ic">🚶</span>
+      <span>第6課_走路動畫_範例.sb3<small>老師做好的範例。做完自己的再打開來比較看看</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 6 課 · 作品：走路動畫 —— 單元二完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：走路速度預覽
+   兩個姿勢輪流換，速度由「等待」秒數決定 ——
+   學生先在這裡找到喜歡的速度，再去 Scratch 填那個數字。 */
+(() => {
+  const kR = document.getElementById('kRange');
+  if (!kR) return;
+  const val = document.getElementById('kShow'),
+        num = document.getElementById('kNum'),
+        say = document.getElementById('kSay'),
+        legL = document.getElementById('legL'), legR = document.getElementById('legR'),
+        armL = document.getElementById('armL'), armR = document.getElementById('armR');
+
+  // 兩個造型：跨步 / 收腳
+  const pose = [
+    {legL:[12,57], legR:[32,57], armL:[11,31], armR:[33,31]},   // 跨開
+    {legL:[19,58], legR:[25,58], armL:[16,33], armR:[28,33]}    // 收攏
+  ];
+  let i = 0, timer = null;
+
+  const step = () => {
+    i = 1 - i;
+    const p = pose[i];
+    legL.setAttribute('x2', p.legL[0]); legL.setAttribute('y2', p.legL[1]);
+    legR.setAttribute('x2', p.legR[0]); legR.setAttribute('y2', p.legR[1]);
+    armL.setAttribute('x2', p.armL[0]); armL.setAttribute('y2', p.armL[1]);
+    armR.setAttribute('x2', p.armR[0]); armR.setAttribute('y2', p.armR[1]);
+  };
+
+  const draw = () => {
+    const v = +kR.value;
+    const shown = v.toFixed(2).replace(/0$/, '').replace(/\.$/, '');
+    val.textContent = shown; num.textContent = shown;
+    clearInterval(timer);
+    timer = setInterval(step, v * 1000);
+    say.innerHTML =
+      v <= 0.1  ? `<strong>${shown} 秒</strong> —— 太快了，看起來像在抖，不像走路。` :
+      v <= 0.3  ? `<strong>${shown} 秒</strong> —— 這附近是大部分人覺得<strong>最像走路</strong>的速度。` :
+      v <= 0.45 ? `<strong>${shown} 秒</strong> —— 有點慢，像在散步。想做悠閒的感覺可以用。` :
+                  `<strong>${shown} 秒</strong> —— 太慢了，會變成一格一格跳，看得出是換圖片。`;
+  };
+
+  kR.addEventListener('input', draw);
+  draw();
+})();
+</script>
+</body>
+</html>

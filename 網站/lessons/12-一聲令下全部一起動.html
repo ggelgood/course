@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 12 課 · 一聲令下，全部一起動</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 12 課 · 大約 1 節課</span>
+    <h1>一聲令下，<em>全部一起動</em></h1>
+    <p class="lede">上禮拜用廣播做接力。今天你會發現，廣播真正厲害的地方是<strong style="color:#FFBF00">一次叫醒一整群</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>按一下，<strong style="color:#FFBF00">三個角色同時開始表演</strong>，而且每個人做的事都不一樣。還會學會用廣播<strong style="color:#FFBF00">換場景</strong>。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天多一塊小積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--looks">背景換成 <i>森林 ▾</i></div>
+        </div>
+        <p style="font-size:.88rem;margin-top:.6rem">用來做「換一幕」的效果。很簡單，選一個背景就好。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 廣播不只是接力 ─────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>廣播不只是「換你說」</h2>
+  <p>上禮拜你用廣播做<strong>接力</strong>：小貓講完通知狗，狗接著講。一次通知一個。</p>
+  <p>但廣播從來就不是只通知一個人的。回想老師喊「起立」——<strong>全班都聽到了</strong>，不是只有第一排。</p>
+
+  <p>而且更有意思的是：<strong>聽到的人可以做不一樣的事。</strong></p>
+
+  <div class="sos" style="background:#FFF9E6;border-color:var(--b-events)">
+    <h3>🔔 想想運動會的槍聲</h3>
+    <ul>
+      <li>裁判開一槍，<strong>所有人同時聽到</strong>。</li>
+      <li>但每個人做的事不一樣——選手起跑、計時員按碼表、觀眾開始加油。</li>
+      <li><strong>同一個訊號，每個人有自己的反應。</strong> 這就是今天的重點。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 一個訊息，各做各的 ─────────── -->
+<section>
+  <h2 class="h2"><b>2</b>同一個訊息，各做各的</h2>
+  <p>下面三個角色都裝了<strong>「當收到訊息 開演」</strong>，但接的積木不一樣。按按看：</p>
+
+  <div class="predict">
+    <div class="bcast">
+      <div class="stack" style="align-items:center;margin:.2rem 0 .6rem">
+        <div class="blk blk--events">廣播 <i>開演 ▾</i></div>
+      </div>
+      <button class="btn" id="send">📢 按我廣播「開演」</button>
+
+      <div class="bcast__signal" id="wave">🔊 「開演」～～～</div>
+
+      <div class="bcast__actors" id="crowd">
+        <div class="bcast__actor" data-do="dance"><span class="bcast__face">🐶</span><small>當收到 開演<br><b>重複無限次 跳舞</b></small></div>
+        <div class="bcast__actor" data-do="grow"><span class="bcast__face">🐰</span><small>當收到 開演<br><b>尺寸改變 50</b></small></div>
+        <div class="bcast__actor" data-do="talk"><span class="bcast__face">🐻</span><small>當收到 開演<br><b>說出「開始囉！」</b></small></div>
+      </div>
+
+      <p class="kdemo__hint" id="bSay">按按看。注意三隻做的事情<strong>都不一樣</strong>。</p>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 這件事用「等待」做不到</h3>
+    <ul>
+      <li>用等待的話，你要幫每個角色<strong>各算一次時間</strong>，而且它們永遠不會真的<strong>同時</strong>開始。</li>
+      <li>用廣播，喊一聲就好，<strong>三個角色在同一瞬間</strong>各自開始做自己的事。</li>
+      <li>角色越多，差距越明顯。十個角色你要算十次，但廣播還是喊一聲。</li>
+    </ul>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">一個角色可以裝<strong>好幾個</strong>「當收到訊息」嗎？例如同時等「開演」和「結束」？</p>
+    <p class="predict__hint">先猜猜看，選一個。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不會互相打架喔。它們是分開的兩串程式，各自等各自的訊息，就像第 7 課的按鍵一樣。">不行，一個角色只能裝一個</button>
+      <button class="pick" data-v="b" data-say="答對了！就像第 7 課一個角色可以有好幾串按鍵程式一樣，收訊息也可以有好幾串。收到「開演」跑這串，收到「結束」跑那串。">可以，各自開一串，各等各的訊息</button>
+      <button class="pick" data-v="c" data-say="不用喔。當收到訊息本身就是帽子積木，可以直接自己開一串，不需要綠旗。">可以，但要先接在綠旗下面</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 用廣播換場景 ──────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>用廣播換一幕</h2>
+  <p>演戲有分「第一幕」「第二幕」。換幕的時候，<strong>背景要換、角色也要跟著換位置或換動作</strong>。</p>
+  <p>這正好是廣播最擅長的事——<strong>喊一聲「換第二幕」，所有人一起換</strong>。</p>
+
+  <p>「外觀」分類裡有這塊，用來換背景：</p>
+
+  <div class="stack">
+    <div class="blk blk--looks">背景換成 <i>森林 ▾</i></div>
+  </div>
+
+  <p class="predict__hint">💡 背景要先<strong>加進來</strong>才選得到。點畫面最右下角的背景圓鈕，從背景庫多挑幾個，下拉選單裡就會有了。</p>
+
+  <div class="names">
+    <div class="names__col" style="background:var(--card);border-color:var(--b-events)">
+      <h4>📢 誰來喊</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat">當收到訊息 <i>第一幕結束 ▾</i></div>
+        <div class="blk blk--looks">背景換成 <i>森林 ▾</i></div>
+        <div class="blk blk--events">廣播 <i>第二幕開始 ▾</i></div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">先換背景，<strong>換好了再通知</strong>大家開演</p>
+    </div>
+    <div class="names__col" style="background:var(--card);border-color:var(--b-control)">
+      <h4>👂 大家怎麼接</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat">當收到訊息 <i>第二幕開始 ▾</i></div>
+        <div class="blk blk--motion">面朝 <i>90</i> 度</div>
+        <div class="blk blk--looks">說出 <i>我們到森林了</i> 持續 <i>2</i> 秒</div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">每個角色各自準備好新一幕的樣子</p>
+    </div>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">一聲廣播，整個舞台換一幕</b>
+    <p class="shot__how">拍舞台區。第一幕角色講話 → 廣播 → <b>背景整個換掉，兩個角色同時換位置／換動作</b> → 第二幕開始。約 8 秒。<b>這個「唰一下全部換掉」的畫面最能讓學生想做短劇。</b></p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>從背景庫<strong>多加一個背景</strong>（等一下要換過去）</li>
+      <li>放<strong>三個角色</strong>在舞台上</li>
+      <li>寫一串：<strong>當空白鍵被按下 → 廣播「開演」</strong></li>
+      <li>三個角色<strong>各自</strong>裝上「當收到訊息 開演」，接不一樣的動作</li>
+      <li>按空白鍵，看三個角色<strong>同時</strong>動起來</li>
+    </ol>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>只有一個角色會動</strong> —— 檢查三個角色是不是都選了<strong>同一個訊息</strong>。名字差一個字就聽不到。</li>
+      <li><strong>下拉選單找不到背景</strong> —— 背景要先從背景庫<strong>加進來</strong>才選得到。</li>
+      <li><strong>背景換了但角色沒動</strong> —— 換背景和通知角色是<strong>兩件事</strong>。換完背景記得<strong>再廣播一次</strong>。</li>
+      <li><strong>角色動作全部擠在一起</strong> —— 每個角色的動作中間可以加「等待」，錯開一點比較好看。</li>
+      <li>四個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>考考你</h2>
+  <p>這題是<strong>換幕的那一串</strong>。順序放錯，換幕就會怪怪的。</p>
+
+  <div class="sortbox"
+       data-answer="1234"
+       data-swap="2>3"
+       data-msg-ok="✓ 完全正確！先等第一幕結束，換好背景，再通知大家開演。"
+       data-msg-nohat="再看一次最上面那塊 —— 這串是在等「第一幕結束」這個訊息，哪一塊才是帽子？"
+       data-msg-swap="順序反了！要先「換背景」才「廣播第二幕開始」—— 反過來的話，角色會在舊背景前面就開始演。"
+       data-msg-near="快好了！小葉說「最後停一下再繼續」—— 那「等待」應該排在哪裡？">
+    <p class="predict__hint" style="margin-top:0">
+      小葉想做換幕的效果 ——
+      <strong>收到「第一幕結束」以後，先換背景，再通知大家第二幕開始，最後停一下再繼續。</strong><br>
+      下面四塊積木順序被打亂了，拖成小葉要的順序。
+    </p>
+    <div class="slots">
+      <div class="blk blk--events drag" data-k="3">廣播 <i>第二幕開始 ▾</i></div>
+      <div class="blk blk--control drag" data-k="4">等待 <i>1</i> 秒</div>
+      <div class="blk blk--events blk--hat drag" data-k="1">當收到訊息 <i>第一幕結束 ▾</i></div>
+      <div class="blk blk--looks drag" data-k="2">背景換成 <i>森林 ▾</i></div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 5. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>廣播</strong>加上學過的積木就做得到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>一個角色收兩個訊息</b><small>收到「開演」跳舞，收到「結束」停下來變小。</small></div>
+      <div class="play"><b>加到五個角色一起動</b><small>喊一聲全部動。要多寫幾串廣播嗎？</small></div>
+      <div class="play"><b>做三幕的換場</b><small>三個背景輪流換，每幕角色說不一樣的話。</small></div>
+      <div class="play"><b>角色收到訊息就消失</b><small>「外觀」裡有「隱藏」和「顯示」，用廣播控制誰在台上。</small></div>
+      <div class="play"><b>用不同按鍵廣播不同訊息</b><small>按 1 開演、按 2 換幕、按 3 結束。</small></div>
+      <div class="play"><b>讓角色收到訊息才開始走</b><small>當收到訊息 → 重複無限次 → 移動。廣播前它是靜止的。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>做一個<strong>兩幕的小場景</strong>：第一幕在城市，兩個角色講話；廣播換幕以後變成森林，兩個角色說不一樣的話。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>你需要<strong style="color:#FFBF00">兩個訊息</strong>：一個用來「換到第二幕」，一個用來「第二幕開演」。</p>
+      <p>換背景那塊放在<strong style="color:#FFBF00">前面</strong>，換好了再廣播開演——這樣角色才不會在舊背景前面演。</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做一個<strong>指揮家</strong>：一個角色當指揮，按不同的鍵廣播不同訊息，其他三個角色照指令做出不同動作。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想訊息要幾個</span></summary>
+    <div class="reveal__in">
+      <p>幾種指令就要幾個<strong style="color:#FFBF00">訊息</strong>。例如「全部跳」「全部轉圈」「全部停」三個。</p>
+      <p>然後每個角色都裝上<strong style="color:#FFBF00">三串</strong>收訊息的程式，各自定義自己聽到那個口令要做什麼——每個角色的跳法可以不一樣。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第12課_一聲令下_範例.sb3" download>
+      <span class="ic">🎬</span>
+      <span>第12課_一聲令下_範例.sb3<small>三個角色＋換幕的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 12 課 · 一聲令下，全部一起動</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：一個訊息、三個角色各做各的 */
+(() => {
+  const btn = document.getElementById('send');
+  if (!btn) return;
+  const wave = document.getElementById('wave'),
+        crowd = document.getElementById('crowd'),
+        say = document.getElementById('bSay');
+  const moves = {
+    dance: f => { f.style.transform = 'scale(1.1) rotate(-14deg)';
+                  setTimeout(() => f.style.transform = 'scale(1.1) rotate(14deg)', 220);
+                  setTimeout(() => f.style.transform = '', 480); },
+    grow:  f => { f.style.transform = 'scale(1.6)';
+                  setTimeout(() => f.style.transform = '', 700); },
+    talk:  f => { f.style.transform = 'translateY(-10px)';
+                  setTimeout(() => f.style.transform = '', 700); }
+  };
+  let times = 0;
+  btn.addEventListener('click', () => {
+    times++;
+    wave.classList.add('on');
+    setTimeout(() => wave.classList.remove('on'), 900);
+    crowd.querySelectorAll('.bcast__actor').forEach(a => {
+      a.classList.add('fire');                       // 三隻同時亮 —— 這是重點
+      moves[a.dataset.do](a.querySelector('.bcast__face'));
+      setTimeout(() => a.classList.remove('fire'), 780);
+    });
+    say.innerHTML = times === 1
+      ? '三隻<strong>同時</strong>亮起來，但做的事完全不同 —— 一個跳舞、一個變大、一個往上跳。'
+      : '<strong>同一個訊息，每個角色有自己的反應。</strong> 這件事用「等待」是做不到的。';
+  });
+})();
+</script>
+</body>
+</html>

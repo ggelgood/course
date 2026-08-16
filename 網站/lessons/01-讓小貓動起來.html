@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 1 課 · 讓小貓動起來</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 1 課 · 大約 1 節課</span>
+    <h1>讓小貓<em>動起來</em></h1>
+    <p class="lede">今天下課前，你的小貓會自己走路，還會跟你說話。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>按下綠旗 → 小貓向前走 → 小貓說「你好！」</p>
+      </div>
+      <div class="today__box">
+        <h2>今天會用到的積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+          <div class="blk blk--motion">移動 <i>10</i> 點</div>
+          <div class="blk blk--looks">說出 <i>你好！</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 認識畫面 ───────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先認識畫面</h2>
+  <p>打開 Scratch，畫面看起來東西很多。其實只要看懂<strong>四塊</strong>就夠了。</p>
+
+  <figure class="shot shot--wide">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">Scratch 開啟後的完整畫面</b>
+    <p class="shot__how">整個 Scratch 視窗，不要裁切。四個區域都要看得到，舞台上留著預設的小貓。建議寬度 1600px 以上。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <p>把上面那張圖對照下面這張<strong>地圖</strong>，就知道每一塊在哪裡了：</p>
+
+  <div class="ui">
+    <div class="ui__z z-pal"><span class="ui__n">1</span><b>積木區</b><small>所有積木都放在這裡，<br>像一個大倉庫</small></div>
+    <div class="ui__z z-code"><span class="ui__n">2</span><b>程式區</b><small>把積木拖到這裡拼起來。<br>積木要拼在這裡才算數</small></div>
+    <div class="ui__z z-stage"><span class="ui__n">3</span><b>舞台</b><small>小貓表演的地方</small><div class="cat">🐱</div></div>
+    <div class="ui__z z-sprite"><span class="ui__n">4</span><b>角色列表</b><small>有哪些演員</small></div>
+  </div>
+
+  <details class="reveal">
+    <summary>想一想：如果把積木拖到「舞台」上，會發生什麼事？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>什麼都不會發生，積木會自己彈回去。</p>
+      <p>積木只有拼在 <strong>程式區</strong> 才算數 —— 就像演戲的台詞要寫在劇本上，不能寫在舞台的地板上。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 第一塊積木 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>放下第一塊積木</h2>
+  <p>每一段程式都要有個<strong>開始的訊號</strong>。這塊黃色的積木就是在說：「綠旗被按下的時候，開始做下面的事。」</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+  </div>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">積木區裡「事件」分類的位置</b>
+    <p class="shot__how">只拍積木區左邊那排彩色圓點，把「事件」那一顆和它下面的黃色積木拍進去。可以用紅框圈起來。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">把積木從積木區拖到程式區</b>
+    <p class="shot__how">錄下「按住積木 → 拖過去 → 放開」的完整動作，大約 3 秒。這是學生最常卡住的一步，看一次動作勝過讀三行字。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>打開 Scratch，在左邊的<strong>積木區</strong>找到黃色的「事件」</li>
+      <li>找到 <strong>當綠旗被點擊</strong> 這塊，用滑鼠<strong>拖</strong>到中間的程式區</li>
+      <li>放開滑鼠，積木就留在程式區了</li>
+    </ol>
+  </div>
+
+  <h3>拿錯積木了怎麼辦？</h3>
+  <p>很簡單：<strong>把它拖回左邊的積木區</strong>，放開就丟掉了。拖錯不用緊張，丟掉重拿就好。</p>
+
+  <figure class="shot shot--gif shot--tall">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">把不要的積木拖回積木區丟掉</b>
+    <p class="shot__how">從程式區拖一塊積木回左邊放開，讓它消失。約 3 秒。學生最常見的求救是「我拖錯了怎麼辦」，這一段能省下很多舉手。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">現在按下綠旗，小貓會怎樣？</p>
+    <p class="predict__hint">先猜猜看，選一個。猜錯沒關係 —— 猜錯的地方就是等一下要學的地方。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="小貓不會自己走喔。這塊積木只是「開始的訊號」，它沒有叫小貓做任何事。要小貓走，還要再加一塊「移動」積木。">小貓會向前走</button>
+      <button class="pick" data-v="b" data-say="小貓不會說話。我們還沒有放「說出」的積木，電腦只會做我們給的指令，不會自己想。">小貓會說話</button>
+      <button class="pick" data-v="c" data-say="答對了！這塊積木只是「開始的訊號」，就像賽跑的哨聲 —— 哨聲響了，但後面還沒有人要跑。所以什麼都不會發生。">什麼事都不會發生</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 讓小貓走路 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>讓小貓走路</h2>
+  <p>現在加上第二塊積木。到藍色的<strong>「動作」</strong>裡面找 <strong>移動 10 點</strong>，把它接在黃色積木的<strong>下面</strong>，接近的時候會有「卡」一聲。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--motion">移動 <i>10</i> 點</div>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：「移動」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="f">forward</span>(<span class="n">10</span>)   <span class="c"># 移動 10 點</span></pre>
+      <p class="pypeek__note"><strong>forward</strong> 是英文的「往前」。括號裡的 <strong>10</strong>，就是積木上那個你剛剛拉滑桿改過的數字。</p>
+      <p class="pypeek__note">看得出來嗎？<strong>意思完全一樣</strong>，只是一個用拖的、一個用打字的。</p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">兩塊積木「卡」在一起的瞬間</b>
+    <p class="shot__how">重點是靠近時出現的<b>白色影子</b>，還有放開後接合的動作。約 3 秒。學生說「接不起來」時，多半就是沒注意到那個影子。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="predict">
+    <p class="predict__q" style="margin-bottom:.3rem">「點」是什麼意思？</p>
+    <p class="predict__hint">拉拉看下面的桿子，把數字改大改小，看小貓走多遠。<strong>也試試看拉到有小橫槓的那一邊。</strong></p>
+
+    <div class="track">
+      <div class="ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="mid"></div>
+      <div class="cat" id="cCat">🐱</div>
+    </div>
+
+    <div class="stack" style="margin:.4rem 0 0">
+      <div class="blk blk--motion">移動 <i id="cNum">10</i> 點</div>
+    </div>
+
+    <div class="slide">
+      <label for="cRange">把數字改成：</label>
+      <input type="range" id="cRange" min="-200" max="200" step="10" value="10">
+      <strong class="slide__val" id="cShow">10</strong>
+    </div>
+    <p id="cSay" style="font-size:.92rem;color:var(--ink-soft);margin:.7rem 0 0">
+      數字越大，小貓一次走越遠。<strong>10 點其實很短</strong> —— 所以按一次綠旗，小貓只會動一點點喔。
+    </p>
+  </div>
+</section>
+
+<!-- ── 4. 讓小貓說話 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>讓小貓說話</h2>
+  <p>最後一塊。到紫色的<strong>「外觀」</strong>裡找 <strong>說出</strong>，接在最下面。積木上白色的框框可以打字，把裡面改成你想說的話。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--motion">移動 <i>10</i> 點</div>
+    <div class="blk blk--looks">說出 <i>你好！</i></div>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：今天這整段程式，打字要怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="k">from</span> turtle <span class="k">import</span> *      <span class="c"># 準備工作</span>
+
+<span class="f">forward</span>(<span class="n">10</span>)              <span class="c"># 移動 10 點</span>
+<span class="f">write</span>(<span class="s">"你好！"</span>)         <span class="c"># 說出 你好！</span></pre>
+      <p class="pypeek__note">你今天拖的三塊積木，用打字寫出來就是這樣 —— <strong>總共才三行</strong>。</p>
+      <p class="pypeek__note">最上面那行是「準備工作」，告訴電腦等一下要用畫圖的功能。<strong>綠旗不見了</strong>，因為 Python 打開就直接開始跑。</p>
+      <p class="pypeek__note">這是真的可以執行的程式喔。積木不是玩具版的程式 —— <strong>它本來就是程式，只是換一種樣子給你看。</strong></p>
+    </div>
+  </details>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">完成的三塊積木（在程式區裡的樣子）</b>
+    <p class="shot__how">只拍程式區裡拼好的那一疊，不用整個視窗。學生會拿這張跟自己的螢幕比對。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>從紫色的「外觀」拖出 <strong>說出</strong>，接在最下面</li>
+      <li>點一下白色框框，把字改成「你好！」</li>
+      <li>按下右上角的<strong>綠旗</strong>，看小貓動起來</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">按下綠旗，小貓真的動起來</b>
+    <p class="shot__how">拍舞台區就好。按綠旗 → 小貓向前走 → 冒出對話泡泡說「你好！」。約 4 秒。這是今天的成果，學生會拿來對照自己做對了沒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <h3>想讓小貓多說幾句？</h3>
+  <p>同一塊積木可以<strong>用很多次</strong>。再拖一塊「說出」接在下面，小貓就會說第二句。想說幾句就接幾塊。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--motion">移動 <i>10</i> 點</div>
+    <div class="blk blk--looks">說出 <i>你好！</i></div>
+    <div class="blk blk--looks">說出 <i>我是小貓</i></div>
+    <div class="blk blk--looks">說出 <i>今天天氣真好</i></div>
+  </div>
+
+  <p class="predict__hint">咦，怎麼只看到最後一句？<strong>因為它們跑太快了</strong> —— 電腦一瞬間就把三句都說完。想讓每一句停久一點，要用一塊叫「等待」的積木，<strong>再過幾課就會學到</strong>。</p>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>小貓走出去不見了</strong> —— 牠沒有消失，只是走到邊邊了。用滑鼠<strong>把牠拖回中間</strong>就好。</li>
+      <li><strong>積木接不起來</strong> —— 要拖到上一塊積木的<strong>正下方</strong>，看到白色影子出現再放開。</li>
+      <li><strong>按綠旗沒反應</strong> —— 檢查最上面那塊是不是<strong>黃色的「當綠旗被點擊」</strong>。少了它，程式不會動。</li>
+      <li>三個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 考考你 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這次的順序<strong>跟你剛剛做的不一樣</strong>，要看清楚題目才排得對。</p>
+
+  <div class="sortbox"
+       data-answer="123"
+       data-msg-ok="✓ 完全正確！小明要的是「先說話，說完才走」，跟你剛剛做的順序剛好相反。"
+       data-msg-nohat="再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是訊號呢？"
+       data-msg-near="第一塊對了！再讀一次題目 —— 小明要「先說話，說完了才開始走」，那說話的積木要排在走路的前面還是後面？">
+    <p class="predict__hint" style="margin-top:0">
+      小明想讓他的小貓這樣做 ——
+      <strong>先說話，說完了才開始走。</strong><br>
+      下面三塊積木順序被打亂了，拖成小明要的順序。
+    </p>
+    <div class="slots">
+      <div class="blk blk--motion drag" data-k="3">移動 <i>50</i> 點</div>
+      <div class="blk blk--events blk--hat drag" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <div class="blk blk--looks  drag" data-k="2">說出 <i>我要出發了</i></div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天學的那三塊積木</strong>就能做到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>把數字改成 100</b><small>小貓會走多遠？走得出舞台嗎？</small></div>
+      <div class="play"><b>把數字改成 -50</b><small>數字前面加一個小橫槓，會發生什麼事？</small></div>
+      <div class="play"><b>說一句超級長的話</b><small>打滿滿一整行，對話泡泡會變怎樣？</small></div>
+      <div class="play"><b>一直按綠旗不放</b><small>連按十下，小貓會跑到哪裡去？</small></div>
+      <div class="play"><b>讓小貓自我介紹</b><small>接三塊「說出」，講你想講的話。</small></div>
+      <div class="play"><b>把小貓弄不見，再救回來</b><small>故意讓牠走出舞台，然後想辦法弄回中間。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>讓小貓：<strong>先說「我要出發了」，走一段路，再說「我到了！」</strong></p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>「說出」這塊積木可以用<strong style="color:#FFBF00">很多次</strong>，一塊接一塊都可以。想想看三塊積木要怎麼排。</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--looks">說出 <i>我要出發了</i></div>
+        <div class="blk blk--motion">移動 <i>100</i> 點</div>
+        <div class="blk blk--looks">說出 <i>我到了！</i></div>
+      </div>
+      <p>答案不只一種，你的做法跟這個不一樣也沒關係，只要小貓有照你想的做就對了。</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>讓小貓：<strong>走過去，說一句話，然後走回原來的地方。</strong></p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想剛剛玩過的滑桿</span></summary>
+    <div class="reveal__in">
+      <p>回想一下前面拉滑桿的時候 —— 數字前面加上<strong style="color:#FFBF00">小橫槓</strong>，小貓會往哪邊走？</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰二的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--motion">移動 <i>100</i> 點</div>
+        <div class="blk blk--looks">說出 <i>我走到這裡了</i></div>
+        <div class="blk blk--motion">移動 <i>-100</i> 點</div>
+      </div>
+      <p>走出去 100 點，再走 <strong style="color:#FFBF00">-100</strong> 點，就剛好回到原來的位置了。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第1課_小貓動起來.sb3" download>
+      <span class="ic">🐱</span>
+      <span>第1課_小貓動起來.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 1 課 · 讓小貓動起來</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：移動距離對照滑桿（含負數 → 倒退走） */
+(() => {
+  const cR = document.getElementById('cRange');
+  if (!cR) return;
+  const cat = document.getElementById('cCat'),
+        num = document.getElementById('cNum'),
+        val = document.getElementById('cShow'),
+        say = document.getElementById('cSay');
+  const draw = () => {
+    const v = +cR.value;
+    num.textContent = v; val.textContent = v;
+    const half = cat.parentElement.clientWidth / 2 - 40;   // 從中線出發
+    cat.style.transform =
+      `translate(calc(-50% + ${(v / 200) * half}px), 0) scaleX(${v < 0 ? -1 : 1})`;
+    say.innerHTML = v < 0
+      ? '數字前面有<strong>小橫槓</strong>的時候，小貓會<strong>倒退走</strong>！這招之後很好用 —— 走出去了就能走回來。'
+      : v === 0
+        ? '數字是 <strong>0</strong>，小貓完全不會動 —— 因為你叫牠「走 0 點」。'
+        : '數字越大，小貓一次走越遠。<strong>10 點其實很短</strong> —— 所以按一次綠旗，小貓只會動一點點喔。';
+  };
+  cR.addEventListener('input', draw);
+  addEventListener('resize', draw);
+  draw();
+})();
+</script>
+</body>
+</html>

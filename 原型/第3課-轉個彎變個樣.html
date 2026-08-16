@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 3 課 · 轉個彎，變個樣</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   設計系統 — 積木工作台（與第 1、2 課共用）
+   ⚠️ 這是第 3 份複製的 CSS。骨架抽取已經逾期，
+      現在每修一次樣式要改三個檔。
+   ═══════════════════════════════════════════ */
+:root{
+  --ground:      #FBF6EC;
+  --ground-2:    #F4EBDB;
+  --card:        #FFFFFF;
+  --ink:         #2B2119;
+  --ink-soft:    #7A6A59;
+  --rule:        #E3D6C0;
+  --accent:      #FF6B1A;
+  --accent-soft: #FFE8D9;
+  --go:          #12A594;
+  --go-soft:     #D6F3EF;
+
+  --b-motion:  #4C97FF;  --b-motion-d:  #3373CC;
+  --b-looks:   #9966FF;  --b-looks-d:   #774DCB;
+  --b-sound:   #CF63CF;  --b-sound-d:   #BD42BD;
+  --b-events:  #FFBF00;  --b-events-d:  #CC9900;
+  --b-control: #FFAB19;  --b-control-d: #CF8B17;
+
+  --display: "Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:    "Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+  --mono:    ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+
+  --base: 18px;
+  --shadow-sm: 0 2px 0 rgba(43,33,25,.10);
+  --shadow-md: 0 3px 0 rgba(43,33,25,.12), 0 10px 24px -14px rgba(43,33,25,.5);
+  --shadow-lg: 0 5px 0 rgba(43,33,25,.13), 0 20px 40px -20px rgba(43,33,25,.55);
+
+  --spine:rgba(78,49,32,.40); --spine-solid:#4E3120; --spine-go:rgba(76,175,63,.52);
+}
+
+*{box-sizing:border-box}
+html{font-size:var(--base); scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--body); color:var(--ink);
+  line-height:1.9; background:var(--ground);
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 15% 5%,  rgba(255,107,26,.07), transparent 40%),
+    radial-gradient(circle at 85% 60%, rgba(18,165,148,.06), transparent 42%),
+    radial-gradient(rgba(43,33,25,.05) 1px, transparent 1px);
+  background-size: auto, auto, 22px 22px;
+  background-attachment: fixed, fixed, scroll;
+}
+
+.railtop{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(227,214,192,.55);z-index:99}
+.railtop i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#FFAB19);transition:width .12s linear}
+.wrap{max-width:60rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 7rem}
+
+/* ═══ 開場區 ══════════════════════════ */
+.stage-open{
+  padding:clamp(2.5rem,6vw,4.5rem) 0 clamp(3rem,6vw,4rem);
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255,191,0,.20), transparent 45%),
+    linear-gradient(168deg,#2B2119 0%,#3D2E22 60%,#4A3626 100%);
+  color:#FBF6EC; position:relative; overflow:hidden;
+}
+.stage-open::after{
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:26px;
+  background:var(--ground);
+  -webkit-mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+          mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+}
+.stage-open>*{position:relative;z-index:2}
+.tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:.12em;background:var(--accent);color:#fff;padding:.4rem 1rem;border-radius:999px;box-shadow:0 3px 0 #C4460A}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.08;margin:1.2rem 0 .6rem;letter-spacing:-.02em}
+h1 em{font-style:normal;color:#FFBF00;display:block}
+.lede{font-size:clamp(1.1rem,2.4vw,1.4rem);color:#E6D9C4;margin:0;max-width:36ch;font-weight:500}
+.today{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.25rem;margin-top:2.5rem;align-items:start}
+.today__box{background:rgba(251,246,236,.07);border:2px solid rgba(251,246,236,.16);border-radius:16px;padding:1.25rem 1.35rem;backdrop-filter:blur(6px)}
+.today__box h2{font-family:var(--display);font-weight:600;font-size:.9rem;letter-spacing:.1em;margin:0 0 .85rem;color:#FFBF00}
+.today__box p{margin:0;font-size:1rem;color:#E6D9C4}
+
+/* ═══ 積木 ════════════════════════════ */
+.blk{
+  --c:var(--b-motion); --cd:var(--b-motion-d);
+  position:relative;display:inline-flex;align-items:center;flex-wrap:wrap;gap:.4rem;
+  background:var(--c);color:#fff;font-weight:700;font-size:1rem;
+  padding:.7rem 1.1rem;border-radius:6px;box-shadow:0 3px 0 var(--cd);margin:0 0 9px;line-height:1.4;
+}
+.blk::before{content:"";position:absolute;top:0;left:16px;width:28px;height:6px;background:var(--ground);border-radius:0 0 7px 7px}
+.blk::after{content:"";position:absolute;bottom:-6px;left:16px;width:28px;height:6px;background:var(--c);border-radius:0 0 7px 7px;box-shadow:0 3px 0 var(--cd)}
+.blk--hat{border-radius:22px 22px 6px 6px;padding-top:1.5rem}
+.blk--hat::before{display:none}
+.blk--motion {--c:var(--b-motion); --cd:var(--b-motion-d)}
+.blk--looks  {--c:var(--b-looks);  --cd:var(--b-looks-d)}
+.blk--sound  {--c:var(--b-sound);  --cd:var(--b-sound-d)}
+.blk--events {--c:var(--b-events); --cd:var(--b-events-d)}
+.blk--control{--c:var(--b-control);--cd:var(--b-control-d)}
+.stage-open .blk::before{background:#3D2E22}
+.blk i{font-style:normal;background:#fff;color:#2B2119;padding:.12rem .7rem;border-radius:999px;font-weight:700;min-width:2.2rem;text-align:center}
+.blk .flag{color:#12A594;font-size:1.1em}
+.stack{display:flex;flex-direction:column;align-items:flex-start;margin:1.5rem 0}
+.stack .blk{margin-bottom:9px}
+
+/* ═══ 版面 ════════════════════════════ */
+section{margin:4rem 0;scroll-margin-top:2rem}
+.h2{display:flex;align-items:center;gap:.9rem;font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3.4vw,2rem);margin:0 0 1.2rem;letter-spacing:-.01em}
+.h2 b{flex:none;width:2.1em;height:2.1em;display:grid;place-items:center;background:var(--ink);color:var(--ground);border-radius:14px;font-size:.62em;font-weight:700;box-shadow:0 3px 0 rgba(43,33,25,.35)}
+h3{font-family:var(--display);font-weight:600;font-size:1.2rem;margin:2rem 0 .4rem}
+p{margin:.9rem 0;max-width:52ch}
+strong{color:var(--accent);font-weight:700}
+
+/* ═══ 轉彎轉盤 ════════════════════════ */
+.dial{
+  width:15rem;height:15rem;border-radius:50%;
+  border:6px solid var(--b-motion-d);background:radial-gradient(circle,#EAF4FF,#C6E0FF);
+  position:relative;margin:1.4rem auto .6rem;display:grid;place-items:center;
+  box-shadow:var(--shadow-md);
+}
+.dial__arm{
+  position:absolute;left:50%;top:50%;width:42%;height:7px;
+  background:var(--b-motion-d);transform-origin:0 50%;border-radius:4px;
+  transform:translateY(-50%) rotate(0deg);
+  transition:transform .4s cubic-bezier(.2,.9,.3,1);
+}
+.dial__arm::after{
+  content:"";position:absolute;right:-14px;top:50%;transform:translateY(-50%);
+  border-left:16px solid var(--b-motion-d);
+  border-top:10px solid transparent;border-bottom:10px solid transparent;
+}
+.dial__cat{font-size:2.6rem;z-index:2;position:relative}
+.dial__tick{
+  position:absolute;font-family:var(--display);font-weight:600;font-size:.8rem;
+  color:var(--b-motion-d);opacity:.8;
+}
+.dial__tick--r{right:.5rem;top:50%;transform:translateY(-50%)}
+.dial__tick--d{bottom:.35rem;left:50%;transform:translateX(-50%)}
+.dial__tick--l{left:.5rem;top:50%;transform:translateY(-50%)}
+.dial__tick--u{top:.35rem;left:50%;transform:translateX(-50%)}
+.slide{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:1rem}
+.slide input[type=range]{flex:1;min-width:12rem;accent-color:var(--b-motion);height:2rem;cursor:pointer}
+.slide label{font-weight:700;font-size:.95rem}
+
+/* ═══ 造型切換 ════════════════════════ */
+.costume{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md);text-align:center}
+.costume__stage{
+  width:100%;max-width:20rem;margin:1rem auto;aspect-ratio:16/9;border-radius:14px;
+  background:linear-gradient(180deg,#F0E4FF,#DCC8FF);border:3px solid var(--b-looks-d);
+  display:grid;place-items:center;font-size:4.5rem;
+}
+.costume__stage span{display:inline-block;animation:pop .25s cubic-bezier(.2,.9,.3,1)}
+@keyframes pop{from{transform:scale(.7);opacity:.4}to{transform:scale(1);opacity:1}}
+.costume__name{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:.4rem 0 1rem}
+.costume__name b{color:var(--b-looks-d);font-size:1.3rem}
+
+/* ═══ 互動元件 ════════════════════════ */
+.reveal{border:3px solid var(--ink);border-radius:16px;background:var(--card);margin:1.75rem 0;overflow:hidden;box-shadow:var(--shadow-md)}
+.reveal>summary{cursor:pointer;list-style:none;padding:1.05rem 1.3rem;font-weight:700;display:flex;align-items:center;gap:.85rem;background:var(--accent-soft);user-select:none;transition:background .18s}
+.reveal>summary::-webkit-details-marker{display:none}
+.reveal>summary:hover{background:#FFDCC5}
+.reveal>summary::before{content:"?";flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.1rem;box-shadow:0 2px 0 #C4460A;transition:.2s}
+.reveal[open]>summary{background:var(--go-soft)}
+.reveal[open]>summary::before{content:"✓";background:var(--go);box-shadow:0 2px 0 #0B7A6D}
+.reveal .peek{margin-left:auto;font-size:.8rem;color:var(--ink-soft);font-weight:600;letter-spacing:.06em}
+.reveal[open] .peek{opacity:0}
+.reveal__in{padding:.4rem 1.3rem 1.3rem;animation:drop .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+.steps{list-style:none;counter-reset:s;margin:1.6rem 0;padding:0}
+.steps li{counter-increment:s;position:relative;padding:1rem 1rem 1rem 4rem;background:var(--card);border:2.5px solid var(--rule);border-radius:14px;margin-bottom:.7rem;cursor:pointer;transition:.18s;font-weight:500;box-shadow:var(--shadow-sm)}
+.steps li:hover{border-color:var(--ink);transform:translateX(3px)}
+.steps li::before{content:counter(s);position:absolute;left:1rem;top:.95rem;width:2.1rem;height:2.1rem;border-radius:8px;display:grid;place-items:center;background:#fff;border:3px solid var(--ink);font-family:var(--display);font-weight:700;font-size:1rem;transition:.22s}
+.steps li:hover::before{content:"✓";color:var(--rule)}
+.steps li[data-ok="1"]{background:var(--go-soft);border-color:var(--go);color:var(--ink-soft)}
+.steps li[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff;transform:rotate(-8deg) scale(1.06)}
+.steps li[data-ok="1"]:hover::before{content:"✓";color:#fff}
+
+.dobox{border:3px solid var(--ink);border-radius:18px;overflow:hidden;margin:1.8rem 0;box-shadow:var(--shadow-md);background:var(--card)}
+.dobox__head{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;background:var(--ink);color:var(--ground);padding:.8rem 1.2rem}
+.dobox__head b{font-family:var(--display);font-weight:600;font-size:1.15rem}
+.dobox__tip{font-size:.86rem;color:#F2E3C8;font-weight:500}
+.dobox__count{margin-left:auto;font-family:var(--display);font-weight:600;font-size:.95rem;background:rgba(251,246,236,.18);padding:.22rem .85rem;border-radius:999px;transition:.25s}
+.dobox__count.done{background:var(--go);color:#fff}
+.dobox .steps{margin:0;padding:1rem}
+.dobox .steps li{box-shadow:none}
+
+.predict{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.predict__q{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 .4rem}
+.predict__hint{font-size:.9rem;color:var(--ink-soft);margin:0 0 1.1rem}
+.picks{display:grid;gap:.7rem}
+.pick{font:inherit;font-weight:600;text-align:left;cursor:pointer;padding:.9rem 1.15rem;border-radius:12px;border:2.5px solid var(--rule);background:var(--ground);transition:.16s;box-shadow:var(--shadow-sm)}
+.pick:hover:not(:disabled){border-color:var(--ink);transform:translateX(3px)}
+.pick:disabled{cursor:default}
+.pick[data-s="hit"]{background:var(--go-soft);border-color:var(--go);box-shadow:0 3px 0 var(--go)}
+.pick[data-s="miss"]{opacity:.45;border-style:dashed}
+.said{margin:1.1rem 0 0;padding:.95rem 1.15rem;border-radius:12px;font-weight:500;display:none;animation:drop .3s;line-height:1.75}
+.said.on{display:block}
+.said[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.said[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+
+.sortbox{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.slots{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;padding:1.1rem;background:var(--ground-2);border-radius:14px;border:3px dashed var(--rule);min-height:12rem;margin:1.1rem 0}
+.slots.hot{border-color:var(--accent);background:var(--accent-soft)}
+.drag{cursor:grab;user-select:none;transition:transform .14s,opacity .14s}
+.drag:active{cursor:grabbing}
+.drag.lift{opacity:.35;transform:scale(.97)}
+.verdict{margin-top:1.1rem;padding:.95rem 1.15rem;border-radius:12px;font-weight:700;display:none;animation:drop .3s}
+.verdict.on{display:block}
+.verdict[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.verdict[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+.btn{font:inherit;font-family:var(--display);font-weight:600;cursor:pointer;padding:.6rem 1.4rem;border-radius:999px;border:none;background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);transition:.15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+
+.sos{background:#FFF9E6;border:3px solid var(--b-events);border-radius:16px;padding:1.3rem 1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-sm)}
+.sos h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.6rem}
+.sos ul{margin:.5rem 0 0;padding-left:1.3rem}
+.sos li{margin:.45rem 0}
+
+.challenge{background:linear-gradient(160deg,#12A594,#0B7A6D);color:#fff;border-radius:20px;padding:1.9rem;margin:2rem 0;box-shadow:var(--shadow-lg)}
+.challenge .h2{color:#fff;margin-bottom:.8rem}
+.challenge .h2 b{background:#FBF6EC;color:#0B7A6D}
+.challenge p{max-width:46ch}
+.challenge .reveal{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.1)}
+.challenge .reveal>summary{background:rgba(255,255,255,.16);color:#fff}
+.challenge .reveal>summary:hover{background:rgba(255,255,255,.24)}
+.challenge .reveal[open]>summary{background:rgba(255,255,255,.24)}
+.challenge .reveal__in{color:#EAFBF8}
+.challenge .blk::before{background:#0E8577}
+
+.files{display:grid;gap:.8rem;margin:1.5rem 0}
+.file{display:flex;align-items:center;gap:1rem;text-decoration:none;color:inherit;background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1rem 1.25rem;transition:.16s;box-shadow:var(--shadow-sm);font-weight:600}
+.file:hover{border-color:var(--accent);transform:translateX(4px)}
+.file .ic{flex:none;width:2.9rem;height:2.9rem;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);font-size:1.4rem}
+.file small{display:block;font-weight:400;color:var(--ink-soft);font-size:.82rem}
+.file .go{margin-left:auto;color:var(--accent);font-weight:700}
+footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;color:var(--ink-soft);font-size:.88rem}
+
+/* ═══ 進度脊椎 ════════════════════════ */
+main{position:relative}
+.spine{position:absolute;top:0;bottom:0;right:calc(34px - (100vw - 100%) / 2);width:36px;pointer-events:none;z-index:5}
+.spine__line{position:absolute;inset:0;overflow:hidden;border:7px solid var(--spine);border-radius:999px;background:transparent}
+.spine__fill{position:absolute;top:0;left:0;right:0;height:0;background:var(--spine-go);transition:height .12s linear}
+.spine__dot{position:absolute;left:18px;transform:translate(-50%,-50%);width:56px;height:56px;padding:0;border-radius:50%;background:var(--ground);border:7px solid var(--spine);pointer-events:auto;cursor:pointer;transition:.25s cubic-bezier(.2,.8,.3,1)}
+.spine__dot:hover{transform:translate(-50%,-50%) scale(1.1)}
+.spine__dot[data-on="1"]{background:var(--spine-go)}
+.spine__dot[data-now="1"]{transform:translate(-50%,-50%) scale(1.14);box-shadow:0 0 0 8px rgba(76,175,63,.20)}
+.spine__dot::after{content:attr(data-label);position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(-50%);background:var(--spine-solid);color:var(--ground);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s}
+.spine__dot:hover::after{opacity:1}
+@media(max-width:1260px){.spine{display:none}}
+
+/* ═══ 截圖 / GIF 預留位 ═══════════════ */
+.shot{border:3px dashed var(--rule);border-radius:16px;background:var(--card);padding:1.4rem;margin:1.7rem 0;text-align:center;background-image:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.22) 15px 30px)}
+.shot__kind{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--display);font-weight:600;font-size:.76rem;letter-spacing:.1em;background:var(--ink);color:var(--ground);padding:.3rem .9rem;border-radius:999px}
+.shot--gif .shot__kind{background:var(--b-looks)}
+.shot__what{display:block;font-weight:700;font-size:1.05rem;margin:.9rem 0 .3rem}
+.shot__how{font-size:.85rem;color:var(--ink-soft);margin:0 auto;max-width:44ch;line-height:1.7}
+.shot__box{margin-top:1.1rem;aspect-ratio:16/9;max-height:19rem;margin-inline:auto;width:100%;border-radius:11px;background:var(--ground-2);border:2px solid var(--rule);display:grid;place-items:center;font-size:2.6rem;opacity:.55}
+.shot--wide .shot__box{aspect-ratio:16/10}
+.shot--tall .shot__box{aspect-ratio:4/3}
+
+/* ═══ 偷看 Python ═════════════════════ */
+.pypeek{border:3px solid #241C15;border-radius:14px;overflow:hidden;margin:1.5rem 0;background:#241C15;box-shadow:var(--shadow-md)}
+.pypeek>summary{cursor:pointer;list-style:none;padding:.85rem 1.15rem;display:flex;align-items:center;gap:.75rem;background:#241C15;color:#EBE0CE;font-weight:700;font-size:.95rem;user-select:none;transition:background .18s}
+.pypeek>summary::-webkit-details-marker{display:none}
+.pypeek>summary:hover{background:#352A1F}
+.pypeek>summary::before{content:"Python";flex:none;font-family:var(--mono);font-size:.72rem;font-weight:700;background:#3776AB;color:#fff;padding:.28rem .6rem;border-radius:6px;letter-spacing:.04em}
+.pypeek .peek{margin-left:auto;font-size:.75rem;color:#9C8B76;font-weight:600;letter-spacing:.05em}
+.pypeek[open] .peek{opacity:0}
+.pypeek__in{padding:0 1.15rem 1.2rem;animation:drop .3s}
+.pypeek pre{margin:0 0 1rem;padding:1.05rem 1.2rem;border-radius:10px;background:#15100A;overflow-x:auto;font-family:var(--mono);font-size:.94rem;line-height:1.9;color:#EBE0CE;border:1px solid #3A2D20}
+.pypeek .c{color:#8A7A64}
+.pypeek .s{color:#8FD67A}
+.pypeek .f{color:#7FC7FF}
+.pypeek .n{color:#FFC46B}
+.pypeek .k{color:#FF8C5A}
+.pypeek__note{color:#CBBBA4;font-size:.9rem;margin:0;line-height:1.85;max-width:48ch}
+.pypeek__note strong{color:#FFBF00}
+.pypeek__note+.pypeek__note{margin-top:.7rem}
+
+/* ═══ 試試看卡片 ══════════════════════ */
+.playgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.9rem;margin:1.4rem 0}
+.play{background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1.05rem 1.15rem 1.05rem 3.5rem;position:relative;cursor:pointer;transition:.18s;box-shadow:var(--shadow-sm)}
+.play::before{content:"";position:absolute;left:1rem;top:1.05rem;width:1.75rem;height:1.75rem;border-radius:8px;border:3px solid var(--ink);background:#fff;display:grid;place-items:center;font-weight:700;font-size:1rem;transition:.2s}
+.play:hover{border-color:var(--ink);transform:translateY(-3px)}
+.play:hover::before{content:"✓";color:var(--rule)}
+.play[data-ok="1"]{background:var(--go-soft);border-color:var(--go)}
+.play[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff}
+.play[data-ok="1"]:hover::before{color:#fff}
+.play b{display:block;font-family:var(--display);font-weight:600;font-size:1.02rem;margin-bottom:.15rem}
+.play small{color:var(--ink-soft);font-size:.85rem;line-height:1.65;display:block}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <span class="tag">第 3 課 · 大約 1 節課</span>
+    <h1>轉個彎，<em>變個樣</em></h1>
+    <p class="lede">到目前為止你的角色只會直直往前走。今天它會轉彎、會變大變小，還會換裝。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個<strong style="color:#FFBF00">走一走就轉彎、而且越走越大</strong>的角色。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天會用到的積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+          <div class="blk blk--looks">尺寸改變 <i>10</i></div>
+          <div class="blk blk--looks">造型換成下一個</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine" id="spine">
+  <div class="spine__line"><i class="spine__fill" id="spineFill"></i></div>
+</div>
+
+<!-- ── 1. 轉彎 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>讓角色轉彎</h2>
+  <p>藍色的「動作」裡有兩塊新積木：<strong>右轉</strong>和<strong>左轉</strong>。它們不會讓角色移動，只會讓角色<strong>換一個面對的方向</strong>。</p>
+
+  <div class="stack">
+    <div class="blk blk--motion">右轉 ↻ <i>15</i> 度</div>
+    <div class="blk blk--motion">左轉 ↺ <i>15</i> 度</div>
+  </div>
+
+  <p>「度」是什麼意思？拉拉看下面的桿子就懂了。</p>
+
+  <div class="predict" style="padding-bottom:1.2rem">
+    <div class="dial">
+      <span class="dial__tick dial__tick--u">上</span>
+      <span class="dial__tick dial__tick--r">右</span>
+      <span class="dial__tick dial__tick--d">下</span>
+      <span class="dial__tick dial__tick--l">左</span>
+      <div class="dial__arm" id="dArm"></div>
+      <span class="dial__cat">🐱</span>
+    </div>
+
+    <div class="stack" style="margin:.2rem 0 0;align-items:center">
+      <div class="blk blk--motion">右轉 ↻ <i id="dNum">0</i> 度</div>
+    </div>
+
+    <div class="slide">
+      <label for="dRange">右轉幾度：</label>
+      <input type="range" id="dRange" min="0" max="360" step="15" value="0">
+      <strong id="dShow" style="font-family:var(--display);font-size:1.3rem;min-width:3.5rem;text-align:center">0</strong>
+    </div>
+    <p id="dSay" style="font-size:.92rem;color:var(--ink-soft);margin:.7rem 0 0">
+      角色現在面向<strong>右邊</strong>。把桿子往右拉，看它怎麼轉。
+    </p>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：「轉彎」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="f">right</span>(<span class="n">90</span>)    <span class="c"># 右轉 90 度</span>
+<span class="f">left</span>(<span class="n">90</span>)     <span class="c"># 左轉 90 度</span></pre>
+      <p class="pypeek__note"><strong>right</strong> 是「右」，<strong>left</strong> 是「左」。括號裡就是幾度。</p>
+      <p class="pypeek__note">這兩塊積木跟打字的寫法<strong>幾乎一模一樣</strong> —— 連順序都一樣。</p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">在 Scratch 裡按「右轉 90 度」的實際效果</b>
+    <p class="shot__how">拍舞台區。點一下積木 → 角色原地轉向。連點三下轉回原方向。約 4 秒。重點是讓學生看到「角色只轉方向，位置沒變」。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <details class="reveal">
+    <summary>轉了以後，角色會自己走嗎？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>不會。轉彎只是<strong>換一個面對的方向</strong>，角色會站在原地。</p>
+      <p>要它走，還是要用「移動」那塊積木。轉完再移動，它就會往新的方向走。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 變大變小 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>讓角色變大變小</h2>
+  <p>紫色的「外觀」裡有兩塊管大小的積木。它們長得很像，但做的事<strong>完全不一樣</strong>——這是今天最容易搞混的地方。</p>
+
+  <div class="stack">
+    <div class="blk blk--looks">尺寸改變 <i>10</i></div>
+    <div class="blk blk--looks">尺寸設為 <i>100</i> %</div>
+  </div>
+
+  <p><strong>「改變」是加上去</strong>，在原本的大小上再加 10。<br>
+     <strong>「設為」是直接指定</strong>，不管原本多大，一律變成那個數字。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">角色現在是 100%。連續執行三次「尺寸改變 10」，它會變成多大？</p>
+    <p class="predict__hint">先猜猜看，選一個。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="這是把「改變」當成「設為」了。「尺寸改變 10」不是「變成 10%」，而是「在原本的大小上再加 10」。">10%，變得超級小</button>
+      <button class="pick" data-v="b" data-say="答對了！100 加 10 是 110，再加 10 是 120，再加 10 是 130。「改變」是一次一次疊上去的。">130%</button>
+      <button class="pick" data-v="c" data-say="如果是「尺寸設為 110」，那執行三次都還是 110% —— 因為「設為」每次都指定成同一個數字。但這裡用的是「改變」，會一直疊上去。">110%，執行幾次都一樣</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">「改變」和「設為」的實際差別</b>
+    <p class="shot__how">分兩段拍：左邊連按「尺寸改變 10」五下，角色越來越大；右邊連按「尺寸設為 150%」五下，角色只變一次就不動了。約 6 秒。<b>這是這一課最容易搞混的地方，值得用一張圖講清楚。</b></p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>💡 什麼時候用哪一個？</h3>
+    <ul>
+      <li>想做<strong>「越走越大」</strong>這種慢慢變化的效果 → 用<strong>改變</strong></li>
+      <li>想<strong>「一開始就固定是某個大小」</strong> → 用<strong>設為</strong></li>
+      <li>角色被你玩到大小亂掉、想救回來 → <strong>尺寸設為 100%</strong> 就回到原本了</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 3. 換造型 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>讓角色換造型</h2>
+  <p>點一下角色，看左上角的<strong>「造型」</strong>頁籤——很多角色不只有一個樣子，而是有好幾個<strong>造型</strong>。</p>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">造型頁籤裡的多個造型</b>
+    <p class="shot__how">點一個造型多的角色（例如 Cassy Dance 或 Avery Walking），拍左邊那一整排造型清單，讓學生看到「一個角色有好幾個樣子」。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <p>紫色的「外觀」裡有一塊 <strong>造型換成下一個</strong>。按一下，角色就換成下一個樣子。點點看下面這個：</p>
+
+  <div class="costume">
+    <div class="costume__stage"><span id="cosChar">🐱</span></div>
+    <p class="costume__name">造型 <b id="cosNum">1</b> / 4</p>
+    <div class="stack" style="align-items:center;margin:.4rem 0 1rem">
+      <div class="blk blk--looks">造型換成下一個</div>
+    </div>
+    <button class="btn" id="cosNext">按我換造型</button>
+    <p class="predict__hint" style="margin:1rem 0 0" id="cosSay">按按看，數字會一直往上加。</p>
+  </div>
+
+  <details class="reveal">
+    <summary>為什麼要換造型？這有什麼用？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>因為<strong>換得夠快，看起來就像在動</strong>。</p>
+      <p>卡通就是這樣做的——一張一張的圖片快速換過去，眼睛就以為它真的在動。</p>
+      <p>你剛剛是用手一下一下按的，很慢。<strong>下一課學會「重複」以後，電腦就會幫你一直按</strong>，那時候角色就會真的走起來了。</p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">連按「造型換成下一個」的效果</b>
+    <p class="shot__how">選一個走路造型的角色，連續按積木好幾下，讓學生看到角色的腳在動。約 4 秒。這是第 6 課走路動畫的預告。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 4. 組合起來 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>組合起來</h2>
+  <p>三個新積木都認識了，現在把它們跟<strong>第 1 課學的「移動」</strong>拼在一起，做出<strong>會轉彎、而且越走越大</strong>的角色。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>先放好 <strong>當綠旗被點擊</strong></li>
+      <li>接上 <strong>尺寸設為 100%</strong>（每次都從同樣的大小開始，才看得出變化）</li>
+      <li>接上 <strong>移動 50 點</strong></li>
+      <li>接上 <strong>右轉 90 度</strong>，再接一塊 <strong>移動 50 點</strong></li>
+      <li>最後接上 <strong>尺寸改變 30</strong>，按綠旗連按幾次看看</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">今天的成果：走一走、轉個彎、越走越大</b>
+    <p class="shot__how">拍舞台區。按綠旗 → 角色走一段 → 轉彎 → 再走 → 變大。連按三次綠旗，讓學生看到它一次比一次大。約 6 秒。學生會拿這張對照自己做對了沒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>角色越來越大停不下來</strong> —— 正常的！因為「改變」會一直疊加。在最上面加一塊 <strong>尺寸設為 100%</strong> 就會每次歸位。</li>
+      <li><strong>角色轉了但沒往新方向走</strong> —— 檢查「右轉」後面有沒有再接一塊「移動」。轉彎本身不會讓角色移動。</li>
+      <li><strong>角色歪歪的看起來很怪</strong> —— 有些角色只能左右翻轉。點角色左邊的「方向」可以調整迴轉方式。</li>
+      <li>三個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這題的順序<strong>跟你剛剛做的不一樣</strong>，要看清楚題目才排得對。</p>
+
+  <div class="sortbox">
+    <p class="predict__hint" style="margin-top:0">
+      小華想讓他的角色這樣做 ——
+      <strong>先變大，變大以後才轉彎，轉完最後才往前走。</strong><br>
+      下面四塊積木順序被打亂了，拖成小華要的順序。
+    </p>
+    <div class="slots" id="slots">
+      <div class="blk blk--motion drag" draggable="true" data-k="4">移動 <i>100</i> 點</div>
+      <div class="blk blk--looks  drag" draggable="true" data-k="2">尺寸設為 <i>150</i> %</div>
+      <div class="blk blk--motion drag" draggable="true" data-k="3">右轉 ↻ <i>90</i> 度</div>
+      <div class="blk blk--events blk--hat drag" draggable="true" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    </div>
+    <button class="btn" id="check">檢查看看</button>
+    <p class="verdict" id="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天學的三塊積木</strong>就能做到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox" style="border:none;box-shadow:none;background:transparent">
+    <div class="dobox__head" style="border-radius:14px">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play">
+        <b>轉 360 度會怎樣</b>
+        <small>轉一整圈，角色最後面向哪裡？跟沒轉一樣嗎？</small>
+      </div>
+      <div class="play">
+        <b>把尺寸設為 10%</b>
+        <small>角色會小到什麼程度？還看得到嗎？</small>
+      </div>
+      <div class="play">
+        <b>連按綠旗二十下</b>
+        <small>用「尺寸改變 10」，角色會大到跑出舞台嗎？</small>
+      </div>
+      <div class="play">
+        <b>右轉 90 再左轉 90</b>
+        <small>兩個接在一起，角色最後面向哪裡？</small>
+      </div>
+      <div class="play">
+        <b>找出造型最多的角色</b>
+        <small>去角色庫翻翻看，哪一個角色的造型數量最多？</small>
+      </div>
+      <div class="play">
+        <b>邊走邊變小</b>
+        <small>用「尺寸改變 -10」，做出越走越遠的感覺。</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p style="font-family:var(--display);font-weight:600;font-size:1.15rem;margin-bottom:.2rem">挑戰一</p>
+  <p>讓角色<strong style="color:#FFBF00">走一個正方形</strong>：走一段、右轉 90 度，重複四次，回到原點。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>正方形有<strong style="color:#FFBF00">四個邊、四個角</strong>。所以「移動」和「右轉 90 度」這一組，你需要放<strong style="color:#FFBF00">四次</strong>。</p>
+      <p>（覺得拖八塊積木很累嗎？記住這個感覺 —— 下一課的「重複」就是來解決這件事的。）</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+      </div>
+      <p>好長一串對吧？<strong style="color:#FFBF00">下一課學會「重複」之後，這九塊會變成三塊。</strong></p>
+    </div>
+  </details>
+
+  <p style="font-family:var(--display);font-weight:600;font-size:1.15rem;margin:2.2rem 0 .2rem">挑戰二（比較難）</p>
+  <p>做出一個<strong style="color:#FFBF00">「走遠了就變小」</strong>的效果：角色每走一段就變小一點，看起來像走到很遠的地方。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想負數</span></summary>
+    <div class="reveal__in">
+      <p>還記得第 1 課的<strong style="color:#FFBF00">小橫槓</strong>嗎？「移動 -10 點」是倒退走，那「尺寸改變 <strong style="color:#FFBF00">-10</strong>」會是什麼？</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="#" download>
+      <span class="ic">🔄</span>
+      <span>第3課_轉彎變大_範例.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（附件功能的示意 —— 之後把實際檔案放進來，連結換掉就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 3 課 · 轉個彎，變個樣 —— 原型版本，版面與互動都可以調整</p>
+</footer>
+
+</main>
+
+<script>
+/* ── 閱讀進度 ── */
+const rail = document.getElementById('rail');
+const onScroll = () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  rail.style.width = (h > 0 ? Math.min(scrollY / h, 1) * 100 : 0) + '%';
+};
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* ── 步驟打勾 ── */
+document.querySelectorAll('.dobox').forEach(box => {
+  const items = [...box.querySelectorAll('.steps li')];
+  if (!items.length) return;
+  const cnt = box.querySelector('.dobox__count'), num = cnt.querySelector('i');
+  const tally = () => {
+    const n = items.filter(li => li.dataset.ok === '1').length;
+    num.textContent = n;
+    cnt.classList.toggle('done', n === items.length);
+  };
+  items.forEach(li => li.addEventListener('click', () => {
+    li.dataset.ok = li.dataset.ok === '1' ? '0' : '1'; tally();
+  }));
+  tally();
+});
+
+/* ── 先預測再看答案 ── */
+document.querySelectorAll('.predict[data-ans]').forEach(box => {
+  const ans = box.dataset.ans, said = box.querySelector('.said');
+  box.querySelectorAll('.pick').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ok = btn.dataset.v === ans;
+      btn.dataset.s = ok ? 'hit' : 'miss';
+      said.textContent = btn.dataset.say;
+      said.dataset.k = ok ? 'y' : 'n';
+      said.classList.add('on');
+      if (ok) box.querySelectorAll('.pick').forEach(b => b.disabled = true);
+    });
+  });
+});
+
+/* ── 轉彎轉盤 ── */
+const dR = document.getElementById('dRange');
+if (dR) {
+  const arm = document.getElementById('dArm'),
+        num = document.getElementById('dNum'),
+        show = document.getElementById('dShow'),
+        say = document.getElementById('dSay');
+  const draw = () => {
+    const v = +dR.value;
+    num.textContent = v; show.textContent = v;
+    arm.style.transform = `translateY(-50%) rotate(${v}deg)`;
+    say.innerHTML =
+      v === 0   ? '角色現在面向<strong>右邊</strong>。把桿子往右拉，看它怎麼轉。' :
+      v === 90  ? '轉了 <strong>90 度</strong>，現在面向<strong>下面</strong>。這是最常用的角度 —— 剛好轉一個直角。' :
+      v === 180 ? '轉了 <strong>180 度</strong>，現在面向<strong>左邊</strong> —— 剛好跟原本相反。' :
+      v === 270 ? '轉了 <strong>270 度</strong>，現在面向<strong>上面</strong>。' :
+      v === 360 ? '轉了<strong>一整圈</strong>，又回到原本的方向了！轉 360 度等於沒轉。' :
+                  `轉了 <strong>${v} 度</strong>。數字越大，轉得越多。`;
+  };
+  dR.addEventListener('input', draw);
+  draw();
+}
+
+/* ── 造型切換 ── */
+const cosBtn = document.getElementById('cosNext');
+if (cosBtn) {
+  const faces = ['🐱','😺','😸','😹'];
+  const ch = document.getElementById('cosChar'),
+        no = document.getElementById('cosNum'),
+        say = document.getElementById('cosSay');
+  let i = 0, taps = 0;
+  cosBtn.addEventListener('click', () => {
+    i = (i + 1) % faces.length; taps++;
+    ch.textContent = faces[i];
+    ch.style.animation = 'none'; ch.offsetHeight; ch.style.animation = '';
+    no.textContent = i + 1;
+    if (taps >= 8) say.innerHTML = '你已經按了 <strong>' + taps + '</strong> 下。按快一點的話，是不是有點像在動了？';
+    else if (i === 0) say.innerHTML = '轉一圈回到<strong>造型 1</strong> 了 —— 最後一個造型的下一個，就是第一個。';
+    else say.textContent = '按按看，數字會一直往上加。';
+  });
+}
+
+/* ── 積木拖拉排序 ── */
+const slots = document.getElementById('slots');
+if (slots) {
+  let held = null;
+  const afterEl = y => {
+    const rest = [...slots.querySelectorAll('.drag:not(.lift)')];
+    return rest.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      return (offset < 0 && offset > closest.offset) ? {offset, el: child} : closest;
+    }, {offset: Number.NEGATIVE_INFINITY}).el;
+  };
+  slots.querySelectorAll('.drag').forEach(el => {
+    el.addEventListener('dragstart', () => { held = el; setTimeout(() => el.classList.add('lift'), 0); });
+    el.addEventListener('dragend',   () => { el.classList.remove('lift'); slots.classList.remove('hot'); });
+  });
+  slots.addEventListener('dragover', e => {
+    e.preventDefault(); slots.classList.add('hot');
+    if (!held) return;
+    const after = afterEl(e.clientY);
+    if (after == null) slots.appendChild(held); else slots.insertBefore(held, after);
+  });
+  slots.addEventListener('dragleave', e => { if (!slots.contains(e.relatedTarget)) slots.classList.remove('hot'); });
+  slots.addEventListener('drop', e => { e.preventDefault(); slots.classList.remove('hot'); });
+
+  document.getElementById('check').addEventListener('click', () => {
+    const now = [...slots.querySelectorAll('.drag')].map(el => el.dataset.k);
+    const v = document.getElementById('verdict');
+    v.classList.add('on');
+    if (now.join('') === '1234') {
+      v.dataset.k = 'y';
+      v.textContent = '✓ 完全正確！先變大 → 再轉彎 → 最後才走，跟小華想的一樣。';
+    } else if (now[0] !== '1') {
+      v.dataset.k = 'n';
+      v.textContent = '再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？';
+    } else if (now.indexOf('2') > now.indexOf('3')) {
+      v.dataset.k = 'n';
+      v.textContent = '再讀一次小華的要求 —— 他是「先變大，變大以後才轉彎」。哪一塊是變大？';
+    } else {
+      v.dataset.k = 'n';
+      v.textContent = '快好了！小華說「轉完最後才往前走」—— 那「移動」應該排在最後面還是中間？';
+    }
+  });
+}
+
+/* ── 試試看卡片 ── */
+document.querySelectorAll('.playgrid').forEach(grid => {
+  const cards = [...grid.querySelectorAll('.play')];
+  const cnt = grid.parentElement.querySelector('.dobox__count');
+  const tally = () => {
+    if (!cnt) return;
+    const n = cards.filter(c => c.dataset.ok === '1').length;
+    cnt.querySelector('i').textContent = n;
+    cnt.classList.toggle('done', n === cards.length);
+  };
+  cards.forEach(c => c.addEventListener('click', () => {
+    c.dataset.ok = c.dataset.ok === '1' ? '0' : '1'; tally();
+  }));
+  tally();
+});
+
+/* ── 右側進度脊椎 ── */
+(() => {
+  const main  = document.querySelector('main');
+  const spine = document.getElementById('spine');
+  const fill  = document.getElementById('spineFill');
+  if (!main || !spine) return;
+
+  const secs = [...main.querySelectorAll(':scope > section')];
+  const dots = secs.map(sec => {
+    const el = document.createElement('button');
+    el.className = 'spine__dot';
+    const h  = sec.querySelector('.h2');
+    const bg = h && h.querySelector('b');
+    el.dataset.label = h ? h.textContent.replace(bg ? bg.textContent : '', '').trim() : '';
+    el.setAttribute('aria-label', el.dataset.label);
+    el.addEventListener('click', () => sec.scrollIntoView({behavior:'smooth', block:'start'}));
+    spine.appendChild(el);
+    return {el, sec, top:0};
+  });
+
+  const place = () => dots.forEach(d => {
+    const h = d.sec.querySelector('.h2');
+    const raw = h ? h.offsetTop + h.offsetHeight / 2 : d.sec.offsetTop + 30;
+    d.top = Math.max(0, Math.min(raw, main.offsetHeight));
+    d.el.style.top = d.top + 'px';
+  });
+
+  const paint = () => {
+    let eye = scrollY + innerHeight * 0.42 - main.offsetTop;
+    const far = document.documentElement.scrollHeight - innerHeight;
+    if (far <= 0 || scrollY / far > 0.995) eye = main.offsetHeight + 1;
+    fill.style.height = Math.max(0, Math.min(eye, main.offsetHeight)) + 'px';
+    let cur = -1;
+    dots.forEach((d, i) => {
+      const on = eye >= d.top;
+      d.el.dataset.on = on ? '1' : '0';
+      if (on) cur = i;
+    });
+    dots.forEach((d, i) => d.el.dataset.now = (i === cur) ? '1' : '0');
+  };
+
+  const refresh = () => { place(); paint(); };
+  addEventListener('scroll', paint, {passive:true});
+  addEventListener('resize', refresh);
+  if (document.readyState === 'complete') refresh();
+  else addEventListener('load', refresh);
+  document.querySelectorAll('details').forEach(d => d.addEventListener('toggle', refresh));
+  addEventListener('load', refresh, true);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+  if (window.ResizeObserver) new ResizeObserver(refresh).observe(main);
+  refresh();
+})();
+</script>
+</body>
+</html>

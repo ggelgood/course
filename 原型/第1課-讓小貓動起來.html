@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 1 課 · 讓小貓動起來</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   設計系統 — 積木工作台
+   底色暖米（久讀不刺眼），積木保持飽和
+   （顏色＝分類，是要學的訊號，不能被稀釋）
+   ═══════════════════════════════════════════ */
+:root{
+  --ground:      #FBF6EC;
+  --ground-2:    #F4EBDB;
+  --card:        #FFFFFF;
+  --ink:         #2B2119;
+  --ink-soft:    #7A6A59;
+  --rule:        #E3D6C0;
+  --accent:      #FF6B1A;
+  --accent-soft: #FFE8D9;
+  --go:          #12A594;
+  --go-soft:     #D6F3EF;
+
+  /* Scratch 官方積木色 */
+  --b-motion:  #4C97FF;  --b-motion-d:  #3373CC;
+  --b-looks:   #9966FF;  --b-looks-d:   #774DCB;
+  --b-sound:   #CF63CF;  --b-sound-d:   #BD42BD;
+  --b-events:  #FFBF00;  --b-events-d:  #CC9900;
+  --b-control: #FFAB19;  --b-control-d: #CF8B17;
+
+  --display: "Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:    "Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+
+  --base: 18px;                    /* 中年級：大一點 */
+  --shadow-sm: 0 2px 0 rgba(43,33,25,.10);
+  --shadow-md: 0 3px 0 rgba(43,33,25,.12), 0 10px 24px -14px rgba(43,33,25,.5);
+  --shadow-lg: 0 5px 0 rgba(43,33,25,.13), 0 20px 40px -20px rgba(43,33,25,.55);
+}
+
+*{box-sizing:border-box}
+html{font-size:var(--base); scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--body); color:var(--ink);
+  line-height:1.9; background:var(--ground);
+  -webkit-font-smoothing:antialiased;
+  /* 工作桌質感：細點陣 + 兩處暖光 */
+  background-image:
+    radial-gradient(circle at 15% 5%,  rgba(255,107,26,.07), transparent 40%),
+    radial-gradient(circle at 85% 60%, rgba(18,165,148,.06), transparent 42%),
+    radial-gradient(rgba(43,33,25,.05) 1px, transparent 1px);
+  background-size: auto, auto, 22px 22px;
+  background-attachment: fixed, fixed, scroll;
+}
+
+/* ── 進度條 ───────────────────────────── */
+.railtop{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(227,214,192,.55);z-index:99}
+.railtop i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#FFAB19);transition:width .12s linear}
+
+.wrap{max-width:60rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 7rem}
+
+/* ═══ 開場區（投影用）══════════════════════
+   字大、一兩屏、老師投這塊。與下方用實體
+   接縫分隔，學生自然知道「上面是聽的，下面是做的」
+   ═══════════════════════════════════════ */
+.stage-open{
+  padding:clamp(2.5rem,6vw,4.5rem) 0 clamp(3rem,6vw,4rem);
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255,191,0,.20), transparent 45%),
+    linear-gradient(168deg,#2B2119 0%,#3D2E22 60%,#4A3626 100%);
+  color:#FBF6EC; position:relative; overflow:hidden;
+}
+.stage-open::after{ /* 卡榫接縫 */
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:26px;
+  background:var(--ground);
+  -webkit-mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+          mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+}
+.stage-open>*{position:relative;z-index:2}
+
+.tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:.12em;
+  background:var(--accent);color:#fff;padding:.4rem 1rem;border-radius:999px;
+  box-shadow:0 3px 0 #C4460A;
+}
+h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.08;
+  margin:1.2rem 0 .6rem;letter-spacing:-.02em;
+}
+h1 em{font-style:normal;color:#FFBF00;display:block}
+.lede{font-size:clamp(1.1rem,2.4vw,1.4rem);color:#E6D9C4;margin:0;max-width:34ch;font-weight:500}
+
+.today{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  gap:1.25rem;margin-top:2.5rem;align-items:start;
+}
+.today__box{
+  background:rgba(251,246,236,.07);border:2px solid rgba(251,246,236,.16);
+  border-radius:16px;padding:1.25rem 1.35rem;backdrop-filter:blur(6px);
+}
+.today__box h2{
+  font-family:var(--display);font-weight:600;font-size:.9rem;letter-spacing:.1em;
+  margin:0 0 .85rem;color:#FFBF00;
+}
+.today__box p{margin:0;font-size:1rem;color:#E6D9C4}
+
+/* ═══ 積木（純 CSS，含卡榫）═════════════ */
+.blk{
+  --c:var(--b-motion); --cd:var(--b-motion-d);
+  position:relative;display:inline-flex;align-items:center;flex-wrap:wrap;gap:.4rem;
+  background:var(--c);color:#fff;font-weight:700;font-size:1rem;
+  padding:.7rem 1.1rem;border-radius:6px;
+  box-shadow:0 3px 0 var(--cd);
+  margin:0 0 9px; line-height:1.4;
+}
+.blk::before{ /* 上凹槽 */
+  content:"";position:absolute;top:0;left:16px;width:28px;height:6px;
+  background:var(--ground);border-radius:0 0 7px 7px;
+}
+.blk::after{ /* 下凸榫 */
+  content:"";position:absolute;bottom:-6px;left:16px;width:28px;height:6px;
+  background:var(--c);border-radius:0 0 7px 7px;
+  box-shadow:0 3px 0 var(--cd);
+}
+.blk--hat{border-radius:22px 22px 6px 6px;padding-top:1.5rem}
+.blk--hat::before{display:none}
+.blk--motion {--c:var(--b-motion); --cd:var(--b-motion-d)}
+.blk--looks  {--c:var(--b-looks);  --cd:var(--b-looks-d)}
+.blk--sound  {--c:var(--b-sound);  --cd:var(--b-sound-d)}
+.blk--events {--c:var(--b-events); --cd:var(--b-events-d)}
+.blk--control{--c:var(--b-control);--cd:var(--b-control-d)}
+/* 在深色開場區裡，凹槽要透深色 */
+.stage-open .blk::before{background:#3D2E22}
+
+.blk i{ /* 積木上的可填欄位 */
+  font-style:normal;background:#fff;color:#2B2119;
+  padding:.12rem .7rem;border-radius:999px;font-weight:700;min-width:2.2rem;text-align:center;
+}
+.blk .flag{color:#12A594;font-size:1.1em}
+
+.stack{display:flex;flex-direction:column;align-items:flex-start;margin:1.5rem 0}
+.stack .blk{margin-bottom:9px}
+
+/* ═══ 實作區 ═══════════════════════════ */
+section{margin:4rem 0;scroll-margin-top:2rem}
+.h2{
+  display:flex;align-items:center;gap:.9rem;
+  font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3.4vw,2rem);
+  margin:0 0 1.2rem;letter-spacing:-.01em;
+}
+.h2 b{
+  flex:none;width:2.1em;height:2.1em;display:grid;place-items:center;
+  background:var(--ink);color:var(--ground);border-radius:14px;
+  font-size:.62em;font-weight:700;box-shadow:0 3px 0 rgba(43,33,25,.35);
+}
+p{margin:.9rem 0;max-width:52ch}
+strong{color:var(--accent);font-weight:700}
+
+/* ── Scratch 介面示意（文字直接標在圖上，
+      避免學生要在圖與說明之間來回對照）── */
+.ui{
+  display:grid;gap:10px;margin:1.75rem 0;
+  grid-template-columns:.85fr 1.35fr 1.1fr;
+  grid-template-areas:"pal code stage" "pal code sprite";
+  background:var(--ink);padding:10px;border-radius:20px;
+  box-shadow:var(--shadow-lg);min-height:22rem;
+}
+.ui__z{
+  border-radius:12px;padding:1rem;display:flex;flex-direction:column;
+  justify-content:flex-start;color:#fff;position:relative;overflow:hidden;
+}
+.ui__z b{font-family:var(--display);font-weight:600;font-size:1.15rem;display:block}
+.ui__z small{font-size:.82rem;opacity:.92;font-weight:500;line-height:1.6}
+.ui__n{
+  position:absolute;top:.6rem;right:.7rem;width:1.9rem;height:1.9rem;
+  display:grid;place-items:center;border-radius:50%;
+  background:rgba(255,255,255,.9);color:var(--ink);
+  font-family:var(--display);font-weight:700;font-size:1rem;
+}
+.z-pal   {grid-area:pal;   background:linear-gradient(160deg,#FF8C1A,#E0670B)}
+.z-code  {grid-area:code;  background:linear-gradient(160deg,#5C6B7A,#3F4C58)}
+.z-stage {grid-area:stage; background:linear-gradient(160deg,#4C97FF,#3373CC)}
+.z-sprite{grid-area:sprite;background:linear-gradient(160deg,#9966FF,#774DCB)}
+.z-stage .cat{font-size:2.6rem;margin-top:auto;align-self:center}
+@media(max-width:720px){
+  .ui{grid-template-columns:1fr 1fr;grid-template-areas:"stage stage" "pal code" "sprite sprite"}
+}
+
+/* ── 互動 1：點擊揭曉 ─────────────────── */
+.reveal{
+  border:3px solid var(--ink);border-radius:16px;background:var(--card);
+  margin:1.75rem 0;overflow:hidden;box-shadow:var(--shadow-md);
+}
+.reveal>summary{
+  cursor:pointer;list-style:none;padding:1.05rem 1.3rem;font-weight:700;
+  display:flex;align-items:center;gap:.85rem;background:var(--accent-soft);
+  user-select:none;transition:background .18s;
+}
+.reveal>summary::-webkit-details-marker{display:none}
+.reveal>summary:hover{background:#FFDCC5}
+.reveal>summary::before{
+  content:"?";flex:none;width:2rem;height:2rem;border-radius:50%;
+  background:var(--accent);color:#fff;display:grid;place-items:center;
+  font-family:var(--display);font-weight:700;font-size:1.1rem;
+  box-shadow:0 2px 0 #C4460A;transition:.2s;
+}
+.reveal[open]>summary{background:var(--go-soft)}
+.reveal[open]>summary::before{content:"✓";background:var(--go);box-shadow:0 2px 0 #0B7A6D}
+.reveal .peek{margin-left:auto;font-size:.8rem;color:var(--ink-soft);font-weight:600;letter-spacing:.06em}
+.reveal[open] .peek{opacity:0}
+.reveal__in{padding:.4rem 1.3rem 1.3rem;animation:drop .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* ── 互動 2：步驟打勾 ─────────────────── */
+.steps{list-style:none;counter-reset:s;margin:1.6rem 0;padding:0}
+.steps li{
+  counter-increment:s;position:relative;padding:1rem 1rem 1rem 4rem;
+  background:var(--card);border:2.5px solid var(--rule);border-radius:14px;
+  margin-bottom:.7rem;cursor:pointer;transition:.18s;font-weight:500;
+  box-shadow:var(--shadow-sm);
+}
+.steps li:hover{border-color:var(--ink);transform:translateX(3px)}
+.steps li::before{
+  content:counter(s);position:absolute;left:1rem;top:.95rem;
+  width:2.1rem;height:2.1rem;border-radius:9px;display:grid;place-items:center;
+  background:var(--ground-2);border:2.5px solid var(--rule);
+  font-family:var(--display);font-weight:700;font-size:1rem;transition:.22s;
+}
+.steps li[data-ok="1"]{background:var(--go-soft);border-color:var(--go);color:var(--ink-soft)}
+.steps li[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff;transform:rotate(-8deg) scale(1.06)}
+
+/* ── 互動 3：先預測再看答案 ──────────────
+      每個錯誤選項給專屬回饋，講出背後的誤解，
+      不是只回「再想想看」                    ── */
+.predict{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md);
+}
+.predict__q{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 .4rem}
+.predict__hint{font-size:.9rem;color:var(--ink-soft);margin:0 0 1.1rem}
+.picks{display:grid;gap:.7rem}
+.pick{
+  font:inherit;font-weight:600;text-align:left;cursor:pointer;
+  padding:.9rem 1.15rem;border-radius:12px;border:2.5px solid var(--rule);
+  background:var(--ground);transition:.16s;box-shadow:var(--shadow-sm);
+}
+.pick:hover:not(:disabled){border-color:var(--ink);transform:translateX(3px)}
+.pick:disabled{cursor:default}
+.pick[data-s="hit"]{background:var(--go-soft);border-color:var(--go);box-shadow:0 3px 0 var(--go)}
+.pick[data-s="miss"]{opacity:.45;border-style:dashed}
+.said{
+  margin:1.1rem 0 0;padding:.95rem 1.15rem;border-radius:12px;font-weight:500;
+  display:none;animation:drop .3s;line-height:1.75;
+}
+.said.on{display:block}
+.said[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.said[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+
+/* ── 互動 4：前後對照滑桿 ────────────────
+      改一個數字 → 立刻看到小貓走多遠      ── */
+.compare{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md);
+}
+.track{
+  position:relative;height:7.5rem;border-radius:14px;margin:1.2rem 0 .5rem;
+  background:linear-gradient(180deg,#DCEEFF,#B9DBFF);
+  border:3px solid var(--b-motion-d);overflow:hidden;
+}
+.track::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:26%;
+  background:#8FBF6B;border-top:3px solid #6E9E4E;
+}
+.track .cat{
+  position:absolute;bottom:20%;left:6px;font-size:2.9rem;z-index:2;
+  transition:transform .45s cubic-bezier(.2,.9,.3,1);
+}
+.ticks{position:absolute;inset:0;display:flex;z-index:1}
+.ticks span{flex:1;border-right:2px dashed rgba(51,115,204,.28)}
+.slide{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:1rem}
+.slide input[type=range]{flex:1;min-width:12rem;accent-color:var(--b-motion);height:2rem;cursor:pointer}
+.slide label{font-weight:700;font-size:.95rem}
+
+/* ── 互動 5：積木拖拉排序 ────────────────
+      沒有步驟表可抄 —— 不理解順序就排不對  ── */
+.sortbox{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md);
+}
+.slots{
+  display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;
+  padding:1.1rem;background:var(--ground-2);border-radius:14px;
+  border:3px dashed var(--rule);min-height:12rem;margin:1.1rem 0;
+}
+.slots.hot{border-color:var(--accent);background:var(--accent-soft)}
+.drag{cursor:grab;user-select:none;transition:transform .14s,opacity .14s}
+.drag:active{cursor:grabbing}
+.drag.lift{opacity:.35;transform:scale(.97)}
+.drag.over{transform:translateY(5px)}
+.verdict{
+  margin-top:1.1rem;padding:.95rem 1.15rem;border-radius:12px;font-weight:700;
+  display:none;animation:drop .3s;
+}
+.verdict.on{display:block}
+.verdict[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.verdict[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+.btn{
+  font:inherit;font-family:var(--display);font-weight:600;cursor:pointer;
+  padding:.6rem 1.4rem;border-radius:999px;border:none;
+  background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);
+  transition:.15s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+
+/* ── 常駐求救框（不摺疊：學生卡住時
+      看得到才有用，藏起來就只會舉手）── */
+.sos{
+  background:#FFF9E6;border:3px solid var(--b-events);border-radius:16px;
+  padding:1.3rem 1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-sm);
+}
+.sos h3{
+  font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0 0 .6rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.sos ul{margin:.5rem 0 0;padding-left:1.3rem}
+.sos li{margin:.45rem 0}
+
+/* ── 挑戰 / 附件 ────────────────────── */
+.challenge{
+  background:linear-gradient(160deg,#12A594,#0B7A6D);color:#fff;
+  border-radius:20px;padding:1.9rem;margin:2rem 0;box-shadow:var(--shadow-lg);
+}
+.challenge .h2{color:#fff;margin-bottom:.8rem}
+.challenge .h2 b{background:#FBF6EC;color:#0B7A6D}
+.challenge p{max-width:46ch}
+.challenge .reveal{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.1)}
+.challenge .reveal>summary{background:rgba(255,255,255,.16);color:#fff}
+.challenge .reveal>summary:hover{background:rgba(255,255,255,.24)}
+.challenge .reveal[open]>summary{background:rgba(255,255,255,.24)}
+.challenge .reveal__in{color:#EAFBF8}
+.challenge .blk::before{background:#0E8577}
+
+.files{display:grid;gap:.8rem;margin:1.5rem 0}
+.file{
+  display:flex;align-items:center;gap:1rem;text-decoration:none;color:inherit;
+  background:var(--card);border:2.5px solid var(--rule);border-radius:14px;
+  padding:1rem 1.25rem;transition:.16s;box-shadow:var(--shadow-sm);font-weight:600;
+}
+.file:hover{border-color:var(--accent);transform:translateX(4px)}
+.file .ic{
+  flex:none;width:2.9rem;height:2.9rem;border-radius:11px;display:grid;place-items:center;
+  background:var(--accent-soft);font-size:1.4rem;
+}
+.file small{display:block;font-weight:400;color:var(--ink-soft);font-size:.82rem}
+.file .go{margin-left:auto;color:var(--accent);font-weight:700}
+
+footer{
+  border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;
+  color:var(--ink-soft);font-size:.88rem;
+}
+
+/* ═══ 右側進度脊椎 ════════════════════
+   垂直半透明線貫穿整份講義，每一節在它
+   自己的位置上有一顆圓圈，走過就點亮
+   ═══════════════════════════════════ */
+main{position:relative}
+:root{
+  --spine:      rgba(78,49,32,.40);   /* 深棕，半透明 */
+  --spine-solid:#4E3120;              /* 標籤等需要實色時用 */
+  --spine-go:   rgba(76,175,63,.52);  /* 綠色進度，半透明 */
+}
+/* 貼著視窗右緣（不隨內容欄寬度跑） */
+.spine{
+  position:absolute;top:0;bottom:0;
+  right:calc(34px - (100vw - 100%) / 2);
+  width:36px;pointer-events:none;z-index:5;
+}
+/* 中空粗管：只有外框，內部空的 */
+.spine__line{
+  position:absolute;inset:0;overflow:hidden;
+  border:7px solid var(--spine);border-radius:999px;background:transparent;
+}
+/* 綠色進度，長在管子裡面 */
+.spine__fill{
+  position:absolute;top:0;left:0;right:0;height:0;
+  background:var(--spine-go);transition:height .12s linear;
+}
+/* 節點：很大的空心圓 */
+.spine__dot{
+  position:absolute;left:18px;transform:translate(-50%,-50%);
+  width:56px;height:56px;padding:0;border-radius:50%;
+  background:var(--ground);border:7px solid var(--spine);
+  pointer-events:auto;cursor:pointer;transition:.25s cubic-bezier(.2,.8,.3,1);
+}
+.spine__dot:hover{transform:translate(-50%,-50%) scale(1.1)}
+.spine__dot[data-on="1"]{background:var(--spine-go)}
+.spine__dot[data-now="1"]{
+  transform:translate(-50%,-50%) scale(1.14);
+  box-shadow:0 0 0 8px rgba(76,175,63,.20);
+}
+.spine__dot::after{
+  content:attr(data-label);position:absolute;right:calc(100% + 14px);top:50%;
+  transform:translateY(-50%);background:var(--spine-solid);color:var(--ground);
+  font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;
+  white-space:nowrap;opacity:0;pointer-events:none;transition:.2s;
+}
+.spine__dot:hover::after{opacity:1}
+@media(max-width:1260px){.spine{display:none}}
+
+/* ═══ 截圖 / GIF 預留位 ═══════════════ */
+.shot{
+  border:3px dashed var(--rule);border-radius:16px;background:var(--card);
+  padding:1.4rem;margin:1.7rem 0;text-align:center;
+  background-image:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.22) 15px 30px);
+}
+.shot__kind{
+  display:inline-flex;align-items:center;gap:.45rem;
+  font-family:var(--display);font-weight:600;font-size:.76rem;letter-spacing:.1em;
+  background:var(--ink);color:var(--ground);padding:.3rem .9rem;border-radius:999px;
+}
+.shot--gif .shot__kind{background:var(--b-looks)}
+.shot__what{display:block;font-weight:700;font-size:1.05rem;margin:.9rem 0 .3rem}
+.shot__how{font-size:.85rem;color:var(--ink-soft);margin:0 auto;max-width:44ch;line-height:1.7}
+.shot__box{
+  margin-top:1.1rem;aspect-ratio:16/9;max-height:19rem;margin-inline:auto;
+  width:100%;border-radius:11px;
+  background:var(--ground-2);border:2px solid var(--rule);
+  display:grid;place-items:center;font-size:2.6rem;opacity:.55;
+}
+.shot--wide .shot__box{aspect-ratio:16/10}
+.shot--tall .shot__box{aspect-ratio:4/3}
+
+/* ═══ 動手做（打勾檢核區）══════════════
+   問題：學生不知道那可以點。解法是把它
+   包成有標題列的區塊，明講「點一下打勾」，
+   方框加深色邊像 checkbox，hover 預覽打勾
+   ═══════════════════════════════════ */
+.dobox{
+  border:3px solid var(--ink);border-radius:18px;overflow:hidden;
+  margin:1.8rem 0;box-shadow:var(--shadow-md);background:var(--card);
+}
+.dobox__head{
+  display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+  background:var(--ink);color:var(--ground);padding:.8rem 1.2rem;
+}
+.dobox__head b{font-family:var(--display);font-weight:600;font-size:1.15rem}
+.dobox__tip{font-size:.86rem;color:#F2E3C8;font-weight:500}
+.dobox__count{
+  margin-left:auto;font-family:var(--display);font-weight:600;font-size:.95rem;
+  background:rgba(251,246,236,.18);padding:.22rem .85rem;border-radius:999px;transition:.25s;
+}
+.dobox__count.done{background:var(--go);color:#fff}
+.dobox .steps{margin:0;padding:1rem}
+.dobox .steps li{box-shadow:none}
+/* 方框化：看起來就像可以打勾的格子 */
+.steps li::before{
+  border-radius:8px;border:3px solid var(--ink);background:#fff;
+}
+.steps li:hover::before{content:"✓";color:var(--rule)}
+.steps li[data-ok="1"]:hover::before{content:"✓";color:#fff}
+
+/* ═══ 偷看 Python ═════════════════════
+   積木第一次出現時，讓學生看得到背後的
+   文字程式。預設收合 —— 想看的人才看，
+   不打斷中年級的主線
+   ═══════════════════════════════════ */
+.pypeek{
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+  border:3px solid #241C15;border-radius:14px;overflow:hidden;
+  margin:1.5rem 0;background:#241C15;box-shadow:var(--shadow-md);
+}
+.pypeek>summary{
+  cursor:pointer;list-style:none;padding:.85rem 1.15rem;
+  display:flex;align-items:center;gap:.75rem;
+  background:#241C15;color:#EBE0CE;font-weight:700;font-size:.95rem;
+  user-select:none;transition:background .18s;
+}
+.pypeek>summary::-webkit-details-marker{display:none}
+.pypeek>summary:hover{background:#352A1F}
+.pypeek>summary::before{
+  content:"Python";flex:none;font-family:var(--mono);font-size:.72rem;font-weight:700;
+  background:#3776AB;color:#fff;padding:.28rem .6rem;border-radius:6px;letter-spacing:.04em;
+}
+.pypeek .peek{margin-left:auto;font-size:.75rem;color:#9C8B76;font-weight:600;letter-spacing:.05em}
+.pypeek[open] .peek{opacity:0}
+.pypeek__in{padding:0 1.15rem 1.2rem;animation:drop .3s}
+.pypeek pre{
+  margin:0 0 1rem;padding:1.05rem 1.2rem;border-radius:10px;background:#15100A;
+  overflow-x:auto;font-family:var(--mono);font-size:.94rem;line-height:1.9;
+  color:#EBE0CE;border:1px solid #3A2D20;
+}
+.pypeek .c{color:#8A7A64}   /* 註解 */
+.pypeek .s{color:#8FD67A}   /* 字串 */
+.pypeek .f{color:#7FC7FF}   /* 函式名 */
+.pypeek .n{color:#FFC46B}   /* 數字 */
+.pypeek .k{color:#FF8C5A}   /* 關鍵字 */
+.pypeek__note{color:#CBBBA4;font-size:.9rem;margin:0;line-height:1.85;max-width:48ch}
+.pypeek__note strong{color:#FFBF00}
+.pypeek__note+.pypeek__note{margin-top:.7rem}
+
+/* ═══ 試試看卡片 ══════════════════════
+   「加變化不加概念」：同樣三塊積木的不同
+   玩法。快的學生有事做，且每玩一種就多熟
+   練一次，照抄不可能通關
+   ═══════════════════════════════════ */
+.playgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.9rem;margin:1.4rem 0}
+.play{
+  background:var(--card);border:2.5px solid var(--rule);border-radius:14px;
+  padding:1.05rem 1.15rem 1.05rem 3.5rem;position:relative;cursor:pointer;
+  transition:.18s;box-shadow:var(--shadow-sm);
+}
+.play::before{
+  content:"";position:absolute;left:1rem;top:1.05rem;
+  width:1.75rem;height:1.75rem;border-radius:8px;
+  border:3px solid var(--ink);background:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:1rem;transition:.2s;
+}
+.play:hover{border-color:var(--ink);transform:translateY(-3px)}
+.play:hover::before{content:"✓";color:var(--rule)}
+.play[data-ok="1"]{background:var(--go-soft);border-color:var(--go)}
+.play[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff}
+.play[data-ok="1"]:hover::before{color:#fff}
+.play b{display:block;font-family:var(--display);font-weight:600;font-size:1.02rem;margin-bottom:.15rem}
+.play small{color:var(--ink-soft);font-size:.85rem;line-height:1.65;display:block}
+
+/* 舞台中線（讓「往前／往後」有參照點） */
+.track .mid{
+  position:absolute;left:50%;top:0;bottom:26%;width:3px;
+  background:rgba(51,115,204,.4);transform:translateX(-50%);z-index:1;
+}
+.track .cat{left:50%}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <span class="tag">第 1 課 · 大約 1 節課</span>
+    <h1>讓小貓<em>動起來</em></h1>
+    <p class="lede">今天下課前，你的小貓會自己走路，還會跟你說話。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>按下綠旗 → 小貓向前走 → 小貓說「你好！」</p>
+      </div>
+      <div class="today__box">
+        <h2>今天會用到的積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+          <div class="blk blk--motion">移動 <i>10</i> 點</div>
+          <div class="blk blk--looks">說出 <i>你好！</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- 右側進度脊椎（圓圈由 JS 依各節位置產生） -->
+<div class="spine" id="spine">
+  <div class="spine__line"><i class="spine__fill" id="spineFill"></i></div>
+</div>
+
+<!-- ── 1. 認識畫面 ───────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先認識畫面</h2>
+  <p>打開 Scratch，畫面看起來東西很多。其實只要看懂<strong>四塊</strong>就夠了。</p>
+
+  <figure class="shot shot--wide">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">Scratch 開啟後的完整畫面</b>
+    <p class="shot__how">整個 Scratch 視窗，不要裁切。四個區域都要看得到，舞台上留著預設的小貓。建議寬度 1600px 以上。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <p>把上面那張圖對照下面這張<strong>地圖</strong>，就知道每一塊在哪裡了：</p>
+
+  <!-- 名稱直接標在圖上，學生不用在圖與說明之間來回找 -->
+  <div class="ui">
+    <div class="ui__z z-pal">
+      <span class="ui__n">1</span>
+      <b>積木區</b>
+      <small>所有積木都放在這裡，<br>像一個大倉庫</small>
+    </div>
+    <div class="ui__z z-code">
+      <span class="ui__n">2</span>
+      <b>程式區</b>
+      <small>把積木拖到這裡拼起來。<br>積木要拼在這裡才算數</small>
+    </div>
+    <div class="ui__z z-stage">
+      <span class="ui__n">3</span>
+      <b>舞台</b>
+      <small>小貓表演的地方</small>
+      <div class="cat">🐱</div>
+    </div>
+    <div class="ui__z z-sprite">
+      <span class="ui__n">4</span>
+      <b>角色列表</b>
+      <small>有哪些演員</small>
+    </div>
+  </div>
+
+  <details class="reveal">
+    <summary>想一想：如果把積木拖到「舞台」上，會發生什麼事？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>什麼都不會發生，積木會自己彈回去。</p>
+      <p>積木只有拼在 <strong>程式區</strong> 才算數 —— 就像演戲的台詞要寫在劇本上，不能寫在舞台的地板上。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 第一塊積木 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>放下第一塊積木</h2>
+  <p>每一段程式都要有個<strong>開始的訊號</strong>。這塊黃色的積木就是在說：「綠旗被按下的時候，開始做下面的事。」</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+  </div>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">積木區裡「事件」分類的位置</b>
+    <p class="shot__how">只拍積木區左邊那排彩色圓點，把「事件」那一顆和它下面的黃色積木拍進去。可以用紅框圈起來。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">把積木從積木區拖到程式區</b>
+    <p class="shot__how">錄下「按住積木 → 拖過去 → 放開」的完整動作，大約 3 秒。這是學生最常卡住的一步，看一次動作勝過讀三行字。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>打開 Scratch，在左邊的<strong>積木區</strong>找到黃色的「事件」</li>
+      <li>找到 <strong>當綠旗被點擊</strong> 這塊，用滑鼠<strong>拖</strong>到中間的程式區</li>
+      <li>放開滑鼠，積木就留在程式區了</li>
+    </ol>
+  </div>
+
+  <h3 style="font-family:var(--display);font-weight:600;font-size:1.2rem;margin:2rem 0 .4rem">拿錯積木了怎麼辦？</h3>
+  <p>很簡單：<strong>把它拖回左邊的積木區</strong>，放開就丟掉了。拖錯不用緊張，丟掉重拿就好。</p>
+
+  <figure class="shot shot--gif shot--tall">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">把不要的積木拖回積木區丟掉</b>
+    <p class="shot__how">從程式區拖一塊積木回左邊放開，讓它消失。約 3 秒。學生最常見的求救是「我拖錯了怎麼辦」，這一段能省下很多舉手。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <!-- 互動：先預測再看答案 —— 每個錯誤選項回饋各自的誤解 -->
+  <div class="predict" data-ans="c">
+    <p class="predict__q">現在按下綠旗，小貓會怎樣？</p>
+    <p class="predict__hint">先猜猜看，選一個。猜錯沒關係 —— 猜錯的地方就是等一下要學的地方。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="小貓不會自己走喔。這塊積木只是「開始的訊號」，它沒有叫小貓做任何事。要小貓走，還要再加一塊「移動」積木。">小貓會向前走</button>
+      <button class="pick" data-v="b" data-say="小貓不會說話。我們還沒有放「說出」的積木，電腦只會做我們給的指令，不會自己想。">小貓會說話</button>
+      <button class="pick" data-v="c" data-say="答對了！這塊積木只是「開始的訊號」，就像賽跑的哨聲 —— 哨聲響了，但後面還沒有人要跑。所以什麼都不會發生。">什麼事都不會發生</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 讓小貓走路 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>讓小貓走路</h2>
+  <p>現在加上第二塊積木。到藍色的<strong>「動作」</strong>裡面找 <strong>移動 10 點</strong>，把它接在黃色積木的<strong>下面</strong>，接近的時候會有「卡」一聲。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--motion">移動 <i>10</i> 點</div>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：「移動」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="f">forward</span>(<span class="n">10</span>)   <span class="c"># 移動 10 點</span></pre>
+      <p class="pypeek__note"><strong>forward</strong> 是英文的「往前」。括號裡的 <strong>10</strong>，就是積木上那個你剛剛拉滑桿改過的數字。</p>
+      <p class="pypeek__note">看得出來嗎？<strong>意思完全一樣</strong>，只是一個用拖的、一個用打字的。</p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">兩塊積木「卡」在一起的瞬間</b>
+    <p class="shot__how">重點是靠近時出現的<b>白色影子</b>，還有放開後接合的動作。約 3 秒。學生說「接不起來」時，多半就是沒注意到那個影子。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <!-- 互動：前後對照滑桿 —— 改數字，立刻看到差別 -->
+  <div class="compare">
+    <p class="predict__q" style="margin-bottom:.3rem">「點」是什麼意思？</p>
+    <p class="predict__hint">拉拉看下面的桿子，把數字改大改小，看小貓走多遠。<strong>也試試看拉到有小橫槓的那一邊。</strong></p>
+
+    <div class="track">
+      <div class="ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="mid"></div>
+      <div class="cat" id="cCat">🐱</div>
+    </div>
+
+    <div class="stack" style="margin:.4rem 0 0">
+      <div class="blk blk--motion">移動 <i id="cNum">10</i> 點</div>
+    </div>
+
+    <div class="slide">
+      <label for="cRange">把數字改成：</label>
+      <input type="range" id="cRange" min="-200" max="200" step="10" value="10">
+      <strong id="cShow" style="font-family:var(--display);font-size:1.3rem;min-width:3.5rem;text-align:center">10</strong>
+    </div>
+    <p id="cSay" style="font-size:.92rem;color:var(--ink-soft);margin:.7rem 0 0">
+      數字越大，小貓一次走越遠。<strong>10 點其實很短</strong> —— 所以按一次綠旗，小貓只會動一點點喔。
+    </p>
+  </div>
+</section>
+
+<!-- ── 4. 讓小貓說話 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>讓小貓說話</h2>
+  <p>最後一塊。到紫色的<strong>「外觀」</strong>裡找 <strong>說出</strong>，接在最下面。積木上白色的框框可以打字，把裡面改成你想說的話。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--motion">移動 <i>10</i> 點</div>
+    <div class="blk blk--looks">說出 <i>你好！</i></div>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：今天這整段程式，打字要怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="k">from</span> turtle <span class="k">import</span> *      <span class="c"># 準備工作</span>
+
+<span class="f">forward</span>(<span class="n">10</span>)              <span class="c"># 移動 10 點</span>
+<span class="f">write</span>(<span class="s">"你好！"</span>)         <span class="c"># 說出 你好！</span></pre>
+      <p class="pypeek__note">你今天拖的三塊積木，用打字寫出來就是這樣 —— <strong>總共才三行</strong>。</p>
+      <p class="pypeek__note">最上面那行是「準備工作」，告訴電腦等一下要用畫圖的功能。<strong>綠旗不見了</strong>，因為 Python 打開就直接開始跑。</p>
+      <p class="pypeek__note">這是真的可以執行的程式喔。積木不是玩具版的程式 —— <strong>它本來就是程式，只是換一種樣子給你看。</strong></p>
+    </div>
+  </details>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">完成的三塊積木（在程式區裡的樣子）</b>
+    <p class="shot__how">只拍程式區裡拼好的那一疊，不用整個視窗。學生會拿這張跟自己的螢幕比對。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>從紫色的「外觀」拖出 <strong>說出</strong>，接在最下面</li>
+      <li>點一下白色框框，把字改成「你好！」</li>
+      <li>按下右上角的<strong>綠旗</strong>，看小貓動起來</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">按下綠旗，小貓真的動起來</b>
+    <p class="shot__how">拍舞台區就好。按綠旗 → 小貓向前走 → 冒出對話泡泡說「你好！」。約 4 秒。這是今天的成果，學生會拿來對照自己做對了沒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <h3 style="font-family:var(--display);font-weight:600;font-size:1.2rem;margin:2.2rem 0 .4rem">想讓小貓多說幾句？</h3>
+  <p>同一塊積木可以<strong>用很多次</strong>。再拖一塊「說出」接在下面，小貓就會說第二句。想說幾句就接幾塊。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--motion">移動 <i>10</i> 點</div>
+    <div class="blk blk--looks">說出 <i>你好！</i></div>
+    <div class="blk blk--looks">說出 <i>我是小貓</i></div>
+    <div class="blk blk--looks">說出 <i>今天天氣真好</i></div>
+  </div>
+
+  <p class="predict__hint">咦，怎麼只看到最後一句？<strong>因為它們跑太快了</strong> —— 電腦一瞬間就把三句都說完。想讓每一句停久一點，要用一塊叫「等待」的積木，<strong>再過幾課就會學到</strong>。</p>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>小貓走出去不見了</strong> —— 牠沒有消失，只是走到邊邊了。用滑鼠<strong>把牠拖回中間</strong>就好。</li>
+      <li><strong>積木接不起來</strong> —— 要拖到上一塊積木的<strong>正下方</strong>，看到白色影子出現再放開。</li>
+      <li><strong>按綠旗沒反應</strong> —— 檢查最上面那塊是不是<strong>黃色的「當綠旗被點擊」</strong>。少了它，程式不會動。</li>
+      <li>三個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 積木排序 ───────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這次的順序<strong>跟你剛剛做的不一樣</strong>，要看清楚題目才排得對。</p>
+
+  <div class="sortbox">
+    <p class="predict__hint" style="margin-top:0">
+      小明想讓他的小貓這樣做 ——
+      <strong>先說話，說完了才開始走。</strong><br>
+      下面三塊積木順序被打亂了，拖成小明要的順序。
+    </p>
+    <div class="slots" id="slots">
+      <div class="blk blk--motion drag" draggable="true" data-k="3">移動 <i>50</i> 點</div>
+      <div class="blk blk--events blk--hat drag" draggable="true" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <div class="blk blk--looks  drag" draggable="true" data-k="2">說出 <i>我要出發了</i></div>
+    </div>
+    <button class="btn" id="check">檢查看看</button>
+    <p class="verdict" id="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ─────────────────
+     用「變化」填時間，不用「概念」填。
+     快的學生有事做，而且每玩一種就多熟練
+     一次，照抄不可能通關
+     ───────────────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天學的那三塊積木</strong>就能做到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox" style="border:none;box-shadow:none;background:transparent">
+    <div class="dobox__head" style="border-radius:14px">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play">
+        <b>把數字改成 100</b>
+        <small>小貓會走多遠？走得出舞台嗎？</small>
+      </div>
+      <div class="play">
+        <b>把數字改成 -50</b>
+        <small>數字前面加一個小橫槓，會發生什麼事？</small>
+      </div>
+      <div class="play">
+        <b>說一句超級長的話</b>
+        <small>打滿滿一整行，對話泡泡會變怎樣？</small>
+      </div>
+      <div class="play">
+        <b>一直按綠旗不放</b>
+        <small>連按十下，小貓會跑到哪裡去？</small>
+      </div>
+      <div class="play">
+        <b>讓小貓自我介紹</b>
+        <small>接三塊「說出」，講你想講的話。</small>
+      </div>
+      <div class="play">
+        <b>把小貓弄不見，再救回來</b>
+        <small>故意讓牠走出舞台，然後想辦法弄回中間。</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p style="font-family:var(--display);font-weight:600;font-size:1.15rem;margin-bottom:.2rem">挑戰一</p>
+  <p>讓小貓：<strong style="color:#FFBF00">先說「我要出發了」，走一段路，再說「我到了！」</strong></p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>「說出」這塊積木可以用<strong style="color:#FFBF00">很多次</strong>，一塊接一塊都可以。想想看三塊積木要怎麼排。</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--looks">說出 <i>我要出發了</i></div>
+        <div class="blk blk--motion">移動 <i>100</i> 點</div>
+        <div class="blk blk--looks">說出 <i>我到了！</i></div>
+      </div>
+      <p>答案不只一種，你的做法跟這個不一樣也沒關係，只要小貓有照你想的做就對了。</p>
+    </div>
+  </details>
+
+  <p style="font-family:var(--display);font-weight:600;font-size:1.15rem;margin:2.2rem 0 .2rem">挑戰二（比較難）</p>
+  <p>讓小貓：<strong style="color:#FFBF00">走過去，說一句話，然後走回原來的地方。</strong></p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想剛剛玩過的滑桿</span></summary>
+    <div class="reveal__in">
+      <p>回想一下前面拉滑桿的時候 —— 數字前面加上<strong style="color:#FFBF00">小橫槓</strong>，小貓會往哪邊走？</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰二的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--motion">移動 <i>100</i> 點</div>
+        <div class="blk blk--looks">說出 <i>我走到這裡了</i></div>
+        <div class="blk blk--motion">移動 <i>-100</i> 點</div>
+      </div>
+      <p>走出去 100 點，再走 <strong style="color:#FFBF00">-100</strong> 點，就剛好回到原來的位置了。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="#" download>
+      <span class="ic">🐱</span>
+      <span>第1課_小貓動起來.sb3<small>老師做好的範例，可以下載打開來看</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（附件功能的示意 —— 之後把實際檔案放進來，連結換掉就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 1 課 · 讓小貓動起來 —— 原型版本，版面與互動都可以調整</p>
+</footer>
+
+</main>
+
+<script>
+/* ── 閱讀進度 ── */
+const rail = document.getElementById('rail');
+const onScroll = () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  rail.style.width = (h > 0 ? Math.min(scrollY / h, 1) * 100 : 0) + '%';
+};
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* ── 互動 1：步驟打勾（含完成計數）── */
+document.querySelectorAll('.dobox').forEach(box => {
+  const items = [...box.querySelectorAll('.steps li')];
+  const cnt = box.querySelector('.dobox__count');
+  const num = cnt.querySelector('i');
+  const tally = () => {
+    const n = items.filter(li => li.dataset.ok === '1').length;
+    num.textContent = n;
+    cnt.classList.toggle('done', n === items.length);
+  };
+  items.forEach(li => li.addEventListener('click', () => {
+    li.dataset.ok = li.dataset.ok === '1' ? '0' : '1';
+    tally();
+  }));
+  tally();
+});
+
+/* ── 右側進度脊椎 ──
+   圓圈依各節實際位置擺放，捲過就點亮，
+   目前所在的那顆放大；點圓圈可跳到該節 */
+(() => {
+  const main  = document.querySelector('main');
+  const spine = document.getElementById('spine');
+  const fill  = document.getElementById('spineFill');
+  if (!main || !spine) return;
+
+  const secs = [...main.querySelectorAll(':scope > section')];
+  const dots = secs.map(sec => {
+    const el = document.createElement('button');
+    el.className = 'spine__dot';
+    const h  = sec.querySelector('.h2');
+    const bg = h && h.querySelector('b');
+    el.dataset.label = h ? h.textContent.replace(bg ? bg.textContent : '', '').trim() : '';
+    el.setAttribute('aria-label', el.dataset.label);
+    el.addEventListener('click', () =>
+      sec.scrollIntoView({behavior:'smooth', block:'start'}));
+    spine.appendChild(el);
+    return {el, sec, top:0};
+  });
+
+  const place = () => dots.forEach(d => {
+    const h = d.sec.querySelector('.h2');
+    const raw = h ? h.offsetTop + h.offsetHeight / 2 : d.sec.offsetTop + 30;
+    // 夾在 main 範圍內：算錯時圓圈會溢出容器，把整頁撐長好幾萬 px
+    d.top = Math.max(0, Math.min(raw, main.offsetHeight));
+    d.el.style.top = d.top + 'px';
+  });
+
+  const paint = () => {
+    let eye = scrollY + innerHeight * 0.42 - main.offsetTop;     // 視線高度
+    // 捲到底時視線最遠也搆不到最後幾顆圓圈，補一把讓它們點亮
+    const far = document.documentElement.scrollHeight - innerHeight;
+    if (far <= 0 || scrollY / far > 0.995) eye = main.offsetHeight + 1;
+    fill.style.height = Math.max(0, Math.min(eye, main.offsetHeight)) + 'px';
+    let cur = -1;
+    dots.forEach((d, i) => {
+      const on = eye >= d.top;
+      d.el.dataset.on = on ? '1' : '0';
+      if (on) cur = i;
+    });
+    dots.forEach((d, i) => d.el.dataset.now = (i === cur) ? '1' : '0');
+  };
+
+  const refresh = () => { place(); paint(); };
+  addEventListener('scroll', paint, {passive:true});
+  addEventListener('resize', refresh);
+  if (document.readyState === 'complete') refresh();
+  else addEventListener('load', refresh);
+  // 版面一變就要重算，否則圓圈會停在舊位置。三道保險：
+  document.querySelectorAll('details').forEach(d => d.addEventListener('toggle', refresh)); // 學生點開揭曉
+  addEventListener('load', refresh, true);                    // 圖片載入完（capture 才抓得到 img）
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);  // 字型載入完
+  if (window.ResizeObserver) new ResizeObserver(refresh).observe(main);
+  refresh();
+})();
+
+/* ── 互動 2：先預測再看答案 ──
+   每個選項給專屬回饋，說出那個選擇背後的想法哪裡不對 */
+document.querySelectorAll('.predict').forEach(box => {
+  const ans = box.dataset.ans, said = box.querySelector('.said');
+  box.querySelectorAll('.pick').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ok = btn.dataset.v === ans;
+      btn.dataset.s = ok ? 'hit' : 'miss';
+      said.textContent = btn.dataset.say;
+      said.dataset.k = ok ? 'y' : 'n';
+      said.classList.add('on');
+      if (ok) box.querySelectorAll('.pick').forEach(b => b.disabled = true);
+    });
+  });
+});
+
+/* ── 互動 3：前後對照滑桿（含負數 → 倒退走）── */
+const cR = document.getElementById('cRange');
+if (cR) {
+  const cCat  = document.getElementById('cCat'),
+        cNum  = document.getElementById('cNum'),
+        cShow = document.getElementById('cShow'),
+        cSay  = document.getElementById('cSay');
+  const draw = () => {
+    const v = +cR.value;
+    cNum.textContent = v; cShow.textContent = v;
+    // 從中線出發，正的往右、負的往左
+    const half = cCat.parentElement.clientWidth / 2 - 40;
+    cCat.style.transform =
+      `translate(calc(-50% + ${(v / 200) * half}px), 0) scaleX(${v < 0 ? -1 : 1})`;
+    cSay.innerHTML = v < 0
+      ? '數字前面有<strong>小橫槓</strong>的時候，小貓會<strong>倒退走</strong>！這招之後很好用 —— 走出去了就能走回來。'
+      : v === 0
+        ? '數字是 <strong>0</strong>，小貓完全不會動 —— 因為你叫牠「走 0 點」。'
+        : '數字越大，小貓一次走越遠。<strong>10 點其實很短</strong> —— 所以按一次綠旗，小貓只會動一點點喔。';
+  };
+  cR.addEventListener('input', draw);
+  addEventListener('resize', draw);
+  draw();
+}
+
+/* ── 試試看卡片（自由玩一玩）── */
+document.querySelectorAll('.playgrid').forEach(grid => {
+  const cards = [...grid.querySelectorAll('.play')];
+  const cnt = grid.parentElement.querySelector('.dobox__count');
+  const tally = () => {
+    if (!cnt) return;
+    const n = cards.filter(c => c.dataset.ok === '1').length;
+    cnt.querySelector('i').textContent = n;
+    cnt.classList.toggle('done', n === cards.length);
+  };
+  cards.forEach(c => c.addEventListener('click', () => {
+    c.dataset.ok = c.dataset.ok === '1' ? '0' : '1';
+    tally();
+  }));
+  tally();
+});
+
+/* ── 互動 4：積木拖拉排序 ── */
+const slots = document.getElementById('slots');
+if (slots) {
+  let held = null;
+
+  const afterEl = y => {
+    const rest = [...slots.querySelectorAll('.drag:not(.lift)')];
+    return rest.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      return (offset < 0 && offset > closest.offset)
+        ? {offset, el: child} : closest;
+    }, {offset: Number.NEGATIVE_INFINITY}).el;
+  };
+
+  slots.querySelectorAll('.drag').forEach(el => {
+    el.addEventListener('dragstart', () => { held = el; setTimeout(() => el.classList.add('lift'), 0); });
+    el.addEventListener('dragend',   () => { el.classList.remove('lift'); slots.classList.remove('hot'); });
+  });
+
+  slots.addEventListener('dragover', e => {
+    e.preventDefault();
+    slots.classList.add('hot');
+    if (!held) return;
+    const after = afterEl(e.clientY);
+    if (after == null) slots.appendChild(held);
+    else slots.insertBefore(held, after);
+  });
+  slots.addEventListener('dragleave', e => {
+    if (!slots.contains(e.relatedTarget)) slots.classList.remove('hot');
+  });
+  slots.addEventListener('drop', e => { e.preventDefault(); slots.classList.remove('hot'); });
+
+  document.getElementById('check').addEventListener('click', () => {
+    const now = [...slots.querySelectorAll('.drag')].map(el => el.dataset.k);
+    const v = document.getElementById('verdict');
+    v.classList.add('on');
+    if (now.join('') === '123') {
+      v.dataset.k = 'y';
+      v.textContent = '✓ 完全正確！小明要的是「先說話，說完才走」，跟你剛剛做的順序剛好相反。';
+    } else if (now[0] !== '1') {
+      v.dataset.k = 'n';
+      v.textContent = '再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是訊號呢？';
+    } else {
+      v.dataset.k = 'n';
+      v.textContent = '第一塊對了！再讀一次題目 —— 小明要「先說話，說完了才開始走」，那說話的積木要排在走路的前面還是後面？';
+    }
+  });
+}
+</script>
+</body>
+</html>

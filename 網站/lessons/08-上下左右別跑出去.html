@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 8 課 · 上下左右，還有別跑出去</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 8 課 · 大約 1 節課</span>
+    <h1>上下左右，<em>還有別跑出去</em></h1>
+    <p class="lede">上禮拜只能左右走。今天要讓角色<strong style="color:#FFBF00">四個方向都能走</strong>，而且走到邊邊會自己彈回來。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個<strong style="color:#FFBF00">上下左右都能控制</strong>的角色，走到舞台邊邊不會不見。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的兩塊積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--motion">面朝 <i>90</i> 度</div>
+          <div class="blk blk--motion">碰到邊緣就反彈</div>
+        </div>
+        <p style="font-size:.88rem;margin-top:.6rem">下面那塊<strong style="color:#FFBF00">你在第 6 課用過了</strong>——今天來看它到底在做什麼。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 為什麼上下走不了 ───────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先搞懂一件事</h2>
+  <p>上禮拜你用「移動」讓角色左右走。那如果想讓它<strong>往上走</strong>，把移動的數字改大就好了嗎？</p>
+  <p><strong>不行。</strong> 因為「移動」只會做一件事：<strong>往角色現在面對的方向走。</strong></p>
+
+  <div class="stack">
+    <div class="blk blk--motion">移動 <i>30</i> 點</div>
+  </div>
+
+  <p>角色一開始面朝右邊，所以「移動 30 點」就是往右走 30 點。要讓它往上走，得<strong>先讓它面朝上</strong>，再叫它移動。</p>
+
+  <details class="reveal">
+    <summary>那第 3 課的「右轉」不能用嗎？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>可以，但很麻煩。「右轉 90 度」是<strong>在現在的方向上「再轉」90 度</strong>——你得先知道它現在朝哪，才算得出要轉幾度。</p>
+      <p>今天要用的是另一塊，直接說「就給我朝這個方向」，不管它原本朝哪。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 面朝幾度 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>面朝，直接指定方向</h2>
+  <p>藍色的「動作」裡有這一塊：</p>
+
+  <div class="stack">
+    <div class="blk blk--motion">面朝 <i>90</i> 度</div>
+  </div>
+
+  <p>它<strong>不會讓角色移動</strong>，只是把角色轉到你指定的方向站好。點點看下面四個按鈕，看看每個方向是幾度：</p>
+
+  <div class="predict" style="padding-bottom:1.2rem">
+    <div class="dial">
+      <span class="dial__tick dial__tick--u">上</span>
+      <span class="dial__tick dial__tick--r">右</span>
+      <span class="dial__tick dial__tick--d">下</span>
+      <span class="dial__tick dial__tick--l">左</span>
+      <div class="dial__arm" id="dArm"></div>
+      <span class="dial__cat">🐱</span>
+    </div>
+
+    <div class="kdemo__keys" style="margin-top:1rem">
+      <button class="kkey" data-deg="0">上</button>
+      <button class="kkey" data-deg="90">右</button>
+      <button class="kkey" data-deg="180">下</button>
+      <button class="kkey" data-deg="-90">左</button>
+    </div>
+
+    <div class="stack" style="margin:.4rem 0 0;align-items:center">
+      <div class="blk blk--motion">面朝 <i id="dNum">90</i> 度</div>
+    </div>
+
+    <p id="dSay" style="font-size:.92rem;color:var(--ink-soft);margin:1rem 0 0">
+      角色一開始就是<strong>面朝 90 度</strong>，也就是右邊。點點看其他三個方向。
+    </p>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 這個你其實學過了</h3>
+    <ul>
+      <li>還記得第 3 課的 <strong>尺寸改變</strong> 和 <strong>尺寸設為</strong> 嗎？一個是「在原本上面加」，一個是「直接指定」。</li>
+      <li><strong>右轉／左轉</strong> 和 <strong>面朝</strong> 是<strong>一模一樣的關係</strong>——右轉是「再轉多少」，面朝是「直接朝哪」。</li>
+      <li>要做上下左右控制，用<strong>面朝</strong>比較好，因為不用管角色原本朝哪邊。</li>
+    </ul>
+  </div>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">「面朝」積木的方向選擇盤</b>
+    <p class="shot__how">點積木上的數字框，Scratch 會跳出一個<b>可以用滑鼠轉的圓盤</b>。把它拍下來，讓學生知道不用背數字，直接轉圓盤也可以。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+</section>
+
+<!-- ── 3. 四個方向都能走 ─────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>四個方向都能走</h2>
+  <p>把「面朝」和「移動」配成一組，一個方向一串程式。<strong>先轉頭，再往前走。</strong></p>
+
+  <p>下面是完整的四串。<strong>點一下藍色舞台，然後按你鍵盤的 ↑ ↓ ← →</strong>：</p>
+
+  <div class="predict">
+    <div class="kdemo" id="kd" tabindex="0" aria-label="四方向控制示範">
+      <div class="kdemo__stage">
+        <div class="kdemo__cat" id="kCat">🐱</div>
+      </div>
+
+      <div class="kdemo__keys">
+        <button class="kkey" data-key="ArrowUp">↑</button>
+        <button class="kkey" data-key="ArrowDown">↓</button>
+        <button class="kkey" data-key="ArrowLeft">←</button>
+        <button class="kkey" data-key="ArrowRight">→</button>
+      </div>
+
+      <div class="kdemo__scripts">
+        <div class="kdemo__script" data-for="ArrowUp">
+          <div class="stack">
+            <div class="blk blk--events blk--hat">當 <i>↑ ▾</i> 鍵被按下</div>
+            <div class="blk blk--motion">面朝 <i>0</i> 度</div>
+            <div class="blk blk--motion">移動 <i>30</i> 點</div>
+          </div>
+        </div>
+        <div class="kdemo__script" data-for="ArrowDown">
+          <div class="stack">
+            <div class="blk blk--events blk--hat">當 <i>↓ ▾</i> 鍵被按下</div>
+            <div class="blk blk--motion">面朝 <i>180</i> 度</div>
+            <div class="blk blk--motion">移動 <i>30</i> 點</div>
+          </div>
+        </div>
+        <div class="kdemo__script" data-for="ArrowLeft">
+          <div class="stack">
+            <div class="blk blk--events blk--hat">當 <i>← ▾</i> 鍵被按下</div>
+            <div class="blk blk--motion">面朝 <i>-90</i> 度</div>
+            <div class="blk blk--motion">移動 <i>30</i> 點</div>
+          </div>
+        </div>
+        <div class="kdemo__script" data-for="ArrowRight">
+          <div class="stack">
+            <div class="blk blk--events blk--hat">當 <i>→ ▾</i> 鍵被按下</div>
+            <div class="blk blk--motion">面朝 <i>90</i> 度</div>
+            <div class="blk blk--motion">移動 <i>30</i> 點</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="kdemo__hint" id="kSay">點一下上面的舞台，再按鍵盤的方向鍵。也可以直接點那四個按鍵。</p>
+    </div>
+  </div>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>先做<strong>右</strong>：帽子選右方向鍵 → <strong>面朝 90 度</strong> → <strong>移動 30 點</strong></li>
+      <li>做<strong>左</strong>：另開一串，帽子選左方向鍵 → <strong>面朝 -90 度</strong> → 移動 30 點</li>
+      <li>做<strong>上</strong>：帽子選上方向鍵 → <strong>面朝 0 度</strong> → 移動 30 點</li>
+      <li>做<strong>下</strong>：帽子選下方向鍵 → <strong>面朝 180 度</strong> → 移動 30 點</li>
+      <li>四個方向都按按看，確認角色會往正確的方向走</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">四個方向都能走的成果</b>
+    <p class="shot__how">拍舞台區。依序按上、右、下、左，讓角色走出一個方框。<b>如果能同時拍到程式區四串一起亮更好</b>——學生會看到「按哪個鍵哪串亮」。約 6 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">迴轉方式在哪裡改</b>
+    <p class="shot__how">拍角色左邊的資訊面板，把<b>「方向」那一欄和它展開後的三個迴轉方式按鈕</b>拍清楚（不旋轉／左右翻轉／不設限）。這是學生第一次遇到角色倒過來時的救命資訊。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 角色頭上腳下、看起來怪怪的？</h3>
+    <ul>
+      <li>因為角色<strong>真的轉了</strong>——面朝下的時候，它就整個倒過來了。</li>
+      <li>解法：點角色左邊資訊面板的<strong>「方向」</strong>，把迴轉方式改成 <strong>左右翻轉 ↔</strong>。</li>
+      <li>改完之後，角色不管面朝哪裡都會保持站正，只是左右換邊。<strong>做遊戲的時候幾乎都用這個。</strong></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 別跑出去 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>別跑出去</h2>
+  <p>你在<strong>第 6 課</strong>用過這一塊，當時只告訴你「加上去角色就不會不見」。今天來看它到底在做什麼：</p>
+
+  <div class="stack">
+    <div class="blk blk--motion">碰到邊緣就反彈</div>
+  </div>
+
+  <p>它每次執行的時候會<strong>檢查一次</strong>：角色現在有沒有碰到舞台邊緣？</p>
+  <ul>
+    <li><strong>沒碰到</strong> → 什麼都不做，直接跳過。</li>
+    <li><strong>碰到了</strong> → 把角色轉頭，改成往反方向走。</li>
+  </ul>
+
+  <p>重點在「<strong>每次執行的時候檢查一次</strong>」這句話。想想看，這代表什麼？</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">如果把「碰到邊緣就反彈」放在<strong>重複無限次的下面</strong>（不是肚子裡），會怎樣？</p>
+    <p class="predict__hint">先猜猜看。提示：想想第 5 課學到的那件事。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="它不會自己一直檢查。它是一塊普通積木，輪到它才做一次事，做完就換下一塊。">還是有效，它會自己一直檢查</button>
+      <button class="pick" data-v="b" data-say="不會只檢查一次 —— 它連一次都不會被執行到。想想第 5 課：無限重複永遠不會做完。">只會檢查一次，之後就沒用了</button>
+      <button class="pick" data-v="c" data-say="答對了！第 5 課學過：無限重複永遠不會做完，所以排在它後面的積木永遠輪不到。要讓反彈有效，一定要放在肚子裡，角色每走一步就檢查一次。">完全沒用，它永遠不會被執行到</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 所以規則是這樣</h3>
+    <ul>
+      <li>「碰到邊緣就反彈」要<strong>跟移動放在一起</strong>，角色走一步就檢查一次。</li>
+      <li>用<strong>無限重複</strong>的話，把它放進<strong>肚子裡</strong>，接在移動後面。</li>
+      <li>用<strong>按鍵控制</strong>的話，就接在每一串的<strong>移動下面</strong>。</li>
+    </ul>
+  </div>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat">當 <i>→ ▾</i> 鍵被按下</div>
+    <div class="blk blk--motion">面朝 <i>90</i> 度</div>
+    <div class="blk blk--motion">移動 <i>30</i> 點</div>
+    <div class="blk blk--motion">碰到邊緣就反彈</div>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">有反彈 vs 沒反彈</b>
+    <p class="shot__how">分兩段拍舞台區：左邊沒加反彈，角色一路走出舞台只剩半個身體卡在邊邊；右邊加了反彈，走到邊邊自動轉頭往回走。約 6 秒。<b>學生看到左邊那個「卡在邊邊」的畫面會很有共鳴</b>——他們都遇過。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 5. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這題有<strong>兩塊動作積木</strong>，順序放錯的話角色會走錯方向。</p>
+
+  <div class="sortbox"
+       data-answer="1234"
+       data-swap="2>3"
+       data-msg-ok="✓ 完全正確！先轉頭朝上，再往前走，最後說「往上囉」。"
+       data-msg-nohat="再看一次最上面那塊 —— 這串程式在等「上方向鍵」，哪一塊才是帽子？"
+       data-msg-swap="順序反了！如果先「移動」才「面朝」，角色會先往舊方向走一步，才轉頭 —— 看起來就像走錯邊。要先轉頭再走。"
+       data-msg-near="快好了！小凱說「最後才說『往上囉』」—— 那句話應該排在移動的前面還是後面？">
+    <p class="predict__hint" style="margin-top:0">
+      小凱想讓角色在<strong>按下上方向鍵</strong>的時候這樣做 ——
+      <strong>先轉頭朝上，再往前走，最後說「往上囉」。</strong><br>
+      下面四塊積木順序被打亂了，拖成小凱要的順序。
+    </p>
+    <div class="slots">
+      <div class="blk blk--looks drag" data-k="4">說出 <i>往上囉</i></div>
+      <div class="blk blk--motion drag" data-k="3">移動 <i>30</i> 點</div>
+      <div class="blk blk--events blk--hat drag" data-k="1">當 <i>↑ ▾</i> 鍵被按下</div>
+      <div class="blk blk--motion drag" data-k="2">面朝 <i>0</i> 度</div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天的兩塊積木</strong>加上學過的東西就做得到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>移動改成 5 點</b><small>操作起來變得很細膩還是很煩？找出你最順手的數字。</small></div>
+      <div class="play"><b>面朝 45 度</b><small>不是上下左右的斜角。角色會朝哪裡走？</small></div>
+      <div class="play"><b>只把「面朝」拿掉</b><small>四個方向鍵都還在，會發生什麼事？</small></div>
+      <div class="play"><b>反彈放進無限重複裡</b><small>做一個自己會來回走、撞到牆就轉頭的角色。</small></div>
+      <div class="play"><b>切換迴轉方式</b><small>「不旋轉」「左右翻轉」「不設限」三種各試一次，差在哪？</small></div>
+      <div class="play"><b>加上走路造型</b><small>每一串的移動後面加「造型換成下一個」，四方向走路動畫。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>做一顆<strong>會自己彈來彈去的球</strong>：不用按鍵，放著它就一直斜斜地飛，撞到邊邊就彈開。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>「自己一直動」要用<strong style="color:#FFBF00">重複無限次</strong>（第 5 課），肚子裡放<strong style="color:#FFBF00">移動</strong>和<strong style="color:#FFBF00">碰到邊緣就反彈</strong>。</p>
+      <p>想讓它<strong style="color:#FFBF00">斜斜地飛</strong>，一開始的「面朝」不要用 90 或 0，改成 <strong style="color:#FFBF00">45 度</strong> 之類的斜角試試。</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--motion">面朝 <i>45</i> 度</div>
+        <div class="cwrap">
+          <div class="blk blk--control">重複無限次</div>
+          <div class="cwrap__in">
+            <div class="blk blk--motion">移動 <i>8</i> 點</div>
+            <div class="blk blk--motion">碰到邊緣就反彈</div>
+          </div>
+          <div class="cwrap__end cwrap__end--loop"></div>
+        </div>
+      </div>
+      <p><strong style="color:#FFBF00">「面朝 45 度」要放在重複的外面</strong>——只要一開始設定一次就好。放進肚子裡的話，它每次都會被轉回 45 度，反彈就失效了。</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做一個<strong>兩個人的比賽</strong>：一個角色用方向鍵控制，另一個用 W A S D 控制，看誰先跑到舞台另一邊。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想要幾串程式</span></summary>
+    <div class="reveal__in">
+      <p>兩個角色，<strong style="color:#FFBF00">每個角色都有自己的一套程式</strong>（第 2 課學過的）。所以要先點選角色 A 寫四串，再點選角色 B 寫四串。</p>
+      <p>W A S D 在按鍵下拉選單裡都找得到，跟方向鍵一樣選就好。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第8課_四方向控制_範例.sb3" download>
+      <span class="ic">🎮</span>
+      <span>第8課_四方向控制_範例.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 8 課 · 上下左右，還有別跑出去</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用 1：面朝方向盤
+   Scratch 的方向：上 0、右 90、下 180、左 -90
+   轉盤的手臂預設指右，所以旋轉角度 = 度數 - 90 */
+(() => {
+  const arm = document.getElementById('dArm');
+  if (!arm) return;
+  const num = document.getElementById('dNum'), say = document.getElementById('dSay');
+  const name = {0:'上面', 90:'右邊', 180:'下面', '-90':'左邊'};
+  const seen = new Set();
+  document.querySelectorAll('.kkey[data-deg]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const deg = +btn.dataset.deg;
+      arm.style.transform = `translateY(-50%) rotate(${deg - 90}deg)`;
+      num.textContent = deg;
+      seen.add(deg);
+      say.innerHTML = seen.size >= 4
+        ? '四個方向都看過了！記住這四個數字：<strong>上 0、右 90、下 180、左 -90</strong>。等一下拼程式要用。'
+        : `面朝 <strong>${deg} 度</strong>，角色朝向<strong>${name[deg]}</strong>。再點點看別的方向。`;
+    });
+  });
+})();
+
+/* 本課專用 2：四方向鍵盤示範 */
+(() => {
+  const kd = document.getElementById('kd');
+  if (!kd) return;
+  const cat = document.getElementById('kCat'), say = document.getElementById('kSay');
+  const step = {ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0]};
+  const face = {ArrowUp:'上', ArrowDown:'下', ArrowLeft:'左', ArrowRight:'右'};
+  const deg  = {ArrowUp:0, ArrowDown:180, ArrowLeft:-90, ArrowRight:90};
+  let x = 0, y = 0, used = new Set();
+
+  const fire = key => {
+    const d = step[key];
+    if (!d) return;
+    const st = cat.parentElement.getBoundingClientRect();
+    const maxX = st.width / 2 - 34, maxY = st.height / 2 - 34;
+    x = Math.max(-maxX, Math.min(maxX, x + d[0] * 30));
+    y = Math.max(-maxY, Math.min(maxY, y + d[1] * 30));
+    // 底部有草地，往下留一點餘裕
+    cat.style.transform = `translate(calc(-50% + ${x}px), ${y}px) scaleX(${key === 'ArrowLeft' ? -1 : 1})`;
+
+    kd.querySelectorAll('.kdemo__script').forEach(el =>
+      el.classList.toggle('fire', el.dataset.for === key));
+    setTimeout(() => kd.querySelectorAll('.kdemo__script').forEach(el => el.classList.remove('fire')), 450);
+
+    const btn = kd.querySelector(`.kkey[data-key="${key}"]`);
+    if (btn) { btn.classList.add('down'); setTimeout(() => btn.classList.remove('down'), 160); }
+
+    used.add(key);
+    say.innerHTML = used.size >= 4
+      ? '四個方向都試過了！注意每一串都是<strong>先「面朝」再「移動」</strong> —— 先轉頭，才知道要往哪走。'
+      : `往<strong>${face[key]}</strong>！那一串亮起來了 —— 它先把角色轉成<strong>面朝 ${deg[key]} 度</strong>，再往前走 30 點。`;
+  };
+
+  kd.addEventListener('keydown', e => {
+    if (step[e.key]) { e.preventDefault(); fire(e.key); }
+  });
+  kd.querySelectorAll('.kkey[data-key]').forEach(b =>
+    b.addEventListener('click', () => { kd.focus(); fire(b.dataset.key); }));
+})();
+</script>
+</body>
+</html>

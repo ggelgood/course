@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 3 課 · 轉個彎，變個樣</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 3 課 · 大約 1 節課</span>
+    <h1>轉個彎，<em>變個樣</em></h1>
+    <p class="lede">到目前為止你的角色只會直直往前走。今天它會轉彎、會變大變小，還會換裝。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個<strong style="color:#FFBF00">走一走就轉彎、而且越走越大</strong>的角色。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天會用到的積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+          <div class="blk blk--looks">尺寸改變 <i>10</i></div>
+          <div class="blk blk--looks">造型換成下一個</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 轉彎 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>讓角色轉彎</h2>
+  <p>藍色的「動作」裡有兩塊新積木：<strong>右轉</strong>和<strong>左轉</strong>。它們不會讓角色移動，只會讓角色<strong>換一個面對的方向</strong>。</p>
+
+  <div class="stack">
+    <div class="blk blk--motion">右轉 ↻ <i>15</i> 度</div>
+    <div class="blk blk--motion">左轉 ↺ <i>15</i> 度</div>
+  </div>
+
+  <p>「度」是什麼意思？拉拉看下面的桿子就懂了。</p>
+
+  <div class="predict" style="padding-bottom:1.2rem">
+    <div class="dial">
+      <span class="dial__tick dial__tick--u">上</span>
+      <span class="dial__tick dial__tick--r">右</span>
+      <span class="dial__tick dial__tick--d">下</span>
+      <span class="dial__tick dial__tick--l">左</span>
+      <div class="dial__arm" id="dArm"></div>
+      <span class="dial__cat">🐱</span>
+    </div>
+
+    <div class="stack" style="margin:.2rem 0 0;align-items:center">
+      <div class="blk blk--motion">右轉 ↻ <i id="dNum">0</i> 度</div>
+    </div>
+
+    <div class="slide">
+      <label for="dRange">右轉幾度：</label>
+      <input type="range" id="dRange" min="0" max="360" step="15" value="0">
+      <strong class="slide__val" id="dShow">0</strong>
+    </div>
+    <p id="dSay" style="font-size:.92rem;color:var(--ink-soft);margin:.7rem 0 0">
+      角色現在面向<strong>右邊</strong>。把桿子往右拉，看它怎麼轉。
+    </p>
+  </div>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">在 Scratch 裡按「右轉 90 度」的實際效果</b>
+    <p class="shot__how">拍舞台區。點一下積木 → 角色原地轉向。連點三下轉回原方向。約 4 秒。重點是讓學生看到「角色只轉方向，位置沒變」。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <details class="pypeek">
+    <summary>偷看一下：「轉彎」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="f">right</span>(<span class="n">90</span>)    <span class="c"># 右轉 90 度</span>
+<span class="f">left</span>(<span class="n">90</span>)     <span class="c"># 左轉 90 度</span></pre>
+      <p class="pypeek__note"><strong>right</strong> 是「右」，<strong>left</strong> 是「左」。括號裡就是幾度。</p>
+      <p class="pypeek__note">這兩塊積木跟打字的寫法<strong>幾乎一模一樣</strong> —— 連順序都一樣。</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>轉了以後，角色會自己走嗎？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>不會。轉彎只是<strong>換一個面對的方向</strong>，角色會站在原地。</p>
+      <p>要它走，還是要用「移動」那塊積木。轉完再移動，它就會往新的方向走。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 變大變小 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>讓角色變大變小</h2>
+  <p>紫色的「外觀」裡有兩塊管大小的積木。它們長得很像，但做的事<strong>完全不一樣</strong>——這是今天最容易搞混的地方。</p>
+
+  <div class="stack">
+    <div class="blk blk--looks">尺寸改變 <i>10</i></div>
+    <div class="blk blk--looks">尺寸設為 <i>100</i> %</div>
+  </div>
+
+  <p><strong>「改變」是加上去</strong>，在原本的大小上再加 10。<br>
+     <strong>「設為」是直接指定</strong>，不管原本多大，一律變成那個數字。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">角色現在是 100%。連續執行三次「尺寸改變 10」，它會變成多大？</p>
+    <p class="predict__hint">先猜猜看，選一個。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="這是把「改變」當成「設為」了。「尺寸改變 10」不是「變成 10%」，而是「在原本的大小上再加 10」。">10%，變得超級小</button>
+      <button class="pick" data-v="b" data-say="答對了！100 加 10 是 110，再加 10 是 120，再加 10 是 130。「改變」是一次一次疊上去的。">130%</button>
+      <button class="pick" data-v="c" data-say="如果是「尺寸設為 110」，那執行三次都還是 110% —— 因為「設為」每次都指定成同一個數字。但這裡用的是「改變」，會一直疊上去。">110%，執行幾次都一樣</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">「改變」和「設為」的實際差別</b>
+    <p class="shot__how">分兩段拍：左邊連按「尺寸改變 10」五下，角色越來越大；右邊連按「尺寸設為 150%」五下，角色只變一次就不動了。約 6 秒。<b>這是這一課最容易搞混的地方，值得用一張圖講清楚。</b></p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>💡 什麼時候用哪一個？</h3>
+    <ul>
+      <li>想做<strong>「越走越大」</strong>這種慢慢變化的效果 → 用<strong>改變</strong></li>
+      <li>想<strong>「一開始就固定是某個大小」</strong> → 用<strong>設為</strong></li>
+      <li>角色被你玩到大小亂掉、想救回來 → <strong>尺寸設為 100%</strong> 就回到原本了</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 3. 換造型 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>讓角色換造型</h2>
+  <p>點一下角色，看左上角的<strong>「造型」</strong>頁籤——很多角色不只有一個樣子，而是有好幾個<strong>造型</strong>。</p>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">造型頁籤裡的多個造型</b>
+    <p class="shot__how">點一個造型多的角色（例如 Cassy Dance 或 Avery Walking），拍左邊那一整排造型清單，讓學生看到「一個角色有好幾個樣子」。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <p>紫色的「外觀」裡有一塊 <strong>造型換成下一個</strong>。按一下，角色就換成下一個樣子。點點看下面這個：</p>
+
+  <div class="costume">
+    <div class="costume__stage"><span id="cosChar">🐱</span></div>
+    <p class="costume__name">造型 <b id="cosNum">1</b> / 4</p>
+    <div class="stack" style="align-items:center;margin:.4rem 0 1rem">
+      <div class="blk blk--looks">造型換成下一個</div>
+    </div>
+    <button class="btn" id="cosNext">按我換造型</button>
+    <p class="predict__hint" style="margin:1rem 0 0" id="cosSay">按按看，數字會一直往上加。</p>
+  </div>
+
+  <details class="reveal">
+    <summary>為什麼要換造型？這有什麼用？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>因為<strong>換得夠快，看起來就像在動</strong>。</p>
+      <p>卡通就是這樣做的——一張一張的圖片快速換過去，眼睛就以為它真的在動。</p>
+      <p>你剛剛是用手一下一下按的，很慢。<strong>下一課學會「重複」以後，電腦就會幫你一直按</strong>，那時候角色就會真的走起來了。</p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">連按「造型換成下一個」的效果</b>
+    <p class="shot__how">選一個走路造型的角色，連續按積木好幾下，讓學生看到角色的腳在動。約 4 秒。這是第 6 課走路動畫的預告。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 4. 組合起來 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>組合起來</h2>
+  <p>三個新積木都認識了，現在把它們跟<strong>第 1 課學的「移動」</strong>拼在一起，做出<strong>會轉彎、而且越走越大</strong>的角色。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>先放好 <strong>當綠旗被點擊</strong></li>
+      <li>接上 <strong>尺寸設為 100%</strong>（每次都從同樣的大小開始，才看得出變化）</li>
+      <li>接上 <strong>移動 50 點</strong></li>
+      <li>接上 <strong>右轉 90 度</strong>，再接一塊 <strong>移動 50 點</strong></li>
+      <li>最後接上 <strong>尺寸改變 30</strong>，按綠旗連按幾次看看</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">今天的成果：走一走、轉個彎、越走越大</b>
+    <p class="shot__how">拍舞台區。按綠旗 → 角色走一段 → 轉彎 → 再走 → 變大。連按三次綠旗，讓學生看到它一次比一次大。約 6 秒。學生會拿這張對照自己做對了沒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>角色越來越大停不下來</strong> —— 正常的！因為「改變」會一直疊加。在最上面加一塊 <strong>尺寸設為 100%</strong> 就會每次歸位。</li>
+      <li><strong>角色轉了但沒往新方向走</strong> —— 檢查「右轉」後面有沒有再接一塊「移動」。轉彎本身不會讓角色移動。</li>
+      <li><strong>角色歪歪的看起來很怪</strong> —— 有些角色只能左右翻轉。點角色左邊的「方向」可以調整迴轉方式。</li>
+      <li>三個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這題的順序<strong>跟你剛剛做的不一樣</strong>，要看清楚題目才排得對。</p>
+
+  <div class="sortbox"
+       data-answer="1234"
+       data-swap="2>3"
+       data-msg-ok="✓ 完全正確！先變大 → 再轉彎 → 最後才走，跟小華想的一樣。"
+       data-msg-nohat="再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？"
+       data-msg-swap="再讀一次小華的要求 —— 他是「先變大，變大以後才轉彎」。哪一塊是變大？"
+       data-msg-near="快好了！小華說「轉完最後才往前走」—— 那「移動」應該排在最後面還是中間？">
+    <p class="predict__hint" style="margin-top:0">
+      小華想讓他的角色這樣做 ——
+      <strong>先變大，變大以後才轉彎，轉完最後才往前走。</strong><br>
+      下面四塊積木順序被打亂了，拖成小華要的順序。
+    </p>
+    <div class="slots">
+      <div class="blk blk--motion drag" data-k="4">移動 <i>100</i> 點</div>
+      <div class="blk blk--looks  drag" data-k="2">尺寸設為 <i>150</i> %</div>
+      <div class="blk blk--motion drag" data-k="3">右轉 ↻ <i>90</i> 度</div>
+      <div class="blk blk--events blk--hat drag" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天學的三塊積木</strong>就能做到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>轉 360 度會怎樣</b><small>轉一整圈，角色最後面向哪裡？跟沒轉一樣嗎？</small></div>
+      <div class="play"><b>把尺寸設為 10%</b><small>角色會小到什麼程度？還看得到嗎？</small></div>
+      <div class="play"><b>連按綠旗二十下</b><small>用「尺寸改變 10」，角色會大到跑出舞台嗎？</small></div>
+      <div class="play"><b>右轉 90 再左轉 90</b><small>兩個接在一起，角色最後面向哪裡？</small></div>
+      <div class="play"><b>找出造型最多的角色</b><small>去角色庫翻翻看，哪一個角色的造型數量最多？</small></div>
+      <div class="play"><b>邊走邊變小</b><small>用「尺寸改變 -10」，做出越走越遠的感覺。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>讓角色<strong>走一個正方形</strong>：走一段、右轉 90 度，重複四次，回到原點。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>正方形有<strong style="color:#FFBF00">四個邊、四個角</strong>。所以「移動」和「右轉 90 度」這一組，你需要放<strong style="color:#FFBF00">四次</strong>。</p>
+      <p>（覺得拖八塊積木很累嗎？記住這個感覺 —— 下一課的「重複」就是來解決這件事的。）</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--motion">右轉 ↻ <i>90</i> 度</div>
+      </div>
+      <p>好長一串對吧？<strong style="color:#FFBF00">下一課學會「重複」之後，這九塊會變成三塊。</strong></p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做出一個<strong>「走遠了就變小」</strong>的效果：角色每走一段就變小一點，看起來像走到很遠的地方。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想負數</span></summary>
+    <div class="reveal__in">
+      <p>還記得第 1 課的<strong style="color:#FFBF00">小橫槓</strong>嗎？「移動 -10 點」是倒退走，那「尺寸改變 <strong style="color:#FFBF00">-10</strong>」會是什麼？</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第3課_轉彎變大_範例.sb3" download>
+      <span class="ic">🔄</span>
+      <span>第3課_轉彎變大_範例.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 3 課 · 轉個彎，變個樣</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用 1：轉彎轉盤 */
+(() => {
+  const dR = document.getElementById('dRange');
+  if (!dR) return;
+  const arm = document.getElementById('dArm'),
+        num = document.getElementById('dNum'),
+        val = document.getElementById('dShow'),
+        say = document.getElementById('dSay');
+  const draw = () => {
+    const v = +dR.value;
+    num.textContent = v; val.textContent = v;
+    arm.style.transform = `translateY(-50%) rotate(${v}deg)`;
+    say.innerHTML =
+      v === 0   ? '角色現在面向<strong>右邊</strong>。把桿子往右拉，看它怎麼轉。' :
+      v === 90  ? '轉了 <strong>90 度</strong>，現在面向<strong>下面</strong>。這是最常用的角度 —— 剛好轉一個直角。' :
+      v === 180 ? '轉了 <strong>180 度</strong>，現在面向<strong>左邊</strong> —— 剛好跟原本相反。' :
+      v === 270 ? '轉了 <strong>270 度</strong>，現在面向<strong>上面</strong>。' :
+      v === 360 ? '轉了<strong>一整圈</strong>，又回到原本的方向了！轉 360 度等於沒轉。' :
+                  `轉了 <strong>${v} 度</strong>。數字越大，轉得越多。`;
+  };
+  dR.addEventListener('input', draw);
+  draw();
+})();
+
+/* 本課專用 2：造型切換 */
+(() => {
+  const btn = document.getElementById('cosNext');
+  if (!btn) return;
+  const faces = ['🐱','😺','😸','😹'];
+  const ch = document.getElementById('cosChar'),
+        no = document.getElementById('cosNum'),
+        say = document.getElementById('cosSay');
+  let i = 0, taps = 0;
+  btn.addEventListener('click', () => {
+    i = (i + 1) % faces.length; taps++;
+    ch.textContent = faces[i];
+    ch.style.animation = 'none'; ch.offsetHeight; ch.style.animation = '';
+    no.textContent = i + 1;
+    if (taps >= 8) say.innerHTML = '你已經按了 <strong>' + taps + '</strong> 下。按快一點的話，是不是有點像在動了？';
+    else if (i === 0) say.innerHTML = '轉一圈回到<strong>造型 1</strong> 了 —— 最後一個造型的下一個，就是第一個。';
+    else say.textContent = '按按看，數字會一直往上加。';
+  });
+})();
+</script>
+</body>
+</html>

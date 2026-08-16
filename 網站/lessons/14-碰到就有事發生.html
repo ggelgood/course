@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 14 課 · 碰到就有事發生</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 14 課 · 大約 1 節課</span>
+    <h1>碰到就<em>有事發生</em></h1>
+    <p class="lede">到目前為止，你的程式都是<strong style="color:#FFBF00">照著做</strong>。今天它要學會<strong style="color:#FFBF00">看情況做決定</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個角色碰到另一個角色的時候，<strong style="color:#FFBF00">會有反應</strong>——這是做遊戲的關鍵。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的兩塊積木（配成一對）</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="cwrap">
+            <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>星星 ▾</i>？</span> 那麼</div>
+            <div class="cwrap__in"><div class="blk blk--looks">說出 <i>吃到了！</i></div></div>
+            <div class="cwrap__end"></div>
+          </div>
+        </div>
+        <p style="font-size:.88rem;margin-top:.6rem">六角形那塊是<strong style="color:#FFBF00">問題</strong>，C 形那塊決定<strong style="color:#FFBF00">要不要做</strong>。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 程式會做決定 ───────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>程式也會「看情況」</h2>
+  <p>你每天都在做判斷：<strong>如果</strong>下雨，<strong>那就</strong>帶傘。<strong>如果</strong>沒下雨，就不用帶。</p>
+  <p>程式也可以這樣。「控制」分類裡有一塊 C 形積木：</p>
+
+  <div class="stack">
+    <div class="cwrap">
+      <div class="blk blk--control">如果 <span class="blk blk--bool">　　　</span> 那麼</div>
+      <div class="cwrap__in"><div class="blk blk--looks">說出 <i>條件成立才會做這裡</i></div></div>
+      <div class="cwrap__end"></div>
+    </div>
+  </div>
+
+  <p>它跟第 4 課的「重複」一樣有<strong>肚子</strong>，但意思不一樣：</p>
+  <ul>
+    <li><strong>重複</strong>：肚子裡的事<strong>做很多次</strong></li>
+    <li><strong>如果</strong>：肚子裡的事<strong>可能做、也可能完全不做</strong>——要看條件成不成立</li>
+  </ul>
+
+  <p>「如果」後面那個<strong>六角形的凹槽</strong>，是要放<strong>問題</strong>的地方。</p>
+</section>
+
+<!-- ── 2. 碰到？ ────────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>六角形的積木是「問題」</h2>
+  <p>淺藍色的<strong>「偵測」</strong>分類裡，有一塊六角形的積木：</p>
+
+  <div class="stack" style="align-items:flex-start">
+    <span class="blk blk--bool">碰到 <i>滑鼠游標 ▾</i>？</span>
+  </div>
+
+  <p>它跟你看過的所有積木都不一樣——<strong>它不會做任何事</strong>。它只回答一個問題：「碰到了嗎？」答案只有<strong>是</strong>或<strong>不是</strong>。</p>
+  <p>下拉選單可以選要偵測什麼：<strong>舞台邊緣、滑鼠游標、或是別的角色</strong>。</p>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">把六角形積木拖進「如果」的凹槽</b>
+    <p class="shot__how">拍程式區。從「偵測」拖出「碰到⋯？」→ 移到「如果」上面那個<b>六角形凹槽</b>（會出現白色影子）→ 放開，卡進去。約 5 秒。<b>六角形只能放進六角形的洞</b>，學生第一次會一直放歪。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <p>把它<strong>拖進「如果」的六角形凹槽</strong>，就變成一句完整的話了：</p>
+
+  <div class="stack">
+    <div class="cwrap">
+      <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>星星 ▾</i>？</span> 那麼</div>
+      <div class="cwrap__in"><div class="blk blk--looks">說出 <i>吃到了！</i></div></div>
+      <div class="cwrap__end"></div>
+    </div>
+  </div>
+
+  <p>念出來就是：<strong>「如果碰到星星，那就說『吃到了！』」</strong></p>
+
+  <h3>試試看</h3>
+  <p>拉拉看下面的桿子，把小貓移向星星，注意<strong>條件的燈號</strong>什麼時候亮起來：</p>
+
+  <div class="predict">
+    <div class="kdemo">
+      <div class="kdemo__stage" style="max-width:26rem">
+        <div class="kdemo__cat" id="cCat" style="left:12%">🐱</div>
+        <div class="kdemo__cat" id="cStar" style="left:78%;transition:none">⭐</div>
+      </div>
+
+      <div style="display:flex;gap:.8rem;justify-content:center;align-items:center;flex-wrap:wrap;margin:.6rem 0">
+        <span class="blk blk--bool" style="cursor:default">碰到 <i>星星 ▾</i>？</span>
+        <span class="condlamp" id="lamp">不成立</span>
+      </div>
+
+      <div class="stack" style="align-items:center;margin:.2rem 0 0">
+        <div class="cwrap" id="ifBlock" style="transition:.2s">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>星星 ▾</i>？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--looks">說出 <i>吃到了！</i></div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+
+      <div class="slide">
+        <label for="cRange">把小貓移過去：</label>
+        <input type="range" id="cRange" min="0" max="100" step="1" value="12">
+      </div>
+      <p class="kdemo__hint" id="cSay">慢慢把桿子往右拉，看小貓靠近星星的時候會怎樣。</p>
+    </div>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：「如果」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre>age = <span class="n">10</span>
+
+<span class="k">if</span> age &gt; <span class="n">6</span>:                 <span class="c"># 如果 …… 那麼</span>
+    <span class="f">print</span>(<span class="s">"可以上小學了"</span>)     <span class="c"># 說出 可以上小學了</span></pre>
+      <p class="pypeek__note"><strong>if</strong> 就是「如果」。冒號後面<strong>往右縮排</strong>的部分，就是 C 形積木的肚子 —— 跟「重複」一樣。</p>
+      <p class="pypeek__note">Scratch 的「碰到⋯？」這種條件，Python 要用別的寫法（電腦裡沒有舞台和角色）。但<strong>形狀完全一樣</strong>：條件成立，才做縮排裡的事。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 3. 只檢查一次 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>它只檢查「那一瞬間」</h2>
+  <p>這是今天<strong>最重要、也最容易錯</strong>的地方。</p>
+  <p>「如果」<strong>不會一直盯著看</strong>。程式執行到它那一行的時候，它問一次「碰到了嗎？」，然後就結束了——不管答案是什麼，都往下走。</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">你寫了「當綠旗被點擊 → 如果碰到星星，那就說『吃到了』」。然後你<strong>用滑鼠把小貓拖到星星上面</strong>。小貓會說話嗎？</p>
+    <p class="predict__hint">先猜猜看，選一個。這題有點難。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不會喔。「如果」在按下綠旗的那一瞬間就檢查完了 —— 那時候小貓還沒碰到星星，所以答案是「不是」，程式就往下走了。">會，一碰到就說</button>
+      <button class="pick" data-v="b" data-say="它不會等。「如果」問完問題就結束了，不管答案是什麼都繼續往下 —— 這點跟「等待直到」不一樣。">會，它會等到碰到為止</button>
+      <button class="pick" data-v="c" data-say="答對了！按綠旗的那一瞬間小貓還沒碰到星星，所以「如果」得到的答案是「不是」，就跳過肚子裡的事了。之後你再怎麼拖，它也不會再檢查一次。">不會，因為按綠旗的時候還沒碰到</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <h3>所以要怎麼辦？</h3>
+  <p>答案跟第 8 課的「碰到邊緣就反彈」一模一樣：<strong>把它放進「重複無限次」的肚子裡</strong>，讓它<strong>一直檢查、一直檢查</strong>。</p>
+
+  <div class="names">
+    <div class="names__col" style="background:var(--card);border-color:var(--rule)">
+      <h4>✗ 只檢查一次</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>星星 ▾</i>？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--looks">說出 <i>吃到了！</i></div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">按綠旗那一瞬間問一次，之後就再也不管了</p>
+    </div>
+    <div class="names__col" style="background:var(--card);border-color:var(--go)">
+      <h4>✓ 一直檢查</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="cwrap">
+          <div class="blk blk--control">重複無限次</div>
+          <div class="cwrap__in">
+            <div class="cwrap">
+              <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>星星 ▾</i>？</span> 那麼</div>
+              <div class="cwrap__in"><div class="blk blk--looks">說出 <i>吃到了！</i></div></div>
+              <div class="cwrap__end"></div>
+            </div>
+          </div>
+          <div class="cwrap__end cwrap__end--loop"></div>
+        </div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)"><strong>一秒問幾百次</strong>，一碰到馬上有反應</p>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 記住這個組合</h3>
+    <ul>
+      <li><strong>重複無限次</strong> 包住 <strong>如果⋯那麼</strong>——這是遊戲程式最常見的組合，之後會一直用到。</li>
+      <li>第 8 課的「碰到邊緣就反彈」其實就是這個組合的<strong>簡化版</strong>，Scratch 幫你打包成一塊了。</li>
+      <li>肚子裡放肚子叫做<strong>「巢狀」</strong>。拖的時候要對準<strong>內層</strong>的肚子，多試幾次就會了。</li>
+    </ul>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">把「如果」拖進「重複」的肚子裡</b>
+    <p class="shot__how">拍程式區。先拼好「重複無限次」，再把整塊「如果⋯那麼」<b>拖進它的肚子</b>（要對準內層，會撐開）。約 6 秒。<b>巢狀是學生最容易拖歪的操作</b>，動作放慢。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>動手做</h2>
+  <p>做一個<strong>碰到就有反應</strong>的小東西：用方向鍵控制角色去碰另一個角色。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <ol class="steps">
+      <li>放<strong>兩個角色</strong>：一個你控制（叫它主角），一個放著不動（叫它目標）</li>
+      <li>幫主角寫<strong>方向鍵控制</strong>（第 8 課學過的，複製四串最快）</li>
+      <li>另外開一串：<strong>當綠旗被點擊 → 重複無限次</strong></li>
+      <li>把 <strong>如果⋯那麼</strong> 拖進重複的肚子裡</li>
+      <li>把 <strong>碰到 [目標]？</strong> 拖進如果的六角形凹槽</li>
+      <li>如果的肚子裡放 <strong>說出「碰到了！」</strong>，按綠旗，用方向鍵去撞撞看</li>
+    </ol>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>完全沒反應</strong> —— 「如果」是不是放在重複<strong>外面</strong>了？一定要在肚子裡。</li>
+      <li><strong>六角形塞不進去</strong> —— 要對準「如果」上面那個<strong>六角形的凹槽</strong>，看到白色影子再放開。</li>
+      <li><strong>下拉選單裡沒有目標角色</strong> —— 檢查兩個角色都在舞台上，而且你在<strong>主角</strong>身上寫程式。</li>
+      <li><strong>對話泡泡一直閃</strong> —— 正常的！因為它一秒檢查幾百次。想讓它穩定顯示，在說話後面加<strong>「等待 1 秒」</strong>。</li>
+      <li><strong>拖進去變成接在下面</strong> —— 巢狀要對準<strong>內層</strong>肚子的中間，位置很挑，多試幾次。</li>
+      <li>五個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這題要想清楚<strong>哪些東西該包在哪些東西裡面</strong>。</p>
+
+  <div class="sortbox"
+       data-answer="1234"
+       data-swap="2>3"
+       data-msg-ok="✓ 完全正確！綠旗 → 一直重複 → 每次都檢查有沒有碰到 → 碰到才叫一聲。"
+       data-msg-nohat="再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？"
+       data-msg-swap="順序反了！「重複無限次」要包在外面，「如果」要放進它的肚子裡 —— 這樣才會一直檢查。"
+       data-msg-near="快好了！小柔說「碰到才叫一聲」—— 那「播放音效」應該放在如果的肚子裡，排在最後面。">
+    <p class="predict__hint" style="margin-top:0">
+      小柔想讓角色<strong>一直檢查</strong>有沒有碰到星星，<strong>碰到才叫一聲</strong>。<br>
+      下面四塊（有兩塊是 C 形的）順序被打亂了，由外到內排好。
+    </p>
+    <div class="slots">
+      <div class="blk blk--sound drag" data-k="4">播放音效 <i>喵</i></div>
+      <div class="blk blk--control drag" data-k="3">如果 <span class="blk blk--bool">碰到 <i>星星 ▾</i>？</span> 那麼</div>
+      <div class="blk blk--events blk--hat drag" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <div class="blk blk--control drag" data-k="2">重複無限次</div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天的組合</strong>就做得到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>碰到就變大</b><small>把「說出」換成「尺寸改變 20」，撞幾次會爆掉？</small></div>
+      <div class="play"><b>碰到滑鼠游標就跑</b><small>偵測選「滑鼠游標」，碰到就移動 50 點。追追看。</small></div>
+      <div class="play"><b>碰到就廣播</b><small>如果的肚子裡放廣播，讓別的角色也有反應。</small></div>
+      <div class="play"><b>把「如果」拉到重複外面</b><small>故意放錯，確認真的完全沒反應。</small></div>
+      <div class="play"><b>碰到就換背景</b><small>做出「走到門口就進到下一個房間」的感覺。</small></div>
+      <div class="play"><b>兩個目標各有反應</b><small>放兩個「如果」在同一個重複裡，碰到不同東西講不同的話。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>做一個<strong>吃星星</strong>的小遊戲：用方向鍵移動角色，碰到星星，星星就<strong>消失</strong>。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>「外觀」裡有 <strong style="color:#FFBF00">隱藏</strong> 和 <strong style="color:#FFBF00">顯示</strong> 兩塊積木。碰到就<strong style="color:#FFBF00">隱藏</strong>，星星就消失了。</p>
+      <p>程式要寫在<strong style="color:#FFBF00">星星身上</strong>：星星一直檢查「有沒有被主角碰到」，碰到就把自己藏起來。</p>
+      <p>記得在綠旗那串加一塊<strong style="color:#FFBF00">顯示</strong>，不然重玩的時候星星還是不見的。</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做一個<strong>躲避</strong>的小遊戲：一個角色自己彈來彈去（第 8 課的球），你控制主角<strong>不要碰到它</strong>。碰到就說「被抓到了！」並停下來。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想怎麼「停下來」</span></summary>
+    <div class="reveal__in">
+      <p>球的部分就是第 8 課的<strong style="color:#FFBF00">面朝斜角 ＋ 重複無限次（移動 ＋ 碰到邊緣就反彈）</strong>。</p>
+      <p>「停下來」在「控制」分類裡有一塊 <strong style="color:#FFBF00">停止 [全部]</strong>，放在「如果」的肚子裡，碰到就整個程式停住。</p>
+      <p><strong style="color:#FFBF00">這題做完，你就有一個完整的小遊戲了</strong> —— 下禮拜的作品就是它。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第14課_碰到就有事發生_範例.sb3" download>
+      <span class="ic">✨</span>
+      <span>第14課_碰到就有事發生_範例.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 14 課 · 碰到就有事發生</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：碰到偵測示範
+   拉滑桿把小貓移向星星，重疊時條件燈號亮起、如果積木發亮。 */
+(() => {
+  const cR = document.getElementById('cRange');
+  if (!cR) return;
+  const cat = document.getElementById('cCat'), star = document.getElementById('cStar'),
+        lamp = document.getElementById('lamp'), ifb = document.getElementById('ifBlock'),
+        say = document.getElementById('cSay');
+  let everHit = false;
+
+  const draw = () => {
+    const v = +cR.value;
+    cat.style.left = v + '%';
+    const a = cat.getBoundingClientRect(), b = star.getBoundingClientRect();
+    const hit = !(a.right < b.left + 8 || a.left > b.right - 8);
+
+    lamp.classList.toggle('on', hit);
+    lamp.textContent = hit ? '成立 ✓' : '不成立';
+    ifb.style.filter = hit ? 'drop-shadow(0 0 12px rgba(255,171,25,.9))' : '';
+    ifb.style.transform = hit ? 'translateY(-3px)' : '';
+
+    if (hit) {
+      everHit = true;
+      say.innerHTML = '碰到了！條件<strong>成立</strong>，所以「如果」的肚子打開 —— 小貓會說「吃到了！」';
+    } else {
+      say.innerHTML = everHit
+        ? '離開了，條件變回<strong>不成立</strong>，肚子裡的事就不做。<strong>條件是隨時在變的。</strong>'
+        : '慢慢把桿子往右拉，看小貓靠近星星的時候會怎樣。';
+    }
+  };
+
+  cR.addEventListener('input', draw);
+  addEventListener('resize', draw);
+  setTimeout(draw, 60);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+/* ═══════════════════════════════════════════════════════════
+   首頁專用樣式
+   ───────────────────────────────────────────────────────────
+   跟 lesson.css 一起載入（lesson.css 提供顏色、字型等基礎變數）。
+   只有 index.html 用得到，所以獨立成一個檔，課頁不用多載。
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 首頁大標 ─────────────────────────────────────────────── */
+.hero{
+  padding:clamp(3rem,8vw,6rem) 0 clamp(3.5rem,7vw,5rem);
+  background:
+    radial-gradient(circle at 82% 20%, rgba(255,191,0,.22), transparent 46%),
+    radial-gradient(circle at 12% 78%, rgba(76,151,255,.16), transparent 44%),
+    linear-gradient(168deg,#2B2119 0%,#3D2E22 60%,#4A3626 100%);
+  color:#FBF6EC;position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:26px;background:var(--ground);
+  -webkit-mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+          mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+}
+.hero>*{position:relative;z-index:2}
+.hero h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.8rem,8vw,5rem);line-height:1.05;
+  margin:1.1rem 0 .7rem;letter-spacing:-.02em;
+}
+.hero h1 em{font-style:normal;color:#FFBF00;display:block}
+.hero__sub{font-size:clamp(1.05rem,2.4vw,1.35rem);color:#E6D9C4;margin:0;max-width:40ch;font-weight:500}
+
+/* ── 課程區塊 ─────────────────────────────────────────────── */
+.course{margin:4.5rem 0}
+.course__head{
+  display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;
+  padding-bottom:1rem;margin-bottom:1.6rem;border-bottom:3px solid var(--rule);
+}
+.course__head h2{
+  font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,4vw,2.4rem);
+  margin:0;letter-spacing:-.01em;
+}
+.course__meta{color:var(--ink-soft);font-size:.95rem;margin:0;font-weight:500}
+.badge{
+  font-family:var(--display);font-weight:600;font-size:.78rem;letter-spacing:.1em;
+  padding:.32rem .9rem;border-radius:999px;color:#fff;white-space:nowrap;
+}
+.badge--live{background:var(--go);box-shadow:0 3px 0 #0B7A6D}
+.badge--soon{background:var(--ink-soft);box-shadow:0 3px 0 #5A4C3F}
+
+/* ── 單元 ─────────────────────────────────────────────────── */
+.unit{margin:2.2rem 0}
+.unit__t{
+  display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+  font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 1rem;
+}
+.unit__t span{
+  font-size:.75rem;letter-spacing:.12em;background:var(--ink);color:var(--ground);
+  padding:.28rem .8rem;border-radius:999px;
+}
+.unit__t small{font-weight:400;color:var(--ink-soft);font-size:.88rem;font-family:var(--body)}
+
+/* ── 課程卡 ───────────────────────────────────────────────── */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:.9rem}
+.lcard{
+  display:block;text-decoration:none;color:inherit;position:relative;
+  background:var(--card);border:3px solid var(--rule);border-radius:16px;
+  padding:1.1rem 1.2rem 1.1rem 4rem;transition:.18s;box-shadow:var(--shadow-sm);
+}
+.lcard:hover{border-color:var(--ink);transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.lcard__n{
+  position:absolute;left:1rem;top:1.05rem;
+  width:2.2rem;height:2.2rem;border-radius:11px;display:grid;place-items:center;
+  background:var(--ground-2);border:3px solid var(--ink);
+  font-family:var(--display);font-weight:700;font-size:1rem;transition:.18s;
+}
+.lcard:hover .lcard__n{background:var(--accent);border-color:var(--accent);color:#fff}
+.lcard b{display:block;font-family:var(--display);font-weight:600;font-size:1.08rem;margin-bottom:.15rem}
+.lcard small{display:block;color:var(--ink-soft);font-size:.85rem;line-height:1.6}
+
+/* 作品節：綠色，看得出跟教學課不一樣 */
+.lcard--work{background:var(--go-soft);border-color:var(--go)}
+.lcard--work .lcard__n{background:var(--go);border-color:var(--go);color:#fff}
+.lcard--work:hover{border-color:#0B7A6D}
+.lcard--work:hover .lcard__n{background:#0B7A6D;border-color:#0B7A6D}
+/* 期末專題：橘色 */
+.lcard--final{background:var(--accent-soft);border-color:var(--accent)}
+.lcard--final .lcard__n{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── 準備中的課程 ─────────────────────────────────────────── */
+.course--soon .course__head h2{color:var(--ink-soft)}
+.soonbox{
+  border:3px dashed var(--rule);border-radius:18px;padding:1.6rem 1.5rem;
+  background:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.22) 15px 30px);
+}
+.soonbox h4{
+  font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 0 .5rem;color:var(--ink-soft);
+}
+.soonbox p{margin:.4rem 0;color:var(--ink-soft);font-size:.92rem;max-width:52ch}
+.soonbox ul{margin:.6rem 0 0;padding-left:1.3rem;color:var(--ink-soft);font-size:.9rem}
+.soonbox li{margin:.3rem 0}
+
+/* ── 給老師的區塊 ─────────────────────────────────────────── */
+.forteacher{
+  background:var(--ink);color:var(--ground);border-radius:20px;
+  padding:1.8rem clamp(1.2rem,3vw,2rem);margin:4rem 0 0;box-shadow:var(--shadow-lg);
+}
+.forteacher h3{font-family:var(--display);font-weight:600;font-size:1.3rem;margin:0 0 .8rem;color:#FFBF00}
+.forteacher p{color:#E6D9C4;margin:.5rem 0;max-width:56ch}
+.forteacher a{color:#FFBF00}
+.forteacher code{background:rgba(251,246,236,.14);padding:.12rem .45rem;border-radius:5px;font-family:var(--mono);font-size:.9em}

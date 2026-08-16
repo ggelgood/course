@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 15 課 · 作品：小小躲避遊戲</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 15 課 · 作品 · 大約 1 節課</span>
+    <h1>作品：<em>小小躲避遊戲</em></h1>
+    <p class="lede">學到這裡，你已經有做出<strong style="color:#FFBF00">一個真正的遊戲</strong>需要的全部東西了。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>用方向鍵控制角色，<strong style="color:#FFBF00">躲開飛來飛去的球</strong>，被碰到就結束。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天怎麼上</h2>
+        <p>不教新積木。<strong style="color:#FFBF00">重點是「調難度」</strong>——太難沒人玩得下去，太簡單很無聊。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 今天不一樣 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>今天不教新積木</h2>
+  <p>你手上已經有全部零件了。今天的工作是<strong>把它們組成一個好玩的遊戲</strong>。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🙋 第 14 課沒跟上的，今天可以補</h3>
+    <ul>
+      <li>如果「<strong>重複無限次包住如果</strong>」還不太會，今天先回第 14 課把那個練習做完。</li>
+      <li>今天沒有進度壓力。<strong>做出「碰到就結束」就算完成</strong>。</li>
+      <li>做完最低要求之後，下面還有很多可以加的。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 積木小抄 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>你會用到這些積木</h2>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <div class="blk blk--events blk--hat">當 <i>→ ▾</i> 鍵被按下</div>
+      <small>控制主角。四個方向<b>複製四串</b>最快（右鍵→複製）。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">面朝 <i>90</i> 度</div>
+      <small>上 0、右 90、下 180、左 -90。接在移動<b>前面</b>。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">碰到邊緣就反彈</div>
+      <small>球靠它來回飛。放在<b>重複的肚子裡</b>，接在移動下面。</small>
+    </div>
+    <div class="cheat">
+      <div class="cwrap">
+        <div class="blk blk--control">重複無限次</div>
+        <div class="cwrap__in">
+          <div class="cwrap">
+            <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>球 ▾</i>？</span> 那麼</div>
+            <div class="cwrap__in"><div class="blk blk--looks">說出 <i>被碰到了！</i></div></div>
+            <div class="cwrap__end"></div>
+          </div>
+        </div>
+        <div class="cwrap__end cwrap__end--loop"></div>
+      </div>
+      <small>遊戲的核心。<b>一直檢查有沒有被碰到</b>。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--control">停止 <i>全部 ▾</i></div>
+      <small>「控制」裡的積木。放在如果的肚子裡，<b>碰到就整個停住</b>。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">定位到 x:<i>0</i> y:<i>0</i></div>
+      <small>把角色<b>移回舞台中間</b>。放在綠旗那串，重玩才會歸位。</small>
+    </div>
+  </div>
+
+  <p class="predict__hint">💡 最後那塊「定位到 x: y:」我們沒正式教過，<strong>今天你只要知道「填 0 和 0 就是回到正中間」就夠了</strong>。重玩遊戲的時候很好用。</p>
+</section>
+
+<!-- ── 3. 先玩玩看，感覺難度 ─────────── -->
+<section>
+  <h2 class="h2"><b>3</b>先玩玩看，感覺一下難度</h2>
+  <p>下面是一個做好的躲避遊戲。<strong>點一下舞台，用方向鍵閃開那顆球。</strong> 拉滑桿改球速，感覺一下差別：</p>
+
+  <div class="predict">
+    <div class="kdemo" id="game" tabindex="0" aria-label="躲避遊戲試玩">
+      <div class="kdemo__stage" id="gStage" style="max-width:28rem">
+        <div class="kdemo__cat" id="gCat" style="left:20%;bottom:auto;top:60%">🐱</div>
+        <div class="kdemo__cat" id="gBall" style="left:70%;bottom:auto;top:30%;transition:none">⚽</div>
+      </div>
+
+      <div class="kdemo__keys">
+        <button class="kkey" data-key="ArrowUp">↑</button>
+        <button class="kkey" data-key="ArrowDown">↓</button>
+        <button class="kkey" data-key="ArrowLeft">←</button>
+        <button class="kkey" data-key="ArrowRight">→</button>
+      </div>
+
+      <div class="stack" style="margin:.4rem 0 0;align-items:center">
+        <div class="blk blk--motion">⚽ 移動 <i id="gNum">4</i> 點</div>
+      </div>
+
+      <div class="slide">
+        <label for="gRange">球速：</label>
+        <input type="range" id="gRange" min="1" max="12" step="1" value="4">
+        <strong class="slide__val" id="gShow">4</strong>
+      </div>
+
+      <p class="kdemo__hint" id="gSay">點一下舞台，用方向鍵閃開那顆球。</p>
+    </div>
+  </div>
+
+  <div class="sos" style="background:#FFF9E6;border-color:var(--b-events)">
+    <h3>🎮 難度是設計出來的，不是隨便設的</h3>
+    <ul>
+      <li><strong>球速</strong>：太慢無聊，太快沒人躲得掉。<strong>4～6 通常最好玩。</strong></li>
+      <li><strong>球的數量</strong>：多一顆球，難度不是加倍，是<strong>好幾倍</strong>。先做一顆，好玩了再加。</li>
+      <li><strong>主角的移動點數</strong>：主角要比球<strong>靈活一點</strong>，玩起來才有得閃。</li>
+      <li>調到<strong>「差一點就被碰到」</strong>最好玩——太簡單和太難都會讓人不想玩。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>動手做</h2>
+  <p>分成三關。<strong>第一關一定要做到</strong>，後面兩關做得到多少算多少。</p>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 第一關 · 一定要做到</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>放<strong>兩個角色</strong>：主角（你控制）和球（自己飛）</li>
+      <li>幫主角寫<strong>四串方向鍵</strong>控制</li>
+      <li>幫球寫：綠旗 → 面朝 <strong>45 度</strong> → 重複無限次（<strong>移動 ＋ 碰到邊緣就反彈</strong>）</li>
+      <li>幫主角再開一串：綠旗 → 重複無限次 → <strong>如果碰到球，就說「被碰到了！」</strong></li>
+      <li>按綠旗玩玩看，確認<strong>球會飛、你能躲、碰到會有反應</strong></li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 第二關 · 做完了再加</b>
+      <span class="dobox__tip">讓它像個真的遊戲 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>碰到的時候加上 <strong>停止 [全部]</strong>，遊戲真的會結束</li>
+      <li>在綠旗那串加 <strong>定位到 x:0 y:0</strong>，每次重玩都<strong>從中間開始</strong></li>
+      <li>調<strong>球速</strong>和<strong>主角的移動點數</strong>，找出最好玩的組合</li>
+      <li>加<strong>背景</strong>和<strong>音效</strong>（被碰到的時候叫一聲）</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🥇 第三關 · 還有時間就挑戰</b>
+      <span class="dobox__tip">挑你想做的，不用全做 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>加<strong>第二顆球</strong>，用不同的角度和速度（複製整個角色最快）</li>
+      <li>加一顆<strong>要吃的星星</strong>：碰到星星就隱藏，做出「邊躲邊收集」</li>
+      <li>用<strong>廣播</strong>做遊戲結束：碰到就廣播「遊戲結束」，所有球一起停下來</li>
+      <li>開場讓主角<strong>說明玩法</strong>：「用方向鍵閃開球！」</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">完成的遊戲玩起來的樣子</b>
+    <p class="shot__how">拍舞台區。球飛來飛去、主角閃來閃去，最後<b>故意讓它被碰到</b>，顯示「被碰到了！」然後停住。約 10 秒。<b>結尾一定要拍到</b>——學生要知道「結束」長什麼樣。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>球不會動</strong> —— 移動和反彈有沒有放在<strong>重複無限次的肚子裡</strong>？</li>
+      <li><strong>球只會左右飛</strong> —— 開場的「面朝」是不是 90 度？改成 <strong>45 度</strong>之類的斜角。</li>
+      <li><strong>碰到完全沒反應</strong> —— 「如果」有沒有包在<strong>重複無限次</strong>裡面？沒有的話只檢查一次。</li>
+      <li><strong>碰到之後停不下來</strong> —— 加一塊 <strong>停止 [全部]</strong> 在如果的肚子裡。</li>
+      <li><strong>重玩的時候角色位置很怪</strong> —— 綠旗那串加 <strong>定位到 x:0 y:0</strong>。</li>
+      <li><strong>球太快躲不掉</strong> —— 把球的移動點數改小，或把主角的改大。</li>
+      <li>六個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 存檔 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>做完了，記得存檔</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>💾 存檔</b>
+      <span class="dobox__tip">三步，一定要做完 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>點<strong>「檔案 → 儲存到你的電腦」</strong></li>
+      <li>檔名取 <strong>座號_姓名_躲避遊戲</strong></li>
+      <li>存在老師說的那個資料夾裡</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ── 6. 互相試玩 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>互相試玩，然後調難度</h2>
+  <p>遊戲要<strong>別人玩過才知道好不好玩</strong>。你自己做的，你早就知道球會往哪飛了。</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">① 玩得下去嗎？</b>
+      <small>撐得過 10 秒嗎？還是一開始就被撞到？</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">② 知道怎麼玩嗎？</b>
+      <small>沒人講解的話，你知道要按什麼、目標是什麼嗎？</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">③ 還想再玩一次嗎？</b>
+      <small>這是最重要的問題。如果會想再玩，難度就調對了。</small>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>🔧 聽完意見，回去調一次</h3>
+    <ul>
+      <li>同學說<strong>太難</strong> → 球速調慢，或主角移動點數調大。</li>
+      <li>同學說<strong>太簡單</strong> → 球速調快，或加第二顆球。</li>
+      <li>同學說<strong>看不懂怎麼玩</strong> → 開場加一句說明。</li>
+      <li><strong>根據別人的意見改東西，是真正的遊戲設計師每天在做的事。</strong></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第15課_躲避遊戲_範例.sb3" download>
+      <span class="ic">⚽</span>
+      <span>第15課_躲避遊戲_範例.sb3<small>老師做的版本。玩玩看，再想想你要怎麼做得不一樣</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 15 課 · 作品：小小躲避遊戲 —— 單元五完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：可以真的玩的躲避遊戲
+   球會斜著飛、撞牆反彈；方向鍵控制主角；碰到就結束。
+   讓學生先「玩過」，才知道難度該怎麼調。 */
+(() => {
+  const box = document.getElementById('game');
+  if (!box) return;
+  const stage = document.getElementById('gStage'),
+        cat = document.getElementById('gCat'),
+        ball = document.getElementById('gBall'),
+        gR = document.getElementById('gRange'),
+        num = document.getElementById('gNum'),
+        val = document.getElementById('gShow'),
+        say = document.getElementById('gSay');
+
+  let bx = 70, by = 30, vx = 1, vy = 1;     // 球用百分比座標
+  let cx = 20, cy = 60;                      // 主角
+  let dead = false, timer = null, best = 0, t0 = Date.now();
+
+  const place = () => {
+    cat.style.left = cx + '%'; cat.style.top = cy + '%';
+    ball.style.left = bx + '%'; ball.style.top = by + '%';
+  };
+
+  const reset = () => {
+    bx = 70; by = 30; vx = 1; vy = 1; cx = 20; cy = 60;
+    dead = false; t0 = Date.now();
+    cat.style.opacity = '1'; place();
+  };
+
+  const tick = () => {
+    if (dead) return;
+    const sp = +gR.value * 0.42;             // 球速（百分比／格）
+    bx += vx * sp; by += vy * sp;
+    if (bx < 4)  { bx = 4;  vx = 1; }
+    if (bx > 92) { bx = 92; vx = -1; }
+    if (by < 6)  { by = 6;  vy = 1; }
+    if (by > 78) { by = 78; vy = -1; }
+    place();
+
+    // 碰到判定
+    if (Math.abs(bx - cx) < 7 && Math.abs(by - cy) < 14) {
+      dead = true;
+      cat.style.opacity = '.35';
+      const s = ((Date.now() - t0) / 1000).toFixed(1);
+      if (+s > best) best = +s;
+      say.innerHTML = `💥 <strong>被碰到了！</strong> 你撐了 <strong>${s} 秒</strong>（最佳 ${best.toFixed(1)} 秒）。<br>覺得太難就把球速調小，太簡單就調大 —— <strong>調到「差一點就被碰到」最好玩</strong>。`;
+      setTimeout(reset, 1400);
+    }
+  };
+
+  const move = key => {
+    if (dead) return;
+    if (key === 'ArrowLeft')  cx = Math.max(4, cx - 6);
+    if (key === 'ArrowRight') cx = Math.min(92, cx + 6);
+    if (key === 'ArrowUp')    cy = Math.max(6, cy - 9);
+    if (key === 'ArrowDown')  cy = Math.min(78, cy + 9);
+    cat.style.transform = `translate(-50%,-50%) scaleX(${key === 'ArrowLeft' ? -1 : 1})`;
+    place();
+    const b = box.querySelector(`.kkey[data-key="${key}"]`);
+    if (b) { b.classList.add('down'); setTimeout(() => b.classList.remove('down'), 120); }
+  };
+
+  box.addEventListener('keydown', e => {
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) { e.preventDefault(); move(e.key); }
+  });
+  box.querySelectorAll('.kkey[data-key]').forEach(b =>
+    b.addEventListener('click', () => { box.focus(); move(b.dataset.key); }));
+
+  gR.addEventListener('input', () => {
+    const v = +gR.value;
+    num.textContent = v; val.textContent = v;
+    if (!dead) say.innerHTML = v <= 2 ? `球速 <strong>${v}</strong> —— 太慢了，躲起來沒什麼感覺。`
+              : v <= 6 ? `球速 <strong>${v}</strong> —— <strong>這附近最好玩</strong>，有壓力但躲得掉。`
+              : `球速 <strong>${v}</strong> —— 很難！要很專心才躲得掉。`;
+  });
+
+  cat.style.transform = 'translate(-50%,-50%)';
+  ball.style.transform = 'translate(-50%,-50%)';
+  place();
+  timer = setInterval(tick, 40);
+})();
+</script>
+</body>
+</html>

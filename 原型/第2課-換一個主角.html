@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 2 課 · 換一個主角</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   設計系統 — 積木工作台（與第 1 課共用）
+   ⚠️ 這份 CSS 目前是複製的，第 3 課之前
+   應該抽成共用骨架，否則改一次要改 N 個檔
+   ═══════════════════════════════════════════ */
+:root{
+  --ground:      #FBF6EC;
+  --ground-2:    #F4EBDB;
+  --card:        #FFFFFF;
+  --ink:         #2B2119;
+  --ink-soft:    #7A6A59;
+  --rule:        #E3D6C0;
+  --accent:      #FF6B1A;
+  --accent-soft: #FFE8D9;
+  --go:          #12A594;
+  --go-soft:     #D6F3EF;
+
+  /* Scratch 官方積木色 */
+  --b-motion:  #4C97FF;  --b-motion-d:  #3373CC;
+  --b-looks:   #9966FF;  --b-looks-d:   #774DCB;
+  --b-sound:   #CF63CF;  --b-sound-d:   #BD42BD;
+  --b-events:  #FFBF00;  --b-events-d:  #CC9900;
+  --b-control: #FFAB19;  --b-control-d: #CF8B17;
+
+  --display: "Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:    "Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+  --mono:    ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+
+  --base: 18px;                    /* 中年級：大一點 */
+  --shadow-sm: 0 2px 0 rgba(43,33,25,.10);
+  --shadow-md: 0 3px 0 rgba(43,33,25,.12), 0 10px 24px -14px rgba(43,33,25,.5);
+  --shadow-lg: 0 5px 0 rgba(43,33,25,.13), 0 20px 40px -20px rgba(43,33,25,.55);
+}
+
+*{box-sizing:border-box}
+html{font-size:var(--base); scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--body); color:var(--ink);
+  line-height:1.9; background:var(--ground);
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 15% 5%,  rgba(255,107,26,.07), transparent 40%),
+    radial-gradient(circle at 85% 60%, rgba(18,165,148,.06), transparent 42%),
+    radial-gradient(rgba(43,33,25,.05) 1px, transparent 1px);
+  background-size: auto, auto, 22px 22px;
+  background-attachment: fixed, fixed, scroll;
+}
+
+.railtop{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(227,214,192,.55);z-index:99}
+.railtop i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#FFAB19);transition:width .12s linear}
+
+.wrap{max-width:60rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 7rem}
+
+/* ═══ 開場區（投影用）══════════════════ */
+.stage-open{
+  padding:clamp(2.5rem,6vw,4.5rem) 0 clamp(3rem,6vw,4rem);
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255,191,0,.20), transparent 45%),
+    linear-gradient(168deg,#2B2119 0%,#3D2E22 60%,#4A3626 100%);
+  color:#FBF6EC; position:relative; overflow:hidden;
+}
+.stage-open::after{
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:26px;
+  background:var(--ground);
+  -webkit-mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+          mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+}
+.stage-open>*{position:relative;z-index:2}
+
+.tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:.12em;
+  background:var(--accent);color:#fff;padding:.4rem 1rem;border-radius:999px;
+  box-shadow:0 3px 0 #C4460A;
+}
+h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.08;
+  margin:1.2rem 0 .6rem;letter-spacing:-.02em;
+}
+h1 em{font-style:normal;color:#FFBF00;display:block}
+.lede{font-size:clamp(1.1rem,2.4vw,1.4rem);color:#E6D9C4;margin:0;max-width:36ch;font-weight:500}
+
+.today{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  gap:1.25rem;margin-top:2.5rem;align-items:start;
+}
+.today__box{
+  background:rgba(251,246,236,.07);border:2px solid rgba(251,246,236,.16);
+  border-radius:16px;padding:1.25rem 1.35rem;backdrop-filter:blur(6px);
+}
+.today__box h2{
+  font-family:var(--display);font-weight:600;font-size:.9rem;letter-spacing:.1em;
+  margin:0 0 .85rem;color:#FFBF00;
+}
+.today__box p{margin:0;font-size:1rem;color:#E6D9C4}
+.today__box ol{margin:0;padding-left:1.3rem;color:#E6D9C4}
+.today__box li{margin:.4rem 0;font-size:1rem}
+.today__box li b{color:#FFBF00}
+
+/* ═══ 積木（純 CSS，含卡榫）═════════════ */
+.blk{
+  --c:var(--b-motion); --cd:var(--b-motion-d);
+  position:relative;display:inline-flex;align-items:center;flex-wrap:wrap;gap:.4rem;
+  background:var(--c);color:#fff;font-weight:700;font-size:1rem;
+  padding:.7rem 1.1rem;border-radius:6px;
+  box-shadow:0 3px 0 var(--cd);
+  margin:0 0 9px; line-height:1.4;
+}
+.blk::before{content:"";position:absolute;top:0;left:16px;width:28px;height:6px;background:var(--ground);border-radius:0 0 7px 7px}
+.blk::after{content:"";position:absolute;bottom:-6px;left:16px;width:28px;height:6px;background:var(--c);border-radius:0 0 7px 7px;box-shadow:0 3px 0 var(--cd)}
+.blk--hat{border-radius:22px 22px 6px 6px;padding-top:1.5rem}
+.blk--hat::before{display:none}
+.blk--motion {--c:var(--b-motion); --cd:var(--b-motion-d)}
+.blk--looks  {--c:var(--b-looks);  --cd:var(--b-looks-d)}
+.blk--sound  {--c:var(--b-sound);  --cd:var(--b-sound-d)}
+.blk--events {--c:var(--b-events); --cd:var(--b-events-d)}
+.blk--control{--c:var(--b-control);--cd:var(--b-control-d)}
+.stage-open .blk::before{background:#3D2E22}
+.blk i{font-style:normal;background:#fff;color:#2B2119;padding:.12rem .7rem;border-radius:999px;font-weight:700;min-width:2.2rem;text-align:center}
+.blk .flag{color:#12A594;font-size:1.1em}
+.stack{display:flex;flex-direction:column;align-items:flex-start;margin:1.5rem 0}
+.stack .blk{margin-bottom:9px}
+
+/* ═══ 實作區 ═══════════════════════════ */
+section{margin:4rem 0;scroll-margin-top:2rem}
+.h2{display:flex;align-items:center;gap:.9rem;font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3.4vw,2rem);margin:0 0 1.2rem;letter-spacing:-.01em}
+.h2 b{flex:none;width:2.1em;height:2.1em;display:grid;place-items:center;background:var(--ink);color:var(--ground);border-radius:14px;font-size:.62em;font-weight:700;box-shadow:0 3px 0 rgba(43,33,25,.35)}
+h3{font-family:var(--display);font-weight:600;font-size:1.2rem;margin:2rem 0 .4rem}
+p{margin:.9rem 0;max-width:52ch}
+strong{color:var(--accent);font-weight:700}
+
+/* 這一節特別重要（存檔）：整節加框強調 */
+.keysec{
+  background:linear-gradient(160deg,#FFF4E0,#FFE9CC);
+  border:4px solid var(--accent);border-radius:22px;
+  padding:1.8rem clamp(1.1rem,3vw,2rem);box-shadow:var(--shadow-lg);
+}
+.keysec .h2 b{background:var(--accent);box-shadow:0 3px 0 #C4460A}
+
+/* ── Scratch 介面示意 ── */
+.ui{
+  display:grid;gap:10px;margin:1.75rem 0;
+  grid-template-columns:.85fr 1.35fr 1.1fr;
+  grid-template-areas:"pal code stage" "pal code sprite";
+  background:var(--ink);padding:10px;border-radius:20px;
+  box-shadow:var(--shadow-lg);min-height:22rem;
+}
+.ui__z{border-radius:12px;padding:1rem;display:flex;flex-direction:column;color:#fff;position:relative;overflow:hidden}
+.ui__z b{font-family:var(--display);font-weight:600;font-size:1.15rem;display:block}
+.ui__z small{font-size:.82rem;opacity:.92;font-weight:500;line-height:1.6}
+.ui__n{position:absolute;top:.6rem;right:.7rem;width:1.9rem;height:1.9rem;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);font-family:var(--display);font-weight:700;font-size:1rem}
+.ui__z--hi{outline:5px solid #FFBF00;outline-offset:3px}
+.z-pal   {grid-area:pal;   background:linear-gradient(160deg,#FF8C1A,#E0670B)}
+.z-code  {grid-area:code;  background:linear-gradient(160deg,#5C6B7A,#3F4C58)}
+.z-stage {grid-area:stage; background:linear-gradient(160deg,#4C97FF,#3373CC)}
+.z-sprite{grid-area:sprite;background:linear-gradient(160deg,#9966FF,#774DCB)}
+.z-stage .cat{font-size:2.6rem;margin-top:auto;align-self:center}
+@media(max-width:720px){.ui{grid-template-columns:1fr 1fr;grid-template-areas:"stage stage" "pal code" "sprite sprite"}}
+
+/* ── 點擊揭曉 ── */
+.reveal{border:3px solid var(--ink);border-radius:16px;background:var(--card);margin:1.75rem 0;overflow:hidden;box-shadow:var(--shadow-md)}
+.reveal>summary{cursor:pointer;list-style:none;padding:1.05rem 1.3rem;font-weight:700;display:flex;align-items:center;gap:.85rem;background:var(--accent-soft);user-select:none;transition:background .18s}
+.reveal>summary::-webkit-details-marker{display:none}
+.reveal>summary:hover{background:#FFDCC5}
+.reveal>summary::before{content:"?";flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.1rem;box-shadow:0 2px 0 #C4460A;transition:.2s}
+.reveal[open]>summary{background:var(--go-soft)}
+.reveal[open]>summary::before{content:"✓";background:var(--go);box-shadow:0 2px 0 #0B7A6D}
+.reveal .peek{margin-left:auto;font-size:.8rem;color:var(--ink-soft);font-weight:600;letter-spacing:.06em}
+.reveal[open] .peek{opacity:0}
+.reveal__in{padding:.4rem 1.3rem 1.3rem;animation:drop .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* ── 步驟打勾 ── */
+.steps{list-style:none;counter-reset:s;margin:1.6rem 0;padding:0}
+.steps li{counter-increment:s;position:relative;padding:1rem 1rem 1rem 4rem;background:var(--card);border:2.5px solid var(--rule);border-radius:14px;margin-bottom:.7rem;cursor:pointer;transition:.18s;font-weight:500;box-shadow:var(--shadow-sm)}
+.steps li:hover{border-color:var(--ink);transform:translateX(3px)}
+.steps li::before{content:counter(s);position:absolute;left:1rem;top:.95rem;width:2.1rem;height:2.1rem;border-radius:8px;display:grid;place-items:center;background:#fff;border:3px solid var(--ink);font-family:var(--display);font-weight:700;font-size:1rem;transition:.22s}
+.steps li:hover::before{content:"✓";color:var(--rule)}
+.steps li[data-ok="1"]{background:var(--go-soft);border-color:var(--go);color:var(--ink-soft)}
+.steps li[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff;transform:rotate(-8deg) scale(1.06)}
+.steps li[data-ok="1"]:hover::before{content:"✓";color:#fff}
+
+/* ── 動手做外框 ── */
+.dobox{border:3px solid var(--ink);border-radius:18px;overflow:hidden;margin:1.8rem 0;box-shadow:var(--shadow-md);background:var(--card)}
+.dobox__head{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;background:var(--ink);color:var(--ground);padding:.8rem 1.2rem}
+.dobox__head b{font-family:var(--display);font-weight:600;font-size:1.15rem}
+.dobox__tip{font-size:.86rem;color:#F2E3C8;font-weight:500}
+.dobox__count{margin-left:auto;font-family:var(--display);font-weight:600;font-size:.95rem;background:rgba(251,246,236,.18);padding:.22rem .85rem;border-radius:999px;transition:.25s}
+.dobox__count.done{background:var(--go);color:#fff}
+.dobox .steps{margin:0;padding:1rem}
+.dobox .steps li{box-shadow:none}
+
+/* ── 先預測再看答案 ── */
+.predict{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.predict__q{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 .4rem}
+.predict__hint{font-size:.9rem;color:var(--ink-soft);margin:0 0 1.1rem}
+.picks{display:grid;gap:.7rem}
+.pick{font:inherit;font-weight:600;text-align:left;cursor:pointer;padding:.9rem 1.15rem;border-radius:12px;border:2.5px solid var(--rule);background:var(--ground);transition:.16s;box-shadow:var(--shadow-sm)}
+.pick:hover:not(:disabled){border-color:var(--ink);transform:translateX(3px)}
+.pick:disabled{cursor:default}
+.pick[data-s="hit"]{background:var(--go-soft);border-color:var(--go);box-shadow:0 3px 0 var(--go)}
+.pick[data-s="miss"]{opacity:.45;border-style:dashed}
+.said{margin:1.1rem 0 0;padding:.95rem 1.15rem;border-radius:12px;font-weight:500;display:none;animation:drop .3s;line-height:1.75}
+.said.on{display:block}
+.said[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.said[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+
+/* ── 積木拖拉排序 ── */
+.sortbox{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.slots{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;padding:1.1rem;background:var(--ground-2);border-radius:14px;border:3px dashed var(--rule);min-height:12rem;margin:1.1rem 0}
+.slots.hot{border-color:var(--accent);background:var(--accent-soft)}
+.drag{cursor:grab;user-select:none;transition:transform .14s,opacity .14s}
+.drag:active{cursor:grabbing}
+.drag.lift{opacity:.35;transform:scale(.97)}
+.verdict{margin-top:1.1rem;padding:.95rem 1.15rem;border-radius:12px;font-weight:700;display:none;animation:drop .3s}
+.verdict.on{display:block}
+.verdict[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.verdict[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+.btn{font:inherit;font-family:var(--display);font-weight:600;cursor:pointer;padding:.6rem 1.4rem;border-radius:999px;border:none;background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);transition:.15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+
+/* ── 常駐求救框 ── */
+.sos{background:#FFF9E6;border:3px solid var(--b-events);border-radius:16px;padding:1.3rem 1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-sm)}
+.sos h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.6rem}
+.sos ul{margin:.5rem 0 0;padding-left:1.3rem}
+.sos li{margin:.45rem 0}
+
+/* ── 挑戰 / 附件 ── */
+.challenge{background:linear-gradient(160deg,#12A594,#0B7A6D);color:#fff;border-radius:20px;padding:1.9rem;margin:2rem 0;box-shadow:var(--shadow-lg)}
+.challenge .h2{color:#fff;margin-bottom:.8rem}
+.challenge .h2 b{background:#FBF6EC;color:#0B7A6D}
+.challenge p{max-width:46ch}
+.challenge .reveal{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.1)}
+.challenge .reveal>summary{background:rgba(255,255,255,.16);color:#fff}
+.challenge .reveal>summary:hover{background:rgba(255,255,255,.24)}
+.challenge .reveal[open]>summary{background:rgba(255,255,255,.24)}
+.challenge .reveal__in{color:#EAFBF8}
+.challenge .blk::before{background:#0E8577}
+
+.files{display:grid;gap:.8rem;margin:1.5rem 0}
+.file{display:flex;align-items:center;gap:1rem;text-decoration:none;color:inherit;background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1rem 1.25rem;transition:.16s;box-shadow:var(--shadow-sm);font-weight:600}
+.file:hover{border-color:var(--accent);transform:translateX(4px)}
+.file .ic{flex:none;width:2.9rem;height:2.9rem;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);font-size:1.4rem}
+.file small{display:block;font-weight:400;color:var(--ink-soft);font-size:.82rem}
+.file .go{margin-left:auto;color:var(--accent);font-weight:700}
+
+footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;color:var(--ink-soft);font-size:.88rem}
+
+/* ═══ 右側進度脊椎 ════════════════════ */
+main{position:relative}
+:root{ --spine:rgba(78,49,32,.40); --spine-solid:#4E3120; --spine-go:rgba(76,175,63,.52); }
+.spine{position:absolute;top:0;bottom:0;right:calc(34px - (100vw - 100%) / 2);width:36px;pointer-events:none;z-index:5}
+.spine__line{position:absolute;inset:0;overflow:hidden;border:7px solid var(--spine);border-radius:999px;background:transparent}
+.spine__fill{position:absolute;top:0;left:0;right:0;height:0;background:var(--spine-go);transition:height .12s linear}
+.spine__dot{position:absolute;left:18px;transform:translate(-50%,-50%);width:56px;height:56px;padding:0;border-radius:50%;background:var(--ground);border:7px solid var(--spine);pointer-events:auto;cursor:pointer;transition:.25s cubic-bezier(.2,.8,.3,1)}
+.spine__dot:hover{transform:translate(-50%,-50%) scale(1.1)}
+.spine__dot[data-on="1"]{background:var(--spine-go)}
+.spine__dot[data-now="1"]{transform:translate(-50%,-50%) scale(1.14);box-shadow:0 0 0 8px rgba(76,175,63,.20)}
+.spine__dot::after{content:attr(data-label);position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(-50%);background:var(--spine-solid);color:var(--ground);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s}
+.spine__dot:hover::after{opacity:1}
+@media(max-width:1260px){.spine{display:none}}
+
+/* ═══ 截圖 / GIF 預留位 ═══════════════ */
+.shot{border:3px dashed var(--rule);border-radius:16px;background:var(--card);padding:1.4rem;margin:1.7rem 0;text-align:center;background-image:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.22) 15px 30px)}
+.shot__kind{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--display);font-weight:600;font-size:.76rem;letter-spacing:.1em;background:var(--ink);color:var(--ground);padding:.3rem .9rem;border-radius:999px}
+.shot--gif .shot__kind{background:var(--b-looks)}
+.shot--key .shot__kind{background:var(--accent);box-shadow:0 2px 0 #C4460A}
+.shot__what{display:block;font-weight:700;font-size:1.05rem;margin:.9rem 0 .3rem}
+.shot__how{font-size:.85rem;color:var(--ink-soft);margin:0 auto;max-width:44ch;line-height:1.7}
+.shot__box{margin-top:1.1rem;aspect-ratio:16/9;max-height:19rem;margin-inline:auto;width:100%;border-radius:11px;background:var(--ground-2);border:2px solid var(--rule);display:grid;place-items:center;font-size:2.6rem;opacity:.55}
+.shot--wide .shot__box{aspect-ratio:16/10}
+.shot--tall .shot__box{aspect-ratio:4/3}
+
+/* ═══ 檔名對照 ════════════════════════ */
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem;margin:1.4rem 0}
+.names__col{border-radius:16px;padding:1.15rem 1.3rem;border:3px solid}
+.names__col--good{background:var(--go-soft);border-color:var(--go)}
+.names__col--bad{background:var(--accent-soft);border-color:var(--accent)}
+.names__col h4{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 0 .7rem;display:flex;align-items:center;gap:.5rem}
+.names__col ul{margin:0;padding-left:1.25rem}
+.names__col li{margin:.4rem 0;font-family:var(--mono);font-size:.9rem}
+.names__col li small{font-family:var(--body);color:var(--ink-soft);display:block;font-size:.8rem}
+
+/* ═══ 試試看卡片 ══════════════════════ */
+.playgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.9rem;margin:1.4rem 0}
+.play{background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1.05rem 1.15rem 1.05rem 3.5rem;position:relative;cursor:pointer;transition:.18s;box-shadow:var(--shadow-sm)}
+.play::before{content:"";position:absolute;left:1rem;top:1.05rem;width:1.75rem;height:1.75rem;border-radius:8px;border:3px solid var(--ink);background:#fff;display:grid;place-items:center;font-weight:700;font-size:1rem;transition:.2s}
+.play:hover{border-color:var(--ink);transform:translateY(-3px)}
+.play:hover::before{content:"✓";color:var(--rule)}
+.play[data-ok="1"]{background:var(--go-soft);border-color:var(--go)}
+.play[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff}
+.play[data-ok="1"]:hover::before{color:#fff}
+.play b{display:block;font-family:var(--display);font-weight:600;font-size:1.02rem;margin-bottom:.15rem}
+.play small{color:var(--ink-soft);font-size:.85rem;line-height:1.65;display:block}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <span class="tag">第 2 課 · 大約 1 節課</span>
+    <h1>換一個<em>主角</em></h1>
+    <p class="lede">小貓可以退休了。今天你會挑一個自己喜歡的角色，還會學會最重要的一件事——<strong style="color:#FFBF00">存檔</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一張<strong style="color:#FFBF00">自我介紹卡</strong>：你挑的角色，站在你挑的場景裡，說出你的名字。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天會學會三件事</h2>
+        <ol>
+          <li>換一個<b>角色</b></li>
+          <li>換一個<b>背景</b></li>
+          <li><b>存檔</b> —— 沒有它，下禮拜你的作品就不見了</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine" id="spine">
+  <div class="spine__line"><i class="spine__fill" id="spineFill"></i></div>
+</div>
+
+<!-- ── 1. 跟小貓說再見 ───────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>跟小貓說再見</h2>
+  <p>還記得畫面右下角那一區嗎？那是<strong>角色列表</strong>——所有演員都排在那裡。小貓就住在那裡。</p>
+
+  <div class="ui">
+    <div class="ui__z z-pal"><span class="ui__n">1</span><b>積木區</b><small>指令的倉庫</small></div>
+    <div class="ui__z z-code"><span class="ui__n">2</span><b>程式區</b><small>拼積木的地方</small></div>
+    <div class="ui__z z-stage"><span class="ui__n">3</span><b>舞台</b><small>表演的地方</small><div class="cat">🐱</div></div>
+    <div class="ui__z z-sprite ui__z--hi"><span class="ui__n">4</span><b>角色列表</b><small>今天都在這一區動手</small></div>
+  </div>
+
+  <p>要刪掉小貓，在角色列表裡的小貓上面<strong>按滑鼠右鍵</strong>，選「刪除」。或者點小貓右上角的<strong>垃圾桶</strong>。</p>
+
+  <figure class="shot shot--gif shot--tall">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">刪掉小貓</b>
+    <p class="shot__how">在角色列表的小貓上按右鍵 → 出現選單 → 點「刪除」→ 小貓從舞台消失。約 3 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <details class="reveal">
+    <summary>刪錯了怎麼辦？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>不用擔心。按鍵盤的 <strong>Ctrl + Z</strong> 可以救回來（就是「復原」）。</p>
+      <p>就算救不回來也沒關係——待會你本來就要去角色庫挑新的角色，再挑一次就好。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 挑一個新主角 ───────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>挑一個新主角</h2>
+  <p>角色列表的<strong>右下角</strong>有一個貓咪頭的圓形按鈕，把滑鼠移上去，會跳出「選個角色」。點下去就會打開<strong>角色庫</strong>。</p>
+  <p>裡面有幾百個角色，上面還可以按分類找——動物、人物、奇幻、舞蹈、食物……慢慢挑，挑你真的喜歡的。</p>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">從角色庫挑一個新角色</b>
+    <p class="shot__how">滑鼠移到右下角圓鈕 → 點「選個角色」→ 角色庫打開 → 挑一個 → 角色出現在舞台上。約 5 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>把小貓刪掉</li>
+      <li>點右下角的圓鈕，打開<strong>角色庫</strong></li>
+      <li>挑一個你喜歡的角色，讓它站上舞台</li>
+    </ol>
+  </div>
+
+  <details class="reveal">
+    <summary>可以放很多個角色嗎？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>可以喔！你想放幾個都行，角色列表會一個一個排下去。</p>
+      <p>不過<strong>今天先放一個就好</strong>，把一個角色弄熟。等我們學到<strong>第 10 課</strong>，會讓兩個角色一起演戲，那時候就有得忙了。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 3. 換一個場景 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>換一個場景</h2>
+  <p>角色有了，但站在一片白色裡怪怪的。畫面<strong>最右下角</strong>還有一個按鈕，是<strong>背景</strong>——點它就能打開背景庫。</p>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">從背景庫挑一個場景</b>
+    <p class="shot__how">點最右下角的背景圓鈕 → 背景庫打開 → 挑一個 → 舞台整個變了。約 4 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <details class="reveal">
+    <summary>背景跟角色有什麼不一樣？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p><strong>角色</strong>是演員，會走來走去、會說話。<strong>背景</strong>是舞台的布景，不會自己動。</p>
+      <p>所以程式幾乎都是寫在角色身上，不是寫在背景上。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 4. 讓新主角自我介紹 ────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>讓新主角自我介紹</h2>
+  <p>上禮拜的積木，這禮拜一樣能用。</p>
+
+  <p class="predict__hint">⚠️ 很重要：<strong>程式是寫在角色身上的。</strong> 剛剛你刪掉小貓的時候，小貓身上的程式也一起不見了。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">你在小貓身上寫好程式，然後把小貓刪掉，換成一隻狗。狗會照著做嗎？</p>
+    <p class="predict__hint">先猜猜看，選一個。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="程式是跟著角色走的。小貓被刪掉，它身上的程式也一起消失了 —— 沒有東西留下來給狗用。">會，程式還留著</button>
+      <button class="pick" data-v="b" data-say="沒錯！每個角色都有自己的一套程式。換了角色，就要在新角色身上重新拼一次。">不會，要在狗身上重新寫</button>
+      <button class="pick" data-v="c" data-say="綠旗只是「開始執行」的按鈕，它不會把程式從一個角色搬到另一個角色身上。">會，但要重新按綠旗</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <p>那就動手吧。最少要有這兩塊，剩下的你自己加：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--looks">說出 <i>我是 ○○○</i></div>
+  </div>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>在<strong>新角色</strong>身上拖出「當綠旗被點擊」</li>
+      <li>接上「說出」，把字改成<strong>你自己的名字</strong></li>
+      <li>按綠旗，確認說出來的是你的名字</li>
+    </ol>
+  </div>
+
+  <div class="sortbox">
+    <p style="font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0 0 .3rem">考考你</p>
+    <p class="predict__hint" style="margin-top:0">
+      小美想讓她的角色這樣做 ——
+      <strong>先打招呼，然後走過去，到了才說出自己的名字。</strong><br>
+      下面四塊積木順序被打亂了，<strong>看清楚每一塊上面寫什麼</strong>，拖成小美要的順序。
+    </p>
+    <div class="slots" id="slots">
+      <div class="blk blk--looks  drag" draggable="true" data-k="4">說出 <i>我是小美</i></div>
+      <div class="blk blk--motion drag" draggable="true" data-k="3">移動 <i>60</i> 點</div>
+      <div class="blk blk--events blk--hat drag" draggable="true" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <div class="blk blk--looks  drag" draggable="true" data-k="2">說出 <i>你好</i></div>
+    </div>
+    <button class="btn" id="check">檢查看看</button>
+    <p class="verdict" id="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 5. ★ 存檔（整課最重要）──────────── -->
+<section class="keysec">
+  <h2 class="h2"><b>★</b>最重要的一件事：存檔</h2>
+  <p>做得很棒。但是——</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">如果你現在直接把 Scratch 關掉，下禮拜還看得到你的作品嗎？</p>
+    <p class="predict__hint">先猜猜看再往下看。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="電腦不會自己記住喔。你沒有跟它說「請把這個留下來」，它就當作你不要了。這就是為什麼要學存檔。">看得到，電腦會自己記住</button>
+      <button class="pick" data-v="b" data-say="綠旗只是「開始執行」的按鈕，跟「留下來」完全沒有關係。沒存檔的話，連程式都會一起不見。">看得到，只是要重新按綠旗</button>
+      <button class="pick" data-v="c" data-say="沒錯，全部都會不見 —— 角色、背景、程式，一個都不剩。所以今天最重要的就是這一段：電腦不會自己幫你留，你要主動告訴它。">看不到，全部都會不見</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <h3>怎麼存？</h3>
+  <p>看畫面<strong>最上面那排</strong>，第一個字是「檔案」。點它 → 選 <strong>「儲存到你的電腦」</strong>。</p>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">存檔的完整流程</b>
+    <p class="shot__how">點「檔案」→ 選「儲存到你的電腦」→ 跳出視窗 → 打上檔名 → 按「存檔」→ 完成。約 6 秒，動作放慢一點，每一步都要看得清楚。<b>這是整課最關鍵的一張圖。</b></p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <h3>檔名要怎麼取？</h3>
+  <p>檔名不是隨便打的。取得好，你自己下禮拜找得到；取不好，一堆檔案長得一樣，你會找到懷疑人生。</p>
+
+  <div class="names">
+    <div class="names__col names__col--good">
+      <h4>✓ 這樣取很好</h4>
+      <ul>
+        <li>03_王小明_第2課</li>
+        <li>03_王小明_自我介紹</li>
+      </ul>
+      <p style="font-size:.85rem;margin:.7rem 0 0;color:var(--ink-soft)">一看就知道是<strong>誰</strong>的、<strong>哪一課</strong>。</p>
+    </div>
+    <div class="names__col names__col--bad">
+      <h4>✗ 這樣取會出事</h4>
+      <ul>
+        <li>未命名<small>過幾週你會有五個「未命名」</small></li>
+        <li>aaa<small>兩天後你就忘了這是什麼</small></li>
+        <li>我的作品最新版最終版真的最後<small>下一個是什麼？</small></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>💾 動手存檔</b>
+      <span class="dobox__tip">這四步一定要做完 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>點最上面的<strong>「檔案」</strong></li>
+      <li>選<strong>「儲存到你的電腦」</strong></li>
+      <li>把檔名改成 <strong>座號_姓名_第2課</strong></li>
+      <li>按下<strong>「存檔」</strong>，看到檔案存好了</li>
+    </ol>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 存檔卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>找不到「檔案」在哪</strong> —— 在畫面最上面那排，最左邊，地球圖示的右邊。</li>
+      <li><strong>不知道要存到哪個資料夾</strong> —— 老師會告訴你存哪裡，記得每次都存在同一個地方。</li>
+      <li><strong>存完好像沒反應</strong> —— 正常的！存檔成功通常很安靜，畫面不會有大變化。</li>
+      <li>三個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 6. 下禮拜怎麼打開 ──────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>下禮拜怎麼打開</h2>
+  <p>存好了，那要怎麼再打開？一樣點<strong>「檔案」</strong>，這次選 <strong>「從你的電腦挑選」</strong>，找到你的檔案，打開就好。</p>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">把存好的檔案重新打開</b>
+    <p class="shot__how">點「檔案」→ 選「從你的電腦挑選」→ 找到檔案 → 點「開啟」→ 作品完整回來了。約 6 秒。<b>這張跟存檔那張一樣關鍵。</b></p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">存好的檔案長什麼樣子</b>
+    <p class="shot__how">拍資料夾裡那個 <code>.sb3</code> 檔案的圖示與檔名，讓學生認得自己要找的是什麼。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 現在就試一次</b>
+      <span class="dobox__tip">不要等下禮拜才發現打不開 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>把 Scratch 整個<strong>關掉</strong>（不要怕，你已經存過了）</li>
+      <li>重新打開 Scratch，點<strong>「檔案 → 從你的電腦挑選」</strong></li>
+      <li>找到你的檔案打開，確認角色、背景、程式都還在</li>
+    </ol>
+  </div>
+
+  <p class="predict__hint">💡 這一步是<strong>今天最值得做的練習</strong>。現在試過一次，下禮拜你就會很有把握。</p>
+</section>
+
+<!-- ── 7. 自由玩一玩 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>7</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天學的東西</strong>就能做到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox" style="border:none;box-shadow:none;background:transparent">
+    <div class="dobox__head" style="border-radius:14px">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play">
+        <b>找一個會動的角色</b>
+        <small>有些角色有很多造型，看看角色庫裡哪些看起來會動。</small>
+      </div>
+      <div class="play">
+        <b>換三次背景</b>
+        <small>換換看不同場景，哪一個跟你的角色最搭？</small>
+      </div>
+      <div class="play">
+        <b>讓角色說三句話</b>
+        <small>介紹自己的名字、幾年幾班、最喜歡什麼。</small>
+      </div>
+      <div class="play">
+        <b>幫角色改個名字</b>
+        <small>角色列表裡可以改角色的名字，取一個你喜歡的。</small>
+      </div>
+      <div class="play">
+        <b>存第二個檔</b>
+        <small>換個角色重做一次，用不同檔名存起來。</small>
+      </div>
+      <div class="play">
+        <b>把兩個檔案輪流打開</b>
+        <small>確認兩個都存成功了，而且內容不一樣。</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p style="font-family:var(--display);font-weight:600;font-size:1.15rem;margin-bottom:.2rem">挑戰一</p>
+  <p>做一張<strong style="color:#FFBF00">完整的自我介紹卡</strong>：你挑的角色、你挑的背景，走幾步，說出你的名字和一件你喜歡的事。做完存檔。</p>
+
+  <details class="reveal">
+    <summary>看參考答案<span class="peek">先自己做做看</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--looks">說出 <i>大家好</i></div>
+        <div class="blk blk--motion">移動 <i>80</i> 點</div>
+        <div class="blk blk--looks">說出 <i>我是王小明</i></div>
+        <div class="blk blk--looks">說出 <i>我最喜歡打籃球</i></div>
+      </div>
+      <p>你的角色、背景、台詞都跟這個不一樣才對 —— 這是<strong style="color:#FFBF00">你的</strong>自我介紹卡。</p>
+    </div>
+  </details>
+
+  <p style="font-family:var(--display);font-weight:600;font-size:1.15rem;margin:2.2rem 0 .2rem">挑戰二（比較難）</p>
+  <p>做出<strong style="color:#FFBF00">三張</strong>不同的介紹卡，各用不同的角色和背景，<strong style="color:#FFBF00">分別存成三個檔案</strong>，然後一個一個打開來檢查。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想檔名</span></summary>
+    <div class="reveal__in">
+      <p>關鍵在<strong style="color:#FFBF00">檔名</strong>。三個檔案如果都叫一樣的名字，第二個會蓋掉第一個。試試看 <code>_1</code>、<code>_2</code>、<code>_3</code> 這樣分。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="#" download>
+      <span class="ic">🎭</span>
+      <span>第2課_自我介紹卡_範例.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（附件功能的示意 —— 之後把實際檔案放進來，連結換掉就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 2 課 · 換一個主角 —— 原型版本，版面與互動都可以調整</p>
+</footer>
+
+</main>
+
+<script>
+/* ── 閱讀進度 ── */
+const rail = document.getElementById('rail');
+const onScroll = () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  rail.style.width = (h > 0 ? Math.min(scrollY / h, 1) * 100 : 0) + '%';
+};
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* ── 步驟打勾（含完成計數）── */
+document.querySelectorAll('.dobox').forEach(box => {
+  const items = [...box.querySelectorAll('.steps li')];
+  if (!items.length) return;
+  const cnt = box.querySelector('.dobox__count');
+  const num = cnt.querySelector('i');
+  const tally = () => {
+    const n = items.filter(li => li.dataset.ok === '1').length;
+    num.textContent = n;
+    cnt.classList.toggle('done', n === items.length);
+  };
+  items.forEach(li => li.addEventListener('click', () => {
+    li.dataset.ok = li.dataset.ok === '1' ? '0' : '1';
+    tally();
+  }));
+  tally();
+});
+
+/* ── 先預測再看答案（每個錯誤選項給專屬回饋）── */
+document.querySelectorAll('.predict').forEach(box => {
+  const ans = box.dataset.ans, said = box.querySelector('.said');
+  box.querySelectorAll('.pick').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ok = btn.dataset.v === ans;
+      btn.dataset.s = ok ? 'hit' : 'miss';
+      said.textContent = btn.dataset.say;
+      said.dataset.k = ok ? 'y' : 'n';
+      said.classList.add('on');
+      if (ok) box.querySelectorAll('.pick').forEach(b => b.disabled = true);
+    });
+  });
+});
+
+/* ── 積木拖拉排序 ── */
+const slots = document.getElementById('slots');
+if (slots) {
+  let held = null;
+  const afterEl = y => {
+    const rest = [...slots.querySelectorAll('.drag:not(.lift)')];
+    return rest.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      return (offset < 0 && offset > closest.offset) ? {offset, el: child} : closest;
+    }, {offset: Number.NEGATIVE_INFINITY}).el;
+  };
+  slots.querySelectorAll('.drag').forEach(el => {
+    el.addEventListener('dragstart', () => { held = el; setTimeout(() => el.classList.add('lift'), 0); });
+    el.addEventListener('dragend',   () => { el.classList.remove('lift'); slots.classList.remove('hot'); });
+  });
+  slots.addEventListener('dragover', e => {
+    e.preventDefault(); slots.classList.add('hot');
+    if (!held) return;
+    const after = afterEl(e.clientY);
+    if (after == null) slots.appendChild(held); else slots.insertBefore(held, after);
+  });
+  slots.addEventListener('dragleave', e => { if (!slots.contains(e.relatedTarget)) slots.classList.remove('hot'); });
+  slots.addEventListener('drop', e => { e.preventDefault(); slots.classList.remove('hot'); });
+
+  document.getElementById('check').addEventListener('click', () => {
+    const now = [...slots.querySelectorAll('.drag')].map(el => el.dataset.k);
+    const v = document.getElementById('verdict');
+    v.classList.add('on');
+    if (now.join('') === '1234') {
+      v.dataset.k = 'y';
+      v.textContent = '✓ 完全正確！打招呼 →(走過去)→ 到了才報名字，跟小美想的一樣。';
+    } else if (now[0] !== '1') {
+      v.dataset.k = 'n';
+      v.textContent = '再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？';
+    } else if (now.indexOf('2') > now.indexOf('3')) {
+      v.dataset.k = 'n';
+      v.textContent = '再讀一次小美的要求 —— 她是「先打招呼」才走過去的。哪一塊是打招呼？';
+    } else {
+      v.dataset.k = 'n';
+      v.textContent = '快好了！小美說「到了才說出自己的名字」—— 那「我是小美」應該排在走路的前面還是後面？';
+    }
+  });
+}
+
+/* ── 試試看卡片 ── */
+document.querySelectorAll('.playgrid').forEach(grid => {
+  const cards = [...grid.querySelectorAll('.play')];
+  const cnt = grid.parentElement.querySelector('.dobox__count');
+  const tally = () => {
+    if (!cnt) return;
+    const n = cards.filter(c => c.dataset.ok === '1').length;
+    cnt.querySelector('i').textContent = n;
+    cnt.classList.toggle('done', n === cards.length);
+  };
+  cards.forEach(c => c.addEventListener('click', () => {
+    c.dataset.ok = c.dataset.ok === '1' ? '0' : '1';
+    tally();
+  }));
+  tally();
+});
+
+/* ── 右側進度脊椎 ── */
+(() => {
+  const main  = document.querySelector('main');
+  const spine = document.getElementById('spine');
+  const fill  = document.getElementById('spineFill');
+  if (!main || !spine) return;
+
+  const secs = [...main.querySelectorAll(':scope > section')];
+  const dots = secs.map(sec => {
+    const el = document.createElement('button');
+    el.className = 'spine__dot';
+    const h  = sec.querySelector('.h2');
+    const bg = h && h.querySelector('b');
+    el.dataset.label = h ? h.textContent.replace(bg ? bg.textContent : '', '').trim() : '';
+    el.setAttribute('aria-label', el.dataset.label);
+    el.addEventListener('click', () => sec.scrollIntoView({behavior:'smooth', block:'start'}));
+    spine.appendChild(el);
+    return {el, sec, top:0};
+  });
+
+  const place = () => dots.forEach(d => {
+    const h = d.sec.querySelector('.h2');
+    const raw = h ? h.offsetTop + h.offsetHeight / 2 : d.sec.offsetTop + 30;
+    // 夾在 main 範圍內：算錯時圓圈會溢出容器，把整頁撐長好幾萬 px
+    d.top = Math.max(0, Math.min(raw, main.offsetHeight));
+    d.el.style.top = d.top + 'px';
+  });
+
+  const paint = () => {
+    let eye = scrollY + innerHeight * 0.42 - main.offsetTop;
+    const far = document.documentElement.scrollHeight - innerHeight;
+    if (far <= 0 || scrollY / far > 0.995) eye = main.offsetHeight + 1;
+    fill.style.height = Math.max(0, Math.min(eye, main.offsetHeight)) + 'px';
+    let cur = -1;
+    dots.forEach((d, i) => {
+      const on = eye >= d.top;
+      d.el.dataset.on = on ? '1' : '0';
+      if (on) cur = i;
+    });
+    dots.forEach((d, i) => d.el.dataset.now = (i === cur) ? '1' : '0');
+  };
+
+  const refresh = () => { place(); paint(); };
+  addEventListener('scroll', paint, {passive:true});
+  addEventListener('resize', refresh);
+  if (document.readyState === 'complete') refresh();
+  else addEventListener('load', refresh);
+  // 版面一變就要重算，否則圓圈會停在舊位置。三道保險：
+  document.querySelectorAll('details').forEach(d => d.addEventListener('toggle', refresh)); // 學生點開揭曉
+  addEventListener('load', refresh, true);                    // 圖片載入完（capture 才抓得到 img）
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);  // 字型載入完
+  if (window.ResizeObserver) new ResizeObserver(refresh).observe(main);
+  refresh();
+})();
+</script>
+</body>
+</html>

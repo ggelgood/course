@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 9 課 · 作品：可以操控的角色</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 9 課 · 作品 · 大約 1 節課</span>
+    <h1>作品：<em>可以操控的角色</em></h1>
+    <p class="lede">前面八節課，你做的東西都是<strong style="color:#FFBF00">給人看的</strong>。今天做的，是<strong style="color:#FFBF00">給人玩的</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個<strong style="color:#FFBF00">別人拿去就能玩</strong>的角色——按鍵盤就會動，走到邊邊不會不見。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天怎麼上</h2>
+        <p>沒有標準答案。做完最低要求之後，還可以一直加東西。<strong style="color:#FFBF00">最後大家會互相玩對方的作品。</strong></p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 今天不一樣 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>今天不教新積木</h2>
+  <p>第 7、8 課學的東西，今天全部派上用場。<strong>一塊新積木都沒有</strong>——今天是把它們組成一個真的能玩的東西。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🙋 第 7、8 課沒跟上的，今天可以補</h3>
+    <ul>
+      <li>如果你<strong>按鍵控制</strong>或<strong>四方向</strong>還沒弄懂，今天先回去把那兩課做完。</li>
+      <li>今天沒有進度壓力。做到哪裡算哪裡，重點是<strong>你自己弄懂了</strong>。</li>
+      <li>做完最低要求之後，下面還有很多可以加的，做多久都可以。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 積木小抄 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>你會用到這些積木</h2>
+  <p>全部都學過了。忘記哪一塊做什麼，看這裡就好。</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <div class="blk blk--events blk--hat">當 <i>空白 ▾</i> 鍵被按下</div>
+      <small>等某個鍵被按下。<b>不用先按綠旗</b>，而且每個鍵要自己開一串。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">面朝 <i>90</i> 度</div>
+      <small>直接轉到指定方向。<b>上 0、右 90、下 180、左 -90</b>。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">移動 <i>30</i> 點</div>
+      <small>往<b>面對的方向</b>走。這個數字決定手感，很重要。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">碰到邊緣就反彈</div>
+      <small>接在移動<b>下面</b>，角色就不會跑出舞台。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--looks">造型換成下一個</div>
+      <small>接在移動下面，走起來就有<b>邁步的感覺</b>。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--sound">播放音效 <i>喵</i></div>
+      <small>按鍵的時候發出聲音，玩起來更有回饋。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--looks">尺寸設為 <i>100</i> %</div>
+      <small>角色太大擠不下、太小看不到的時候調它。</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <small>開場設定用。放<b>面朝、尺寸、回到起點</b>這些一開始要弄好的事。</small>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. 先調手感 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>先調手感</h2>
+  <p>「移動幾點」這個數字，是<strong>整個作品好不好玩的關鍵</strong>。太小很累，太大控制不住。</p>
+  <p><strong>先用滑鼠點一下藍色舞台</strong>，拉拉看下面的桿子，再按鍵盤的方向鍵，感覺一下差別：</p>
+
+  <div class="predict">
+    <div class="kdemo" id="kd" tabindex="0" aria-label="手感調整示範">
+      <div class="kdemo__stage">
+        <div class="kdemo__cat" id="kCat">🐱</div>
+      </div>
+
+      <div class="kdemo__keys">
+        <button class="kkey" data-key="ArrowUp">↑</button>
+        <button class="kkey" data-key="ArrowDown">↓</button>
+        <button class="kkey" data-key="ArrowLeft">←</button>
+        <button class="kkey" data-key="ArrowRight">→</button>
+      </div>
+
+      <div class="stack" style="margin:.4rem 0 0;align-items:center">
+        <div class="blk blk--motion">移動 <i id="sNum">30</i> 點</div>
+      </div>
+
+      <div class="slide">
+        <label for="sRange">移動幾點：</label>
+        <input type="range" id="sRange" min="5" max="100" step="5" value="30">
+        <strong class="slide__val" id="sShow">30</strong>
+      </div>
+
+      <p class="kdemo__hint" id="kSay">點一下上面的舞台，拉拉看桿子，再按方向鍵試試手感。</p>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 調手感沒有標準答案</h3>
+    <ul>
+      <li>做<strong>要閃來閃去的遊戲</strong> → 數字大一點，反應才夠快。</li>
+      <li>做<strong>要走進小空間的遊戲</strong> → 數字小一點，才控制得準。</li>
+      <li><strong>你自己玩得順就是對的。</strong> 等一下同學來玩，再問問他覺得如何。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>動手做</h2>
+  <p>分成三關。<strong>第一關一定要做到</strong>，後面兩關做得到多少算多少。</p>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 第一關 · 一定要做到</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>挑一個你喜歡的<strong>角色</strong>和<strong>背景</strong></li>
+      <li>拼出<strong>四串</strong>程式，上下左右各一串（面朝 ＋ 移動）</li>
+      <li>每一串的移動下面都接上 <strong>碰到邊緣就反彈</strong></li>
+      <li>四個方向都按按看，確認角色<strong>走得動、也走不出去</strong></li>
+    </ol>
+  </div>
+
+  <details class="reveal">
+    <summary>四串程式好多，有沒有快一點的方法？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>有！<strong>不要一串一串重拼。</strong></p>
+      <p>先拼好<strong>一串</strong>（例如「右」），然後在那串程式的<strong>帽子上按滑鼠右鍵</strong> → 選 <strong>「複製」</strong>，整串就複製出來了，放到旁邊空白處。</p>
+      <p>複製出來之後只要改<strong>兩個地方</strong>：帽子上的按鍵、和「面朝」的度數。<strong>四串程式一分鐘就搞定。</strong></p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">複製整串程式的方法</b>
+    <p class="shot__how">在程式的<b>帽子積木上按右鍵</b> → 點「複製」→ 整串黏在滑鼠上 → 放到旁邊空白處 → 改按鍵和度數。約 6 秒。<b>這個技巧能省下學生一半的時間</b>，值得拍清楚。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 第二關 · 做完了再加</b>
+      <span class="dobox__tip">讓它更好玩 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>調整<strong>移動的點數</strong>，找出你玩起來最順的手感</li>
+      <li>加上 <strong>造型換成下一個</strong>，讓角色邊走邊擺動</li>
+      <li>把迴轉方式改成<strong>左右翻轉</strong>，角色就不會頭上腳下</li>
+      <li>加一串<strong>空白鍵</strong>的程式，按下去會叫一聲或跳一下</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🥇 第三關 · 還有時間就挑戰</b>
+      <span class="dobox__tip">挑你想做的，不用全做 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>加一串<strong>綠旗</strong>程式，按綠旗就把角色<strong>面朝右、尺寸設為 100%</strong> 重新開始</li>
+      <li>加<strong>第二個角色</strong>，用 <strong>W A S D</strong> 控制，變成兩個人玩</li>
+      <li>兩個角色設<strong>不同的移動點數</strong>，一個快一個慢，比賽誰先到對面</li>
+      <li>幫遊戲加一個<strong>說明</strong>：開場讓角色說出「用方向鍵移動！」</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">完成的作品玩起來的樣子</b>
+    <p class="shot__how">拍舞台區，用方向鍵操控角色走一圈，撞到邊邊會彈回來。<b>如果能同時拍到按鍵盤的手最好</b>——學生會更想自己做一個。約 8 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <details class="reveal">
+    <summary>我想不到要做什麼角色<span class="peek">點我看幾個點子</span></summary>
+    <div class="reveal__in">
+      <p>不用想太複雜，<strong>先挑你喜歡的角色就好</strong>，玩法之後再說。幾個方向：</p>
+      <p><strong>一隻在草地上跑的動物</strong>／<strong>一台在馬路上開的車</strong>（車子記得把迴轉方式設成左右翻轉）／<strong>一隻在太空飛的太空船</strong>（配星空背景）／<strong>一條在水裡游的魚</strong>。</p>
+      <p>角色和背景搭起來有畫面，作品就成立了。</p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">兩個人一起玩的樣子（第三關）</b>
+    <p class="shot__how">拍舞台區，兩個角色同時在動——一個用方向鍵、一個用 WASD。<b>找一位同學一起入鏡按鍵盤最好</b>，那個畫面最能讓學生想做到第三關。約 6 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>按鍵沒反應</strong> —— 先用滑鼠<strong>點一下舞台</strong>，讓 Scratch 知道你在跟它講話。</li>
+      <li><strong>只有一兩個方向會動</strong> —— 檢查四個帽子是不是選了<strong>四個不同的鍵</strong>。</li>
+      <li><strong>角色走錯方向</strong> —— 檢查「面朝」的度數。<strong>上 0、右 90、下 180、左 -90</strong>。</li>
+      <li><strong>角色倒過來</strong> —— 點角色左邊的「方向」，迴轉方式改成<strong>左右翻轉</strong>。</li>
+      <li><strong>角色卡在邊邊出不來</strong> —— 用滑鼠把它拖回中間，然後檢查<strong>反彈有沒有接在移動下面</strong>。</li>
+      <li>五個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 存檔 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>做完了，記得存檔</h2>
+  <p>等一下要拿給同學玩，<strong>沒存檔就玩不到了</strong>。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>💾 存檔</b>
+      <span class="dobox__tip">三步，一定要做完 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>點<strong>「檔案 → 儲存到你的電腦」</strong></li>
+      <li>檔名取 <strong>座號_姓名_可以操控的角色</strong></li>
+      <li>存在老師說的那個資料夾裡</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ── 6. 互相試玩 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>互相試玩</h2>
+  <p>這是今天最好玩的部分。<strong>跟旁邊的同學換位子，玩對方做的東西。</strong></p>
+  <p>玩的時候不要只是按一按，注意這三件事——等一下要告訴對方：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">① 好不好控制？</b>
+      <small>移動的數字會不會太大太小？角色跟你的手指有沒有同步？</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">② 看得懂怎麼玩嗎？</b>
+      <small>沒有人跟你解釋的話，你知道要按哪些鍵嗎？</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">③ 有沒有壞掉的地方？</b>
+      <small>角色會不會卡住、跑不見、或哪個方向沒反應？</small>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>💬 給建議的時候，說具體一點</h3>
+    <ul>
+      <li>❌「還不錯」「有點怪」 —— 對方不知道要改什麼。</li>
+      <li>✅「<strong>往左走比往右走慢</strong>，你左邊那串的數字是不是打錯了？」</li>
+      <li>✅「<strong>我不知道空白鍵可以按</strong>，你可以讓角色一開始說一下。」</li>
+      <li>被別人挑到問題不是壞事 —— <strong>真正的遊戲都是這樣改出來的。</strong></li>
+    </ul>
+  </div>
+
+  <p class="predict__hint">💡 玩別人的作品時，如果看到你不會做的效果，<strong>直接問他怎麼做的</strong>。這是這節課最快的學習方式。</p>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第9課_可以操控的角色_範例.sb3" download>
+      <span class="ic">🎮</span>
+      <span>第9課_可以操控的角色_範例.sb3<small>老師做好的範例。做完自己的再打開來比較看看</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 9 課 · 作品：可以操控的角色 —— 單元三完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：手感調整
+   同一個鍵盤示範，但步伐大小由滑桿決定 ——
+   讓學生「感覺」出差別，而不是用文字解釋。 */
+(() => {
+  const kd = document.getElementById('kd'), sR = document.getElementById('sRange');
+  if (!kd || !sR) return;
+  const cat = document.getElementById('kCat'),
+        say = document.getElementById('kSay'),
+        num = document.getElementById('sNum'),
+        val = document.getElementById('sShow');
+  const step = {ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0]};
+  let x = 0, y = 0, pressed = 0;
+
+  const feel = () => {
+    const v = +sR.value;
+    return v <= 10 ? '太小了 —— 角色動一下下，要按很多次才走得到，玩起來很累。'
+         : v <= 45 ? '<strong>這個範圍最好用。</strong> 走得動、也停得住，大部分遊戲都用這附近的數字。'
+         : v <= 75 ? '有點大 —— 反應很快，但想停在特定位置就難了。'
+                   : '太大了 —— 按一下就飛出去半個舞台，幾乎沒辦法控制。';
+  };
+
+  const draw = () => {
+    const v = +sR.value;
+    num.textContent = v; val.textContent = v;
+    say.innerHTML = pressed < 3
+      ? `現在是<strong>移動 ${v} 點</strong>。按方向鍵感覺看看。`
+      : `<strong>移動 ${v} 點</strong> —— ${feel()}`;
+  };
+
+  const fire = key => {
+    const d = step[key];
+    if (!d) return;
+    const v = +sR.value;
+    const st = cat.parentElement.getBoundingClientRect();
+    const maxX = st.width / 2 - 34, maxY = st.height / 2 - 34;
+    x = Math.max(-maxX, Math.min(maxX, x + d[0] * v));
+    y = Math.max(-maxY, Math.min(maxY, y + d[1] * v));
+    cat.style.transform = `translate(calc(-50% + ${x}px), ${y}px) scaleX(${key === 'ArrowLeft' ? -1 : 1})`;
+    const btn = kd.querySelector(`.kkey[data-key="${key}"]`);
+    if (btn) { btn.classList.add('down'); setTimeout(() => btn.classList.remove('down'), 140); }
+    pressed++;
+    draw();
+  };
+
+  kd.addEventListener('keydown', e => { if (step[e.key]) { e.preventDefault(); fire(e.key); } });
+  kd.querySelectorAll('.kkey[data-key]').forEach(b =>
+    b.addEventListener('click', () => { kd.focus(); fire(b.dataset.key); }));
+  sR.addEventListener('input', draw);
+  draw();
+})();
+</script>
+</body>
+</html>

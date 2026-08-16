@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 5 課 · 一直做、等一下、加聲音</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 5 課 · 大約 1 節課</span>
+    <h1>一直做、<em>等一下、加聲音</em></h1>
+    <p class="lede">上禮拜的重複會做完就停。今天要學會讓它<strong style="color:#FFBF00">永遠不停</strong>，還要學會叫電腦慢一點。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個<strong style="color:#FFBF00">會呼吸、會叫</strong>的角色 —— 一直動、不會停。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天有三塊新積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="cwrap">
+            <div class="blk blk--control">重複無限次</div>
+            <div class="cwrap__in">
+              <div class="blk blk--control">等待 <i>1</i> 秒</div>
+            </div>
+            <div class="cwrap__end cwrap__end--loop"></div>
+          </div>
+          <div class="blk blk--sound">播放音效 <i>喵</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 一直做下去 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>一直做下去</h2>
+  <p>上禮拜的 <strong>重複 10 次</strong> 做完十次就停了。但有時候你會希望它<strong>永遠不要停</strong>——例如角色的腳一直動、星星一直閃。</p>
+
+  <p>「控制」分類裡還有一塊長得很像、但<strong>沒有數字框</strong>的積木：</p>
+
+  <div class="names">
+    <div class="names__col" style="background:var(--card);border-color:var(--b-control)">
+      <h4>重複 <span style="color:var(--b-control-d)">10</span> 次</h4>
+      <div class="cwrap" style="margin-top:.4rem">
+        <div class="blk blk--control">重複 <i>10</i> 次</div>
+        <div class="cwrap__in"><div class="blk blk--motion">移動 <i>10</i> 點</div></div>
+        <div class="cwrap__end"></div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">做 10 次，<strong>做完就停</strong></p>
+    </div>
+    <div class="names__col" style="background:var(--card);border-color:var(--b-control)">
+      <h4>重複<span style="color:var(--b-control-d)">無限</span>次</h4>
+      <div class="cwrap" style="margin-top:.4rem">
+        <div class="blk blk--control">重複無限次</div>
+        <div class="cwrap__in"><div class="blk blk--motion">移動 <i>10</i> 點</div></div>
+        <div class="cwrap__end cwrap__end--loop"></div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)"><strong>永遠不停</strong>，除非你按停止鈕</p>
+    </div>
+  </div>
+
+  <p>看到右邊那塊<strong>沒有數字框</strong>嗎？還有封口右下角有一個<strong>循環箭頭 ↻</strong>——那就是「會一直繞回去」的意思。</p>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">「控制」分類裡的兩塊重複積木</b>
+    <p class="shot__how">把「重複 10 次」和「重複無限次」上下排在一起拍，讓學生看清楚差別：<b>一個有數字框、一個沒有</b>，而且無限那塊底下有循環箭頭。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <h3>那要怎麼停下來？</h3>
+  <p>按舞台右上角綠旗旁邊的<strong>紅色停止鈕 🛑</strong>。這是今天一定要記住的事——不然角色會一直動到你關掉 Scratch。</p>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">怎麼讓停不下來的角色停下來</b>
+    <p class="shot__how">按綠旗 → 角色一直動 → 滑鼠移到<b>紅色停止鈕</b>按下去 → 角色停住。約 5 秒。<b>停止鈕一定要拍清楚位置</b>——學生第一次遇到停不下來的程式會慌。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">如果在「重複無限次」的<strong>下面</strong>接一塊「說出 我做完了」，按綠旗會發生什麼事？</p>
+    <p class="predict__hint">先猜猜看，選一個。這題有點難，猜錯很正常。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不會喔。無限重複沒有做完的那一天 —— 它會一直繞回去，下面的積木永遠等不到。">重複做完以後就會說「我做完了」</button>
+      <button class="pick" data-v="b" data-say="它不會跟重複同時發生。積木是一塊一塊往下執行的，上面那塊沒結束，下面就不會開始。">會一邊重複一邊說「我做完了」</button>
+      <button class="pick" data-v="c" data-say="答對了！而且這是個很重要的發現：無限重複「永遠不會做完」，所以排在它後面的積木永遠輪不到。以後你把積木接在無限重複下面卻沒反應，就是這個原因。">永遠不會說「我做完了」</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：「重複無限次」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="k">while</span> <span class="k">True</span>:          <span class="c"># 重複無限次</span>
+    <span class="f">forward</span>(<span class="n">10</span>)     <span class="c"># 移動 10 點</span>
+    <span class="f">right</span>(<span class="n">5</span>)        <span class="c"># 右轉 5 度</span></pre>
+      <p class="pypeek__note"><strong>while</strong> 是「當……的時候」，<strong>True</strong> 是「成立」。合起來就是「只要成立就一直做」—— 而 True 永遠成立，所以<strong>永遠做下去</strong>。</p>
+      <p class="pypeek__note">跟上禮拜一樣，下面的程式<strong>往右縮排</strong>，那就是肚子。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 等一下 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>叫電腦等一下</h2>
+  <p>還記得第 1 課嗎？我們接了三塊「說出」，結果<strong>只看得到最後一句</strong>——因為電腦跑太快了，一瞬間就全部說完。</p>
+  <p>今天就來解決它。「控制」分類裡有一塊 <strong>等待 1 秒</strong>：</p>
+
+  <div class="stack">
+    <div class="blk blk--control">等待 <i>1</i> 秒</div>
+  </div>
+
+  <p>它只做一件事：<strong>停在這裡不動，等指定的秒數過了再往下做。</strong> 聽起來沒什麼用，但它是讓人看得懂畫面的關鍵。</p>
+
+  <p>拉拉看下面的桿子，把等待的秒數改大改小：</p>
+
+  <div class="predict">
+    <div class="track">
+      <div class="ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="mid"></div>
+      <div class="cat" id="wCat">🐱</div>
+    </div>
+
+    <div class="stack" style="margin:.4rem 0 0">
+      <div class="cwrap">
+        <div class="blk blk--control">重複無限次</div>
+        <div class="cwrap__in">
+          <div class="blk blk--motion">移動 <i>50</i> 點</div>
+          <div class="blk blk--control">等待 <i class="wNum">1</i> 秒</div>
+          <div class="blk blk--motion">移動 <i>-50</i> 點</div>
+          <div class="blk blk--control">等待 <i class="wNum">1</i> 秒</div>
+        </div>
+        <div class="cwrap__end cwrap__end--loop"></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <label for="wRange">等待幾秒：</label>
+      <input type="range" id="wRange" min="0" max="2" step="0.1" value="1">
+      <strong class="slide__val" id="wShow">1</strong>
+    </div>
+    <p id="wSay" style="font-size:.92rem;color:var(--ink-soft);margin:.7rem 0 0">
+      等 <strong>1 秒</strong>，看得清清楚楚 —— 走過去、停一下、走回來。
+    </p>
+  </div>
+
+  <div class="sos">
+    <h3>💡 為什麼「等待 0 秒」看起來像一團模糊？</h3>
+    <ul>
+      <li>因為電腦<strong>一秒可以做好幾百件事</strong>，你的眼睛跟不上。</li>
+      <li>所以只要是<strong>想讓人看清楚</strong>的動作，中間都要加「等待」。</li>
+      <li>秒數可以是<strong>小數</strong>，例如 <strong>0.2</strong> 秒。做動畫的時候常用 0.1～0.3 秒。</li>
+    </ul>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">第 1 課那三句話，加了「等待」之後</b>
+    <p class="shot__how">分兩段拍舞台區：左邊是沒有等待的版本（只看得到最後一句），右邊是每句中間加了「等待 1 秒」的版本（三句話依序出現）。約 6 秒。<b>這是兌現第 1 課留下的疑問，學生會有恍然大悟的感覺。</b></p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <details class="pypeek">
+    <summary>偷看一下：「等待」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="k">from</span> time <span class="k">import</span> sleep    <span class="c"># 準備工作</span>
+
+<span class="f">forward</span>(<span class="n">50</span>)               <span class="c"># 移動 50 點</span>
+<span class="f">sleep</span>(<span class="n">1</span>)                   <span class="c"># 等待 1 秒</span>
+<span class="f">forward</span>(<span class="n">50</span>)               <span class="c"># 移動 50 點</span></pre>
+      <p class="pypeek__note"><strong>sleep</strong> 是英文的「睡覺」—— 讓程式先睡一下，睡醒了再繼續。是不是很好記？</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 3. 加上聲音 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>加上聲音</h2>
+  <p>點一下角色，看左上角的<strong>「音效」</strong>頁籤——每個角色都自帶一兩個聲音，小貓的是「喵」。</p>
+  <p>粉紅色的<strong>「音效」</strong>分類裡有 <strong>播放音效</strong>，下拉選單可以選要播哪一個：</p>
+
+  <div class="stack">
+    <div class="blk blk--sound">播放音效 <i>喵 ▾</i></div>
+  </div>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">從音效庫加一個新聲音</b>
+    <p class="shot__how">點「音效」頁籤 → 左下角圓鈕 → 音效庫打開 → 挑一個（例如 Boing 或 Pop）→ 回到程式頁籤，下拉選單裡就多了那個聲音。約 6 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <details class="reveal">
+    <summary>為什麼有兩塊播放音效的積木？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p><strong>播放音效</strong>：聲音開始播，程式<strong>不等它</strong>，馬上做下一塊積木。</p>
+      <p><strong>播放音效直到結束</strong>：程式會<strong>等聲音播完</strong>才做下一塊。</p>
+      <p>想讓角色「叫一聲然後馬上跑走」，用第一塊。想讓角色「唱完歌才動」，用第二塊。今天先用第一塊就好。</p>
+    </div>
+  </details>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>點角色，切到<strong>「音效」</strong>頁籤看看它有什麼聲音</li>
+      <li>從左下角圓鈕打開<strong>音效庫</strong>，加一個你喜歡的聲音</li>
+      <li>回到程式，拖出 <strong>播放音效</strong>，用下拉選單選你剛加的聲音</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ── 4. 組合起來 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>做一個會呼吸的角色</h2>
+  <p>三塊新積木都認識了。現在把它們組起來，做一個<strong>一直在呼吸</strong>的角色——慢慢變大、慢慢變小，永遠不停。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--sound">播放音效 <i>喵</i></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--looks">尺寸設為 <i>120</i> %</div>
+        <div class="blk blk--control">等待 <i>0.5</i> 秒</div>
+        <div class="blk blk--looks">尺寸設為 <i>100</i> %</div>
+        <div class="blk blk--control">等待 <i>0.5</i> 秒</div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p>注意看：<strong>播放音效放在無限重複的上面</strong>，所以它只會叫一次。如果放進肚子裡，它會叫個不停——你可以試試看，但同學會想打你。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>放好 <strong>當綠旗被點擊</strong>，接上 <strong>播放音效</strong></li>
+      <li>接上 <strong>重複無限次</strong></li>
+      <li>肚子裡放：<strong>尺寸設為 120%</strong> → <strong>等待 0.5 秒</strong></li>
+      <li>再接：<strong>尺寸設為 100%</strong> → <strong>等待 0.5 秒</strong></li>
+      <li>按綠旗看它呼吸，看夠了按<strong>紅色停止鈕</strong></li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">今天的成果：一直呼吸的角色</b>
+    <p class="shot__how">拍舞台區。按綠旗 → 角色一大一小地呼吸，錄三四個來回。最後按紅色停止鈕讓它停下來，<b>把停止鈕的位置也拍進去</b>。約 6 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>角色停不下來</strong> —— 按舞台右上角的<strong>紅色停止鈕 🛑</strong>，在綠旗旁邊。</li>
+      <li><strong>看不出在呼吸，只看到一直抖</strong> —— 「等待」的秒數太小了，改成 0.5 秒試試。</li>
+      <li><strong>完全沒動靜</strong> —— 檢查積木有沒有掉在肚子外面。無限重複的肚子要撐開包住四塊。</li>
+      <li><strong>聲音叫個不停</strong> —— 「播放音效」跑到肚子裡了，把它拖到無限重複的<strong>上面</strong>。</li>
+      <li>四個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>這題要想清楚<strong>哪些事只做一次、哪些事要一直做</strong>。</p>
+
+  <div class="sortbox"
+       data-answer="1234"
+       data-swap="2>3"
+       data-msg-ok="✓ 完全正確！說一次、叫一聲，然後才進入永遠不停的重複。"
+       data-msg-nohat="再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？"
+       data-msg-swap="再讀一次小玉的要求 —— 她要「先說『我要走囉』」，叫聲是之後的事。"
+       data-msg-near="快好了！想想剛剛學到的 —— 無限重複永遠不會做完，所以排在它後面的積木永遠輪不到。那它應該放在哪個位置？">
+    <p class="predict__hint" style="margin-top:0">
+      小玉想讓她的角色這樣做 ——
+      <strong>先說一次「我要走囉」，再叫一聲，然後就一直走個不停。</strong><br>
+      提示：想想看<strong>無限重複應該排在哪裡</strong>，才不會擋到別的積木。
+    </p>
+    <div class="slots">
+      <div class="cwrap drag" data-k="4">
+        <div class="blk blk--control">重複無限次</div>
+        <div class="cwrap__in">
+          <div class="blk blk--motion">移動 <i>10</i> 點</div>
+          <div class="blk blk--control">等待 <i>0.2</i> 秒</div>
+        </div>
+        <div class="cwrap__end cwrap__end--loop"></div>
+      </div>
+      <div class="blk blk--sound drag" data-k="3">播放音效 <i>喵</i></div>
+      <div class="blk blk--events blk--hat drag" data-k="1"><span class="flag">⚑</span> 當綠旗被點擊</div>
+      <div class="blk blk--looks drag" data-k="2">說出 <i>我要走囉</i></div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都用<strong>今天學的三塊積木</strong>就能做到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>等待改成 0.05 秒</b><small>角色會變成什麼樣子？還看得清楚嗎？</small></div>
+      <div class="play"><b>等待改成 3 秒</b><small>會不會慢到讓你想睡覺？</small></div>
+      <div class="play"><b>用第 1 課那三句話</b><small>每句「說出」中間加「等待 1 秒」，現在三句都看得到了嗎？</small></div>
+      <div class="play"><b>讓角色一直換造型</b><small>無限重複裡放「造型換成下一個」＋「等待 0.2 秒」。</small></div>
+      <div class="play"><b>把音效放進肚子裡</b><small>會發生什麼事？（記得先小聲一點，不要吵到同學）</small></div>
+      <div class="play"><b>音效庫裡找最好笑的聲音</b><small>翻翻看有哪些奇怪的聲音。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>做一個<strong>會走路的角色</strong>：一邊移動、一邊換造型，看起來像真的在走路。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>走路 = <strong style="color:#FFBF00">移動</strong> ＋ <strong style="color:#FFBF00">換造型</strong> ＋ <strong style="color:#FFBF00">等一下</strong>，三個一組，一直重複。</p>
+      <p>記得挑一個<strong style="color:#FFBF00">有很多造型的角色</strong>（第 3 課找過的那些），不然換造型看不出差別。</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="cwrap">
+          <div class="blk blk--control">重複無限次</div>
+          <div class="cwrap__in">
+            <div class="blk blk--motion">移動 <i>10</i> 點</div>
+            <div class="blk blk--looks">造型換成下一個</div>
+            <div class="blk blk--control">等待 <i>0.2</i> 秒</div>
+          </div>
+          <div class="cwrap__end cwrap__end--loop"></div>
+        </div>
+      </div>
+      <p>0.2 秒是關鍵。太快看起來像在抖，太慢像在跳格子。<strong style="color:#FFBF00">多試幾個數字，找出你覺得最像走路的那個。</strong></p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做一個<strong>會打節拍的角色</strong>：每隔一秒叫一聲，同時身體跟著一大一小。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想這次音效要放哪</span></summary>
+    <div class="reveal__in">
+      <p>這次跟課文裡的呼吸不一樣 —— 你要它<strong style="color:#FFBF00">一直叫</strong>，不是只叫一次。那「播放音效」應該放在無限重複的<strong style="color:#FFBF00">上面還是肚子裡</strong>？</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第5課_會呼吸的角色_範例.sb3" download>
+      <span class="ic">🔊</span>
+      <span>第5課_會呼吸的角色_範例.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 5 課 · 一直做、等一下、加聲音</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：等待秒數 → 節奏對照
+   把「等待」的秒數變成實際的來回速度，
+   拉到 0 會快到看不清楚 —— 那正是要教的事。 */
+(() => {
+  const wR = document.getElementById('wRange');
+  if (!wR) return;
+  const cat  = document.getElementById('wCat'),
+        val  = document.getElementById('wShow'),
+        say  = document.getElementById('wSay'),
+        nums = [...document.querySelectorAll('.wNum')];
+  let timer = null, out = false;
+
+  const step = () => {
+    out = !out;
+    const half = cat.parentElement.clientWidth / 2 - 40;
+    cat.style.transform = `translate(calc(-50% + ${out ? half * .5 : 0}px), 0)`;
+  };
+
+  const draw = () => {
+    const v = +wR.value;
+    const shown = v.toFixed(1).replace(/\.0$/, '');
+    val.textContent = shown;
+    nums.forEach(n => n.textContent = shown);
+
+    // 0 秒時電腦其實跑上百次，這裡壓到 40ms 才不會把瀏覽器卡死
+    const ms = Math.max(v * 1000, 40);
+    cat.style.transitionDuration = Math.min(ms * .6, 400) + 'ms';
+    clearInterval(timer);
+    timer = setInterval(step, ms);
+
+    say.innerHTML =
+      v < 0.15 ? '幾乎沒有等 —— <strong>快到看不清楚</strong>，只看得到一團模糊。真正的 Scratch 裡會更快。' :
+      v < 0.6  ? `等 <strong>${shown} 秒</strong>，動得很快但還看得出來。做動畫常用這個範圍。` :
+      v < 1.5  ? `等 <strong>${shown} 秒</strong>，看得清清楚楚 —— 走過去、停一下、走回來。` :
+                 `等 <strong>${shown} 秒</strong>，慢慢來 —— 想讓人看清楚每一步的時候用。`;
+  };
+
+  wR.addEventListener('input', draw);
+  addEventListener('resize', step);
+  draw();
+})();
+</script>
+</body>
+</html>

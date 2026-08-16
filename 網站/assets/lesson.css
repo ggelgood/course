@@ -1,0 +1,562 @@
+/* ═══════════════════════════════════════════════════════════
+   國小電腦課講義 — 共用樣式「積木工作台」
+   ───────────────────────────────────────────────────────────
+   所有課共用這一個檔案。改這裡，全部的課一起變。
+   新增一課時不要複製樣式，只要在 HTML 裡 <link> 這個檔就好。
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 設計變數 ──────────────────────────────────────────────
+   想調整整體風格，改這一段就夠了                            */
+:root{
+  /* 底色與文字 */
+  --ground:      #FBF6EC;   /* 頁面底色：暖米，久讀不刺眼 */
+  --ground-2:    #F4EBDB;
+  --card:        #FFFFFF;
+  --ink:         #2B2119;   /* 主要文字 */
+  --ink-soft:    #7A6A59;   /* 次要文字 */
+  --rule:        #E3D6C0;   /* 邊框線 */
+  --accent:      #FF6B1A;   /* 強調橘：可點擊、重要 */
+  --accent-soft: #FFE8D9;
+  --go:          #12A594;   /* 完成綠 */
+  --go-soft:     #D6F3EF;
+
+  /* Scratch 官方積木色（顏色＝分類，是學生要學的訊號，不要改） */
+  --b-motion:  #4C97FF;  --b-motion-d:  #3373CC;   /* 動作 */
+  --b-looks:   #9966FF;  --b-looks-d:   #774DCB;   /* 外觀 */
+  --b-sound:   #CF63CF;  --b-sound-d:   #BD42BD;   /* 音效 */
+  --b-events:  #FFBF00;  --b-events-d:  #CC9900;   /* 事件 */
+  --b-control: #FFAB19;  --b-control-d: #CF8B17;   /* 控制 */
+  --b-sensing: #5CB1D6;  --b-sensing-d: #2E8EB8;   /* 偵測 */
+  --b-ops:     #59C059;  --b-ops-d:     #389438;   /* 運算 */
+  --b-vars:    #FF8C1A;  --b-vars-d:    #DB6E00;   /* 變數 */
+
+  /* 字型 */
+  --display: "Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:    "Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+  --mono:    ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+
+  --base: 18px;             /* 中年級：字要大 */
+
+  --shadow-sm: 0 2px 0 rgba(43,33,25,.10);
+  --shadow-md: 0 3px 0 rgba(43,33,25,.12), 0 10px 24px -14px rgba(43,33,25,.5);
+  --shadow-lg: 0 5px 0 rgba(43,33,25,.13), 0 20px 40px -20px rgba(43,33,25,.55);
+
+  /* 右側進度脊椎 */
+  --spine:       rgba(78,49,32,.40);
+  --spine-solid: #4E3120;
+  --spine-go:    rgba(76,175,63,.52);
+}
+
+*{box-sizing:border-box}
+html{font-size:var(--base); scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--body); color:var(--ink);
+  line-height:1.9; background:var(--ground);
+  -webkit-font-smoothing:antialiased;
+  /* 工作桌質感：兩處暖光 + 細點陣 */
+  background-image:
+    radial-gradient(circle at 15% 5%,  rgba(255,107,26,.07), transparent 40%),
+    radial-gradient(circle at 85% 60%, rgba(18,165,148,.06), transparent 42%),
+    radial-gradient(rgba(43,33,25,.05) 1px, transparent 1px);
+  background-size: auto, auto, 22px 22px;
+  background-attachment: fixed, fixed, scroll;
+}
+
+.wrap{max-width:60rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 7rem}
+
+/* ── 頂端閱讀進度條 ─────────────────────────────────────── */
+.railtop{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(227,214,192,.55);z-index:99}
+.railtop i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#FFAB19);transition:width .12s linear}
+
+/* ═══ 開場區（老師投影用）══════════════════════════════════
+   字大、一兩屏。與下方用卡榫接縫分隔，
+   學生自然知道「上面是聽的，下面是做的」                    */
+.stage-open{
+  padding:clamp(2.5rem,6vw,4.5rem) 0 clamp(3rem,6vw,4rem);
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255,191,0,.20), transparent 45%),
+    linear-gradient(168deg,#2B2119 0%,#3D2E22 60%,#4A3626 100%);
+  color:#FBF6EC; position:relative; overflow:hidden;
+}
+.stage-open::after{  /* 卡榫接縫 */
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:26px;
+  background:var(--ground);
+  -webkit-mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+          mask:radial-gradient(14px at 50% 0,transparent 98%,#000) 0 0/56px 26px repeat-x;
+}
+.stage-open>*{position:relative;z-index:2}
+
+/* 回課程總覽（放在開場區最上面） */
+.backhome{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:var(--display);font-weight:600;font-size:.82rem;letter-spacing:.04em;
+  color:#E6D9C4;text-decoration:none;
+  border:2px solid rgba(251,246,236,.3);border-radius:999px;
+  padding:.3rem .95rem;margin-bottom:1.1rem;transition:.16s;
+}
+.backhome:hover{background:rgba(251,246,236,.14);border-color:rgba(251,246,236,.65);color:#fff}
+
+.tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:.12em;
+  background:var(--accent);color:#fff;padding:.4rem 1rem;border-radius:999px;
+  box-shadow:0 3px 0 #C4460A;
+}
+h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.08;
+  margin:1.2rem 0 .6rem;letter-spacing:-.02em;
+}
+h1 em{font-style:normal;color:#FFBF00;display:block}
+.lede{font-size:clamp(1.1rem,2.4vw,1.4rem);color:#E6D9C4;margin:0;max-width:36ch;font-weight:500}
+
+.today{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.25rem;margin-top:2.5rem;align-items:start}
+.today__box{background:rgba(251,246,236,.07);border:2px solid rgba(251,246,236,.16);border-radius:16px;padding:1.25rem 1.35rem;backdrop-filter:blur(6px)}
+.today__box h2{font-family:var(--display);font-weight:600;font-size:.9rem;letter-spacing:.1em;margin:0 0 .85rem;color:#FFBF00}
+.today__box p{margin:0;font-size:1rem;color:#E6D9C4}
+.today__box ol,.today__box ul{margin:0;padding-left:1.3rem;color:#E6D9C4}
+.today__box li{margin:.4rem 0;font-size:1rem}
+.today__box li b{color:#FFBF00}
+
+/* ═══ Scratch 積木（純 CSS，含卡榫）═══════════════════════
+   用法：<div class="blk blk--motion">移動 <i>10</i> 點</div>
+   <i> 是積木上可填的白色欄位                                */
+.blk{
+  --c:var(--b-motion); --cd:var(--b-motion-d);
+  position:relative;display:inline-flex;align-items:center;flex-wrap:wrap;gap:.4rem;
+  background:var(--c);color:#fff;font-weight:700;font-size:1rem;
+  padding:.7rem 1.1rem;border-radius:6px;box-shadow:0 3px 0 var(--cd);
+  margin:0 0 9px;line-height:1.4;
+}
+.blk::before{content:"";position:absolute;top:0;left:16px;width:28px;height:6px;background:var(--ground);border-radius:0 0 7px 7px}
+.blk::after{content:"";position:absolute;bottom:-6px;left:16px;width:28px;height:6px;background:var(--c);border-radius:0 0 7px 7px;box-shadow:0 3px 0 var(--cd)}
+.blk--hat{border-radius:22px 22px 6px 6px;padding-top:1.5rem}   /* 帽子積木（事件） */
+.blk--hat::before{display:none}
+.blk--motion {--c:var(--b-motion); --cd:var(--b-motion-d)}
+.blk--looks  {--c:var(--b-looks);  --cd:var(--b-looks-d)}
+.blk--sound  {--c:var(--b-sound);  --cd:var(--b-sound-d)}
+.blk--events {--c:var(--b-events); --cd:var(--b-events-d)}
+.blk--control{--c:var(--b-control);--cd:var(--b-control-d)}
+.blk--sensing{--c:var(--b-sensing);--cd:var(--b-sensing-d)}
+.blk--ops    {--c:var(--b-ops);    --cd:var(--b-ops-d)}
+.blk--vars   {--c:var(--b-vars);   --cd:var(--b-vars-d)}
+.blk i{font-style:normal;background:#fff;color:#2B2119;padding:.12rem .7rem;border-radius:999px;font-weight:700;min-width:2.2rem;text-align:center}
+.blk .flag{color:#12A594;font-size:1.1em}
+/* 深色底（開場區、挑戰區）上的積木凹槽要跟著變色 */
+.stage-open .blk::before{background:#3D2E22}
+.challenge .blk::before{background:#0E8577}
+
+.stack{display:flex;flex-direction:column;align-items:flex-start;margin:1.5rem 0}
+.stack .blk{margin-bottom:9px}
+
+/* ── 六角形判斷積木（碰到…？）─────────────────────────────
+   用法：<span class="blk blk--bool">碰到 <i>邊緣 ▾</i>？</span>
+   可以直接塞在「如果」積木的文字裡當條件 */
+.blk--bool{
+  --c:var(--b-sensing); --cd:var(--b-sensing-d);
+  display:inline-flex;padding:.42rem 1.3rem;margin:0;border-radius:0;
+  box-shadow:none;font-size:.94rem;
+  clip-path:polygon(11px 0, calc(100% - 11px) 0, 100% 50%, calc(100% - 11px) 100%, 11px 100%, 0 50%);
+}
+.blk--bool::before,.blk--bool::after{display:none}
+.blk--bool i{padding:.1rem .55rem;min-width:auto}
+/* 條件成立／不成立的燈號 */
+.condlamp{
+  display:inline-flex;align-items:center;gap:.4rem;font-family:var(--display);
+  font-weight:600;font-size:.9rem;padding:.3rem .85rem;border-radius:999px;
+  border:3px solid var(--rule);background:var(--card);color:var(--ink-soft);transition:.2s;
+}
+.condlamp.on{border-color:var(--go);background:var(--go-soft);color:var(--go)}
+
+/* ── C 形積木（重複、如果…那麼）──────────────────────────
+   用法：
+   <div class="cwrap">
+     <div class="blk blk--control">重複 <i>4</i> 次</div>
+     <div class="cwrap__in">  …被包住的積木…  </div>
+     <div class="cwrap__end"></div>
+   </div>
+   「肚子」是靠左邊那條粗色柱撐出來的，視覺上就是 Scratch 的樣子。 */
+.cwrap{display:inline-flex;flex-direction:column;align-items:flex-start;margin:0 0 9px;--c:var(--b-control);--cd:var(--b-control-d)}
+.cwrap--if{--c:var(--b-control);--cd:var(--b-control-d)}
+.cwrap>.blk{margin-bottom:0}
+.cwrap__in{
+  align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;
+  padding:10px 0 10px 16px;margin-left:0;
+  border-left:16px solid var(--c);
+  box-shadow:-3px 0 0 0 var(--cd) inset;
+}
+.cwrap__in>.blk:last-child{margin-bottom:0}
+.cwrap__end{
+  align-self:stretch;min-width:9rem;height:20px;background:var(--c);
+  border-radius:0 8px 8px 8px;box-shadow:0 3px 0 var(--cd);position:relative;
+}
+/* 無限重複：封口右下角的循環箭頭 */
+.cwrap__end--loop::after{
+  content:"↻";position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
+  color:#fff;font-weight:700;font-size:1rem;line-height:1;
+}
+/* 巢狀時內層縮排不要疊太深 */
+.cwrap__in .cwrap{margin-bottom:0}
+
+/* ═══ 版面元素 ════════════════════════════════════════════ */
+main{position:relative}
+section{margin:4rem 0;scroll-margin-top:2rem}
+.h2{display:flex;align-items:center;gap:.9rem;font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3.4vw,2rem);margin:0 0 1.2rem;letter-spacing:-.01em}
+.h2 b{flex:none;width:2.1em;height:2.1em;display:grid;place-items:center;background:var(--ink);color:var(--ground);border-radius:14px;font-size:.62em;font-weight:700;box-shadow:0 3px 0 rgba(43,33,25,.35)}
+h3{font-family:var(--display);font-weight:600;font-size:1.2rem;margin:2rem 0 .4rem}
+p{margin:.9rem 0;max-width:52ch}
+strong{color:var(--accent);font-weight:700}
+
+/* 整節特別重要時，加在 <section> 上 */
+.keysec{
+  background:linear-gradient(160deg,#FFF4E0,#FFE9CC);
+  border:4px solid var(--accent);border-radius:22px;
+  padding:1.8rem clamp(1.1rem,3vw,2rem);box-shadow:var(--shadow-lg);
+}
+.keysec .h2 b{background:var(--accent);box-shadow:0 3px 0 #C4460A}
+
+/* ── Scratch 介面示意圖（名稱直接標在圖上，避免來回對照）── */
+.ui{
+  display:grid;gap:10px;margin:1.75rem 0;
+  grid-template-columns:.85fr 1.35fr 1.1fr;
+  grid-template-areas:"pal code stage" "pal code sprite";
+  background:var(--ink);padding:10px;border-radius:20px;
+  box-shadow:var(--shadow-lg);min-height:22rem;
+}
+.ui__z{border-radius:12px;padding:1rem;display:flex;flex-direction:column;color:#fff;position:relative;overflow:hidden}
+.ui__z b{font-family:var(--display);font-weight:600;font-size:1.15rem;display:block}
+.ui__z small{font-size:.82rem;opacity:.92;font-weight:500;line-height:1.6}
+.ui__n{position:absolute;top:.6rem;right:.7rem;width:1.9rem;height:1.9rem;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);font-family:var(--display);font-weight:700;font-size:1rem}
+.ui__z--hi{outline:5px solid #FFBF00;outline-offset:3px}   /* 強調某一區 */
+.z-pal   {grid-area:pal;   background:linear-gradient(160deg,#FF8C1A,#E0670B)}
+.z-code  {grid-area:code;  background:linear-gradient(160deg,#5C6B7A,#3F4C58)}
+.z-stage {grid-area:stage; background:linear-gradient(160deg,#4C97FF,#3373CC)}
+.z-sprite{grid-area:sprite;background:linear-gradient(160deg,#9966FF,#774DCB)}
+.z-stage .cat{font-size:2.6rem;margin-top:auto;align-self:center}
+@media(max-width:720px){.ui{grid-template-columns:1fr 1fr;grid-template-areas:"stage stage" "pal code" "sprite sprite"}}
+
+/* ═══ 互動 1：點擊揭曉 ════════════════════════════════════
+   <details class="reveal"><summary>問題<span class="peek">提示</span></summary>
+     <div class="reveal__in">答案</div></details>                */
+.reveal{border:3px solid var(--ink);border-radius:16px;background:var(--card);margin:1.75rem 0;overflow:hidden;box-shadow:var(--shadow-md)}
+.reveal>summary{cursor:pointer;list-style:none;padding:1.05rem 1.3rem;font-weight:700;display:flex;align-items:center;gap:.85rem;background:var(--accent-soft);user-select:none;transition:background .18s}
+.reveal>summary::-webkit-details-marker{display:none}
+.reveal>summary:hover{background:#FFDCC5}
+.reveal>summary::before{content:"?";flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.1rem;box-shadow:0 2px 0 #C4460A;transition:.2s}
+.reveal[open]>summary{background:var(--go-soft)}
+.reveal[open]>summary::before{content:"✓";background:var(--go);box-shadow:0 2px 0 #0B7A6D}
+.reveal .peek{margin-left:auto;font-size:.8rem;color:var(--ink-soft);font-weight:600;letter-spacing:.06em}
+.reveal[open] .peek{opacity:0}
+.reveal__in{padding:.4rem 1.3rem 1.3rem;animation:drop .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* ═══ 互動 2：步驟打勾 ════════════════════════════════════
+   一定要包在 .dobox 裡，標題列會說明「這可以點」            */
+.dobox{border:3px solid var(--ink);border-radius:18px;overflow:hidden;margin:1.8rem 0;box-shadow:var(--shadow-md);background:var(--card)}
+.dobox__head{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;background:var(--ink);color:var(--ground);padding:.8rem 1.2rem}
+.dobox__head b{font-family:var(--display);font-weight:600;font-size:1.15rem}
+.dobox__tip{font-size:.86rem;color:#F2E3C8;font-weight:500}
+.dobox__count{margin-left:auto;font-family:var(--display);font-weight:600;font-size:.95rem;background:rgba(251,246,236,.18);padding:.22rem .85rem;border-radius:999px;transition:.25s}
+.dobox__count.done{background:var(--go);color:#fff}
+.dobox .steps{margin:0;padding:1rem}
+.dobox .steps li{box-shadow:none}
+/* 沒有外框的變體（用於試試看卡片） */
+.dobox--bare{border:none;box-shadow:none;background:transparent}
+.dobox--bare .dobox__head{border-radius:14px}
+
+.steps{list-style:none;counter-reset:s;margin:1.6rem 0;padding:0}
+.steps li{counter-increment:s;position:relative;padding:1rem 1rem 1rem 4rem;background:var(--card);border:2.5px solid var(--rule);border-radius:14px;margin-bottom:.7rem;cursor:pointer;transition:.18s;font-weight:500;box-shadow:var(--shadow-sm)}
+.steps li:hover{border-color:var(--ink);transform:translateX(3px)}
+/* 方框加深色邊，看起來就像可以打勾的格子；hover 預覽 ✓ */
+.steps li::before{content:counter(s);position:absolute;left:1rem;top:.95rem;width:2.1rem;height:2.1rem;border-radius:8px;display:grid;place-items:center;background:#fff;border:3px solid var(--ink);font-family:var(--display);font-weight:700;font-size:1rem;transition:.22s}
+.steps li:hover::before{content:"✓";color:var(--rule)}
+.steps li[data-ok="1"]{background:var(--go-soft);border-color:var(--go);color:var(--ink-soft)}
+.steps li[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff;transform:rotate(-8deg) scale(1.06)}
+.steps li[data-ok="1"]:hover::before{content:"✓";color:#fff}
+
+/* ═══ 互動 3：先預測再看答案 ══════════════════════════════
+   每個 .pick 的 data-say 要寫出「選這個代表哪裡想錯了」，
+   不要只寫「再想想看」                                      */
+.predict{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.predict__q{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 .4rem}
+.predict__hint{font-size:.9rem;color:var(--ink-soft);margin:0 0 1.1rem}
+.picks{display:grid;gap:.7rem}
+.pick{font:inherit;font-weight:600;text-align:left;cursor:pointer;padding:.9rem 1.15rem;border-radius:12px;border:2.5px solid var(--rule);background:var(--ground);transition:.16s;box-shadow:var(--shadow-sm)}
+.pick:hover:not(:disabled){border-color:var(--ink);transform:translateX(3px)}
+.pick:disabled{cursor:default}
+.pick[data-s="hit"]{background:var(--go-soft);border-color:var(--go);box-shadow:0 3px 0 var(--go)}
+.pick[data-s="miss"]{opacity:.45;border-style:dashed}
+.said{margin:1.1rem 0 0;padding:.95rem 1.15rem;border-radius:12px;font-weight:500;display:none;animation:drop .3s;line-height:1.75}
+.said.on{display:block}
+.said[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.said[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+
+/* ═══ 互動 4：積木拖拉排序 ════════════════════════════════
+   ⚠️ 出題原則：正確順序絕對不能出現在題目上方，
+      而且要用文字描述情境，逼學生讀題才排得對              */
+.sortbox{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.slots{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;padding:1.1rem;background:var(--ground-2);border-radius:14px;border:3px dashed var(--rule);min-height:12rem;margin:1.1rem 0}
+.slots.hot{border-color:var(--accent);background:var(--accent-soft)}
+.drag{cursor:grab;user-select:none;transition:transform .14s,opacity .14s}
+.drag:active{cursor:grabbing}
+.drag.lift{opacity:.35;transform:scale(.97)}
+.verdict{margin-top:1.1rem;padding:.95rem 1.15rem;border-radius:12px;font-weight:700;display:none;animation:drop .3s}
+.verdict.on{display:block}
+.verdict[data-k="y"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.verdict[data-k="n"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+
+.btn{font:inherit;font-family:var(--display);font-weight:600;cursor:pointer;padding:.6rem 1.4rem;border-radius:999px;border:none;background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);transition:.15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+
+/* ═══ 互動 5：試試看卡片（自由玩一玩）══════════════════════
+   用「變化」填課堂時間，不用「概念」填                      */
+.playgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:.9rem;margin:1.4rem 0}
+.play{background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1.05rem 1.15rem 1.05rem 3.5rem;position:relative;cursor:pointer;transition:.18s;box-shadow:var(--shadow-sm)}
+.play::before{content:"";position:absolute;left:1rem;top:1.05rem;width:1.75rem;height:1.75rem;border-radius:8px;border:3px solid var(--ink);background:#fff;display:grid;place-items:center;font-weight:700;font-size:1rem;transition:.2s}
+.play:hover{border-color:var(--ink);transform:translateY(-3px)}
+.play:hover::before{content:"✓";color:var(--rule)}
+.play[data-ok="1"]{background:var(--go-soft);border-color:var(--go)}
+.play[data-ok="1"]::before{content:"✓";background:var(--go);border-color:var(--go);color:#fff}
+.play[data-ok="1"]:hover::before{color:#fff}
+.play b{display:block;font-family:var(--display);font-weight:600;font-size:1.02rem;margin-bottom:.15rem}
+.play small{color:var(--ink-soft);font-size:.85rem;line-height:1.65;display:block}
+
+/* ═══ 積木小抄（作品節、專題用）══════════════════════════
+   把這個單元學過的積木排成一覽，學生做作品時不用翻回前幾課 */
+.cheatgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:.9rem;margin:1.4rem 0}
+.cheat{background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1rem 1.15rem;box-shadow:var(--shadow-sm)}
+.cheat .blk,.cheat .cwrap{margin-bottom:.55rem}
+.cheat small{color:var(--ink-soft);font-size:.86rem;line-height:1.6;display:block}
+.cheat b{color:var(--accent)}
+
+/* ═══ 作品完成度分級 ══════════════════════════════════════
+   一定要做到 / 做完再加 / 還有時間就挑戰 —— 用來吸收快慢差距 */
+.dobox--tier1 .dobox__head{background:var(--go)}
+.dobox--tier2 .dobox__head{background:var(--b-motion-d)}
+.dobox--tier3 .dobox__head{background:var(--b-looks-d)}
+.dobox--tier1{border-color:var(--go)}
+.dobox--tier2{border-color:var(--b-motion-d)}
+.dobox--tier3{border-color:var(--b-looks-d)}
+
+/* ═══ 常駐求救框 ══════════════════════════════════════════
+   ⚠️ 故障排除不要放進 <details>。學生卡住時的反應是舉手，
+      不是去點開一個他不知道存在的區塊。                     */
+.sos{background:#FFF9E6;border:3px solid var(--b-events);border-radius:16px;padding:1.3rem 1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-sm)}
+.sos h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.6rem}
+.sos ul{margin:.5rem 0 0;padding-left:1.3rem}
+.sos li{margin:.45rem 0}
+
+/* ═══ 挑戰區 ══════════════════════════════════════════════ */
+.challenge{background:linear-gradient(160deg,#12A594,#0B7A6D);color:#fff;border-radius:20px;padding:1.9rem;margin:2rem 0;box-shadow:var(--shadow-lg)}
+.challenge .h2{color:#fff;margin-bottom:.8rem}
+.challenge .h2 b{background:#FBF6EC;color:#0B7A6D}
+.challenge p{max-width:46ch}
+.challenge .reveal{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.1)}
+.challenge .reveal>summary{background:rgba(255,255,255,.16);color:#fff}
+.challenge .reveal>summary:hover,.challenge .reveal[open]>summary{background:rgba(255,255,255,.24)}
+.challenge .reveal__in{color:#EAFBF8}
+.challenge__lv{font-family:var(--display);font-weight:600;font-size:1.15rem;margin-bottom:.2rem}
+.challenge__lv+p strong{color:#FFBF00}
+
+/* ═══ 範例檔下載 ══════════════════════════════════════════ */
+.files{display:grid;gap:.8rem;margin:1.5rem 0}
+.file{display:flex;align-items:center;gap:1rem;text-decoration:none;color:inherit;background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1rem 1.25rem;transition:.16s;box-shadow:var(--shadow-sm);font-weight:600}
+.file:hover{border-color:var(--accent);transform:translateX(4px)}
+.file .ic{flex:none;width:2.9rem;height:2.9rem;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);font-size:1.4rem}
+.file small{display:block;font-weight:400;color:var(--ink-soft);font-size:.82rem}
+.file .go{margin-left:auto;color:var(--accent);font-weight:700}
+
+footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;color:var(--ink-soft);font-size:.88rem}
+
+/* ═══ 右側進度脊椎 ════════════════════════════════════════
+   深棕半透明中空粗管 + 大空心圓節點，走過就填綠            */
+.spine{position:absolute;top:0;bottom:0;right:calc(34px - (100vw - 100%) / 2);width:36px;pointer-events:none;z-index:5}
+.spine__line{position:absolute;inset:0;overflow:hidden;border:7px solid var(--spine);border-radius:999px;background:transparent}
+.spine__fill{position:absolute;top:0;left:0;right:0;height:0;background:var(--spine-go);transition:height .12s linear}
+.spine__dot{position:absolute;left:18px;transform:translate(-50%,-50%);width:56px;height:56px;padding:0;border-radius:50%;background:var(--ground);border:7px solid var(--spine);pointer-events:auto;cursor:pointer;transition:.25s cubic-bezier(.2,.8,.3,1)}
+.spine__dot:hover{transform:translate(-50%,-50%) scale(1.1)}
+.spine__dot[data-on="1"]{background:var(--spine-go)}
+.spine__dot[data-now="1"]{transform:translate(-50%,-50%) scale(1.14);box-shadow:0 0 0 8px rgba(76,175,63,.20)}
+.spine__dot::after{content:attr(data-label);position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(-50%);background:var(--spine-solid);color:var(--ground);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s}
+.spine__dot:hover::after{opacity:1}
+@media(max-width:1260px){.spine{display:none}}
+
+/* ═══ 截圖 / GIF 預留位 ═══════════════════════════════════
+   老師截好圖之後，把 .shot__box 換成 <img> 即可            */
+.shot{border:3px dashed var(--rule);border-radius:16px;background:var(--card);padding:1.4rem;margin:1.7rem 0;text-align:center;background-image:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.22) 15px 30px)}
+.shot__kind{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--display);font-weight:600;font-size:.76rem;letter-spacing:.1em;background:var(--ink);color:var(--ground);padding:.3rem .9rem;border-radius:999px}
+.shot--gif .shot__kind{background:var(--b-looks)}
+.shot--key .shot__kind{background:var(--accent);box-shadow:0 2px 0 #C4460A}   /* 標成「最重要」 */
+.shot__what{display:block;font-weight:700;font-size:1.05rem;margin:.9rem 0 .3rem}
+.shot__how{font-size:.85rem;color:var(--ink-soft);margin:0 auto;max-width:44ch;line-height:1.7}
+.shot__box{margin-top:1.1rem;aspect-ratio:16/9;max-height:19rem;margin-inline:auto;width:100%;border-radius:11px;background:var(--ground-2);border:2px solid var(--rule);display:grid;place-items:center;font-size:2.6rem;opacity:.55}
+.shot--wide .shot__box{aspect-ratio:16/10}
+.shot--tall .shot__box{aspect-ratio:4/3}
+.shot img{max-width:100%;height:auto;border-radius:11px;margin-top:1.1rem;border:2px solid var(--rule)}
+
+/* ═══ 偷看 Python ═════════════════════════════════════════
+   ⚠️ 只在積木第一次出現、而且 Python 真的有對應寫法時才放。
+      沒有對應的（綠旗、廣播、按鍵事件…）一律不做面板。      */
+.pypeek{border:3px solid #241C15;border-radius:14px;overflow:hidden;margin:1.5rem 0;background:#241C15;box-shadow:var(--shadow-md)}
+.pypeek>summary{cursor:pointer;list-style:none;padding:.85rem 1.15rem;display:flex;align-items:center;gap:.75rem;background:#241C15;color:#EBE0CE;font-weight:700;font-size:.95rem;user-select:none;transition:background .18s}
+.pypeek>summary::-webkit-details-marker{display:none}
+.pypeek>summary:hover{background:#352A1F}
+.pypeek>summary::before{content:"Python";flex:none;font-family:var(--mono);font-size:.72rem;font-weight:700;background:#3776AB;color:#fff;padding:.28rem .6rem;border-radius:6px;letter-spacing:.04em}
+.pypeek .peek{margin-left:auto;font-size:.75rem;color:#9C8B76;font-weight:600;letter-spacing:.05em}
+.pypeek[open] .peek{opacity:0}
+.pypeek__in{padding:0 1.15rem 1.2rem;animation:drop .3s}
+.pypeek pre{margin:0 0 1rem;padding:1.05rem 1.2rem;border-radius:10px;background:#15100A;overflow-x:auto;font-family:var(--mono);font-size:.94rem;line-height:1.9;color:#EBE0CE;border:1px solid #3A2D20}
+.pypeek .c{color:#8A7A64}   /* 註解 */
+.pypeek .s{color:#8FD67A}   /* 字串 */
+.pypeek .f{color:#7FC7FF}   /* 函式名 */
+.pypeek .n{color:#FFC46B}   /* 數字 */
+.pypeek .k{color:#FF8C5A}   /* 關鍵字 */
+.pypeek__note{color:#CBBBA4;font-size:.9rem;margin:0;line-height:1.85;max-width:48ch}
+.pypeek__note strong{color:#FFBF00}
+.pypeek__note+.pypeek__note{margin-top:.7rem}
+
+/* ═══ 課別專用元件 ════════════════════════════════════════ */
+
+/* 第 1 課：移動距離對照（小貓在舞台上走） */
+.track{position:relative;height:7.5rem;border-radius:14px;margin:1.2rem 0 .5rem;background:linear-gradient(180deg,#DCEEFF,#B9DBFF);border:3px solid var(--b-motion-d);overflow:hidden}
+.track::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26%;background:#8FBF6B;border-top:3px solid #6E9E4E}
+.track .cat{position:absolute;bottom:20%;left:50%;font-size:2.9rem;z-index:2;transition:transform .45s cubic-bezier(.2,.9,.3,1)}
+.track .ticks{position:absolute;inset:0;display:flex;z-index:1}
+.track .ticks span{flex:1;border-right:2px dashed rgba(51,115,204,.28)}
+.track .mid{position:absolute;left:50%;top:0;bottom:26%;width:3px;background:rgba(51,115,204,.4);transform:translateX(-50%);z-index:1}
+
+.slide{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:1rem}
+.slide input[type=range]{flex:1;min-width:12rem;accent-color:var(--b-motion);height:2rem;cursor:pointer}
+.slide label{font-weight:700;font-size:.95rem}
+.slide__val{font-family:var(--display);font-size:1.3rem;min-width:3.5rem;text-align:center}
+
+/* 第 2 課：檔名好壞對照 */
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem;margin:1.4rem 0}
+.names__col{border-radius:16px;padding:1.15rem 1.3rem;border:3px solid}
+.names__col--good{background:var(--go-soft);border-color:var(--go)}
+.names__col--bad{background:var(--accent-soft);border-color:var(--accent)}
+.names__col h4{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 0 .7rem;display:flex;align-items:center;gap:.5rem}
+.names__col ul{margin:0;padding-left:1.25rem}
+.names__col li{margin:.4rem 0;font-family:var(--mono);font-size:.9rem}
+.names__col li small{font-family:var(--body);color:var(--ink-soft);display:block;font-size:.8rem}
+
+/* 第 3 課：轉彎轉盤 */
+.dial{width:15rem;height:15rem;border-radius:50%;border:6px solid var(--b-motion-d);background:radial-gradient(circle,#EAF4FF,#C6E0FF);position:relative;margin:1.4rem auto .6rem;display:grid;place-items:center;box-shadow:var(--shadow-md)}
+.dial__arm{position:absolute;left:50%;top:50%;width:42%;height:7px;background:var(--b-motion-d);transform-origin:0 50%;border-radius:4px;transform:translateY(-50%) rotate(0deg);transition:transform .4s cubic-bezier(.2,.9,.3,1)}
+.dial__arm::after{content:"";position:absolute;right:-14px;top:50%;transform:translateY(-50%);border-left:16px solid var(--b-motion-d);border-top:10px solid transparent;border-bottom:10px solid transparent}
+.dial__cat{font-size:2.6rem;z-index:2;position:relative}
+.dial__tick{position:absolute;font-family:var(--display);font-weight:600;font-size:.8rem;color:var(--b-motion-d);opacity:.8}
+.dial__tick--r{right:.5rem;top:50%;transform:translateY(-50%)}
+.dial__tick--d{bottom:.35rem;left:50%;transform:translateX(-50%)}
+.dial__tick--l{left:.5rem;top:50%;transform:translateY(-50%)}
+.dial__tick--u{top:.35rem;left:50%;transform:translateX(-50%)}
+
+/* 第 6 課：走路速度預覽 */
+.walkbox{text-align:center}
+.walkbox__stage{
+  width:100%;max-width:20rem;margin:0 auto 1rem;aspect-ratio:16/9;border-radius:14px;
+  background:linear-gradient(180deg,#DCEEFF,#B9DBFF);border:3px solid var(--b-motion-d);
+  display:grid;place-items:center;position:relative;overflow:hidden;
+}
+.walkbox__stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:20%;background:#8FBF6B;border-top:3px solid #6E9E4E}
+.walkbox__stage svg{position:relative;z-index:2;margin-bottom:6%}
+
+/* 第 7、11 課：鍵盤控制示範
+   按鍵 → 對應的那一串程式亮起來 → 角色動
+   重點是讓學生看到「好幾串程式各自待命」 */
+.kdemo{text-align:center}
+.kdemo:focus{outline:4px solid var(--accent);outline-offset:4px;border-radius:16px}
+.kdemo__stage{
+  width:100%;max-width:26rem;margin:0 auto 1rem;aspect-ratio:16/9;border-radius:14px;
+  background:linear-gradient(180deg,#DCEEFF,#B9DBFF);border:3px solid var(--b-motion-d);
+  position:relative;overflow:hidden;
+}
+.kdemo__stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:20%;background:#8FBF6B;border-top:3px solid #6E9E4E}
+.kdemo__cat{
+  position:absolute;bottom:20%;left:50%;font-size:2.6rem;z-index:2;
+  transition:transform .22s cubic-bezier(.2,.9,.3,1);
+}
+.kdemo__keys{display:flex;gap:.6rem;justify-content:center;margin:.2rem 0 1.2rem;flex-wrap:wrap}
+.kkey{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:1.35rem;
+  min-width:3.4rem;height:3.4rem;padding:0 .8rem;border-radius:11px;
+  border:3px solid var(--ink);background:#fff;color:var(--ink);
+  cursor:pointer;box-shadow:0 4px 0 var(--ink);transition:.1s;
+}
+.kkey:hover{background:var(--ground-2)}
+.kkey.down,.kkey:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink);background:var(--b-events);color:#fff}
+.kdemo__scripts{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:.4rem}
+.kdemo__script{
+  padding:.7rem .8rem;border-radius:14px;border:3px dashed var(--rule);
+  background:var(--card);transition:.2s;
+}
+.kdemo__script.fire{
+  border-style:solid;border-color:var(--b-events);background:#FFF6DC;
+  transform:translateY(-4px);box-shadow:0 6px 0 rgba(255,191,0,.35);
+}
+.kdemo__script .stack{margin:0}
+.kdemo__hint{font-size:.9rem;color:var(--ink-soft);margin:.9rem 0 0}
+
+/* 第 10 課：兩角色對話（用「等待」硬湊，故意讓學生撞牆） */
+.talk{text-align:center}
+.talk__stage{
+  display:flex;justify-content:space-around;align-items:flex-end;gap:1rem;
+  width:100%;max-width:26rem;margin:0 auto 1rem;aspect-ratio:16/9;
+  border-radius:14px;background:linear-gradient(180deg,#FFF0DC,#FFE0B8);
+  border:3px solid var(--accent);position:relative;padding:1rem 1rem 1.6rem;overflow:hidden;
+}
+.talk__actor{position:relative;font-size:2.8rem;line-height:1}
+.talk__bubble{
+  position:absolute;bottom:115%;left:50%;transform:translateX(-50%) scale(.7);
+  background:#fff;border:3px solid var(--ink);border-radius:12px;padding:.32rem .7rem;
+  font-size:.82rem;font-weight:700;white-space:nowrap;font-family:var(--body);color:var(--ink);
+  opacity:0;transition:.15s;pointer-events:none;
+}
+.talk__bubble.on{opacity:1;transform:translateX(-50%) scale(1)}
+.talk__verdict{
+  margin-top:.9rem;padding:.85rem 1.1rem;border-radius:12px;font-weight:700;
+  font-size:.95rem;line-height:1.7;text-align:left;
+}
+.talk__verdict[data-k="ok"]{background:var(--go-soft);border-left:5px solid var(--go)}
+.talk__verdict[data-k="bad"]{background:var(--accent-soft);border-left:5px solid var(--accent)}
+
+/* 第 11、12 課：廣播示範（一個人喊，全部有裝這個訊息的都會動） */
+.bcast{text-align:center}
+.bcast__signal{
+  height:2.4rem;display:grid;place-items:center;margin:.5rem 0;
+  font-family:var(--display);font-weight:600;font-size:1rem;color:var(--accent);
+  opacity:0;transform:translateY(-6px);transition:.22s;
+}
+.bcast__signal.on{opacity:1;transform:none}
+.bcast__actors{display:flex;justify-content:center;gap:.9rem;flex-wrap:wrap;margin-top:.6rem}
+.bcast__actor{
+  padding:.9rem 1rem;border-radius:14px;border:3px dashed var(--rule);
+  background:var(--card);transition:.25s cubic-bezier(.2,.8,.3,1);min-width:8.5rem;
+}
+.bcast__actor.fire{
+  border-style:solid;border-color:var(--b-events);background:#FFF6DC;
+  transform:translateY(-6px);box-shadow:0 8px 0 rgba(255,191,0,.3);
+}
+.bcast__face{font-size:2.4rem;display:block;transition:.25s}
+.bcast__actor.fire .bcast__face{transform:scale(1.18) rotate(-8deg)}
+.bcast__actor small{display:block;font-size:.76rem;color:var(--ink-soft);margin-top:.35rem;line-height:1.5}
+.bcast__actor.deaf{opacity:.45}
+
+/* 第 16 課：專題規劃單 */
+.plan{display:grid;gap:.9rem;margin:1.4rem 0}
+.plan__row{background:var(--card);border:2.5px solid var(--rule);border-radius:14px;padding:1rem 1.15rem;box-shadow:var(--shadow-sm)}
+.plan__row b{display:block;font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--accent);margin-bottom:.25rem}
+.plan__row small{color:var(--ink-soft);font-size:.86rem;line-height:1.65;display:block}
+.plan__line{margin-top:.7rem;border-bottom:2.5px dashed var(--rule);height:1.9rem}
+.plan__line+.plan__line{margin-top:.9rem}
+
+/* 第 3 課：造型切換 */
+.costume{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md);text-align:center}
+.costume__stage{width:100%;max-width:20rem;margin:1rem auto;aspect-ratio:16/9;border-radius:14px;background:linear-gradient(180deg,#F0E4FF,#DCC8FF);border:3px solid var(--b-looks-d);display:grid;place-items:center;font-size:4.5rem}
+.costume__stage span{display:inline-block;animation:pop .25s cubic-bezier(.2,.9,.3,1)}
+@keyframes pop{from{transform:scale(.7);opacity:.4}to{transform:scale(1);opacity:1}}
+.costume__name{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:.4rem 0 1rem}
+.costume__name b{color:var(--b-looks-d);font-size:1.3rem}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

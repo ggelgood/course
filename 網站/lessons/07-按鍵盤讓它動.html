@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 7 課 · 按鍵盤讓它動</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=2">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">第 7 課 · 大約 1 節課</span>
+    <h1>按鍵盤，<em>讓它動</em></h1>
+    <p class="lede">到今天為止，你的角色都是<strong style="color:#FFBF00">自己在演</strong>。今天開始，換你來控制它。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個<strong style="color:#FFBF00">你按鍵盤就會動</strong>的角色 —— 按左走左邊，按右走右邊。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天只有一塊新積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--events blk--hat">當 <i>空白 ▾</i> 鍵被按下</div>
+        </div>
+        <p style="font-size:.88rem;margin-top:.6rem">它跟綠旗一樣是<strong style="color:#FFBF00">帽子形狀</strong>，但它等的不是綠旗，是<strong style="color:#FFBF00">你的手指</strong>。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 換你來控制 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>換你來控制</h2>
+  <p>前面六節課，你的角色都是<strong>按下綠旗以後自己演完</strong>。你只能看，不能插手。</p>
+  <p>但你玩過的遊戲不是這樣——你按什麼，角色就做什麼。今天就要做出這種感覺。</p>
+
+  <p>「事件」分類裡，在綠旗積木下面一點的地方，有這一塊：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat">當 <i>空白 ▾</i> 鍵被按下</div>
+  </div>
+
+  <p>看到「空白」旁邊的<strong>小三角形 ▾</strong> 了嗎？點它會跳出一整排按鍵讓你選——空白鍵、上下左右、還有 a 到 z 和 0 到 9。</p>
+
+  <figure class="shot shot--tall">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">按鍵下拉選單打開的樣子</b>
+    <p class="shot__how">點積木上的「空白 ▾」，把跳出來的按鍵清單拍下來，讓學生知道<b>可以選的按鍵有這麼多</b>。清單很長，拍到看得出有上下左右和英文字母即可。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <details class="reveal">
+    <summary>它跟綠旗積木有什麼不一樣？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>形狀一樣，都是<strong>帽子</strong>——上面是圓的，接不到別的積木下面。帽子積木只能放<strong>最上面</strong>。</p>
+      <p>不一樣的是<strong>在等什麼</strong>：綠旗積木在等你按綠旗，這塊在等你按某一個鍵。</p>
+      <p>還有一個很重要的差別：<strong>用它不需要先按綠旗。</strong> 程式一打開它就在待命了，你隨時按鍵都有反應。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 按按看 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>按按看</h2>
+  <p>下面有<strong>兩串程式</strong>，一串等左鍵、一串等右鍵。<strong>先用滑鼠點一下藍色的舞台</strong>，然後按鍵盤的 <span class="blk" style="display:inline-flex;padding:.2rem .6rem;font-size:.9rem;margin:0">←</span> <span class="blk" style="display:inline-flex;padding:.2rem .6rem;font-size:.9rem;margin:0">→</span>：</p>
+
+  <div class="predict">
+    <div class="kdemo" id="kd" tabindex="0" aria-label="鍵盤控制示範">
+      <div class="kdemo__stage">
+        <div class="kdemo__cat" id="kCat">🐱</div>
+      </div>
+
+      <div class="kdemo__keys">
+        <button class="kkey" data-key="ArrowLeft">←</button>
+        <button class="kkey" data-key="ArrowRight">→</button>
+      </div>
+
+      <div class="kdemo__scripts">
+        <div class="kdemo__script" id="scriptL">
+          <div class="stack">
+            <div class="blk blk--events blk--hat">當 <i>← ▾</i> 鍵被按下</div>
+            <div class="blk blk--motion">移動 <i>-30</i> 點</div>
+          </div>
+        </div>
+        <div class="kdemo__script" id="scriptR">
+          <div class="stack">
+            <div class="blk blk--events blk--hat">當 <i>→ ▾</i> 鍵被按下</div>
+            <div class="blk blk--motion">移動 <i>30</i> 點</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="kdemo__hint" id="kSay">點一下上面的舞台，再按鍵盤的 ← → 看看。也可以直接點上面那兩個按鍵。</p>
+    </div>
+  </div>
+
+  <p>有沒有注意到？<strong>按哪個鍵，就只有那一串程式會亮起來。</strong> 另一串完全沒動——它還在等它自己的那個鍵。</p>
+</section>
+
+<!-- ── 3. 一個程式區可以有很多串 ─────── -->
+<section>
+  <h2 class="h2"><b>3</b>程式可以有很多串</h2>
+  <p>這是今天<strong>最重要的觀念</strong>，跟前面六節課都不一樣。</p>
+  <p>以前你的程式區只有<strong>一串</strong>，從綠旗開始一路往下。今天開始，程式區裡可以<strong>並排好幾串</strong>，每一串都有自己的帽子，各自等自己的訊號。</p>
+
+  <div class="names">
+    <div class="names__col" style="background:var(--card);border-color:var(--rule)">
+      <h4>以前：一串</h4>
+      <div class="stack" style="margin:.4rem 0 0">
+        <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+        <div class="blk blk--motion">移動 <i>10</i> 點</div>
+        <div class="blk blk--looks">說出 <i>你好</i></div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">從上往下跑完就結束</p>
+    </div>
+    <div class="names__col" style="background:var(--card);border-color:var(--b-events)">
+      <h4>今天：好幾串並排</h4>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.4rem">
+        <div class="stack" style="margin:0">
+          <div class="blk blk--events blk--hat">當 <i>← ▾</i> 鍵</div>
+          <div class="blk blk--motion">移動 <i>-30</i> 點</div>
+        </div>
+        <div class="stack" style="margin:0">
+          <div class="blk blk--events blk--hat">當 <i>→ ▾</i> 鍵</div>
+          <div class="blk blk--motion">移動 <i>30</i> 點</div>
+        </div>
+      </div>
+      <p style="font-size:.88rem;margin:.6rem 0 0;color:var(--ink-soft)">各自待命，誰的訊號來誰就跑</p>
+    </div>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">你在程式區寫了三串程式，分別等三個不同的按鍵。現在按下其中一個鍵，會怎樣？</p>
+    <p class="predict__hint">先猜猜看，選一個。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不會喔。每一串只認自己帽子上寫的那個鍵，別的鍵按下去它完全不理。">三串都會跑一遍</button>
+      <button class="pick" data-v="b" data-say="答對了！每一串各自等自己的鍵。你按左鍵，就只有寫著「左鍵」的那一串會動，其他兩串繼續等。">只有那個鍵對應的那一串會跑</button>
+      <button class="pick" data-v="c" data-say="不用按綠旗喔！這是「當按鍵被按下」跟綠旗最大的差別 —— 程式一打開它就在待命了，你隨時按都有反應。">要先按綠旗，三串才會開始待命</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 帽子積木不能疊在一起</h3>
+    <ul>
+      <li>帽子積木<strong>上面是圓的</strong>，接不到任何積木下面。</li>
+      <li>所以你<strong>沒辦法</strong>把「當左鍵被按下」接在「當綠旗被點擊」下面——放不上去的。</li>
+      <li>每一個帽子都要<strong>自己開一串</strong>，在程式區找個空位放下去。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>動手做</h2>
+  <p>做一個左右都能走的角色。要拼<strong>兩串程式</strong>，放在程式區的空白處，彼此不要碰到。</p>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">兩串程式並排放在程式區</b>
+    <p class="shot__how">拍程式區。先拼好左鍵那一串，然後把第二個帽子積木<b>拖到旁邊的空白處</b>放下，再接上移動積木。約 6 秒。<b>重點是讓學生看到「兩串是分開的，中間有空隙」</b>——這是他們最不習慣的地方。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>從<strong>事件</strong>拖出 <strong>當空白鍵被按下</strong>，點 ▾ 改成 <strong>右方向鍵</strong></li>
+      <li>接上 <strong>移動 30 點</strong></li>
+      <li>再拖一個帽子積木到<strong>旁邊的空白處</strong>，改成 <strong>左方向鍵</strong></li>
+      <li>接上 <strong>移動 -30 點</strong>（記得加小橫槓）</li>
+      <li><strong>不用按綠旗</strong>，直接按鍵盤左右鍵試試看</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">今天的成果：用鍵盤控制角色</b>
+    <p class="shot__how">拍舞台區。按左右鍵讓角色來回走幾趟。<b>如果能同時拍到按鍵盤的手更好</b>——學生會更清楚「是我在控制它」。約 5 秒。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>按鍵沒反應</strong> —— 先用滑鼠<strong>點一下舞台</strong>，讓 Scratch 知道你在跟它講話。</li>
+      <li><strong>只有一邊會動</strong> —— 檢查兩個帽子是不是選了<strong>不同的按鍵</strong>。兩個都選右鍵的話，左鍵當然沒反應。</li>
+      <li><strong>第二個帽子放不上去</strong> —— 帽子積木不能接在別的積木下面。找程式區的<strong>空白地方</strong>放。</li>
+      <li><strong>角色走出舞台了</strong> —— 用滑鼠拖回中間，或加一塊「碰到邊緣就反彈」。</li>
+      <li>四個都試過還是不行，再舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 考考你 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>考考你</h2>
+  <p>注意看：這次<strong>最上面那塊不是綠旗</strong>。</p>
+
+  <div class="sortbox"
+       data-answer="1234"
+       data-swap="2>3"
+       data-msg-ok="✓ 完全正確！這串程式在等空白鍵，按下去就叫一聲、跳一步、說「跳！」。"
+       data-msg-nohat="再看一次最上面那塊 —— 這串程式是在等「按鍵」，不是等綠旗。哪一塊才是帽子？"
+       data-msg-swap="再讀一次小傑的要求 —— 他要「先叫一聲」，跳是之後的事。"
+       data-msg-near="快好了！小傑說「最後說『跳！』」—— 那句話應該排在移動的前面還是後面？">
+    <p class="predict__hint" style="margin-top:0">
+      小傑想讓角色在<strong>按下空白鍵</strong>的時候這樣做 ——
+      <strong>先叫一聲，再往前跳一大步，最後說「跳！」。</strong><br>
+      下面四塊積木順序被打亂了，拖成小傑要的順序。
+    </p>
+    <div class="slots">
+      <div class="blk blk--motion drag" data-k="3">移動 <i>100</i> 點</div>
+      <div class="blk blk--looks drag" data-k="4">說出 <i>跳！</i></div>
+      <div class="blk blk--events blk--hat drag" data-k="1">當 <i>空白 ▾</i> 鍵被按下</div>
+      <div class="blk blk--sound drag" data-k="2">播放音效 <i>喵</i></div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 6. 自由玩一玩 ────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>自由玩一玩</h2>
+  <p>下面每一格都只要<strong>加一串程式</strong>或<strong>改一個按鍵</strong>就做得到。挑你有興趣的試，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>把移動改成 100 點</b><small>按一下就飛出去，好控制嗎？太大或太小都不好玩。</small></div>
+      <div class="play"><b>加上「上」和「下」鍵</b><small>再拼兩串，用「y 改變」或先右轉再移動都可以。</small></div>
+      <div class="play"><b>按空白鍵叫一聲</b><small>再開一串，帽子選空白鍵，接上播放音效。</small></div>
+      <div class="play"><b>按 a 鍵變大、按 s 鍵變小</b><small>用第 3 課的尺寸積木。</small></div>
+      <div class="play"><b>兩個鍵設成同一個</b><small>左鍵和右鍵都選「右方向鍵」，按下去會怎樣？</small></div>
+      <div class="play"><b>一直按著不放</b><small>角色會一直走還是走一步就停？跟按一下有什麼不同？</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>做一個<strong>按了才會走路</strong>的角色：按住方向鍵時腳會動，放開就停下來。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>把第 6 課的走路動畫拆開來想 —— 走路 = <strong style="color:#FFBF00">移動 ＋ 造型換成下一個</strong>。</p>
+      <p>以前你把它放在「重複無限次」裡面，所以會一直走。這次改放在<strong style="color:#FFBF00">「當按鍵被按下」下面</strong>，按一下就走一步。</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <div class="stack" style="margin:0">
+          <div class="blk blk--events blk--hat">當 <i>→ ▾</i> 鍵被按下</div>
+          <div class="blk blk--motion">移動 <i>15</i> 點</div>
+          <div class="blk blk--looks">造型換成下一個</div>
+        </div>
+        <div class="stack" style="margin:0">
+          <div class="blk blk--events blk--hat">當 <i>← ▾</i> 鍵被按下</div>
+          <div class="blk blk--motion">移動 <i>-15</i> 點</div>
+          <div class="blk blk--looks">造型換成下一個</div>
+        </div>
+      </div>
+      <p>兩串分開放。<strong style="color:#FFBF00">按住不放的時候會連續觸發</strong>，看起來就像在走路了。</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做一個<strong>「按鍵盤彈鋼琴」</strong>：按不同的鍵，發出不同的聲音。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想要開幾串</span></summary>
+    <div class="reveal__in">
+      <p>想彈幾個音，就要開<strong style="color:#FFBF00">幾串程式</strong>——每一串一個鍵、一個聲音。</p>
+      <p>音效庫裡有很多聲音可以挑。記得先到「音效」頁籤把它們都加進來，下拉選單裡才選得到。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/第7課_按鍵盤讓它動_範例.sb3" download>
+      <span class="ic">⌨️</span>
+      <span>第7課_按鍵盤讓它動_範例.sb3<small>老師做好的範例，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>第 7 課 · 按鍵盤讓它動</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=2"></script>
+<script>
+/* 本課專用：鍵盤控制示範
+   按鍵 → 對應的那一串程式亮起來 → 角色移動。
+   重點是讓學生看到「只有那一串會反應」。 */
+(() => {
+  const kd = document.getElementById('kd');
+  if (!kd) return;
+  const cat = document.getElementById('kCat'),
+        say = document.getElementById('kSay'),
+        scripts = {ArrowLeft: document.getElementById('scriptL'),
+                   ArrowRight: document.getElementById('scriptR')};
+  let x = 0, used = new Set();
+
+  const fire = key => {
+    const s = scripts[key];
+    if (!s) return;
+    const half = cat.parentElement.clientWidth / 2 - 34;
+    x = Math.max(-half, Math.min(half, x + (key === 'ArrowLeft' ? -30 : 30)));
+    cat.style.transform = `translate(calc(-50% + ${x}px), 0) scaleX(${key === 'ArrowLeft' ? -1 : 1})`;
+
+    Object.values(scripts).forEach(el => el.classList.remove('fire'));
+    s.classList.add('fire');
+    setTimeout(() => s.classList.remove('fire'), 420);
+
+    const btn = kd.querySelector(`.kkey[data-key="${key}"]`);
+    if (btn) { btn.classList.add('down'); setTimeout(() => btn.classList.remove('down'), 160); }
+
+    used.add(key);
+    say.innerHTML = used.size >= 2
+      ? '看到了嗎？<strong>按左鍵只有左邊那串亮，按右鍵只有右邊那串亮。</strong> 兩串各自等自己的鍵。'
+      : (key === 'ArrowLeft'
+          ? '左鍵！只有<strong>左邊那一串</strong>亮起來 —— 右邊那串完全沒動。再按右鍵看看。'
+          : '右鍵！只有<strong>右邊那一串</strong>亮起來 —— 左邊那串完全沒動。再按左鍵看看。');
+  };
+
+  kd.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      e.preventDefault();          // 不要讓方向鍵捲動頁面
+      fire(e.key);
+    }
+  });
+  kd.querySelectorAll('.kkey').forEach(b =>
+    b.addEventListener('click', () => { kd.focus(); fire(b.dataset.key); }));
+})();
+</script>
+</body>
+</html>
