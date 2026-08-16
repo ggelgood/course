@@ -1,0 +1,44 @@
+# 自動把「網站」資料夾發布成 GitHub Pages
+#
+# 運作方式：每次你在 GitHub Desktop 按下 push（或叫 Claude 幫你 push），
+# GitHub 會自動執行這份設定檔，把「網站」資料夾的內容變成公開網站。
+# 不用手動操作，也不需要調整資料夾名稱。
+#
+# 設定好之後這份檔案不用再管它，除非你想調整發布規則。
+
+name: 發布網站到 GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取得檔案
+        uses: actions/checkout@v4
+
+      - name: 準備 Pages 環境
+        uses: actions/configure-pages@v5
+
+      - name: 打包「網站」資料夾
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '網站'
+
+      - name: 發布
+        id: deployment
+        uses: actions/deploy-pages@v4
