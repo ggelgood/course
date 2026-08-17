@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>圖片壓縮工具 · 給老師用</title>
+<!--
+  ═══════════════════════════════════════════════════════════
+  圖片壓縮工具（老師專用，不是給學生看的講義）
+  ───────────────────────────────────────────────────────────
+  ⚠️ 這一頁是「單一檔案、不依賴任何外部檔案」的，樣式和程式都寫在裡面。
+
+  這是刻意的，跟講義的「樣式一律放 assets/」規則不同，原因：
+    1. 老師在兩台電腦之間跑，這樣可以把單一個檔案丟到隨身碟，
+       在任何一台電腦上打開就能用，不用整包網站
+    2. 完全不上網也能跑（電腦教室沒網路）
+    3. 它不是課頁，不需要跟 17 課共用視覺
+
+  圖片「不會被上傳到任何地方」，全部在瀏覽器裡處理完。
+  ═══════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  --ground:#FBF6EC; --ground-2:#F4EBDB; --card:#fff;
+  --ink:#2B2119; --ink-soft:#7A6A59; --rule:#E3D6C0;
+  --accent:#FF6B1A; --accent-soft:#FFE8D9;
+  --go:#12A594; --go-soft:#D6F3EF;
+  --warn:#FFBF00; --warn-soft:#FFF9E6;
+  --display:"Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:"Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow-sm:0 2px 0 rgba(43,33,25,.10);
+  --shadow-md:0 3px 0 rgba(43,33,25,.12),0 10px 24px -14px rgba(43,33,25,.5);
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{
+  margin:0;font-family:var(--body);color:var(--ink);line-height:1.85;
+  background:var(--ground);
+  background-image:
+    radial-gradient(circle at 15% 5%,rgba(255,107,26,.07),transparent 40%),
+    radial-gradient(rgba(43,33,25,.05) 1px,transparent 1px);
+  background-size:auto,22px 22px;
+}
+.wrap{max-width:56rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 5rem}
+
+header{
+  background:linear-gradient(168deg,#2B2119,#3D2E22 60%,#4A3626);
+  color:var(--ground);padding:2.6rem 0 2.2rem;margin-bottom:2.2rem;
+}
+header h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5vw,3rem);margin:.4rem 0 .5rem;letter-spacing:-.02em}
+header h1 em{font-style:normal;color:var(--warn)}
+header p{margin:0;color:#E6D9C4;max-width:46ch}
+.tag{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.78rem;
+  letter-spacing:.12em;background:var(--accent);color:#fff;
+  padding:.3rem .9rem;border-radius:999px;box-shadow:0 3px 0 #C4460A;
+}
+.backhome{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.8rem;
+  color:#E6D9C4;text-decoration:none;border:2px solid rgba(251,246,236,.3);
+  border-radius:999px;padding:.25rem .9rem;margin-bottom:1rem;
+}
+.backhome:hover{background:rgba(251,246,236,.14);color:#fff}
+
+h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:2.2rem 0 .8rem}
+
+/* ── 拖放區 ─────────────────────────────────────────────── */
+.drop{
+  border:4px dashed var(--rule);border-radius:22px;background:var(--card);
+  padding:2.6rem 1.5rem;text-align:center;cursor:pointer;transition:.18s;
+  background-image:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.2) 15px 30px);
+}
+.drop:hover{border-color:var(--ink)}
+.drop.hot{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.01)}
+.drop__ic{font-size:3.2rem;line-height:1;margin-bottom:.6rem}
+.drop b{display:block;font-family:var(--display);font-weight:600;font-size:1.25rem;margin-bottom:.2rem}
+.drop small{color:var(--ink-soft);font-size:.9rem}
+
+/* ── 設定 ───────────────────────────────────────────────── */
+.settings{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1.1rem;
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.3rem 1.4rem;margin:1.4rem 0;box-shadow:var(--shadow-md);
+}
+.field label{display:block;font-family:var(--display);font-weight:600;font-size:.92rem;margin-bottom:.35rem}
+.field small{display:block;color:var(--ink-soft);font-size:.78rem;line-height:1.5;margin-top:.3rem}
+.field select,.field input[type=number]{
+  font:inherit;font-size:.95rem;width:100%;padding:.5rem .7rem;
+  border:2.5px solid var(--rule);border-radius:10px;background:var(--ground);color:var(--ink);
+}
+.field select:focus,.field input:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.field input[type=range]{width:100%;accent-color:var(--accent);height:1.8rem}
+.qrow{display:flex;align-items:center;gap:.6rem}
+.qrow b{font-family:var(--display);font-size:1.1rem;min-width:2.6rem;text-align:right}
+
+/* ── 建議值 ─────────────────────────────────────────────── */
+.guide{
+  background:var(--warn-soft);border:3px solid var(--warn);border-radius:16px;
+  padding:1.1rem 1.3rem;margin:1.4rem 0;
+}
+.guide h3{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 0 .5rem}
+.guide table{border-collapse:collapse;width:100%;font-size:.9rem}
+.guide th,.guide td{text-align:left;padding:.32rem .5rem;border-bottom:1px solid rgba(43,33,25,.12)}
+.guide th{font-family:var(--display);font-weight:600;color:var(--ink-soft);font-size:.82rem}
+.guide tr:last-child td{border-bottom:0}
+.guide b{color:var(--accent)}
+
+/* ── 結果 ───────────────────────────────────────────────── */
+.bar{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin:1.6rem 0 1rem}
+.btn{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.95rem;cursor:pointer;
+  padding:.6rem 1.3rem;border-radius:999px;border:none;
+  background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);transition:.14s;
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active:not(:disabled){transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn--go{background:var(--go);box-shadow:0 3px 0 #0B7A6D}
+.btn--ghost{background:transparent;color:var(--ink-soft);box-shadow:none;border:2.5px solid var(--rule)}
+.btn--ghost:hover{border-color:var(--ink);color:var(--ink);transform:none;box-shadow:none}
+.tally{margin-left:auto;font-family:var(--display);font-weight:600;color:var(--ink-soft);font-size:.92rem}
+
+.items{display:grid;gap:.9rem;margin:0;padding:0;list-style:none}
+.item{
+  display:grid;grid-template-columns:5.2rem 1fr auto;gap:1rem;align-items:center;
+  background:var(--card);border:3px solid var(--rule);border-radius:16px;
+  padding:.9rem 1.1rem;box-shadow:var(--shadow-sm);
+}
+.item--ok{border-color:var(--go);background:var(--go-soft)}
+.item--warn{border-color:var(--warn);background:var(--warn-soft)}
+.item--bad{border-color:var(--accent);background:var(--accent-soft)}
+.item__pic{
+  width:5.2rem;height:4rem;border-radius:10px;object-fit:cover;
+  background:var(--ground-2);border:2px solid var(--rule);display:block;
+}
+.item__pic--none{display:grid;place-items:center;font-size:1.8rem}
+.item__name{font-weight:700;font-size:.95rem;word-break:break-all;margin:0 0 .15rem;line-height:1.45}
+.item__meta{margin:0;font-size:.85rem;color:var(--ink-soft);font-family:var(--mono)}
+.item__meta s{opacity:.6}
+.item__meta strong{color:var(--ink);font-style:normal}
+.item__save{font-family:var(--display);font-weight:600;color:var(--go)}
+.item__note{margin:.35rem 0 0;font-size:.85rem;line-height:1.6;color:var(--ink)}
+.item__note b{color:var(--accent)}
+.dl{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.86rem;
+  text-decoration:none;cursor:pointer;white-space:nowrap;
+  padding:.45rem 1rem;border-radius:999px;border:2.5px solid var(--ink);
+  background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--ink);transition:.1s;
+}
+.dl:hover{background:var(--ground-2)}
+.dl:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.dl--off{border-color:var(--rule);box-shadow:0 3px 0 var(--rule);color:var(--ink-soft);cursor:default}
+
+.note{
+  background:var(--card);border-left:5px solid var(--rule);border-radius:12px;
+  padding:.9rem 1.2rem;margin:1.2rem 0;font-size:.92rem;
+}
+.note--safe{border-left-color:var(--go);background:var(--go-soft)}
+.note--warn{border-left-color:var(--warn);background:var(--warn-soft)}
+.note p{margin:.3rem 0}
+.note b{color:var(--accent)}
+code{background:var(--ground-2);padding:.1rem .4rem;border-radius:5px;font-family:var(--mono);font-size:.9em}
+footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color:var(--ink-soft);font-size:.86rem}
+.hide{display:none}
+@media(max-width:560px){
+  .item{grid-template-columns:1fr;text-align:left}
+  .item__pic{width:100%;height:8rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">給老師 · 學生用不到</span>
+    <h1>圖片<em>壓縮工具</em></h1>
+    <p>把截圖和照片縮小到適合放進講義的大小。
+    圖片<strong>不會上傳到任何地方</strong>，全部在你自己的電腦裡處理完。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="drop" id="drop" tabindex="0" role="button" aria-label="選擇或拖放圖片">
+    <div class="drop__ic">🖼️</div>
+    <b>把圖片拖到這裡</b>
+    <small>或點一下這個框選檔案 —— 可以一次選很多張</small>
+    <input type="file" id="file" accept="image/*" multiple class="hide">
+  </div>
+
+  <div class="settings">
+    <div class="field">
+      <label for="maxw">最大寬度</label>
+      <input type="number" id="maxw" value="1600" min="200" max="4000" step="100">
+      <small>比這個窄的圖不會被放大。講義最寬也只顯示到約 1000px，1600 已經很夠。</small>
+    </div>
+    <div class="field">
+      <label for="fmt">輸出格式</label>
+      <select id="fmt">
+        <option value="keep" selected>保持原本的格式</option>
+        <option value="image/webp">WebP（檔案最小）</option>
+        <option value="image/jpeg">JPEG（照片用）</option>
+        <option value="image/png">PNG（要透明背景才選）</option>
+      </select>
+      <small>WebP 通常比 PNG 小很多，現在的瀏覽器都支援。但<b>副檔名會變成 .webp</b>，貼進講義時 <code>src</code> 也要跟著改。</small>
+    </div>
+    <div class="field">
+      <label for="q">畫質</label>
+      <div class="qrow">
+        <input type="range" id="q" min="50" max="100" step="5" value="85">
+        <b id="qv">85</b>
+      </div>
+      <small>85 幾乎看不出差別。PNG 沒有畫質選項，這個值不會影響它。</small>
+    </div>
+  </div>
+
+  <div class="guide">
+    <h3>🎯 這個專案的目標大小</h3>
+    <table>
+      <tr><th>類型</th><th>建議寬度</th><th>目標大小</th><th>上限</th></tr>
+      <tr><td>螢幕截圖</td><td>1600px</td><td><b>200–400 KB</b></td><td>800 KB</td></tr>
+      <tr><td>鍵盤照片</td><td>1600px</td><td><b>150–300 KB</b></td><td>500 KB</td></tr>
+      <tr><td>GIF 動畫</td><td>800–1000px</td><td><b>0.8–2 MB</b></td><td>3 MB</td></tr>
+    </table>
+    <p style="margin:.6rem 0 0;font-size:.88rem">
+      真正的限制是<b>學校網路的速度</b>，不是容量。一課有 5–7 張素材，
+      <b>整頁加起來盡量壓在 3 MB 以內</b>。壓完的結果會用顏色標：
+      綠色＝很好、黃色＝還可以、橘色＝再壓一次。
+    </p>
+  </div>
+
+  <div class="bar hide" id="bar">
+    <button class="btn btn--go" id="all">⬇ 全部下載</button>
+    <button class="btn btn--ghost" id="clear">清空重來</button>
+    <span class="tally" id="tally"></span>
+  </div>
+
+  <ul class="items" id="items"></ul>
+
+  <div class="note note--warn">
+    <p><b>⚠️ GIF 動畫沒辦法用這個工具壓縮。</b></p>
+    <p>瀏覽器把圖畫到畫布上再輸出，<strong>動畫只會剩下第一格</strong>——
+    所以這個工具遇到 GIF 會直接擋下來，不會默默把你的動畫毀掉。</p>
+    <p>GIF 要在 <strong>ScreenToGif 錄的時候</strong>就弄小：
+    <strong>錄小一點的範圍</strong>（只框需要的區域）、
+    <strong>減少畫格</strong>（存檔前刪掉重複的畫格）、
+    <strong>降低顏色數</strong>（存檔設定裡可以調）。事後救不回來。</p>
+  </div>
+
+  <div class="note note--safe">
+    <p><b>🔒 你的圖片不會離開這台電腦。</b></p>
+    <p>整個壓縮過程都在瀏覽器裡跑，沒有上傳、沒有伺服器。
+    所以<strong>沒有網路也能用</strong>——把這個檔案存到隨身碟，在任何一台電腦打開都行。</p>
+  </div>
+
+  <h2>壓完之後怎麼放進講義</h2>
+  <p>把檔案放進 <code>網站/media/</code>，然後打開那一課的 HTML，
+  找到對應的 <code>&lt;figure class="shot ..."&gt;</code>，把裡面這一行：</p>
+  <p><code>&lt;div class="shot__box"&gt;🎞️&lt;/div&gt;</code></p>
+  <p>換成：</p>
+  <p><code>&lt;img src="../media/t01-1-鍵盤全貌.png" alt="教室鍵盤的全貌" loading="lazy"&gt;</code></p>
+  <p style="font-size:.9rem;color:var(--ink-soft)">
+    <strong>記得加 <code>loading="lazy"</code></strong>——這樣圖片只有捲到附近才會載入，
+    在學校網路上開頁面會快很多。樣式會自動套好，不用改 CSS。
+  </p>
+
+  <footer>
+    <p>國小電腦課 · 老師工具 · 圖片壓縮</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+const $ = s => document.querySelector(s);
+const drop = $('#drop'), fileIn = $('#file'), items = $('#items'),
+      bar = $('#bar'), tally = $('#tally');
+
+/* 壓好的結果都收在這，「全部下載」才有東西可以發 */
+const done = [];
+
+const KB = 1024, MB = 1024 * 1024;
+const size = n => n >= MB ? (n / MB).toFixed(2) + ' MB' : Math.round(n / KB) + ' KB';
+
+/* 目標大小：決定卡片要標成綠 / 黃 / 橘 */
+const GOOD = 400 * KB, OKAY = 800 * KB;
+const grade = n => n <= GOOD ? 'ok' : n <= OKAY ? 'warn' : 'bad';
+
+/* ── 讀圖：用 createImageBitmap 才會照 EXIF 轉正 ──────────
+   手機拍的照片常常帶旋轉資訊，不處理的話鍵盤照片會是躺著的。 */
+async function load(file) {
+  if (window.createImageBitmap) {
+    try { return await createImageBitmap(file, {imageOrientation: 'from-image'}); }
+    catch (e) { /* 舊瀏覽器不支援這個選項，往下用 <img> */ }
+  }
+  const url = URL.createObjectURL(file);
+  try {
+    const img = new Image();
+    await new Promise((ok, no) => { img.onload = ok; img.onerror = no; img.src = url; });
+    return img;
+  } finally { setTimeout(() => URL.revokeObjectURL(url), 0); }
+}
+
+/* ── 縮圖：一次砍一半，砍到接近目標再收尾 ────────────────
+   直接從 3000px 一步畫到 1600px 會有鋸齒，分段縮才平滑。 */
+function shrink(src, sw, sh, tw, th) {
+  let cw = sw, ch = sh, cur = src;
+  while (cw > tw * 2) {
+    cw = Math.max(tw, Math.round(cw / 2));
+    ch = Math.max(th, Math.round(ch / 2));
+    const c = document.createElement('canvas');
+    c.width = cw; c.height = ch;
+    const x = c.getContext('2d');
+    x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+    x.drawImage(cur, 0, 0, cw, ch);
+    cur = c;
+  }
+  const out = document.createElement('canvas');
+  out.width = tw; out.height = th;
+  const g = out.getContext('2d');
+  g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+  g.drawImage(cur, 0, 0, tw, th);
+  return out;
+}
+
+const toBlob = (canvas, type, q) =>
+  new Promise(res => canvas.toBlob(res, type, q));
+
+function card(cls) {
+  const li = document.createElement('li');
+  li.className = 'item' + (cls ? ' item--' + cls : '');
+  items.appendChild(li);
+  return li;
+}
+
+/* ── 主流程 ──────────────────────────────────────────────── */
+async function handle(files) {
+  const maxw = Math.max(200, +$('#maxw').value || 1600);
+  const pick = $('#fmt').value;
+  const q = (+$('#q').value || 85) / 100;
+
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue;
+
+    /* GIF：擋下來，不要默默毀掉動畫 */
+    if (file.type === 'image/gif') {
+      const li = card('warn');
+      li.innerHTML =
+        '<div class="item__pic item__pic--none">🎬</div>' +
+        '<div><p class="item__name">' + esc(file.name) + '</p>' +
+        '<p class="item__meta">' + size(file.size) + '</p>' +
+        '<p class="item__note"><b>GIF 不能在這裡壓縮</b>——瀏覽器輸出後動畫只會剩第一格。' +
+        '請改用 ScreenToGif 錄的時候調小（範圍、畫格數、顏色數）。</p></div>' +
+        '<span class="dl dl--off">不處理</span>';
+      continue;
+    }
+
+    const li = card('');
+    li.innerHTML = '<div class="item__pic item__pic--none">⏳</div>' +
+      '<div><p class="item__name">' + esc(file.name) + '</p>' +
+      '<p class="item__meta">處理中…</p></div><span class="dl dl--off">請稍候</span>';
+
+    try {
+      const img = await load(file);
+      const sw = img.width, sh = img.height;
+      const scale = Math.min(1, maxw / sw);           // 只縮不放大
+      const tw = Math.max(1, Math.round(sw * scale));
+      const th = Math.max(1, Math.round(sh * scale));
+
+      const canvas = shrink(img, sw, sh, tw, th);
+      if (img.close) img.close();
+
+      const type = pick === 'keep'
+        ? (file.type === 'image/png' ? 'image/png' : 'image/jpeg')
+        : pick;
+      let blob = await toBlob(canvas, type, type === 'image/png' ? undefined : q);
+      if (!blob) throw new Error('這個瀏覽器不支援輸出 ' + type);
+
+      /* 壓完反而變大（本來就很小的圖會這樣），那就用原檔 */
+      let usedOriginal = false;
+      if (blob.size >= file.size && scale === 1) { blob = file; usedOriginal = true; }
+
+      const ext = {'image/webp':'webp','image/jpeg':'jpg','image/png':'png'}[blob.type] || 'jpg';
+      const name = file.name.replace(/\.[^.]+$/, '') + '.' + ext;
+      const url = URL.createObjectURL(blob);
+      const cut = Math.round((1 - blob.size / file.size) * 100);
+
+      done.push({name, url});
+      li.className = 'item item--' + grade(blob.size);
+      li.innerHTML =
+        '<img class="item__pic" src="' + url + '" alt="">' +
+        '<div>' +
+          '<p class="item__name">' + esc(name) + '</p>' +
+          '<p class="item__meta"><s>' + size(file.size) + '</s> → <strong>' + size(blob.size) + '</strong>' +
+            (cut > 0 ? ' <span class="item__save">省了 ' + cut + '%</span>' : '') + '</p>' +
+          '<p class="item__meta">' + sw + '×' + sh + ' → ' + tw + '×' + th + '</p>' +
+          (usedOriginal
+            ? '<p class="item__note">這張<b>本來就夠小了</b>，壓了反而變大，所以保留原檔。</p>' : '') +
+          (blob.size > OKAY
+            ? '<p class="item__note"><b>還是偏大。</b>把最大寬度改小（例如 1200），或畫質降到 75 再試一次。</p>' : '') +
+        '</div>' +
+        '<a class="dl" href="' + url + '" download="' + esc(name) + '">⬇ 下載</a>';
+    } catch (err) {
+      li.className = 'item item--bad';
+      li.innerHTML =
+        '<div class="item__pic item__pic--none">⚠️</div>' +
+        '<div><p class="item__name">' + esc(file.name) + '</p>' +
+        '<p class="item__note">讀不到這個檔案：' + esc(err.message || String(err)) + '</p></div>' +
+        '<span class="dl dl--off">失敗</span>';
+    }
+  }
+  refresh();
+}
+
+function refresh() {
+  const n = done.length;
+  bar.classList.toggle('hide', items.children.length === 0);
+  const total = done.length;
+  tally.textContent = total ? '壓好了 ' + total + ' 張' : '';
+  $('#all').disabled = n === 0;
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ── 事件 ────────────────────────────────────────────────── */
+drop.addEventListener('click', () => fileIn.click());
+drop.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileIn.click(); }
+});
+fileIn.addEventListener('change', () => { handle([...fileIn.files]); fileIn.value = ''; });
+
+['dragenter','dragover'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('hot'); }));
+['dragleave','drop'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('hot'); }));
+drop.addEventListener('drop', e => {
+  if (e.dataTransfer && e.dataTransfer.files) handle([...e.dataTransfer.files]);
+});
+/* 整頁都擋掉預設的拖放，不然拖歪了瀏覽器會直接打開那張圖 */
+['dragover','drop'].forEach(ev =>
+  document.addEventListener(ev, e => { if (e.target !== drop) e.preventDefault(); }));
+
+$('#q').addEventListener('input', e => { $('#qv').textContent = e.target.value; });
+
+/* 一次發很多個下載，瀏覽器會擋，所以隔一點時間一個一個發 */
+$('#all').addEventListener('click', async () => {
+  const btn = $('#all');
+  btn.disabled = true;
+  for (const f of done) {
+    const a = document.createElement('a');
+    a.href = f.url; a.download = f.name;
+    document.body.appendChild(a); a.click(); a.remove();
+    await new Promise(r => setTimeout(r, 350));
+  }
+  btn.disabled = false;
+});
+
+$('#clear').addEventListener('click', () => {
+  done.forEach(f => URL.revokeObjectURL(f.url));
+  done.length = 0;
+  items.innerHTML = '';
+  refresh();
+});
+
+refresh();
+})();
+</script>
+</body>
+</html>
