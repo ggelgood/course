@@ -6,14 +6,24 @@
 網站/
 ├── assets/
 │   ├── lesson.css      ← 所有樣式（改這裡，全部的課一起變）
-│   └── lesson.js       ← 所有共用互動
-├── lessons/            ← 17 課，01 到 17
+│   ├── lesson.js       ← 所有共用互動
+│   ├── home.css        ← 只有首頁 index.html 用
+│   ├── typing.css      ← 只有「中文打字」那幾課用
+│   └── typing.js       ← 只有「中文打字」那幾課用
+├── lessons/            ← Scratch 入門 17 課，01 到 17
 │   ├── 01-讓小貓動起來.html
 │   ├── …
 │   └── 17-期末專題-完成與發表.html
-├── files/              ← 範例 .sb3 附件、截圖、GIF 放這裡
+├── typing/             ← 中文打字 4 課
+│   └── 01-鍵盤大導覽.html
+├── media/              ← 截圖與 GIF（講義裡會顯示出來的圖）
+├── files/              ← 學生下載的 .sb3 範例檔
 └── README.md           ← 這份檔案
 ```
+
+**`media/` 和 `files/` 是分開的**：`media` 是講義裡會顯示的圖，
+`files` 是學生要下載的檔案。兩個資料夾現在都還是空的，
+而 git 不追蹤空資料夾，所以在 GitHub 上看不到它們，這是正常的。
 
 ## ⚠️ 改完樣式一定要做的事：把版本號 +1
 
@@ -27,12 +37,18 @@
 後面那個 `?v=1` 是**擋快取用的**。瀏覽器會把 CSS/JS 記在本機，
 你改了 `lesson.css` 但學生的電腦可能還在用舊的——這個坑我們已經踩過一次。
 
-**所以：只要改了 `assets/` 裡的檔案，就把 17 課的 `?v=1` 全部改成 `?v=2`。**
-用這個指令一次改完（在 `網站` 資料夾底下執行，把 1 和 2 換成實際的數字）：
+**所以：只要改了 `assets/` 裡的檔案，就把所有課的 `?v=1` 全部改成 `?v=2`。**
+
+⚠️ **課頁不只在 `lessons/` 一個資料夾了**，`typing/` 底下也有課，
+還有首頁 `index.html`。下面的指令三個地方一起改（在 `網站` 資料夾底下執行，
+把 1 和 2 換成實際的數字）：
 
 ```bash
-powershell -Command "Get-ChildItem lessons\*.html | ForEach-Object { $t=Get-Content $_.FullName -Raw -Encoding UTF8; $t=$t -replace 'lesson\.css\?v=1','lesson.css?v=2' -replace 'lesson\.js\?v=1','lesson.js?v=2'; [System.IO.File]::WriteAllText($_.FullName,$t,(New-Object System.Text.UTF8Encoding $false)) }"
+powershell -Command "Get-ChildItem lessons\*.html, typing\*.html, index.html | ForEach-Object { $t=Get-Content $_.FullName -Raw -Encoding UTF8; $t=$t -replace 'lesson\.css\?v=1','lesson.css?v=2' -replace 'lesson\.js\?v=1','lesson.js?v=2'; [System.IO.File]::WriteAllText($_.FullName,$t,(New-Object System.Text.UTF8Encoding $false)) }"
 ```
+
+改到 `typing.css` / `typing.js` / `home.css` 的話，把上面指令裡的檔名換掉就好
+（它們各自有自己的版本號，不用跟 `lesson.*` 同步）。
 
 **每一課的 HTML 只放內容**，樣式與互動都來自 `assets/`。
 新增一課時**絕對不要複製樣式**，只要在 `<head>` 裡 link 就好。
@@ -216,6 +232,109 @@ python -m http.server 8765 --directory 課程講義/網站
 
 ---
 
+---
+
+## 中文打字系列專用元件（`typing.css` / `typing.js`）
+
+只有 `typing/` 底下那幾課會 link 這兩個檔，Scratch 的 17 課用不到
+——**不要把這些東西搬進 `lesson.css` / `lesson.js`**，那會讓 17 課多載入用不到的程式。
+
+引用順序固定是 **`lesson.*` 在前、`typing.*` 在後**。
+
+### 鍵盤全圖
+
+```html
+<div class="kbdbox">
+  <div class="kbd__tabs">
+    <button class="ktab" data-go="all">全部</button>
+    <button class="ktab" data-go="main">① 打字區</button>   <!-- fn / edit / num / lamp -->
+  </div>
+  <div class="kbdwrap">
+    <div class="kbd" data-zone="all">
+      <div class="kbd__deck">
+        <div class="kzone kzone--main" data-z="main">
+          <div class="krow">
+            <b class="kk">A</b>                                  <!-- 不能點的鍵 -->
+            <button class="kk kk--star kk--txt" style="--w:2"
+                    data-name="Backspace" data-say="說明…">⌫ Backspace</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="kbd__say" data-idle="還沒點任何鍵時顯示這句"></p>
+</div>
+```
+
+- `--w` 是鍵寬，單位是「幾顆標準鍵」（Backspace 是 2、空白鍵是 6.25）
+- `kk--star` = 這一課的重點鍵（淡黃色）
+- `kk--txt` = **標籤字母多的鍵一定要加**（PrtSc、Home、PgUp、NumLk、Backspace…），
+  不加的話字會被裁掉變成「Hor」「PrtS」
+- 有 `data-say` 的鍵才可以點，說明會出現在 `.kbd__say`
+
+> ⚠️ **踩過的坑**：「某一區亮、其他區變暗」那組 CSS，
+> 亮起來的選擇器 specificity 必須跟變暗的那條**一樣重**（所以多寫一個 `.kzone`），
+> 否則會被壓過去，變成連選中的那一區也一起變暗，整個鍵盤糊掉。
+
+### 三顆燈實驗
+
+```html
+<div class="lamp" data-say-on="…" data-say-off="…" data-say-idle="…">
+  <button class="lamp__bulb" aria-pressed="true">Num Lock<small>（點我開關）</small></button>
+  <div class="lamp__pad">
+    <button class="lamp__key" data-on="7" data-emit-on="7"
+            data-off="Home" data-emit-off="" data-dead-say="數字沒出來，因為…"></button>
+  </div>
+  <output class="lamp__out"></output>
+  <button class="btn" data-clear>清空框框</button>
+  <p class="lamp__say"></p>
+</div>
+```
+
+`data-emit-*` 留空 = 這顆鍵在那個狀態下**打不出東西**，按下去會顯示 `data-dead-say`。
+這就是「Num Lock 關掉，數字就消失」那個效果。
+
+### 游標實驗室（Backspace / Delete / Home / End / Insert）
+
+```html
+<div class="caret" data-text="小貓在公園裡跑步" data-pos="3" data-type="新">
+  <div class="caret__line"></div>
+  <div class="caret__btns">
+    <button class="caret__btn" data-act="left">← 往左</button>
+    <!-- data-act：left / right / home / end / back / del / type / ins / reset -->
+  </div>
+  <p class="caret__say"></p>
+</div>
+```
+
+`data-text` 是預設那行字、`data-pos` 是游標一開始停在第幾個字後面、
+`data-type` 是按「打一個字」時插入的字。訊息全部由 `typing.js` 產生，不用自己寫。
+
+### 演變時間軸
+
+```html
+<ol class="tline">
+  <li class="tline__it"><span class="tline__yr">1947 年</span>
+    <b class="tline__t">標題</b><p>內容</p></li>
+  <li class="tline__it tline__it--punch">…最後一格「所以呢」，會變綠色…</li>
+</ol>
+```
+
+**刻意不做成點開才看得到的**——故事要一眼讀完，藏起來學生就不會讀。
+
+### 兩相對照卡 ＋ 內文按鍵
+
+```html
+<div class="vs">
+  <div class="vs__c vs__c--a"><h4>⌫ Backspace</h4><p>…</p></div>
+  <div class="vs__c vs__c--b"><h4>Delete</h4><p>…</p></div>
+</div>
+
+內文裡提到某顆鍵：按 <span class="k">Home</span> 就好了
+```
+
+---
+
 ## 右側進度脊椎
 
 **不用手動寫**。`lesson.js` 會自動掃描 `<main>` 底下每一個 `<section>`，
@@ -254,7 +373,9 @@ python -m http.server 8765 --directory 課程講義/網站
 
 ## 你要準備的素材（截圖與 GIF）
 
-全部 17 課總共留了 **47 個素材位置：36 個 GIF ＋ 11 張截圖**。
+Scratch 17 課總共留了 **50 個素材位置：39 個 GIF ＋ 11 張截圖**。
+中文打字第 1 課另外留了 **6 個**（多半是實體鍵盤的照片，不是螢幕截圖）。
+完整清單與檔名在 `素材清單.md`。
 
 分布是刻意不平均的——**前 8 課佔了 38 個**，因為新手最需要看動作；
 第 10 課以後每課 1～2 個，因為那時學生已經上手，而且那幾課的互動示範本身就在替代說明。

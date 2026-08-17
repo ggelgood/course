@@ -1,0 +1,311 @@
+/* ═══════════════════════════════════════════════════════════
+   中文打字系列 — 專用樣式
+   ───────────────────────────────────────────────────────────
+   只有「中文打字」那幾課會 link 這個檔，Scratch 的 17 課用不到。
+   共用的東西（積木、打勾清單、預測題、求救框…）還是走 lesson.css，
+   這裡只放打字課才有的元件。
+
+   引用順序一定是 lesson.css 在前、typing.css 在後。
+   ═══════════════════════════════════════════════════════════ */
+
+/* ═══ 元件 1：鍵盤全圖 ══════════════════════════════════════
+   一整個 104 鍵桌機鍵盤，分成五個 .kzone：
+     fn（功能鍵列）／main（打字區）／edit（編輯鍵區）
+     num（數字鍵盤）／lamp（三顆燈）
+   .kbd 上的 data-zone 決定哪一區亮著，其他區會變暗。
+   data-zone="all" 就是全部都亮。
+
+   排版單位 --u = 一顆標準鍵的寬度，整個鍵盤都用它算，
+   所以改一個值就能整體縮放。                                 */
+
+.kbdwrap{
+  margin:1.7rem 0;
+  overflow-x:auto;             /* 螢幕太窄時可以左右捲，不要擠壞 */
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:.4rem;
+}
+
+.kbd{
+  --u:clamp(24px,3.4vw,44px);    /* 一顆鍵的寬度 */
+  --gap:.16em;
+  --face:#FBF6EC;                /* 鍵帽顏色 */
+  --face-d:#BCA98C;              /* 鍵帽下緣（立體感） */
+  font-size:var(--u);
+  min-width:calc(var(--u) * 23);  /* 15u 主鍵盤 + 3u 編輯 + 4u 數字 + 間距 */
+  background:linear-gradient(160deg,#3D2E22,#2B2119);
+  border-radius:.42em;
+  padding:.4em;
+  box-shadow:var(--shadow-lg);
+  user-select:none;
+}
+
+.kbd__deck{
+  display:grid;
+  /* 右邊兩欄用 auto：讓它們照 .kgrid 裡「一顆鍵剛好 1u」去撐，
+     寫死 3u／4u 的話，分區內距和格線間距會從鍵寬裡扣，
+     鍵會縮到 1u 以下，Home、PrtSc 這種標籤就被裁掉了。 */
+  grid-template-columns:calc(var(--u)*15) auto auto;
+  grid-template-areas:
+    "fn   sys  lamp"
+    "main edit num";
+  gap:.3em .45em;
+  align-items:end;
+}
+
+/* ── 五個分區 ─────────────────────────────────────────────── */
+.kzone{position:relative;border-radius:.28em;padding:.16em;transition:.28s cubic-bezier(.2,.8,.3,1)}
+.kzone--fn  {grid-area:fn}
+.kzone--sys {grid-area:sys}
+.kzone--lamp{grid-area:lamp}
+.kzone--main{grid-area:main}
+.kzone--edit{grid-area:edit}
+.kzone--num {grid-area:num}
+
+/* 選了某一區時，其他區退到背景去。
+   ⚠️ 下面「亮起來」那組選擇器一定要跟上面這條「暗下去」的
+      specificity 一樣重（所以多寫一個 .kzone），否則會被壓過去，
+      變成連選中的那一區也一起變暗。這個坑踩過一次。 */
+.kbd[data-zone]:not([data-zone="all"]) .kzone{opacity:.24;filter:saturate(.3)}
+.kbd[data-zone="fn"]   .kzone.kzone--fn,
+.kbd[data-zone="main"] .kzone.kzone--main,
+.kbd[data-zone="edit"] .kzone.kzone--edit,
+.kbd[data-zone="edit"] .kzone.kzone--sys,
+.kbd[data-zone="num"]  .kzone.kzone--num,
+.kbd[data-zone="lamp"] .kzone.kzone--lamp{
+  opacity:1;filter:none;
+  background:rgba(255,191,0,.16);
+  outline:.09em solid var(--b-events);
+  outline-offset:.04em;
+}
+
+/* 區號不畫在鍵盤上（會蓋到鍵、也會被上緣裁掉），
+   改由下面的 .ktab 兼任圖例：點哪一區，哪一區就亮。 */
+
+/* ── 鍵帽 ─────────────────────────────────────────────────── */
+.krow{display:flex;gap:var(--gap);margin-bottom:var(--gap)}
+.krow:last-child{margin-bottom:0}
+
+.kk{
+  flex:var(--w,1) 0 0;
+  height:calc(var(--u) * .88);
+  display:grid;place-items:center;
+  background:var(--face);color:#2B2119;
+  border:0;border-radius:.16em;
+  box-shadow:0 .07em 0 var(--face-d);
+  font-family:var(--body);font-weight:700;
+  /* ⚠️ 字級與左右內距要配合 --u 算過：1u 寬的鍵扣掉內距只剩約 0.88u，
+        像 PrtSc、Home、PgUp 這種 4～5 個字母的標籤才塞得下不被裁掉。
+        調大這裡之前先確認最窄的鍵還讀得完整。 */
+  font-size:.30em;line-height:1.15;text-align:center;
+  padding:0 .06em;overflow:hidden;
+  transition:.12s;
+}
+.kk--sp{background:transparent;box-shadow:none;pointer-events:none}  /* 佔位用的空格 */
+
+/* 可以點的鍵（有 data-say 的） */
+.kk[data-say]{cursor:pointer}
+.kk[data-say]:hover{background:#fff;transform:translateY(-.04em);box-shadow:0 .11em 0 var(--face-d)}
+.kk[data-say]:active{transform:translateY(.03em);box-shadow:0 .03em 0 var(--face-d)}
+.kk.on{background:var(--accent);color:#fff;box-shadow:0 .07em 0 #C4460A}
+
+/* 這一課的重點鍵，先標出來讓學生找得到 */
+.kk--star{background:#FFE8A8;box-shadow:0 .07em 0 #C9A94E}
+.kk--star:hover{background:#FFF2CC}
+
+.kk small{display:block;font-size:.78em;font-weight:500;opacity:.62}
+
+/* 標籤字母比較多的鍵（PrtSc、Home、PgUp、Backspace…）。
+   實體鍵盤上這些字本來就印得比較小，縮小才不會被裁掉。 */
+.kk--txt{font-size:.21em;letter-spacing:-.02em}
+
+/* 編輯鍵區與數字鍵盤用格線排，才做得出「加號兩格高」那種鍵。
+   欄寬固定 1u，跟主鍵盤的鍵一樣大（實體鍵盤就是這樣）。 */
+.kgrid{display:grid;grid-template-columns:repeat(3,var(--u));gap:var(--gap)}
+.kgrid--num{grid-template-columns:repeat(4,var(--u))}
+.kgrid .kk{flex:none;width:auto}
+.kk--tall{grid-row:span 2;height:auto}
+.kk--wide{grid-column:span 2}
+.kgrid--arrow{margin-top:var(--gap)}
+
+/* ── 三顆燈 ───────────────────────────────────────────────── */
+.klamps{display:flex;gap:.3em;justify-content:space-around;padding:.25em .1em}
+.klamp{display:flex;flex-direction:column;align-items:center;gap:.18em}
+.klamp i{
+  width:.3em;height:.3em;border-radius:50%;
+  background:#5A4A3A;box-shadow:inset 0 0 .06em rgba(0,0,0,.6);
+  transition:.25s;
+}
+.klamp.on i{background:#4ADE80;box-shadow:0 0 .28em #4ADE80,0 0 .6em rgba(74,222,128,.6)}
+.klamp b{font-size:.26em;font-weight:600;color:#B8A48C;letter-spacing:.02em;white-space:nowrap}
+.klamp.on b{color:#EBE0CE}
+
+/* ── 分區切換鈕 ───────────────────────────────────────────── */
+.kbd__tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.2rem 0 .2rem}
+.ktab{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.86rem;
+  cursor:pointer;padding:.42rem 1rem;border-radius:999px;
+  border:2.5px solid var(--rule);background:var(--card);color:var(--ink-soft);
+  box-shadow:var(--shadow-sm);transition:.15s;
+}
+.ktab:hover{border-color:var(--ink);color:var(--ink)}
+.ktab[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+
+/* 點鍵之後的說明列 */
+.kbd__say{
+  margin:.9rem 0 0;padding:.9rem 1.15rem;border-radius:12px;
+  background:var(--ground-2);border-left:5px solid var(--rule);
+  font-size:.95rem;line-height:1.75;min-height:3.4rem;transition:.2s;
+}
+.kbd__say.on{background:var(--accent-soft);border-left-color:var(--accent)}
+.kbd__say b{font-family:var(--display);font-weight:600;color:var(--accent);margin-right:.4rem}
+
+/* ═══ 元件 2：三顆燈實驗 ════════════════════════════════════
+   學生親手把燈關掉，看著數字真的打不出來，再開回來。
+   HTML：<div class="lamp" data-say-on="…" data-say-off="…">
+           <button class="lamp__bulb">…</button>
+           <div class="lamp__pad">
+             <button class="lamp__key" data-on="7" data-off="Home"
+                     data-emit-on="7" data-emit-off="">…</button>
+           </div>
+           <output class="lamp__out"></output>
+           <p class="lamp__say"></p>                          */
+
+.lamp{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+
+.lamp__bulb{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:1rem;
+  display:flex;align-items:center;gap:.7rem;margin:0 auto 1.2rem;
+  cursor:pointer;padding:.7rem 1.4rem;border-radius:999px;
+  border:3px solid var(--ink);background:var(--ground-2);color:var(--ink-soft);
+  box-shadow:0 3px 0 rgba(43,33,25,.35);transition:.16s;
+}
+.lamp__bulb::before{
+  content:"";width:.85rem;height:.85rem;border-radius:50%;
+  background:#8D7C68;box-shadow:inset 0 1px 2px rgba(0,0,0,.4);transition:.25s;
+}
+.lamp__bulb[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.lamp__bulb[aria-pressed="true"]::before{background:#4ADE80;box-shadow:0 0 8px #4ADE80,0 0 16px rgba(74,222,128,.7)}
+.lamp__bulb:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.35)}
+.lamp__bulb:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.35)}
+.lamp__bulb small{font-size:.78rem;font-weight:500;opacity:.75}
+
+.lamp__pad{display:grid;grid-template-columns:repeat(3,minmax(0,4.6rem));gap:.5rem;justify-content:center;margin:0 auto 1.2rem}
+.lamp__key{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:1.15rem;
+  height:3.4rem;cursor:pointer;border-radius:11px;
+  border:3px solid var(--ink);background:#fff;color:var(--ink);
+  box-shadow:0 4px 0 var(--ink);transition:.1s;
+}
+.lamp__key:hover{background:var(--ground-2)}
+.lamp__key:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.lamp__key[data-dead="1"]{color:var(--ink-soft);font-size:.82rem;background:var(--ground-2)}
+
+.lamp__out{
+  display:block;min-height:3.2rem;margin:0 auto 1rem;padding:.7rem 1rem;
+  max-width:22rem;border-radius:12px;
+  background:#fff;border:3px dashed var(--rule);
+  font-family:var(--mono);font-size:1.5rem;letter-spacing:.06em;
+  text-align:center;color:var(--ink);word-break:break-all;
+}
+.lamp__out:empty::before{content:"（試打區）";font-family:var(--body);font-size:.9rem;color:var(--ink-soft);letter-spacing:0}
+
+.lamp__say{
+  margin:0;padding:.95rem 1.15rem;border-radius:12px;font-weight:500;
+  line-height:1.8;max-width:none;
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.lamp__say[data-k="off"]{background:var(--accent-soft);border-left-color:var(--accent)}
+.lamp__say[data-k="on"]{background:var(--go-soft);border-left-color:var(--go)}
+
+/* ═══ 元件 3：游標實驗室 ════════════════════════════════════
+   這是第 1 課最重要的互動 —— Backspace 往左刪、Delete 往右刪，
+   Home / End 跳到頭尾，還有 Insert 那個「字被吃掉」的陷阱。
+   HTML：<div class="caret" data-text="小貓在公園裡跑步" data-pos="4"> …  */
+
+.caret{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+
+.caret__line{
+  min-height:4.4rem;display:flex;align-items:center;flex-wrap:wrap;
+  padding:.8rem 1rem;margin-bottom:1.1rem;border-radius:12px;
+  background:#fff;border:3px dashed var(--rule);
+  font-size:1.6rem;font-weight:700;line-height:1.5;
+}
+.caret__ch{display:inline-block;padding:0 .02em;border-radius:4px;transition:background .18s}
+.caret__ch.hit{background:#FFD8C2}
+.caret__bar{
+  display:inline-block;width:3px;height:1.5em;background:var(--accent);
+  border-radius:2px;margin:0 -1px;animation:blink 1.05s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+.caret__btns{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.caret__btn{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.9rem;
+  cursor:pointer;padding:.55rem 1.05rem;border-radius:11px;
+  border:3px solid var(--ink);background:#fff;color:var(--ink);
+  box-shadow:0 3px 0 var(--ink);transition:.1s;
+}
+.caret__btn:hover{background:var(--ground-2)}
+.caret__btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.caret__btn--move{border-color:var(--b-motion-d);box-shadow:0 3px 0 var(--b-motion-d);color:var(--b-motion-d)}
+.caret__btn--del{border-color:var(--accent);box-shadow:0 3px 0 #C4460A;color:var(--accent)}
+.caret__btn--ins[aria-pressed="true"]{background:var(--accent);color:#fff}
+.caret__btn--reset{margin-left:auto;border-color:var(--rule);box-shadow:0 3px 0 var(--rule);color:var(--ink-soft)}
+
+.caret__say{
+  margin:0;padding:.95rem 1.15rem;border-radius:12px;font-weight:500;
+  line-height:1.8;max-width:none;
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.caret__say[data-k="warn"]{background:#FFF9E6;border-left-color:var(--b-events)}
+.caret__say[data-k="ok"]{background:var(--go-soft);border-left-color:var(--go)}
+
+/* ═══ 元件 4：演變時間軸 ════════════════════════════════════
+   開場故事用。刻意不做成點開才看得到 —— 故事要一眼讀完，
+   藏起來學生就不會讀。                                       */
+.tline{list-style:none;margin:1.8rem 0;padding:0 0 0 1.1rem;position:relative}
+.tline::before{content:"";position:absolute;left:0;top:.6rem;bottom:1.6rem;width:4px;background:linear-gradient(180deg,var(--rule),var(--accent));border-radius:2px}
+.tline__it{position:relative;padding:0 0 1.7rem 1.7rem}
+.tline__it::before{
+  content:"";position:absolute;left:-.62rem;top:.55rem;
+  width:1.25rem;height:1.25rem;border-radius:50%;
+  background:var(--card);border:4px solid var(--accent);box-shadow:var(--shadow-sm);
+}
+.tline__it:last-child{padding-bottom:0}
+.tline__yr{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.82rem;
+  letter-spacing:.06em;background:var(--ink);color:var(--ground);
+  padding:.2rem .8rem;border-radius:999px;margin-bottom:.35rem;
+}
+.tline__t{display:block;font-family:var(--display);font-weight:600;font-size:1.2rem;margin-bottom:.2rem}
+.tline__it p{margin:.35rem 0 0}
+/* 最後一格是「所以呢」，要跳出來 */
+.tline__it--punch::before{border-color:var(--go);background:var(--go)}
+.tline__it--punch .tline__yr{background:var(--go)}
+
+/* ═══ 元件 5：兩相對照卡 ════════════════════════════════════
+   Backspace vs Delete 這種「剛好相反」的一組，並排比最清楚。 */
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1.5rem 0}
+.vs__c{border-radius:16px;padding:1.2rem 1.35rem;border:3px solid;background:var(--card)}
+.vs__c--a{border-color:var(--b-motion-d);background:#EAF3FF}
+.vs__c--b{border-color:var(--b-looks-d);background:#F3ECFF}
+.vs__c h4{font-family:var(--display);font-weight:600;font-size:1.08rem;margin:0 0 .5rem;display:flex;align-items:center;gap:.5rem}
+.vs__c--a h4{color:var(--b-motion-d)}
+.vs__c--b h4{color:var(--b-looks-d)}
+.vs__c p{margin:.4rem 0;font-size:.94rem;max-width:none}
+.vs__key{
+  display:inline-block;font-family:var(--display);font-weight:700;font-size:.82rem;
+  background:var(--face,#FBF6EC);border:2.5px solid var(--ink);border-radius:7px;
+  padding:.12rem .55rem;box-shadow:0 2px 0 var(--ink);margin:0 .15rem;
+  color:var(--ink);white-space:nowrap;
+}
+
+/* 內文裡提到某顆鍵時用這個，跟鍵盤圖的視覺對得起來 */
+kbd,.k{
+  display:inline-block;font-family:var(--display);font-weight:700;font-size:.82em;
+  background:#FBF6EC;border:2.5px solid var(--ink);border-radius:7px;
+  padding:.1em .5em;box-shadow:0 2px 0 var(--ink);margin:0 .12em;
+  color:var(--ink);white-space:nowrap;line-height:1.5;
+}
+
+@media(prefers-reduced-motion:reduce){.caret__bar{animation:none}}
