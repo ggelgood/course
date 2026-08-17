@@ -86,7 +86,8 @@ document.querySelectorAll('.lamp').forEach(box => {
     if (kind) say.dataset.k = kind; else delete say.dataset.k;
   };
 
-  /* 燈的狀態變了，鍵面上印的字要跟著換 */
+  /* 燈的狀態變了，鍵面上印的字、還有指示燈都要跟著換 */
+  const lamps = [...box.querySelectorAll('.klamp[data-lit]')];
   const face = () => {
     const on = isOn();
     keys.forEach(k => {
@@ -95,6 +96,7 @@ document.querySelectorAll('.lamp').forEach(box => {
       k.textContent = txt || '';
       k.dataset.dead = emit ? '0' : '1';
     });
+    lamps.forEach(l => l.classList.toggle('on', on));
   };
 
   bulb.addEventListener('click', () => {
@@ -146,16 +148,21 @@ document.querySelectorAll('.symtest').forEach(box => {
   const score = box.querySelector('.symtest__score');
   if (!cells.length) return;
 
-  /* 全形 → 半形 */
+  /* 全形 → 半形（U+FF01–FF5E 減 0xFEE0 就是對應的半形） */
   const half = s => (s || '').replace(/[！-～]/g,
     c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).trim();
+
+  /* data-want 可以用 | 列出多個都算對的答案。
+     ⚠️ 中文的「。」「、」不在 FF01–FF5E 裡，換算不到半形，
+        所以句號那格一定要寫成 data-want="。|." 把兩種都列出來。 */
+  const wants = cell => (cell.dataset.want || '').split('|').map(half).filter(Boolean);
 
   const tally = () => {
     if (!score) return;
     const n = cells.filter(c => c.dataset.s === 'hit').length;
     const all = n === cells.length;
-    score.textContent = all
-      ? '🎉 全部答對！你已經會用 Shift 打出鍵盤上面那排符號了。'
+    score.innerHTML = all
+      ? (box.dataset.done || '🎉 全部答對！')
       : '答對 ' + n + ' / ' + cells.length + ' 個。';
     if (all) score.dataset.k = 'all'; else delete score.dataset.k;
   };
@@ -164,7 +171,7 @@ document.querySelectorAll('.symtest').forEach(box => {
     const input = cell.querySelector('input');
     const mark  = cell.querySelector('.sym__mark');
     const say   = cell.querySelector('.sym__say');
-    const want  = half(cell.dataset.want);
+    const ok    = wants(cell);
     const key   = cell.dataset.key || '';
     let composing = false;
 
@@ -177,15 +184,15 @@ document.querySelectorAll('.symtest').forEach(box => {
         if (say) say.innerHTML = '';
         return tally();
       }
-      if (got === want) {
+      if (ok.includes(got)) {
         cell.dataset.s = 'hit';
         if (mark) mark.textContent = '✓';
-        if (say) say.innerHTML = '答對了！這個符號要按 <b>' + key + '</b>。';
+        if (say) say.innerHTML = '答對了！這個要按 <b>' + key + '</b>。';
       } else {
         cell.dataset.s = 'miss';
         if (mark) mark.textContent = '✗';
-        if (say) say.innerHTML = '你打出來的是「' + input.value +
-          '」。這個符號<b>印在某顆鍵的上面</b>，要<b>按住 Shift</b> 再按那顆鍵——回上面的鍵盤圖找找看它在哪裡。';
+        if (say) say.innerHTML = '你打出來的是「' + input.value + '」。' +
+          (cell.dataset.miss || '再看一次鍵盤，找找看它在哪一顆鍵上。');
       }
       tally();
     };

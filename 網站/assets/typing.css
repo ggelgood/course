@@ -26,12 +26,18 @@
 }
 
 .kbd{
-  --u:clamp(24px,3.4vw,44px);    /* 一顆鍵的寬度 */
+  /* 一顆鍵的寬度。整個鍵盤約 25.1u 寬，所以 vw 係數要抓在
+     「25.1 × 係數 ≤ 可用寬度」以內，不然就會出現橫向捲軸。 */
+  --u:clamp(20px,3.6vw,40px);
   --gap:.16em;
   --face:#FBF6EC;                /* 鍵帽顏色 */
   --face-d:#BCA98C;              /* 鍵帽下緣（立體感） */
   font-size:var(--u);
-  min-width:calc(var(--u) * 23);  /* 15u 主鍵盤 + 3u 編輯 + 4u 數字 + 間距 */
+  /* ⚠️ 用 max-content 讓深色底板剛好包住實際內容，不要寫死 min-width。
+     寫死的話底板寬度跟真正的內容對不起來（分區內距、格線間距都會加寬），
+     數字鍵盤就會凸出底板外面，看起來像破圖。 */
+  width:max-content;
+  margin-inline:auto;            /* 版面比鍵盤寬的時候置中 */
   background:linear-gradient(160deg,#3D2E22,#2B2119);
   border-radius:.42em;
   padding:.4em;
@@ -171,6 +177,44 @@
            <p class="lamp__say"></p>                          */
 
 .lamp{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+
+/* ── 迷你鍵盤底板：只放「這個實驗會用到」的那幾顆鍵 ─────────
+   跟上面那張大鍵盤同一套視覺（深色底板＋淺色鍵帽＋右上角的燈），
+   學生一看就知道是同一台機器的某一角。                       */
+.lampbd{
+  --u:46px; --gap:.16em;
+  --face:#FBF6EC; --face-d:#BCA98C;
+  font-size:var(--u);
+  width:max-content;max-width:100%;margin:0 auto 1.2rem;
+  background:linear-gradient(160deg,#3D2E22,#2B2119);
+  border-radius:.42em;padding:.5em;box-shadow:var(--shadow-md);
+}
+.lampbd__lamps{display:flex;gap:.5em;justify-content:center;padding:.1em 0 .35em}
+.lampbd .kgrid{justify-content:center}
+.lampbd .kk{font-size:.3em}
+.lampbd .kk--txt{font-size:.21em}
+/* 這個實驗用不到、只是陪襯的鍵 */
+.kk--dim{opacity:.32}
+/* ⚠️ .lamp__bulb 原本是一顆圓角藥丸按鈕（下面那組樣式）。
+   放進迷你鍵盤時要整個重設成鍵帽，不然兩套樣式會打架。 */
+.lampbd .lamp__bulb{
+  display:grid;place-items:center;
+  width:auto;height:calc(var(--u)*.88);margin:0;padding:0 .06em;
+  border:0;border-radius:.16em;
+  background:var(--face);color:#2B2119;
+  box-shadow:0 .07em 0 var(--face-d);
+  font-family:var(--body);font-weight:700;font-size:.21em;letter-spacing:-.02em;
+  transition:.12s;
+}
+.lampbd .lamp__bulb::before{display:none}   /* 藥丸版左邊那顆小圓燈 */
+.lampbd .lamp__bulb[aria-pressed="true"]{
+  background:var(--b-events);color:#2B2119;box-shadow:0 .07em 0 #CC9900;
+}
+/* 可以按的鍵，讓它看起來就是可以按 */
+.lampbd .lamp__key,.lampbd .lamp__bulb{cursor:pointer}
+.lampbd .lamp__key:hover{background:#fff}
+.lampbd .lamp__key:active,.lampbd .lamp__bulb:active{transform:translateY(.03em);box-shadow:0 .03em 0 var(--face-d)}
+@media(max-width:560px){.lampbd{--u:38px}}
 
 .lamp__bulb{
   font:inherit;font-family:var(--display);font-weight:600;font-size:1rem;

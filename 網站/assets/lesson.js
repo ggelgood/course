@@ -55,7 +55,9 @@ document.querySelectorAll('.predict[data-ans]').forEach(box => {
       const ok = btn.dataset.v === ans;
       btn.dataset.s = ok ? 'hit' : 'miss';
       if (said) {
-        said.textContent = btn.dataset.say || '';
+        // innerHTML 不是 textContent —— data-say 裡可以寫 <b>、<strong> 來強調重點。
+        // 內容都是我們自己寫在 HTML 裡的，沒有使用者輸入。
+        said.innerHTML = btn.dataset.say || '';
         said.dataset.k = ok ? 'y' : 'n';
         said.classList.add('on');
       }
@@ -127,13 +129,13 @@ document.querySelectorAll('.sortbox').forEach(box => {
 
     if (now.join('') === ans) {
       out.dataset.k = 'y';
-      out.textContent = box.dataset.msgOk || '✓ 完全正確！';
+      out.innerHTML = box.dataset.msgOk || '✓ 完全正確！';
       return;
     }
     out.dataset.k = 'n';
 
     if (now[0] !== ans[0]) {
-      out.textContent = box.dataset.msgNohat || '再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？';
+      out.innerHTML = box.dataset.msgNohat || '再看一次最上面那塊 —— 程式需要一個「開始的訊號」，哪一塊才是？';
       return;
     }
     // data-swap="2>3"：2 應該在 3 前面，若顛倒就給專屬提示
@@ -141,11 +143,11 @@ document.querySelectorAll('.sortbox').forEach(box => {
     if (swap && box.dataset.msgSwap) {
       const [a, b] = swap.split('>');
       if (now.indexOf(a) > now.indexOf(b)) {
-        out.textContent = box.dataset.msgSwap;
+        out.innerHTML = box.dataset.msgSwap;
         return;
       }
     }
-    out.textContent = box.dataset.msgNear || '快好了！再讀一次題目，想想剩下幾塊的先後順序。';
+    out.innerHTML = box.dataset.msgNear || '快好了！再讀一次題目，想想剩下幾塊的先後順序。';
   });
 });
 
