@@ -3,20 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>圖片壓縮工具 · 給老師用</title>
+<title>圖片壓縮工具</title>
 <!--
   ═══════════════════════════════════════════════════════════
-  圖片壓縮工具（老師專用，不是給學生看的講義）
+  圖片壓縮工具 —— 一個通用的小工具，跟課程內容無關，任何人都能用。
   ───────────────────────────────────────────────────────────
   ⚠️ 這一頁是「單一檔案、不依賴任何外部檔案」的，樣式和程式都寫在裡面。
 
   這是刻意的，跟講義的「樣式一律放 assets/」規則不同，原因：
-    1. 老師在兩台電腦之間跑，這樣可以把單一個檔案丟到隨身碟，
-       在任何一台電腦上打開就能用，不用整包網站
-    2. 完全不上網也能跑（電腦教室沒網路）
-    3. 它不是課頁，不需要跟 17 課共用視覺
+    1. 可以把單一個檔案丟到隨身碟或寄給別人，打開就能用
+    2. 完全不上網也能跑
+    3. 它不是課頁，不需要跟講義共用視覺
 
   圖片「不會被上傳到任何地方」，全部在瀏覽器裡處理完。
+
+  ⚠️ 這裡不要放講義相關的說明（怎麼接進課頁、素材檔名規則⋯⋯），
+     那些寫在 `素材清單.md`。這一頁只做「壓縮圖片」這一件事。
   ═══════════════════════════════════════════════════════════
 -->
 <style>
@@ -173,10 +175,10 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
 
 <header>
   <div class="wrap">
-    <a class="backhome" href="../index.html">← 課程總覽</a>
-    <span class="tag">給老師 · 學生用不到</span>
+    <a class="backhome" href="../index.html">← 回首頁</a>
+    <span class="tag">免安裝 · 免上傳 · 免網路</span>
     <h1>圖片<em>壓縮工具</em></h1>
-    <p>把截圖和照片縮小到適合放進講義的大小。
+    <p>把太大的截圖和照片縮小。
     圖片<strong>不會上傳到任何地方</strong>，全部在你自己的電腦裡處理完。</p>
   </div>
 </header>
@@ -194,7 +196,7 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
     <div class="field">
       <label for="maxw">最大寬度</label>
       <input type="number" id="maxw" value="1600" min="200" max="4000" step="100">
-      <small>比這個窄的圖不會被放大。講義最寬也只顯示到約 1000px，1600 已經很夠。</small>
+      <small>單位是像素。<b>比這個窄的圖不會被放大</b>。一般網頁最寬也只顯示到 1000px 左右，1600 已經很夠用。</small>
     </div>
     <div class="field">
       <label for="fmt">輸出格式</label>
@@ -204,7 +206,7 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
         <option value="image/jpeg">JPEG（照片用）</option>
         <option value="image/png">PNG（要透明背景才選）</option>
       </select>
-      <small>WebP 通常比 PNG 小很多，現在的瀏覽器都支援。但<b>副檔名會變成 .webp</b>，貼進講義時 <code>src</code> 也要跟著改。</small>
+      <small>WebP 通常比 PNG 小很多，現在的瀏覽器都支援。但<b>副檔名會變成 .webp</b>，換格式時記得改到的地方要跟著改。</small>
     </div>
     <div class="field">
       <label for="q">畫質</label>
@@ -217,17 +219,18 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
   </div>
 
   <div class="guide">
-    <h3>🎯 這個專案的目標大小</h3>
+    <h3>🎯 放到網頁上的圖，多大才算合適？</h3>
     <table>
-      <tr><th>類型</th><th>建議寬度</th><th>目標大小</th><th>上限</th></tr>
+      <tr><th>用途</th><th>建議寬度</th><th>目標大小</th><th>上限</th></tr>
+      <tr><td>文章插圖</td><td>1200px</td><td><b>100–250 KB</b></td><td>500 KB</td></tr>
       <tr><td>螢幕截圖</td><td>1600px</td><td><b>200–400 KB</b></td><td>800 KB</td></tr>
-      <tr><td>鍵盤照片</td><td>1600px</td><td><b>150–300 KB</b></td><td>500 KB</td></tr>
+      <tr><td>照片</td><td>1600px</td><td><b>150–300 KB</b></td><td>500 KB</td></tr>
       <tr><td>GIF 動畫</td><td>800–1000px</td><td><b>0.8–2 MB</b></td><td>3 MB</td></tr>
     </table>
     <p style="margin:.6rem 0 0;font-size:.88rem">
-      真正的限制是<b>學校網路的速度</b>，不是容量。一課有 5–7 張素材，
-      <b>整頁加起來盡量壓在 3 MB 以內</b>。壓完的結果會用顏色標：
-      綠色＝很好、黃色＝還可以、橘色＝再壓一次。
+      比起單張大小，更該看的是<b>一整頁加起來的總量</b>——
+      一頁放五、六張圖的話，總共盡量不要超過 3 MB，網路慢的人才不會等太久。
+      壓完的結果會用顏色標：<b>綠色＝很好、黃色＝還可以、橘色＝再壓一次</b>。
     </p>
   </div>
 
@@ -255,19 +258,8 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
     所以<strong>沒有網路也能用</strong>——把這個檔案存到隨身碟，在任何一台電腦打開都行。</p>
   </div>
 
-  <h2>壓完之後怎麼放進講義</h2>
-  <p>把檔案放進 <code>網站/media/</code>，然後打開那一課的 HTML，
-  找到對應的 <code>&lt;figure class="shot ..."&gt;</code>，把裡面這一行：</p>
-  <p><code>&lt;div class="shot__box"&gt;🎞️&lt;/div&gt;</code></p>
-  <p>換成：</p>
-  <p><code>&lt;img src="../media/t01-1-鍵盤全貌.png" alt="教室鍵盤的全貌" loading="lazy"&gt;</code></p>
-  <p style="font-size:.9rem;color:var(--ink-soft)">
-    <strong>記得加 <code>loading="lazy"</code></strong>——這樣圖片只有捲到附近才會載入，
-    在學校網路上開頁面會快很多。樣式會自動套好，不用改 CSS。
-  </p>
-
   <footer>
-    <p>國小電腦課 · 老師工具 · 圖片壓縮</p>
+    <p>圖片壓縮工具 · 全部在你的瀏覽器裡執行</p>
   </footer>
 </div>
 
