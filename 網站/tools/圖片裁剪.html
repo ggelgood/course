@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>圖片裁剪工具</title>
+<!--
+  ═══════════════════════════════════════════════════════════
+  圖片裁剪工具 —— 一個通用的小工具，跟課程內容無關，任何人都能用。
+  ───────────────────────────────────────────────────────────
+  ⚠️ 單一檔案、不依賴任何外部檔案，樣式和程式都寫在裡面。
+     跟講義的「樣式一律放 assets/」規則不同，這是刻意的：
+       1. 可以把單一個檔案丟到隨身碟或寄給別人，打開就能用
+       2. 完全不上網也能跑
+       3. 它不是課頁，不需要跟講義共用視覺
+
+  圖片「不會被上傳到任何地方」，全部在瀏覽器裡處理完。
+
+  ⚠️ 這裡不要放講義相關的說明（怎麼接進課頁、素材檔名規則⋯⋯）。
+     這一頁只做「裁剪圖片」這一件事。要壓縮請用 圖片壓縮.html。
+
+  ── 座標系統（改這支程式前先看懂這段）──────────────────
+  crop{x,y,w,h} 一律存「原圖的像素座標」，不是畫面上的座標。
+  畫面上的位置 = 原圖座標 × scale，scale = 顯示寬度 / 原圖寬度。
+  這樣縮放視窗、換圖都不會讓裁剪框跑掉。
+  ═══════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  --ground:#FBF6EC; --ground-2:#F4EBDB; --card:#fff;
+  --ink:#2B2119; --ink-soft:#7A6A59; --rule:#E3D6C0;
+  --accent:#FF6B1A; --accent-soft:#FFE8D9;
+  --go:#12A594; --go-soft:#D6F3EF;
+  --warn:#FFBF00; --warn-soft:#FFF9E6;
+  --display:"Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:"Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow-sm:0 2px 0 rgba(43,33,25,.10);
+  --shadow-md:0 3px 0 rgba(43,33,25,.12),0 10px 24px -14px rgba(43,33,25,.5);
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{
+  margin:0;font-family:var(--body);color:var(--ink);line-height:1.85;
+  background:var(--ground);
+  background-image:
+    radial-gradient(circle at 15% 5%,rgba(255,107,26,.07),transparent 40%),
+    radial-gradient(rgba(43,33,25,.05) 1px,transparent 1px);
+  background-size:auto,22px 22px;
+}
+.wrap{max-width:56rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 5rem}
+
+header{
+  background:linear-gradient(168deg,#2B2119,#3D2E22 60%,#4A3626);
+  color:var(--ground);padding:2.6rem 0 2.2rem;margin-bottom:2.2rem;
+}
+header h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5vw,3rem);margin:.4rem 0 .5rem;letter-spacing:-.02em}
+header h1 em{font-style:normal;color:var(--warn)}
+header p{margin:0;color:#E6D9C4;max-width:46ch}
+.tag{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.78rem;
+  letter-spacing:.12em;background:var(--accent);color:#fff;
+  padding:.3rem .9rem;border-radius:999px;box-shadow:0 3px 0 #C4460A;
+}
+.backhome{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.8rem;
+  color:#E6D9C4;text-decoration:none;border:2px solid rgba(251,246,236,.3);
+  border-radius:999px;padding:.25rem .9rem;margin-bottom:1rem;
+}
+.backhome:hover{background:rgba(251,246,236,.14);color:#fff}
+
+/* ── 拖放區 ─────────────────────────────────────────────── */
+.drop{
+  border:4px dashed var(--rule);border-radius:22px;background:var(--card);
+  padding:2.6rem 1.5rem;text-align:center;cursor:pointer;transition:.18s;
+  background-image:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.2) 15px 30px);
+}
+.drop:hover{border-color:var(--ink)}
+.drop.hot{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.01)}
+.drop__ic{font-size:3.2rem;line-height:1;margin-bottom:.6rem}
+.drop b{display:block;font-family:var(--display);font-weight:600;font-size:1.25rem;margin-bottom:.2rem}
+.drop small{color:var(--ink-soft);font-size:.9rem}
+
+/* ── 裁剪台 ─────────────────────────────────────────────── */
+.board{
+  background:#241C15;border-radius:20px;padding:1.2rem;margin:1.4rem 0;
+  text-align:center;box-shadow:var(--shadow-md);
+  background-image:
+    linear-gradient(45deg,#2E251C 25%,transparent 25%,transparent 75%,#2E251C 75%),
+    linear-gradient(45deg,#2E251C 25%,transparent 25%,transparent 75%,#2E251C 75%);
+  background-size:20px 20px;background-position:0 0,10px 10px;
+}
+/* ⚠️ overflow:hidden 一定要留著 —— 下面 .crop 用一個超大的 box-shadow
+   把框外壓暗，沒有這個裁切的話，那片陰影會蓋滿整個頁面。 */
+.stage{position:relative;display:inline-block;line-height:0;max-width:100%;touch-action:none;overflow:hidden}
+.stage img{max-width:100%;max-height:60vh;display:block;user-select:none;-webkit-user-drag:none}
+
+.crop{
+  position:absolute;box-sizing:border-box;
+  border:2px solid #fff;cursor:move;
+  box-shadow:0 0 0 9999px rgba(20,14,9,.62);   /* 框外自動變暗 */
+  touch-action:none;
+}
+.crop:focus{outline:3px solid var(--warn);outline-offset:2px}
+/* 三等分格線：構圖用 */
+.crop::before,.crop::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-repeat:no-repeat;opacity:.55;
+}
+.crop::before{
+  background-image:linear-gradient(#fff,#fff),linear-gradient(#fff,#fff);
+  background-size:1px 100%,1px 100%;
+  background-position:33.33% 0,66.66% 0;
+}
+.crop::after{
+  background-image:linear-gradient(#fff,#fff),linear-gradient(#fff,#fff);
+  background-size:100% 1px,100% 1px;
+  background-position:0 33.33%,0 66.66%;
+}
+/* ⚠️ 把手全部畫在框「裡面」（不是騎在邊界上）。
+   因為 .stage 有 overflow:hidden，框拖到圖片邊緣時，
+   凸出去的把手會被切掉一半，看起來像壞掉。 */
+.h{
+  position:absolute;width:16px;height:16px;background:#fff;border:2px solid var(--ink);
+  border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.45);touch-action:none;
+}
+.h[data-h="nw"]{left:1px;top:1px;cursor:nwse-resize}
+.h[data-h="ne"]{right:1px;top:1px;cursor:nesw-resize}
+.h[data-h="sw"]{left:1px;bottom:1px;cursor:nesw-resize}
+.h[data-h="se"]{right:1px;bottom:1px;cursor:nwse-resize}
+.h[data-h="n"]{left:50%;top:1px;margin-left:-8px;cursor:ns-resize}
+.h[data-h="s"]{left:50%;bottom:1px;margin-left:-8px;cursor:ns-resize}
+.h[data-h="w"]{left:1px;top:50%;margin-top:-8px;cursor:ew-resize}
+.h[data-h="e"]{right:1px;top:50%;margin-top:-8px;cursor:ew-resize}
+/* 鎖定比例時只留四個角，避免邊把比例拉壞 */
+.crop.locked .h[data-h="n"],.crop.locked .h[data-h="s"],
+.crop.locked .h[data-h="w"],.crop.locked .h[data-h="e"]{display:none}
+
+/* ── 控制列 ─────────────────────────────────────────────── */
+.panel{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.2rem 1.3rem;margin:1.2rem 0;box-shadow:var(--shadow-md);
+}
+.panel h3{font-family:var(--display);font-weight:600;font-size:1rem;margin:0 0 .6rem}
+.panel h3+.row{margin-top:0}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.9rem 0 0}
+.row:first-child{margin-top:0}
+.chip{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.88rem;cursor:pointer;
+  padding:.42rem 1rem;border-radius:999px;border:2.5px solid var(--rule);
+  background:var(--ground);color:var(--ink-soft);box-shadow:var(--shadow-sm);transition:.14s;
+}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.btn{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.95rem;cursor:pointer;
+  padding:.6rem 1.3rem;border-radius:999px;border:none;text-decoration:none;display:inline-block;
+  background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);transition:.14s;
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active:not(:disabled){transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.4;cursor:default;pointer-events:none}
+.btn--go{background:var(--go);box-shadow:0 3px 0 #0B7A6D}
+.btn--ghost{background:transparent;color:var(--ink-soft);box-shadow:none;border:2.5px solid var(--rule)}
+.btn--ghost:hover{border-color:var(--ink);color:var(--ink);transform:none;box-shadow:none}
+
+.field{display:flex;align-items:center;gap:.5rem}
+.field label{font-family:var(--display);font-weight:600;font-size:.88rem;white-space:nowrap}
+.field select,.field input[type=number]{
+  font:inherit;font-size:.92rem;padding:.42rem .6rem;
+  border:2.5px solid var(--rule);border-radius:10px;background:var(--ground);color:var(--ink);
+}
+.field input[type=number]{width:5.5rem}
+.field input[type=range]{accent-color:var(--accent);width:8rem}
+.field select:focus,.field input:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+
+.readout{
+  display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;align-items:baseline;
+  font-family:var(--mono);font-size:.92rem;margin:0;
+}
+.readout b{font-family:var(--display);font-size:1.15rem;color:var(--accent)}
+.readout span{color:var(--ink-soft);font-size:.85rem}
+
+.note{
+  background:var(--card);border-left:5px solid var(--rule);border-radius:12px;
+  padding:.9rem 1.2rem;margin:1.2rem 0;font-size:.92rem;
+}
+.note--safe{border-left-color:var(--go);background:var(--go-soft)}
+.note--tip{border-left-color:var(--warn);background:var(--warn-soft)}
+.note p{margin:.3rem 0}
+.note b{color:var(--accent)}
+.note a{color:var(--accent);font-weight:700}
+kbd{
+  font-family:var(--display);font-weight:700;font-size:.8em;background:var(--ground-2);
+  border:2px solid var(--ink);border-radius:6px;padding:.05em .45em;box-shadow:0 2px 0 var(--ink);
+}
+footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color:var(--ink-soft);font-size:.86rem}
+.hide{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 回首頁</a>
+    <span class="tag">免安裝 · 免上傳 · 免網路</span>
+    <h1>圖片<em>裁剪工具</em></h1>
+    <p>把圖片切掉不要的部分，或裁成固定比例。
+    圖片<strong>不會上傳到任何地方</strong>，全部在你自己的電腦裡處理完。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="drop" id="drop" tabindex="0" role="button" aria-label="選擇或拖放一張圖片">
+    <div class="drop__ic">✂️</div>
+    <b>把圖片拖到這裡</b>
+    <small>或點一下這個框選檔案 —— 一次裁一張</small>
+    <input type="file" id="file" accept="image/*" class="hide">
+  </div>
+
+  <div id="work" class="hide">
+
+    <div class="board">
+      <div class="stage" id="stage">
+        <img id="pic" alt="要裁剪的圖片">
+        <div class="crop" id="crop" tabindex="0" role="application"
+             aria-label="裁剪範圍，可以拖曳移動，或用方向鍵微調">
+          <i class="h" data-h="nw"></i><i class="h" data-h="n"></i><i class="h" data-h="ne"></i>
+          <i class="h" data-h="w"></i><i class="h" data-h="e"></i>
+          <i class="h" data-h="sw"></i><i class="h" data-h="s"></i><i class="h" data-h="se"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>裁成什麼比例</h3>
+      <div class="row" id="ratios">
+        <button class="chip" data-r="free" aria-pressed="true">自由</button>
+        <button class="chip" data-r="1">正方形 1:1</button>
+        <button class="chip" data-r="1.7777">16:9</button>
+        <button class="chip" data-r="1.3333">4:3</button>
+        <button class="chip" data-r="0.75">3:4 直式</button>
+        <button class="chip" data-r="0.5625">9:16 直式</button>
+        <button class="chip" data-r="orig">原圖比例</button>
+      </div>
+      <div class="row">
+        <button class="btn btn--ghost" id="all">⬚ 全選整張</button>
+        <button class="btn btn--ghost" id="rot">↻ 向右轉 90°</button>
+        <button class="btn btn--ghost" id="reset">↺ 重來</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>輸出</h3>
+      <div class="row">
+        <div class="field">
+          <label for="fmt">格式</label>
+          <select id="fmt">
+            <option value="keep" selected>保持原本的格式</option>
+            <option value="image/webp">WebP（檔案最小）</option>
+            <option value="image/jpeg">JPEG（照片用）</option>
+            <option value="image/png">PNG（要透明背景才選）</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="q">畫質</label>
+          <input type="range" id="q" min="50" max="100" step="5" value="90">
+          <b id="qv" style="font-family:var(--display);min-width:2.2rem">90</b>
+        </div>
+      </div>
+      <div class="row">
+        <p class="readout" id="out">
+          <span>裁出來的大小</span> <b id="dim">—</b>
+          <span>檔案</span> <b id="fsize">—</b>
+        </p>
+      </div>
+      <div class="row">
+        <a class="btn btn--go" id="dl" aria-disabled="true">⬇ 下載裁好的圖</a>
+        <button class="btn btn--ghost" id="another">換一張圖</button>
+      </div>
+    </div>
+
+    <div class="note note--tip">
+      <p><b>💡 操作提示</b></p>
+      <p>拖曳框內可以<strong>移動</strong>，拖曳八個白色小方塊可以<strong>改大小</strong>。
+      鎖定比例時只會留下四個角。</p>
+      <p>要精細調整的話，先點一下裁剪框，再用<kbd>方向鍵</kbd>一格一格移動，
+      按住<kbd>Shift</kbd>會一次移動 10 格。</p>
+    </div>
+
+  </div>
+
+  <div class="note note--safe">
+    <p><b>🔒 你的圖片不會離開這台電腦。</b></p>
+    <p>整個裁剪過程都在瀏覽器裡跑，沒有上傳、沒有伺服器。
+    所以<strong>沒有網路也能用</strong>——把這個檔案存到隨身碟，在任何一台電腦打開都行。</p>
+  </div>
+
+  <div class="note">
+    <p><b>裁完覺得檔案還是太大？</b></p>
+    <p>這個工具只負責「切」，不負責縮小尺寸。
+    要把圖片壓小，用旁邊那個 <a href="圖片壓縮.html">圖片壓縮工具</a>，
+    兩個可以接著用（先裁再壓）。</p>
+  </div>
+
+  <footer>
+    <p>圖片裁剪工具 · 全部在你的瀏覽器裡執行</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+const $ = s => document.querySelector(s);
+const drop = $('#drop'), fileIn = $('#file'), work = $('#work'),
+      pic = $('#pic'), stage = $('#stage'), cropEl = $('#crop');
+
+const MIN = 16;                    // 裁剪框最小邊長（原圖像素）
+let natW = 0, natH = 0;            // 原圖尺寸
+let crop = {x:0, y:0, w:0, h:0};   // ⚠️ 一律存原圖座標，不是畫面座標
+let ratio = null;                  // null = 自由
+let srcUrl = null;                 // 目前顯示的圖（可能是轉向後產生的）
+let outUrl = null;                 // 產生給下載用的
+let baseName = 'image', baseType = 'image/png';
+
+const KB = 1024, MB = 1024 * 1024;
+const size = n => n >= MB ? (n/MB).toFixed(2) + ' MB' : Math.round(n/KB) + ' KB';
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const scale = () => pic.clientWidth / natW || 1;
+
+/* ── 畫面更新：原圖座標 × scale ─────────────────────────── */
+function render() {
+  const s = scale();
+  cropEl.style.left   = (crop.x * s) + 'px';
+  cropEl.style.top    = (crop.y * s) + 'px';
+  cropEl.style.width  = (crop.w * s) + 'px';
+  cropEl.style.height = (crop.h * s) + 'px';
+  $('#dim').textContent = Math.round(crop.w) + ' × ' + Math.round(crop.h);
+  queueEncode();
+}
+
+/* ── 套用比例：以中心為準，塞進圖裡最大的那個框 ─────────── */
+function applyRatio() {
+  cropEl.classList.toggle('locked', ratio !== null);
+  if (ratio === null) return;
+  const cx = crop.x + crop.w/2, cy = crop.y + crop.h/2;
+  let w = crop.w, h = w / ratio;
+  if (h > natH) { h = natH; w = h * ratio; }
+  if (w > natW) { w = natW; h = w / ratio; }
+  crop.w = w; crop.h = h;
+  crop.x = clamp(cx - w/2, 0, natW - w);
+  crop.y = clamp(cy - h/2, 0, natH - h);
+  render();
+}
+
+function selectAll() {
+  if (ratio === null) {
+    crop = {x:0, y:0, w:natW, h:natH};
+  } else {
+    let w = natW, h = w / ratio;
+    if (h > natH) { h = natH; w = h * ratio; }
+    crop = {x:(natW-w)/2, y:(natH-h)/2, w, h};
+  }
+  render();
+}
+
+/* ── 拖曳 ───────────────────────────────────────────────── */
+let mode = null, from = null;
+
+function begin(e, kind) {
+  mode = kind;
+  from = {x:e.clientX, y:e.clientY, c:{...crop}};
+  /* 抓住指標，滑鼠拖到圖片外面也還能繼續拉。
+     某些情況下 pointerId 已經失效會丟例外，這裡吞掉就好 —— 拖曳照樣能用。 */
+  try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+function drag(e) {
+  if (!mode) return;
+  const s = scale();
+  const dx = (e.clientX - from.x) / s, dy = (e.clientY - from.y) / s;
+  const c = from.c;
+
+  if (mode === 'move') {
+    crop.x = clamp(c.x + dx, 0, natW - c.w);
+    crop.y = clamp(c.y + dy, 0, natH - c.h);
+    return render();
+  }
+
+  /* 對角的那個點固定不動，跟著滑鼠算出新的框 */
+  const right = mode.includes('e'), left = mode.includes('w');
+  const bottom = mode.includes('s'), top = mode.includes('n');
+
+  let x1 = c.x, y1 = c.y, x2 = c.x + c.w, y2 = c.y + c.h;
+  if (left)   x1 = clamp(c.x + dx, 0, x2 - MIN);
+  if (right)  x2 = clamp(c.x + c.w + dx, x1 + MIN, natW);
+  if (top)    y1 = clamp(c.y + dy, 0, y2 - MIN);
+  if (bottom) y2 = clamp(c.y + c.h + dy, y1 + MIN, natH);
+
+  let w = x2 - x1, h = y2 - y1;
+
+  if (ratio !== null) {
+    /* 鎖比例：用寬度當主、高度跟著算，再確認沒有超出圖片 */
+    h = w / ratio;
+    const maxH = bottom ? natH - y1 : y2;
+    if (h > maxH) { h = maxH; w = h * ratio; }
+    if (w < MIN) { w = MIN; h = w / ratio; }
+    if (left)  x1 = x2 - w;
+    if (right) x2 = x1 + w;
+    if (top)   y1 = y2 - h;
+    if (bottom) y2 = y1 + h;
+    /* 夾回圖片範圍內 */
+    if (x1 < 0) { x1 = 0; x2 = w; }
+    if (x2 > natW) { x2 = natW; x1 = natW - w; }
+    if (y1 < 0) { y1 = 0; y2 = h; }
+    if (y2 > natH) { y2 = natH; y1 = natH - h; }
+  }
+
+  crop = {x:x1, y:y1, w:x2 - x1, h:y2 - y1};
+  render();
+}
+
+function end() { mode = null; }
+
+cropEl.addEventListener('pointerdown', e => begin(e, 'move'));
+cropEl.addEventListener('pointermove', drag);
+cropEl.addEventListener('pointerup', end);
+cropEl.addEventListener('pointercancel', end);
+
+cropEl.querySelectorAll('.h').forEach(h => {
+  h.addEventListener('pointerdown', e => begin(e, h.dataset.h));
+  h.addEventListener('pointermove', drag);
+  h.addEventListener('pointerup', end);
+  h.addEventListener('pointercancel', end);
+});
+
+/* 方向鍵微調：要精準對齊的時候用滑鼠很難 */
+cropEl.addEventListener('keydown', e => {
+  const step = e.shiftKey ? 10 : 1;
+  const go = {ArrowLeft:[-step,0], ArrowRight:[step,0], ArrowUp:[0,-step], ArrowDown:[0,step]}[e.key];
+  if (!go) return;
+  e.preventDefault();
+  crop.x = clamp(crop.x + go[0], 0, natW - crop.w);
+  crop.y = clamp(crop.y + go[1], 0, natH - crop.h);
+  render();
+});
+
+/* ── 輸出：畫到 canvas 再編碼 ───────────────────────────── */
+let encodeTimer = null;
+function queueEncode() {
+  clearTimeout(encodeTimer);
+  encodeTimer = setTimeout(encode, 220);   // 拖曳中不編碼，停下來才算
+}
+
+async function encode() {
+  if (!natW || crop.w < 1 || crop.h < 1) return;
+  const w = Math.max(1, Math.round(crop.w)), h = Math.max(1, Math.round(crop.h));
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(pic, Math.round(crop.x), Math.round(crop.y), w, h, 0, 0, w, h);
+
+  const pick = $('#fmt').value;
+  const type = pick === 'keep' ? (baseType === 'image/png' ? 'image/png' : 'image/jpeg') : pick;
+  const q = (+$('#q').value || 90) / 100;
+
+  const blob = await new Promise(r => c.toBlob(r, type, type === 'image/png' ? undefined : q));
+  if (!blob) return;
+
+  if (outUrl) URL.revokeObjectURL(outUrl);
+  outUrl = URL.createObjectURL(blob);
+  const ext = {'image/webp':'webp','image/jpeg':'jpg','image/png':'png'}[blob.type] || 'jpg';
+  const dl = $('#dl');
+  dl.href = outUrl;
+  dl.setAttribute('download', baseName + '-裁剪.' + ext);
+  dl.setAttribute('aria-disabled', 'false');
+  $('#fsize').textContent = size(blob.size);
+}
+
+/* ── 載入圖片 ───────────────────────────────────────────── */
+function show(url, name, type) {
+  return new Promise((ok, no) => {
+    pic.onload = () => {
+      natW = pic.naturalWidth; natH = pic.naturalHeight;
+      work.classList.remove('hide');
+      selectAll();
+      ok();
+    };
+    pic.onerror = () => no(new Error('讀不到這張圖'));
+    if (srcUrl) URL.revokeObjectURL(srcUrl);
+    srcUrl = url;
+    if (name !== undefined) baseName = name.replace(/\.[^.]+$/, '');
+    if (type !== undefined) baseType = type;
+    pic.src = url;
+  });
+}
+
+async function load(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  if (file.type === 'image/gif') {
+    alert('GIF 動畫裁剪後只會剩下第一格（瀏覽器沒辦法保留動畫）。\n\n如果你只是想要其中一格，可以繼續；要保留動畫請用專門的 GIF 編輯軟體。');
+  }
+  try {
+    await show(URL.createObjectURL(file), file.name, file.type);
+  } catch (err) {
+    alert('讀不到這個檔案：' + (err.message || err));
+  }
+}
+
+/* ── 轉向：直接產生一張轉好的圖當新來源 ──────────────────
+   手機拍的照片常常是躺著的，轉一下比重拍容易。 */
+$('#rot').addEventListener('click', async () => {
+  if (!natW) return;
+  const c = document.createElement('canvas');
+  c.width = natH; c.height = natW;
+  const g = c.getContext('2d');
+  g.translate(natH/2, natW/2);
+  g.rotate(Math.PI/2);
+  g.drawImage(pic, -natW/2, -natH/2);
+  const blob = await new Promise(r => c.toBlob(r, 'image/png'));   // PNG 無損，轉幾次都不會糊
+  await show(URL.createObjectURL(blob));
+});
+
+/* ── 介面事件 ───────────────────────────────────────────── */
+drop.addEventListener('click', () => fileIn.click());
+drop.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileIn.click(); }
+});
+fileIn.addEventListener('change', () => { load(fileIn.files[0]); fileIn.value = ''; });
+
+['dragenter','dragover'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('hot'); }));
+['dragleave','drop'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('hot'); }));
+drop.addEventListener('drop', e => {
+  if (e.dataTransfer && e.dataTransfer.files) load(e.dataTransfer.files[0]);
+});
+['dragover','drop'].forEach(ev =>
+  document.addEventListener(ev, e => { if (e.target !== drop) e.preventDefault(); }));
+
+$('#ratios').addEventListener('click', e => {
+  const btn = e.target.closest('.chip');
+  if (!btn) return;
+  $('#ratios').querySelectorAll('.chip').forEach(c =>
+    c.setAttribute('aria-pressed', c === btn ? 'true' : 'false'));
+  const r = btn.dataset.r;
+  ratio = r === 'free' ? null : (r === 'orig' ? natW / natH : parseFloat(r));
+  applyRatio();
+});
+
+$('#all').addEventListener('click', selectAll);
+$('#reset').addEventListener('click', () => {
+  ratio = null;
+  $('#ratios').querySelectorAll('.chip').forEach((c,i) =>
+    c.setAttribute('aria-pressed', i === 0 ? 'true' : 'false'));
+  applyRatio();
+  selectAll();
+});
+$('#another').addEventListener('click', () => fileIn.click());
+$('#fmt').addEventListener('change', encode);
+$('#q').addEventListener('input', e => { $('#qv').textContent = e.target.value; queueEncode(); });
+
+/* 視窗大小改變 → 顯示比例變了 → 重畫（座標本身不用動） */
+addEventListener('resize', render);
+
+})();
+</script>
+</body>
+</html>
