@@ -153,9 +153,13 @@ document.querySelectorAll('.symtest').forEach(box => {
     c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).trim();
 
   /* data-want 可以用 | 列出多個都算對的答案。
-     ⚠️ 中文的「。」「、」不在 FF01–FF5E 裡，換算不到半形，
-        所以句號那格一定要寫成 data-want="。|." 把兩種都列出來。 */
-  const wants = cell => (cell.dataset.want || '').split('|').map(half).filter(Boolean);
+
+     加上 data-strict 就「不做全形半形換算」——
+     用在中文標點那幾格：我們要的是中文的「，」「。」，
+     打出英文的 , . 必須算錯，學生才會發現自己在英文輸入法下。 */
+  const shape = (s, strict) => strict ? (s || '').trim() : half(s);
+  const wants = cell => (cell.dataset.want || '').split('|')
+    .map(w => shape(w, cell.hasAttribute('data-strict'))).filter(Boolean);
 
   const tally = () => {
     if (!score) return;
@@ -171,13 +175,14 @@ document.querySelectorAll('.symtest').forEach(box => {
     const input = cell.querySelector('input');
     const mark  = cell.querySelector('.sym__mark');
     const say   = cell.querySelector('.sym__say');
-    const ok    = wants(cell);
-    const key   = cell.dataset.key || '';
+    const ok     = wants(cell);
+    const key    = cell.dataset.key || '';
+    const strict = cell.hasAttribute('data-strict');
     let composing = false;
 
     const judge = () => {
       if (composing) return;                 // 還在組字，先不要判
-      const got = half(input.value);
+      const got = shape(input.value, strict);
       if (!got) {                            // 清空 → 回到未作答
         delete cell.dataset.s;
         if (mark) mark.textContent = '';

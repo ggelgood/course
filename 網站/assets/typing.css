@@ -191,6 +191,12 @@
 }
 .lampbd__lamps{display:flex;gap:.5em;justify-content:center;padding:.1em 0 .35em}
 .lampbd .kgrid{justify-content:center}
+/* ⚠️ 大鍵盤的 .kk 是 flex:var(--w) 0 0（basis 為 0，靠 grow 去分容器寬度），
+   那是因為主鍵盤區有固定寬度的格線欄可以分。迷你鍵盤是 width:max-content、
+   沒有固定寬度，basis 0 會讓整排塌成一條細細的東西（實測 46px 變 17px）。
+   所以這裡改成直接用 --u 算出每顆鍵該有的寬度。 */
+.lampbd .krow{justify-content:center}
+.lampbd .krow .kk{flex:0 0 calc(var(--u) * var(--w,1))}
 .lampbd .kk{font-size:.3em}
 .lampbd .kk--txt{font-size:.21em}
 /* 這個實驗用不到、只是陪襯的鍵 */
