@@ -395,6 +395,26 @@ footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;colo
 .shot--tall .shot__box{aspect-ratio:4/3}
 .shot img{max-width:100%;height:auto;border-radius:11px;margin-top:1.1rem;border:2px solid var(--rule)}
 
+/* ── 素材已經補上去了：改用 .shot--done ─────────────────────
+   佔位狀態是給老師看的（要拍什麼、怎麼拍），圖補上去之後
+   那些拍攝說明對學生就是雜訊，要換成一句正常的圖說。
+   用法：
+   <figure class="shot shot--done">
+     <img src="../media/xxx.webp" alt="…" loading="lazy">
+     <figcaption>給學生看的說明</figcaption>
+   </figure>
+   ⚠️ 記得加 loading="lazy"，一課五、六張圖時載入會差很多。   */
+.shot--done{
+  border-style:solid;border-color:var(--rule);background-image:none;
+  padding:1rem;
+}
+.shot--done img{margin-top:0}
+.shot figcaption{
+  margin:.85rem auto 0;max-width:46ch;
+  font-size:.88rem;color:var(--ink-soft);line-height:1.7;
+}
+.shot figcaption b,.shot figcaption strong{color:var(--accent)}
+
 /* ═══ 偷看 Python ═════════════════════════════════════════
    ⚠️ 只在積木第一次出現、而且 Python 真的有對應寫法時才放。
       沒有對應的（綠旗、廣播、按鍵事件…）一律不做面板。      */

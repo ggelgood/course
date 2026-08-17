@@ -260,6 +260,50 @@
 .caret__say[data-k="warn"]{background:#FFF9E6;border-left-color:var(--b-events)}
 .caret__say[data-k="ok"]{background:var(--go-soft);border-left-color:var(--go)}
 
+/* ═══ 元件 3.5：符號輸入測試 ════════════════════════════════
+   「請打出 ？」→ 學生真的在框裡打一次。
+   要自己在鍵盤上找到那顆鍵、想到要按 Shift，不能照抄。
+
+   ⚠️ 中文輸入法下打出來的是全形（？！：），英文是半形（?!:），
+      程式會把全形換算成半形再比對，兩種都算對。         */
+.symtest{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.symgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.8rem;margin:1.1rem 0 0}
+
+.sym{
+  display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:center;
+  background:var(--ground-2);border:2.5px solid var(--rule);border-radius:14px;
+  padding:.75rem .9rem;transition:.18s;
+}
+.sym[data-s="hit"]{background:var(--go-soft);border-color:var(--go)}
+.sym[data-s="miss"]{background:var(--accent-soft);border-color:var(--accent)}
+
+.sym__want{
+  font-family:var(--display);font-weight:700;font-size:1.7rem;line-height:1;
+  min-width:2.6rem;height:2.6rem;display:grid;place-items:center;
+  background:#fff;border:3px solid var(--ink);border-radius:10px;
+  box-shadow:0 3px 0 var(--ink);color:var(--ink);
+}
+.sym input{
+  font:inherit;font-size:1.3rem;font-weight:700;text-align:center;width:100%;
+  padding:.35rem .4rem;border:2.5px solid var(--rule);border-radius:10px;
+  background:#fff;color:var(--ink);
+}
+.sym input:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.sym[data-s="hit"] input{border-color:var(--go);background:var(--go-soft)}
+.sym__mark{font-size:1.4rem;min-width:1.6rem;text-align:center;line-height:1}
+.sym__say{
+  grid-column:1/-1;margin:.15rem 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--ink-soft);
+}
+.sym__say b{color:var(--accent)}
+.sym[data-s="hit"] .sym__say b{color:var(--go)}
+
+.symtest__score{
+  margin:1.1rem 0 0;padding:.85rem 1.1rem;border-radius:12px;font-weight:700;
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.symtest__score[data-k="all"]{background:var(--go-soft);border-left-color:var(--go)}
+
 /* ═══ 元件 4：演變時間軸 ════════════════════════════════════
    開場故事用。刻意不做成點開才看得到 —— 故事要一眼讀完，
    藏起來學生就不會讀。                                       */

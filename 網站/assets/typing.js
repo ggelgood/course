@@ -122,6 +122,82 @@ document.querySelectorAll('.lamp').forEach(box => {
   tell(box.dataset.sayIdle || '');
 });
 
+/* ── 元件 3.5：符號輸入測試 ─────────────────────────────────
+   HTML：<div class="symtest">
+           <div class="symgrid">
+             <label class="sym" data-want="?" data-key="Shift ＋ /">
+               <span class="sym__want">?</span>
+               <input type="text" maxlength="4" inputmode="text">
+               <span class="sym__mark"></span>
+               <p class="sym__say"></p>
+             </label>
+           </div>
+           <p class="symtest__score"></p>
+         </div>
+
+   ⚠️ 兩個一定要處理的細節：
+     1. 中文輸入法打出來是全形（？），英文是半形（?）——
+        全形字在 Unicode 的 FF01–FF5E，減 0xFEE0 就是對應的半形，
+        換算完再比對，兩種都算對。不然學生打對了卻被判錯。
+     2. 打注音時輸入框會先出現「組字中」的注音，這時候不要判定，
+        等 compositionend 再看。                                */
+document.querySelectorAll('.symtest').forEach(box => {
+  const cells = [...box.querySelectorAll('.sym')];
+  const score = box.querySelector('.symtest__score');
+  if (!cells.length) return;
+
+  /* 全形 → 半形 */
+  const half = s => (s || '').replace(/[！-～]/g,
+    c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).trim();
+
+  const tally = () => {
+    if (!score) return;
+    const n = cells.filter(c => c.dataset.s === 'hit').length;
+    const all = n === cells.length;
+    score.textContent = all
+      ? '🎉 全部答對！你已經會用 Shift 打出鍵盤上面那排符號了。'
+      : '答對 ' + n + ' / ' + cells.length + ' 個。';
+    if (all) score.dataset.k = 'all'; else delete score.dataset.k;
+  };
+
+  cells.forEach(cell => {
+    const input = cell.querySelector('input');
+    const mark  = cell.querySelector('.sym__mark');
+    const say   = cell.querySelector('.sym__say');
+    const want  = half(cell.dataset.want);
+    const key   = cell.dataset.key || '';
+    let composing = false;
+
+    const judge = () => {
+      if (composing) return;                 // 還在組字，先不要判
+      const got = half(input.value);
+      if (!got) {                            // 清空 → 回到未作答
+        delete cell.dataset.s;
+        if (mark) mark.textContent = '';
+        if (say) say.innerHTML = '';
+        return tally();
+      }
+      if (got === want) {
+        cell.dataset.s = 'hit';
+        if (mark) mark.textContent = '✓';
+        if (say) say.innerHTML = '答對了！這個符號要按 <b>' + key + '</b>。';
+      } else {
+        cell.dataset.s = 'miss';
+        if (mark) mark.textContent = '✗';
+        if (say) say.innerHTML = '你打出來的是「' + input.value +
+          '」。這個符號<b>印在某顆鍵的上面</b>，要<b>按住 Shift</b> 再按那顆鍵——回上面的鍵盤圖找找看它在哪裡。';
+      }
+      tally();
+    };
+
+    input.addEventListener('compositionstart', () => { composing = true; });
+    input.addEventListener('compositionend', () => { composing = false; judge(); });
+    input.addEventListener('input', judge);
+  });
+
+  tally();
+});
+
 /* ── 元件 3：游標實驗室 ─────────────────────────────────────
    第 1 課最重要的互動。要講清楚三件事：
      1. Backspace 刪游標「左邊」、Delete 刪游標「右邊」（剛好相反）
