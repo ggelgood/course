@@ -20,6 +20,23 @@
    ‧ .ktab 切換 .kbd 的 data-zone，被選中的那一區亮起來，其他變暗
    ‧ 帶 data-say 的鍵可以點，說明會出現在 .kbd__say
    兩者都是選填 —— 只放鍵盤圖不放 tabs 也能正常顯示。          */
+/* 同一張鍵盤圖在課文裡要出現好幾次（每一區講到的時候都放一張）。
+   與其複製一大段 150 顆鍵的 HTML，課文裡只要放一個空的
+   <div class="kbdbox" data-copy></div>，這裡自動把第一張複製過去。
+   ⚠️ 一定要在下面的繫結迴圈「之前」跑完，複製出來的那幾張才會被綁到事件。 */
+(() => {
+  const src = document.querySelector('.kbdbox:not([data-copy])');
+  if (!src) return;
+  document.querySelectorAll('.kbdbox[data-copy]').forEach(dst => {
+    dst.innerHTML = src.innerHTML;
+    dst.querySelectorAll('.kk.on').forEach(k => k.classList.remove('on'));
+    const kbd = dst.querySelector('.kbd');
+    if (kbd) kbd.dataset.zone = dst.dataset.copy || 'all';   // data-copy="edit" 可預選某一區
+    const say = dst.querySelector('.kbd__say');
+    if (say) { say.classList.remove('on'); say.innerHTML = say.dataset.idle || ''; }
+  });
+})();
+
 document.querySelectorAll('.kbdbox').forEach(box => {
   const kbd  = box.querySelector('.kbd');
   const say  = box.querySelector('.kbd__say');

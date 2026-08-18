@@ -24,7 +24,7 @@
 
     <div class="today">
       <div class="today__box">
-        <h2>今天要弄懂的三個「怪事」</h2>
+        <h2>今天要弄懂的三件事</h2>
         <ul>
           <li>為什麼右邊的<b>數字突然打不出來</b>？</li>
           <li>為什麼英文<b>突然全部變大寫</b>？</li>
@@ -32,7 +32,7 @@
         </ul>
       </div>
       <div class="today__box">
-        <h2>今天不用打中文</h2>
+        <h2>知己知彼，百戰百勝</h2>
         <p>先把鍵盤上有什麼認清楚。<br>怎麼把中文字打出來，<b>下一課</b>再說。</p>
       </div>
     </div>
@@ -262,13 +262,16 @@
           <div class="kzone kzone--num" data-z="num">
             <div class="kgrid kgrid--num">
               <button class="kk kk--star kk--txt" data-name="Num Lock" data-say="數字鎖定。它管的是<strong>右邊這一整區</strong>：燈亮才打得出數字，燈暗的話這些鍵會變成方向鍵、Home、End。<strong>「數字突然打不出來」的答案就是它。</strong>">NumLk</button>
-              <b class="kk">/</b><b class="kk">*</b><b class="kk">-</b>
+              <button class="kk kk--star" data-name="斜線 /" data-say="這是<strong>除法</strong>！電腦上沒有 ÷ 這顆鍵，除法一律用 <strong>/</strong>。">/</button>
+              <button class="kk kk--star" data-name="星號 *" data-say="這是<strong>乘法</strong>！電腦上沒有 × 這顆鍵，乘法一律用 <strong>*</strong>。">*</button>
+              <button class="kk" data-name="減號 -" data-say="<strong>減法</strong>，跟數學課寫的一樣。">-</button>
               <b class="kk">7</b><b class="kk">8</b><b class="kk">9</b>
-              <b class="kk kk--tall">+</b>
+              <button class="kk kk--tall" data-name="加號 +" data-say="<strong>加法</strong>，跟數學課寫的一樣。">+</button>
               <b class="kk">4</b><b class="kk">5</b><b class="kk">6</b>
               <b class="kk">1</b><b class="kk">2</b><b class="kk">3</b>
-              <b class="kk kk--tall">⏎</b>
-              <b class="kk kk--wide">0</b><b class="kk">.</b>
+              <button class="kk kk--tall" data-name="數字鍵盤的 Enter" data-say="在小算盤裡，它就是「<strong>等於</strong>」。">⏎</button>
+              <b class="kk kk--wide">0</b>
+              <button class="kk" data-name="小數點 ." data-say="<strong>小數點</strong>，例如 3.14。燈暗的時候它會變成 Delete。">.</button>
             </div>
           </div>
 
@@ -360,6 +363,11 @@
     </div>
   </div>
 
+  <p>對照下面這張鍵盤，把剛剛那六顆<strong>一顆一顆找出來</strong>。
+  點「① 打字區」可以把這一區單獨亮起來，點<strong>顏色比較黃</strong>的鍵會告訴你它是幹嘛的。</p>
+
+  <div class="kbdbox" data-copy></div>
+
   <div class="sos">
     <h3>⚠️ 兩件很容易搞錯的事</h3>
     <ul>
@@ -374,10 +382,10 @@
 
   <h3>換你試試看：把這些符號打出來</h3>
 
-  <p>下面每一格都要你<strong>真的打一次</strong>。前兩個是<strong>要按 Shift</strong> 的符號，
-  後兩個是<strong>中文的標點</strong>——你要先在中文輸入法下才打得出來。</p>
+  <p>下面每一格都要你<strong>真的打一次</strong>。前兩個是<strong>鍵盤上印得出來</strong>的符號，
+  後兩個是<strong>中文的標點</strong>——鍵盤上根本沒印，要用另一種方法。</p>
 
-  <div class="symtest" data-done="🎉 全部答對！你發現了嗎 —— <b>上面兩個要按 Shift，下面兩個不用；而且中文的標點跟英文的長得不一樣</b>。">
+  <div class="symtest" data-done="🎉 全部答對！你剛剛用了<b>兩種不同的方法</b> —— 往下看就知道差在哪。">
     <p class="predict__hint" style="margin:0">
       在右邊的白框裡，打出左邊那個符號。
       <strong>打對了會出現 ✓</strong>，並告訴你答案是哪幾顆鍵。
@@ -400,16 +408,16 @@
         <p class="sym__say"></p>
       </label>
 
-      <label class="sym" data-strict data-want="，" data-key="中文輸入法下的逗號鍵（不用 Shift）"
-             data-miss="要的是<b>中文的「，」</b>（比較胖、靠左下角），不是英文的 <b>,</b>。<br>打出英文逗號代表你現在是<b>英文輸入法</b>——按一下 <b>Shift</b> 換成中文再試一次。">
+      <label class="sym" data-strict data-want="，" data-key="Ctrl ＋ ,"
+             data-miss="要的是<b>中文的「，」</b>（比較胖、靠左下角），不是英文的 <b>,</b>。<br>試試看<b>按住 Ctrl 再按逗號鍵</b>（Ctrl ＋ ,）。">
         <span class="sym__want">，</span>
         <input type="text" maxlength="4" aria-label="打出中文逗號">
         <span class="sym__mark"></span>
         <p class="sym__say"></p>
       </label>
 
-      <label class="sym" data-strict data-want="。" data-key="中文輸入法下的句號鍵（不用 Shift）"
-             data-miss="要的是<b>中文的「。」</b>（一個小圈圈），不是英文的 <b>.</b>（一個小點）。<br>打出英文句號代表你現在是<b>英文輸入法</b>——按一下 <b>Shift</b> 換成中文再試一次。">
+      <label class="sym" data-strict data-want="。" data-key="Ctrl ＋ ."
+             data-miss="要的是<b>中文的「。」</b>（一個小圈圈），不是英文的 <b>.</b>（一個小點）。<br>試試看<b>按住 Ctrl 再按句號鍵</b>（Ctrl ＋ .）。">
         <span class="sym__want">。</span>
         <input type="text" maxlength="4" aria-label="打出中文句號">
         <span class="sym__mark"></span>
@@ -420,36 +428,40 @@
     <p class="symtest__score"></p>
   </div>
 
-  <details class="reveal">
-    <summary>為什麼逗號和句號<strong>不用</strong>按 Shift？<span class="peek">點我看答案</span></summary>
-    <div class="reveal__in">
-      <p>因為每一顆鍵最多可以印<strong>兩個</strong>東西：
-      <strong>下面那個</strong>直接按就有，<strong>上面那個</strong>要配 Shift。</p>
-      <p>逗號和句號本來就印在<strong>下面</strong>，所以直接按就打得出來。
-      驚嘆號和問號印在<strong>上面</strong>，才需要 Shift。</p>
-      <p><strong>所以看鍵盤就知道要不要按 Shift</strong> —— 不用背。</p>
-    </div>
-  </details>
+  <h3>特殊符號有兩種打法</h3>
 
-  <details class="reveal">
-    <summary>中文的「，。」和英文的「, .」<strong>不是同一個東西</strong><span class="peek">點我看答案</span></summary>
-    <div class="reveal__in">
-      <p>同一顆鍵，在<strong>中文輸入法</strong>下打出來的是 <strong>，</strong> 和 <strong>。</strong>；
-      在<strong>英文輸入法</strong>下打出來的是 <strong>,</strong> 和 <strong>.</strong>。</p>
-      <p>仔細看：中文的逗號比較<strong>胖</strong>、靠在格子的左下角；
-      中文的句號是一個<strong>小圈圈</strong>，英文的是一個<strong>小點</strong>。</p>
-      <p>寫中文作文的時候要用<strong>中文的標點</strong>，
-      不然一整篇看起來會怪怪的、擠在一起。</p>
+  <p>剛剛那四格，其實你用了<strong>兩種不同的方法</strong>。
+  還記得前面說 <strong>Ctrl 一定要配別的鍵一起按</strong>嗎？
+  這就是它的第一個用法。</p>
+
+  <div class="vs">
+    <div class="vs__c vs__c--a">
+      <h4>① Shift ＋ 鍵</h4>
+      <p>打出<strong>鍵上面印的</strong>那個符號。</p>
+      <p>Shift ＋ <span class="vs__key">1</span> → <strong>!</strong><br>
+      Shift ＋ <span class="vs__key">/</span> → <strong>?</strong></p>
+      <p><strong>看得到，就打得出來。</strong>鍵上有印的符號都用這種。</p>
     </div>
-  </details>
+    <div class="vs__c vs__c--b">
+      <h4>② Ctrl ＋ 鍵</h4>
+      <p>打出<strong>中文的標點</strong>。</p>
+      <p>Ctrl ＋ <span class="vs__key">,</span> → <strong>，</strong><br>
+      Ctrl ＋ <span class="vs__key">.</span> → <strong>。</strong></p>
+      <p>鍵盤上<strong>根本沒印</strong>中文標點，所以只能用這種。</p>
+    </div>
+  </div>
+
+  <p>所以判斷方法很簡單：<strong>先看鍵盤上有沒有印</strong>。
+  印在鍵上面的用 <strong>Shift</strong>，鍵盤上找不到的中文標點用 <strong>Ctrl</strong>。</p>
 
   <div class="sos">
     <h3>⚠️ 打不出來？先看是哪一種情況</h3>
     <ul>
       <li><strong>打出 ㄅㄆㄇ 而不是符號</strong> —— 那是注音組字中，
         打完<strong>按一下空白鍵或 Enter</strong> 就會變成符號。</li>
-      <li><strong>中文標點那兩格一直是 ✗</strong> —— 你現在是<strong>英文輸入法</strong>。
-        按一下 <span class="k">Shift</span> 切換成中文，再打一次。</li>
+      <li><strong>中文標點那兩格一直是 ✗</strong> —— 你打出來的可能是<strong>英文</strong>的
+        <span class="k">,</span> <span class="k">.</span>。改用 <strong>Ctrl ＋ ,</strong>
+        和 <strong>Ctrl ＋ .</strong> 再試一次。</li>
       <li><strong>驚嘆號和問號</strong>這兩格<strong>中文英文都算對</strong>，
         因為它們是在練 Shift，不是在練標點。</li>
     </ul>
@@ -542,6 +554,12 @@
     </div>
   </div>
 
+  <p>在下面這張鍵盤上，把 <strong>Backspace</strong>（右上角那顆大的）和
+  <strong>Delete</strong>（編輯鍵區）<strong>兩顆都找出來</strong>，
+  看看它們離得有多遠。點「③ 編輯鍵」可以把這一區單獨亮起來。</p>
+
+  <div class="kbdbox" data-copy></div>
+
   <h3>自己玩玩看就懂了</h3>
   <p>下面這一行字是<strong>可以動的</strong>。那根會閃的橘色直線就是<strong>游標</strong> ——
   它站在哪裡，刪掉的就是它旁邊的字。<strong>每一顆都按按看</strong>，看看各發生什麼事。</p>
@@ -595,7 +613,38 @@
   上面那排數字是橫的一長條，手指要跑來跑去；這一區是集中的一小塊，
   一隻手不用移動就能全部按到 —— 算錢、輸入座號、打電話號碼的時候差別很明顯。</p>
 
-  <h3>先看仔細一點</h3>
+  <h3>順便認識幾個算數學的符號</h3>
+
+  <p>這一區除了數字，四邊還有幾顆<strong>算數學</strong>用的符號鍵。
+  其中兩顆<strong>跟你在數學課上寫的不一樣</strong>，一定要記住：</p>
+
+  <div class="vs">
+    <div class="vs__c vs__c--a">
+      <h4>乘法 ×　變成　<span class="vs__key">*</span></h4>
+      <p>電腦上<strong>沒有 × 這顆鍵</strong>，乘法一律打<strong>星號 *</strong>。</p>
+      <p>為什麼不用 ×？因為它跟英文字母 <strong>x</strong> 長得太像，電腦會分不出來。</p>
+    </div>
+    <div class="vs__c vs__c--b">
+      <h4>除法 ÷　變成　<span class="vs__key">/</span></h4>
+      <p>電腦上<strong>沒有 ÷ 這顆鍵</strong>，除法一律打<strong>斜線 /</strong>。</p>
+      <p>其實你早就看過它了 —— <strong>分數線就是斜的</strong>，
+      「二分之一」可以寫成 <strong>1/2</strong>。</p>
+    </div>
+  </div>
+
+  <p>其他幾顆比較好猜，跟數學課寫的一樣：</p>
+
+  <ul>
+    <li><span class="k">+</span> 加、<span class="k">-</span> 減</li>
+    <li><span class="k">.</span> 小數點（例如 3.14）</li>
+    <li>數字鍵盤最下面那顆 <span class="k">Enter</span>，在<strong>小算盤</strong>裡就是「<strong>等於</strong>」</li>
+  </ul>
+
+  <p>發現了嗎？這件事跟前面的中文標點<strong>是同一個道理</strong> ——
+  <strong>鍵盤上放不下的東西，就得想辦法用現有的鍵代替。</strong>
+  ×÷ 是換成長得像的符號，中文標點是用 Ctrl 配出來的。</p>
+
+  <h3>再看仔細一點</h3>
 
   <figure class="shot shot--done">
     <img src="../media/數字區.webp" alt="數字鍵盤區的特寫，每顆數字鍵上除了數字，還印著小小的第二個名字，例如 7 印著 Home、8 印著向上箭頭、9 印著 PgUp" loading="lazy">
@@ -681,6 +730,19 @@
                 data-dead-say="😱 這顆在燈暗的時候<strong>什麼事都不會做</strong>，因為它中間沒有對應的功能。"></button>
         <button class="kk lamp__key" data-on="6" data-emit-on="6" data-off="→" data-emit-off=""
                 data-dead-say="😱 沒有數字，游標往<strong>右</strong>跑了 —— 這顆現在是<strong>右方向鍵</strong>。"></button>
+
+        <button class="kk kk--txt lamp__key" data-on="1" data-emit-on="1" data-off="End" data-emit-off=""
+                data-dead-say="😱 沒有數字，游標跑到那一行的<strong>最後面</strong> —— 這顆現在是 <strong>End</strong>。"></button>
+        <button class="kk lamp__key" data-on="2" data-emit-on="2" data-off="↓" data-emit-off=""
+                data-dead-say="😱 沒有數字，游標往<strong>下</strong>跑了 —— 這顆現在是<strong>下方向鍵</strong>。"></button>
+        <button class="kk kk--txt lamp__key" data-on="3" data-emit-on="3" data-off="PgDn" data-emit-off=""
+                data-dead-say="😱 沒有數字，畫面往下翻了一頁 —— 這顆現在是 <strong>Page Down</strong>。"></button>
+        <b class="kk kk--dim kk--tall">⏎</b>
+
+        <button class="kk kk--wide lamp__key" data-on="0" data-emit-on="0" data-off="Ins" data-emit-off=""
+                data-dead-say="😱 沒有數字 —— 這顆現在是 <strong>Insert</strong>，就是第三區那個「會把字吃掉」的陷阱。"></button>
+        <button class="kk kk--txt lamp__key" data-on="." data-emit-on="." data-off="Del" data-emit-off=""
+                data-dead-say="😱 沒有小數點 —— 這顆現在是 <strong>Delete</strong>，會往右刪字。"></button>
       </div>
     </div>
 
@@ -733,50 +795,50 @@
 
   <h3>換你試試看：打出六個大寫字母</h3>
 
-  <p>現在換<strong>真的鍵盤</strong>了。在下面的框裡打出左邊那個<strong>大寫</strong>字母
-  —— 六個合起來是一個你很熟的字。</p>
+  <p>現在換<strong>真的鍵盤</strong>了。在下面的框裡打出左邊那個<strong>大寫</strong>字母。
+  這六個字母散在鍵盤的各個角落，要一個一個找。</p>
 
-  <div class="symtest" data-done="🎉 全部答對！<b>TAIWAN</b> —— 而且你已經學會兩種打大寫的方法了。">
+  <div class="symtest" data-done="🎉 六個全對！你已經學會<b>兩種打大寫的方法</b>了。">
     <p class="predict__hint" style="margin:0">
       有<strong>兩種方法</strong>都可以：把 <strong>Caps Lock</strong> 打開，
       或是<strong>按住 Shift</strong> 再按字母。兩種都試試看，比較一下差別。
     </p>
 
     <div class="symgrid">
+      <label class="sym" data-want="H" data-key="Caps Lock 或 Shift ＋ H"
+             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
+        <span class="sym__want">H</span>
+        <input type="text" maxlength="4" aria-label="打出大寫 H（第 1 格）">
+        <span class="sym__mark"></span><p class="sym__say"></p>
+      </label>
+      <label class="sym" data-want="S" data-key="Caps Lock 或 Shift ＋ S"
+             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
+        <span class="sym__want">S</span>
+        <input type="text" maxlength="4" aria-label="打出大寫 S（第 2 格）">
+        <span class="sym__mark"></span><p class="sym__say"></p>
+      </label>
+      <label class="sym" data-want="P" data-key="Caps Lock 或 Shift ＋ P"
+             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
+        <span class="sym__want">P</span>
+        <input type="text" maxlength="4" aria-label="打出大寫 P（第 3 格）">
+        <span class="sym__mark"></span><p class="sym__say"></p>
+      </label>
+      <label class="sym" data-want="S" data-key="Caps Lock 或 Shift ＋ S"
+             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
+        <span class="sym__want">S</span>
+        <input type="text" maxlength="4" aria-label="打出大寫 S（第 4 格）">
+        <span class="sym__mark"></span><p class="sym__say"></p>
+      </label>
       <label class="sym" data-want="T" data-key="Caps Lock 或 Shift ＋ T"
              data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
         <span class="sym__want">T</span>
-        <input type="text" maxlength="4" aria-label="打出大寫 T">
-        <span class="sym__mark"></span><p class="sym__say"></p>
-      </label>
-      <label class="sym" data-want="A" data-key="Caps Lock 或 Shift ＋ A"
-             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
-        <span class="sym__want">A</span>
-        <input type="text" maxlength="4" aria-label="打出大寫 A">
-        <span class="sym__mark"></span><p class="sym__say"></p>
-      </label>
-      <label class="sym" data-want="I" data-key="Caps Lock 或 Shift ＋ I"
-             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
-        <span class="sym__want">I</span>
-        <input type="text" maxlength="4" aria-label="打出大寫 I">
+        <input type="text" maxlength="4" aria-label="打出大寫 T（第 5 格）">
         <span class="sym__mark"></span><p class="sym__say"></p>
       </label>
       <label class="sym" data-want="W" data-key="Caps Lock 或 Shift ＋ W"
              data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
         <span class="sym__want">W</span>
-        <input type="text" maxlength="4" aria-label="打出大寫 W">
-        <span class="sym__mark"></span><p class="sym__say"></p>
-      </label>
-      <label class="sym" data-want="A" data-key="Caps Lock 或 Shift ＋ A"
-             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
-        <span class="sym__want">A</span>
-        <input type="text" maxlength="4" aria-label="打出第二個大寫 A">
-        <span class="sym__mark"></span><p class="sym__say"></p>
-      </label>
-      <label class="sym" data-want="N" data-key="Caps Lock 或 Shift ＋ N"
-             data-miss="要<b>大寫</b>喔。把 Caps Lock 打開，或按住 Shift 再按這顆字母。">
-        <span class="sym__want">N</span>
-        <input type="text" maxlength="4" aria-label="打出大寫 N">
+        <input type="text" maxlength="4" aria-label="打出大寫 W（第 6 格）">
         <span class="sym__mark"></span><p class="sym__say"></p>
       </label>
     </div>
@@ -932,6 +994,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=4"></script>
-<script src="../assets/typing.js?v=4"></script>
+<script src="../assets/typing.js?v=5"></script>
 </body>
 </html>
