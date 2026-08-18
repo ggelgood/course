@@ -383,9 +383,13 @@
 .vs__c{border-radius:16px;padding:1.2rem 1.35rem;border:3px solid;background:var(--card)}
 .vs__c--a{border-color:var(--b-motion-d);background:#EAF3FF}
 .vs__c--b{border-color:var(--b-looks-d);background:#F3ECFF}
+/* 第三種顏色——大部分地方 .vs 只並排兩個，第 4 課「三派」要並排三個才會用到 */
+.vs__c--c{border-color:var(--b-sound-d);background:#FBEAFA}
 .vs__c h4{font-family:var(--display);font-weight:600;font-size:1.08rem;margin:0 0 .5rem;display:flex;align-items:center;gap:.5rem}
 .vs__c--a h4{color:var(--b-motion-d)}
 .vs__c--b h4{color:var(--b-looks-d)}
+.vs__c--c h4{color:var(--b-sound-d)}
+.vs__c--big{font-family:var(--display);font-weight:700;font-size:1.35rem;text-align:center;margin:.6rem 0 0}
 .vs__c p{margin:.4rem 0;font-size:.94rem;max-width:none}
 .vs__key{
   display:inline-block;font-family:var(--display);font-weight:700;font-size:.82rem;
@@ -736,3 +740,111 @@ kbd,.k{
   background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
 }
 .hotkey__score[data-k="all"]{background:var(--go-soft);border-left-color:var(--go)}
+
+/* ═══ 元件 10：三派輸入法並排 ════════════════════════════════
+   第 4 課主角。同一個字，三派（注音／拼音／拆解）的打法並排比較。
+   純展示、不判對錯 —— 沒有標準答案可判，重點是看見
+   「同一個字，三種完全不同的過程」。
+
+   點上面的分頁鈕切換要看哪一個字，JS 只是切換 .imec 的顯示／隱藏。
+
+   HTML：<div class="imecbox">
+           <div class="kbd__tabs"><button class="ktab" data-go="明" aria-pressed="true">明</button>…</div>
+           <div class="imec" data-word="明">
+             <div class="imec__ch">明</div>
+             <div class="imec__grid">
+               <div class="imec__c imec__c--a"><b>第一派・注音</b><span>ㄇㄧㄥˊ</span><small>…</small></div>
+               <div class="imec__c imec__c--b"><b>第二派・拼音</b><span>ming</span><small>…</small></div>
+               <div class="imec__c imec__c--c"><b>第三派・拆解</b><span>日 ＋ 月</span><small>…</small></div>
+             </div>
+           </div>
+           <div class="imec" data-word="林" hidden> … </div>
+         </div>                                                */
+.imecbox{margin:1.8rem 0}
+
+.imec{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.5rem;margin-top:1rem;box-shadow:var(--shadow-md);
+}
+.imec__ch{
+  font-family:var(--display);font-weight:700;font-size:2.6rem;
+  text-align:center;margin-bottom:1rem;color:var(--ink);
+}
+.imec__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.9rem}
+.imec__c{border-radius:14px;padding:1rem 1.1rem;border:3px solid;text-align:center}
+.imec__c b{display:block;font-family:var(--display);font-weight:600;font-size:.9rem;margin-bottom:.5rem}
+.imec__c span{display:block;font-size:1.3rem;font-weight:700;margin-bottom:.35rem;word-break:keep-all}
+.imec__c small{display:block;font-size:.76rem;color:var(--ink-soft)}
+/* 三派各一色，跟第 2 節的 .vs__c--a/b/c 用同一套顏色，前後對得起來 */
+.imec__c--a{border-color:var(--b-motion-d);background:#EAF3FF}
+.imec__c--a b{color:var(--b-motion-d)}
+.imec__c--b{border-color:var(--b-looks-d);background:#F3ECFF}
+.imec__c--b b{color:var(--b-looks-d)}
+.imec__c--c{border-color:var(--b-sound-d);background:#FBEAFA}
+.imec__c--c b{color:var(--b-sound-d)}
+
+/* ═══ 元件 11：字根拼字 ════════════════════════════════════════
+   純玩具、不判對錯 —— 課程地圖說得清楚：這裡不出考題，
+   讓學生自己點字根疊疊看，體會「用拆的」是怎麼一回事。
+
+   HTML：<div class="radbox">
+           <div class="radpad">
+             <button class="radkey" data-r="日">日<small>A</small></button>
+             …
+           </div>
+           <output class="radout"></output>
+           <button class="btn" data-clear>清空</button>
+         </div>                                                */
+.radref{display:grid;grid-template-columns:repeat(auto-fit,minmax(4.4rem,1fr));gap:.6rem;margin:1.2rem 0}
+.radref__c{
+  text-align:center;padding:.8rem .5rem;border-radius:14px;
+  border:3px solid var(--b-looks-d);background:#F3ECFF;
+  font-family:var(--display);font-weight:700;font-size:1.3rem;color:var(--b-looks-d);
+}
+.radref__c small{display:block;margin-top:.25rem;font-size:.72rem;font-weight:600;color:var(--ink-soft)}
+
+.radbox{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.radpad{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:1.1rem}
+.radkey{
+  font:inherit;font-family:var(--display);font-weight:700;font-size:1.3rem;
+  cursor:pointer;padding:.6rem 1rem;border-radius:12px;
+  border:3px solid var(--ink);background:#fff;color:var(--ink);
+  box-shadow:0 3px 0 var(--ink);transition:.1s;
+  display:flex;flex-direction:column;align-items:center;gap:.15rem;
+}
+.radkey small{font-size:.6rem;font-weight:600;color:var(--ink-soft)}
+.radkey:hover{background:var(--ground-2)}
+.radkey:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+
+.radout{
+  display:block;min-height:3.6rem;margin:0 auto 1rem;padding:.7rem 1rem;
+  max-width:20rem;border-radius:12px;background:#fff;border:3px dashed var(--rule);
+  font-family:var(--display);font-size:1.9rem;font-weight:700;letter-spacing:.1em;
+  text-align:center;color:var(--ink);word-break:break-all;transition:.2s;
+}
+.radout:empty::before{content:"（點字根，拼拼看）";font-family:var(--body);font-size:.85rem;font-weight:500;color:var(--ink-soft);letter-spacing:0}
+/* 按了「組合」而且查得到結果 —— 框變成實線＋綠色，跟「還在拼」的虛線做出差別 */
+.radout[data-s="ok"]{border-style:solid;border-color:var(--go);background:var(--go-soft)}
+
+.radbox__btns{display:flex;gap:.7rem;justify-content:center}
+.radbox .btn{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.9rem;
+  cursor:pointer;padding:.5rem 1.2rem;border-radius:11px;
+  border:3px solid var(--rule);background:#fff;color:var(--ink-soft);
+  box-shadow:0 3px 0 var(--rule);transition:.1s;
+}
+.radbox .btn:hover{background:var(--ground-2)}
+.radbox .btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--rule)}
+/* 「組合」是這個玩具的主要動作，顏色跟「清空」分出主次 */
+.radbox .btn--go{border-color:var(--accent);color:var(--accent);box-shadow:0 3px 0 #C4460A}
+.radbox .btn--go:hover{background:var(--accent-soft)}
+.radbox .btn--go:active{box-shadow:0 1px 0 #C4460A}
+
+.radbox__say{
+  margin:.9rem 0 0;padding:.8rem 1rem;border-radius:12px;font-size:.9rem;
+  line-height:1.7;min-height:1.6rem;color:var(--ink-soft);
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.radbox__say:empty{display:none}
+.radbox__say[data-k="ok"]{background:var(--go-soft);border-left-color:var(--go);color:var(--ink)}
+.radbox__say[data-k="warn"]{background:#FFF9E6;border-left-color:var(--b-events);color:var(--ink)}

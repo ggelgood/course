@@ -735,4 +735,80 @@ document.querySelectorAll('.hotkey').forEach(box => {
   tally();
 });
 
+/* ── 元件 10：四種輸入法並排 ─────────────────────────────────
+   第 4 課主角。點分頁鈕切換要看哪一個字，純展示、不判對錯。
+   HTML 見 typing.css 元件 10 的說明。                        */
+document.querySelectorAll('.imecbox').forEach(box => {
+  const tabs   = [...box.querySelectorAll('.ktab')];
+  const panels = [...box.querySelectorAll('.imec')];
+  if (!tabs.length || !panels.length) return;
+
+  const show = word => {
+    panels.forEach(p => { p.hidden = p.dataset.word !== word; });
+    tabs.forEach(t => t.setAttribute('aria-pressed', t.dataset.go === word ? 'true' : 'false'));
+  };
+
+  tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.go)));
+  show(tabs[0].dataset.go);
+});
+
+/* ── 元件 11：字根拼字 ───────────────────────────────────────
+   純玩具，不判對錯——課程地圖說得清楚這裡不出考題。
+   點兩個字根、按「組合」，查表看看拼出哪個字。
+
+   COMBOS 是老師提供的倉頡對照表（七個基本字根，7×7＝49 種組合），
+   key 是「第一碼＋第二碼」，例如 "日月" → "明"。                */
+const COMBOS = {
+  '日日':'昌','日月':'明','日金':'題','日木':'杲','日水':'最','日火':'炅','日土':'時',
+  '月日':'眼','月月':'朋','月金':'則','月木':'采','月水':'愛','月火':'月','月土':'肚',
+  '金日':'鈤','金月':'鈅','金金':'質','金木':'除','金水':'護','金火':'鈥','金土':'釷',
+  '木日':'杳','木月':'朿','木金':'朳','木木':'林','木水':'樣','木火':'杰','木土':'杜',
+  '水日':'沓','水月':'清','水金':'淦','水木':'沐','水水':'冰','水火':'灣','水土':'圣',
+  '火日':'識','火月':'肖','火金':'類','火木':'除','火水':'發','火火':'炎','火土':'灶',
+  '土日':'場','土月':'冉','土金':'積','土木':'地','土水':'報','土火':'鳳','土土':'圭'
+};
+
+document.querySelectorAll('.radbox').forEach(box => {
+  const out = box.querySelector('.radout');
+  const say = box.querySelector('.radbox__say');
+  if (!out) return;
+
+  const tell = (msg, kind) => {
+    if (!say) return;
+    say.textContent = msg || '';
+    if (kind) say.dataset.k = kind; else delete say.dataset.k;
+  };
+
+  box.querySelectorAll('.radkey').forEach(k => k.addEventListener('click', () => {
+    if ([...out.textContent].length >= 2) return;   // 對照表只收兩碼組合，超過就不加了
+    delete out.dataset.s;
+    out.textContent += k.dataset.r || '';
+    tell('');
+  }));
+
+  const combo = box.querySelector('[data-combo]');
+  if (combo) combo.addEventListener('click', () => {
+    const chars = [...out.textContent];
+    if (chars.length !== 2) {
+      tell('先點兩個字根，再按「組合」試試看。', 'warn');
+      return;
+    }
+    const hit = COMBOS[chars.join('')];
+    if (hit) {
+      out.textContent = hit;
+      out.dataset.s = 'ok';
+      tell('「' + chars.join('＋') + '」疊起來，倉頡打出來是「' + hit + '」！按「清空」再拼別的組合。', 'ok');
+    } else {
+      tell('這個組合還沒收錄，換兩個字根試試看。', 'warn');
+    }
+  });
+
+  const clr = box.querySelector('[data-clear]');
+  if (clr) clr.addEventListener('click', () => {
+    out.textContent = '';
+    delete out.dataset.s;
+    tell('');
+  });
+});
+
 })();
