@@ -439,6 +439,13 @@
 .bpmrow:last-child{margin-bottom:0}
 
 .bk{
+  /* ⚠️ 一定要寫 font:inherit。瀏覽器原生會把 <button> 的字級重設成
+     很小的系統預設值，不會乖乖繼承 .bpm 那個大字級，descendant 的
+     em 全部會算錯。之前踩過這個坑：沒點的鍵很小，點下去之後意外
+     繼承到 lesson.css 那顆同名的 .pick（測驗答案按鈕）帶的
+     font:inherit，才「看起來」變正常大小 —— 其實是撞名帶來的巧合，
+     不是設計。這裡直接寫死，跟點不點無關，所有鍵永遠一樣大。 */
+  font:inherit;
   flex:var(--w,1) 0 0;
   height:calc(var(--u) * .92);
   position:relative;
