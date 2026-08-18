@@ -356,4 +356,293 @@ document.querySelectorAll('.caret').forEach(box => {
   reset();
 });
 
+/* ── 元件 6：注音鍵盤（直行規律）─────────────────────────────
+   第 2 課的主角。學生要看見的是「一條直行剛好是一組注音」，
+   所以滑到任何一顆鍵，<strong>整條直行</strong>要一起亮起來，
+   而不是只亮那一顆。
+
+   HTML：<div class="bpmbox">
+           <div class="kbd__tabs"><button class="ktab" data-go="full">…</button></div>
+           <div class="bpmwrap">
+             <div class="bpm" data-focus="all">
+               <div class="bpmrow">
+                 <button class="bk" data-col="1" data-kind="full"
+                         data-en="1" data-bpm="ㄅ"><i>1</i><b>ㄅ</b></button>
+               </div>
+             </div>
+           </div>
+           <p class="bpm__say" data-idle="…"></p>
+         </div>
+
+   ‧ data-col：屬於哪一直行（1～11），同一個 col 的鍵會一起亮
+   ‧ data-kind：full＝完整四個／short＝只有三個（空格放聲調）／one＝ㄦ
+   ‧ 滑過去＝暫時亮，點下去＝鎖住（再點一次解開）                */
+
+/* 同一張注音鍵盤在課文裡會出現兩次（講規律一次、講聲調一次）。
+   比照鍵盤全圖的做法：課文放 <div class="bpmbox" data-copy="tone"></div>，
+   這裡自動把第一張複製過去，data-copy 的值就是要預選的那一群。
+   ⚠️ 一定要在下面的繫結迴圈「之前」跑完。 */
+(() => {
+  const src = document.querySelector('.bpmbox:not([data-copy])');
+  if (!src) return;
+  document.querySelectorAll('.bpmbox[data-copy]').forEach(dst => {
+    dst.innerHTML = src.innerHTML;
+    dst.querySelectorAll('.bk').forEach(k => k.classList.remove('hot', 'pick'));
+    const bpm = dst.querySelector('.bpm');
+    if (bpm) bpm.dataset.focus = dst.dataset.copy || 'all';
+    const say = dst.querySelector('.bpm__say');
+    if (say) { say.classList.remove('on'); say.innerHTML = say.dataset.idle || ''; }
+  });
+})();
+
+document.querySelectorAll('.bpmbox').forEach(box => {
+  const bpm = box.querySelector('.bpm');
+  const say = box.querySelector('.bpm__say');
+  if (!bpm) return;
+
+  /* 上面那排切換鈕（沿用鍵盤全圖那套 .ktab） */
+  const tabs = [...box.querySelectorAll('.ktab')];
+  const mark = z => tabs.forEach(t => t.setAttribute('aria-pressed', t.dataset.go === z ? 'true' : 'false'));
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    bpm.dataset.focus = tab.dataset.go;
+    mark(tab.dataset.go);
+  }));
+  if (tabs.length) mark(bpm.dataset.focus || 'all');
+
+  const keys = [...bpm.querySelectorAll('.bk[data-col]')];
+  if (!keys.length) return;
+
+  const colOf = c => keys.filter(k => k.dataset.col === c);
+  const lightOnly = c => keys.forEach(k => k.classList.toggle('hot', !!c && k.dataset.col === c));
+
+  /* 每一直行的註解直接由 data-kind 推出來，不用在 37 顆鍵上各寫一份 */
+  const note = {
+    full : '這一直行剛好是<b>完整的四個</b>。',
+    short: '這一直行<b>只有三個</b>注音，空出來的第一格拿來<b>放聲調</b>。',
+    one  : 'ㄦ 是注音符號表的<b>最後一個</b>，自己站一格。'
+  };
+
+  const tell = k => {
+    if (!say) return;
+    const ks = colOf(k.dataset.col);
+    say.classList.add('on');
+    say.innerHTML =
+      '<b>' + ks.map(x => x.dataset.en).join(' ') + '</b>' +
+      '這一直行由上往下是 <strong>' + ks.map(x => x.dataset.bpm).join(' ') + '</strong><br>' +
+      (note[k.dataset.kind] || '');
+  };
+
+  const idle = () => {
+    if (!say) return;
+    say.classList.remove('on');
+    say.innerHTML = say.dataset.idle || '';
+  };
+
+  let locked = null;                     // 被點住的那一直行
+
+  keys.forEach(k => {
+    /* 滑過去：暫時亮，移開就回到鎖住的那一行（沒鎖就全滅） */
+    k.addEventListener('mouseenter', () => {
+      if (locked) return;
+      lightOnly(k.dataset.col);
+      tell(k);
+    });
+    k.addEventListener('mouseleave', () => {
+      if (locked) return;
+      lightOnly(null);
+      idle();
+    });
+
+    /* 點下去：鎖住這一直行（手機沒有 hover，靠這個也能用） */
+    k.addEventListener('click', () => {
+      const same = locked === k.dataset.col;
+      keys.forEach(o => o.classList.remove('pick'));
+      if (same) {                         // 再點一次就解開
+        locked = null;
+        lightOnly(null);
+        return idle();
+      }
+      locked = k.dataset.col;
+      lightOnly(locked);
+      colOf(locked).forEach(o => o.classList.add('pick'));
+      tell(k);
+    });
+  });
+
+  idle();
+});
+
+/* ── 元件 7：兩種打法的按鍵次數對照 ─────────────────────────
+   「一個字一個字選」對上「整串打完再選」。
+   學生自己按下一步走完兩邊，最後用<strong>數字</strong>看到差多少 ——
+   比直接跟他說「這樣比較快」有用得多。
+
+   HTML：<div class="wpick" data-say="…兩邊都走完才出現的結論…">
+           <div class="wpick__grid">
+             <div class="wp wp--slow">
+               <h4>…</h4>
+               <output class="wp__scr"><b></b><i></i></output>
+               <ol class="wp__log">
+                 <li data-n="6" data-out="電" data-pend="">…這一步在做什麼…</li>
+               </ol>
+               <div class="wp__foot">
+                 <span class="wp__n">按了 <b>0</b> 下</span>
+                 <button class="wp__go">下一步 ▸</button>
+               </div>
+             </div>
+           </div>
+           <p class="wpick__say"></p>
+         </div>
+
+   data-n    ＝ 這一步按了幾下鍵
+   data-out  ＝ 走完這一步，記事本上會有的字
+   data-pend ＝ 還在組字中／候選字那一行（沒有就留空）      */
+document.querySelectorAll('.wpick').forEach(box => {
+  const sides = [...box.querySelectorAll('.wp')];
+  const say   = box.querySelector('.wpick__say');
+  if (!sides.length) return;
+
+  const runs = sides.map(side => {
+    const steps = [...side.querySelectorAll('.wp__log li')];
+    const scr   = side.querySelector('.wp__scr');
+    const out   = scr && scr.querySelector('b');
+    const pend  = scr && scr.querySelector('i');
+    const num   = side.querySelector('.wp__n b');
+    const go    = side.querySelector('.wp__go');
+    let at = 0, total = 0;
+
+    const step = () => {
+      const li = steps[at];
+      if (!li) return;
+      li.dataset.on = '1';
+      total += +(li.dataset.n || 0);
+      at++;
+      if (num) num.textContent = total;
+      if (out)  out.textContent  = li.dataset.out  || '';
+      if (pend) pend.textContent = li.dataset.pend || '';
+      if (at >= steps.length && go) {
+        go.disabled = true;
+        go.textContent = '打完了 ✓';
+      }
+      done();
+    };
+
+    if (go) go.addEventListener('click', step);
+    return {
+      get over(){ return at >= steps.length; },
+      get n(){ return total; }
+    };
+  });
+
+  /* 兩邊都走完，才把結論放出來 —— 先看到答案就沒有比的意思了 */
+  function done(){
+    if (!say || !runs.every(r => r.over)) return;
+    const slow = runs[0].n, fast = runs[1] ? runs[1].n : 0;
+    say.dataset.k = 'all';
+    say.innerHTML = (box.dataset.say || '')
+      .replace('{慢}', '<b>' + slow + '</b>')
+      .replace('{快}', '<b>' + fast + '</b>')
+      .replace('{差}', '<b>' + (slow - fast) + '</b>');
+  }
+});
+
+/* ── 元件 8：整句打字練習 ───────────────────────────────────
+   逐字比對，打對的字一個一個亮起來。
+   ⚠️ 刻意<strong>不計時、不算速度</strong> —— 課程地圖寫得很清楚：
+      排名會變成比賽，慢的學生直接放棄。只跟自己上次比。
+
+   HTML：<div class="trace" data-done="…全部打完的話…">
+           <div class="trow" data-want="電腦教室" data-tip="…">
+             <div class="trow__want"></div>          ← 字格由 JS 生
+             <div class="trow__in">
+               <input type="text" aria-label="…">
+               <span class="trow__mark"></span>
+             </div>
+             <p class="trow__say"></p>
+           </div>
+           <p class="trace__score"></p>
+         </div>
+
+   ⚠️ 中文組字一定要處理：學生打注音時輸入框會先出現「ㄉㄧㄢˋ」，
+      這時候比對必定判錯，要等 compositionend 才判。
+      這是整個系列最容易做壞的地方。                          */
+document.querySelectorAll('.trace').forEach(box => {
+  const rows  = [...box.querySelectorAll('.trow')];
+  const score = box.querySelector('.trace__score');
+  if (!rows.length) return;
+
+  const tally = () => {
+    if (!score) return;
+    const n = rows.filter(r => r.dataset.s === 'hit').length;
+    const all = n === rows.length;
+    score.innerHTML = all
+      ? (box.dataset.done || '🎉 全部打完了！')
+      : '打完 ' + n + ' / ' + rows.length + ' 句。';
+    if (all) score.dataset.k = 'all'; else delete score.dataset.k;
+  };
+
+  rows.forEach(row => {
+    const want  = [...(row.dataset.want || '')];
+    const wrap  = row.querySelector('.trow__want');
+    const input = row.querySelector('input');
+    const mark  = row.querySelector('.trow__mark');
+    const say   = row.querySelector('.trow__say');
+    if (!want.length || !wrap || !input) return;
+
+    /* 一個字一格，打對就亮 */
+    const cells = want.map(ch => {
+      const s = document.createElement('span');
+      s.className = 'tch';
+      s.textContent = ch;
+      wrap.appendChild(s);
+      return s;
+    });
+
+    let composing = false;
+
+    const judge = () => {
+      if (composing) return;              // 還在組字，先不要判
+      const got = [...input.value];
+      let bad = false;
+
+      cells.forEach((c, i) => {
+        if (i < got.length) {
+          const ok = got[i] === want[i];
+          c.dataset.s = ok ? 'ok' : 'bad';
+          if (!ok) bad = true;
+        } else {
+          delete c.dataset.s;
+        }
+      });
+      /* 下一個該打的字畫一圈，學生才知道打到哪了 */
+      if (!bad && got.length < want.length) cells[got.length].dataset.s = 'now';
+
+      const full = !bad && got.length === want.length;
+      if (full) {
+        row.dataset.s = 'hit';
+        if (mark) mark.textContent = '✓';
+        if (say) say.innerHTML = '打對了！' + (row.dataset.tip || '');
+      } else if (bad) {
+        row.dataset.s = 'miss';
+        if (mark) mark.textContent = '✗';
+        if (say) say.innerHTML = '有字不一樣（<b>紅色</b>那格）。用 <b>Backspace</b> 刪掉重打就好。';
+      } else {
+        delete row.dataset.s;
+        if (mark) mark.textContent = '';
+        if (say) say.innerHTML = got.length
+          ? '繼續，還差 ' + (want.length - got.length) + ' 個字。'
+          : '';
+      }
+      tally();
+    };
+
+    input.addEventListener('compositionstart', () => { composing = true; });
+    input.addEventListener('compositionend', () => { composing = false; judge(); });
+    input.addEventListener('input', judge);
+    judge();
+  });
+
+  tally();
+});
+
 })();

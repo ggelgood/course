@@ -333,6 +333,125 @@ python -m http.server 8765 --directory 課程講義/網站
 內文裡提到某顆鍵：按 <span class="k">Home</span> 就好了
 ```
 
+### 注音鍵盤（滑過會亮整條直行）
+
+第 2 課的主角。學生要看見的是「**一條直行剛好是一組注音**」，
+所以滑到任何一顆鍵，**整條直行**要一起亮，不是只亮那一顆。
+
+```html
+<div class="bpmbox">
+  <div class="kbd__tabs">          <!-- 沿用鍵盤全圖那套切換鈕 -->
+    <button class="ktab" data-go="all">全部</button>
+    <button class="ktab" data-go="short">只有三個的直行</button>
+    <button class="ktab" data-go="tone">聲調鍵</button>
+  </div>
+  <div class="bpmwrap">
+    <div class="bpm" data-focus="all">
+      <div class="bpmrow">
+        <button class="bk" data-col="1" data-kind="full"
+                data-en="1" data-bpm="ㄅ"><i>1</i><b>ㄅ</b></button>
+        <b class="bk bk--off">`</b>          <!-- 沒有注音的鍵，只是讓鍵盤看起來完整 -->
+        <b class="bk bk--lab" style="--w:2">⌫ Backspace</b>
+      </div>
+    </div>
+  </div>
+  <p class="bpm__say" data-idle="…"></p>
+</div>
+```
+
+- `data-col`：屬於哪一直行（1～11），**同一個 col 的鍵會一起亮**
+- `data-kind`：`full`（完整四個）／`short`（只有三個，空格放聲調）／`one`（ㄦ）
+  每一直行的說明由 `data-kind` 自動推出來，**不用在 41 顆鍵上各寫一份**
+- `data-tone`：標在四顆聲調鍵（3 4 6 7）和空白鍵上，給 `data-focus="tone"` 用
+- 滑過去＝暫時亮，點下去＝鎖住（手機沒有 hover，靠點的也能用）
+- 第二張放 `<div class="bpmbox" data-copy="tone"></div>`，**不要複製 HTML**，
+  `data-copy` 的值就是要預選的那一群（同 `.kbdbox` 的做法）
+
+> ⚠️ **每一排都要剛好 15u 寬**（實體鍵盤就是這樣對齊的）。
+> 加減鍵的時候要用 `style="--w:1.5"` 把總和補回 15，不然整排會對不齊。
+
+### 兩種打法的按鍵次數對照
+
+「一個字一個字選」對上「整串打完再選」。學生自己按完兩邊，
+最後用**數字**看到差多少，比直接跟他說「這樣比較快」有用得多。
+
+```html
+<div class="wpick" data-say="慢的按了 {慢} 下，快的只按了 {快} 下，少按 {差} 下。">
+  <div class="wpick__grid">
+    <div class="wp wp--slow">
+      <h4>❶ 一個字一個字選</h4>
+      <output class="wp__scr"><b></b><i></i></output>
+      <ol class="wp__log">
+        <li data-n="6" data-out="電" data-pend="">打 ㄉㄧㄢˋ → 空白鍵 → 選「電」</li>
+      </ol>
+      <div class="wp__foot">
+        <span class="wp__n">按了 <b>0</b> 下</span>
+        <button class="wp__go" type="button">下一步 ▸</button>
+      </div>
+    </div>
+    <div class="wp wp--fast">…同樣結構…</div>
+  </div>
+  <p class="wpick__say"></p>
+</div>
+```
+
+- `data-n`＝這一步按了幾下、`data-out`＝記事本上會有的字、`data-pend`＝還在組字中那一行
+- `data-say` 裡的 `{慢}` `{快}` `{差}` 會自動換成數字
+- **兩邊都走完才會出現結論** —— 先看到答案就沒有比的意思了
+
+### 整句打字練習
+
+```html
+<div class="trace" data-done="🎉 三句都打完了！">
+  <div class="trow" data-want="電腦教室" data-tip="打對之後補一句話">
+    <div class="trow__want"></div>          <!-- 字格由 JS 生，不要自己寫 -->
+    <div class="trow__in">
+      <input type="text" aria-label="打出電腦教室">
+      <span class="trow__mark"></span>
+    </div>
+    <p class="trow__say"></p>
+  </div>
+  <p class="trace__score"></p>
+</div>
+```
+
+- 打對的字會一格一格亮起來，下一個該打的字會畫一圈
+- **刻意不計時、不算速度**。課程地圖寫得很清楚：排名會變成比賽，慢的學生直接放棄
+
+> ⚠️ **中文組字一定要處理**。學生打注音時輸入框會先出現「ㄉㄧㄢˋ」，
+> 這時候比對必定判錯。`.trace` 和 `.symtest` 都是靠
+> `compositionstart` / `compositionend` 擋掉組字中的狀態，**只在組字結束後才比對**。
+> 這是整個打字系列最容易做壞的地方，做新元件如果有輸入框，一定要照抄這個處理。
+
+### 補充框（知道就好，不是功課）
+
+跟 `.sos`（⚠️ 出事了怎麼辦）**刻意長得不一樣**，
+學生要能一眼分出「這段是延伸知識」還是「這段是我等一下要做的事」。
+
+```html
+<div class="tipbox">
+  <span class="tipbox__tag">補充知識 · 知道就好</span>
+  <h3>標題</h3>
+  <p>內容</p>
+</div>
+```
+
+### 迷你鍵盤
+
+只放示範會用到的那幾顆鍵，跟大鍵盤同一套視覺。
+
+```html
+<div class="minibd">
+  <div class="krow">
+    <b class="kk kk--home">A</b>                  <!-- 基本鍵，黃色 -->
+    <b class="kk kk--home kk--bump">F</b>         <!-- 定位鍵，鍵面下緣有凸起 -->
+    <b class="kk">G</b>
+  </div>
+</div>
+```
+
+> ⚠️ 不能直接沿用三顆燈實驗的 `.lampbd`——那組樣式裡混了燈泡按鈕專用的規則。
+
 ---
 
 ## 右側進度脊椎

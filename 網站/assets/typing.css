@@ -394,6 +394,265 @@
   color:var(--ink);white-space:nowrap;
 }
 
+/* ═══ 元件 6：注音鍵盤（直行規律）══════════════════════════
+   第 2 課的主角。滑到任何一顆鍵，<strong>整條直行</strong>會一起亮起來，
+   說明列顯示那一組注音 —— 學生要看見的是「一直行剛好一組」。
+
+   ‧ .bk 上的 data-col 決定它屬於哪一直行（1～11）
+   ‧ data-kind = full（完整四個）／short（只有三個，空格放聲調）／one（ㄦ）
+   ‧ data-tone 標在四顆聲調鍵上（3 4 6 7）和空白鍵上
+   ‧ .bpm 的 data-focus 決定要凸顯哪一群，其他變暗
+
+   分區鈕沿用鍵盤全圖那套 .kbd__tabs / .ktab，不另外做一套。  */
+
+.bpmwrap{
+  margin:1.1rem 0 0;
+  overflow-x:auto;              /* 螢幕太窄時可以左右捲，不要擠壞 */
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:.4rem;
+}
+
+.bpm{
+  /* 整個鍵盤剛好 15u 寬（每一排都是 15u，實體鍵盤就是這樣對齊的）。
+     15 × 46 = 690px，一般版面塞得下；再窄就靠上面的捲軸。 */
+  --u:clamp(26px,4.6vw,46px);
+  --gap:.16em;
+  --face:#FBF6EC;
+  --face-d:#BCA98C;
+  font-size:var(--u);
+  width:max-content;
+  margin-inline:auto;
+  background:linear-gradient(160deg,#3D2E22,#2B2119);
+  border-radius:.42em;
+  padding:.4em;
+  box-shadow:var(--shadow-lg);
+  user-select:none;
+}
+
+.bpmrow{display:flex;gap:var(--gap);margin-bottom:var(--gap)}
+.bpmrow:last-child{margin-bottom:0}
+
+.bk{
+  /* ⚠️ 跟迷你鍵盤同樣的理由：.bpm 是 width:max-content，沒有固定寬度可以分，
+     所以不能用 flex-basis:0 靠 grow 去撐，要直接用 --u 把寬度算出來。 */
+  flex:0 0 calc(var(--u) * var(--w,1));
+  height:calc(var(--u) * .92);
+  position:relative;
+  display:grid;place-items:center;
+  background:var(--face);color:#2B2119;
+  border:0;border-radius:.16em;padding:0;
+  box-shadow:0 .07em 0 var(--face-d);
+  font-family:var(--body);font-weight:700;
+  transition:.14s;
+}
+/* 鍵面左上角那個小小的英文字母（實體鍵盤就是印在角落） */
+.bk i{
+  position:absolute;top:.05em;left:.11em;
+  font-style:normal;font-size:.2em;font-weight:600;opacity:.5;line-height:1;
+}
+.bk b{font-size:.4em;line-height:1;font-weight:700}
+/* 沒有注音的鍵（` = [ ] \ ' 之類），畫出來只是為了讓鍵盤看起來是完整的 */
+.bk--off{color:#9C8B76;font-size:.26em;font-weight:600;pointer-events:none}
+.bk--sp{background:transparent;box-shadow:none;pointer-events:none}
+.bk--lab{font-size:.2em;letter-spacing:-.02em;color:#7D6C58;pointer-events:none}
+
+.bk[data-col]{cursor:pointer}
+.bk[data-col]:hover{transform:translateY(-.04em);box-shadow:0 .11em 0 var(--face-d)}
+/* 整條直行一起亮 —— 這就是這一課要學生看見的東西 */
+.bk.hot{background:var(--b-events);box-shadow:0 .07em 0 #CC9900}
+.bk.pick{background:var(--accent);color:#fff;box-shadow:0 .07em 0 #C4460A}
+.bk.pick i{opacity:.8}
+
+/* 凸顯某一群鍵，其他退到背景去。
+   ⚠️ 跟鍵盤全圖同一個坑：「亮起來」那組選擇器要比「暗下去」那條重，
+      所以多寫一個 .bk 把 specificity 拉上來。 */
+.bpm[data-focus]:not([data-focus="all"]) .bk{opacity:.24;filter:saturate(.3)}
+.bpm[data-focus="full"]  .bk.bk[data-kind="full"],
+.bpm[data-focus="short"] .bk.bk[data-kind="short"],
+.bpm[data-focus="one"]   .bk.bk[data-kind="one"],
+.bpm[data-focus="tone"]  .bk.bk[data-tone]{opacity:1;filter:none}
+
+.bpm__say{
+  margin:.9rem 0 0;padding:.9rem 1.15rem;border-radius:12px;
+  background:var(--ground-2);border-left:5px solid var(--rule);
+  font-size:.95rem;line-height:1.75;min-height:3.4rem;transition:.2s;
+}
+.bpm__say.on{background:var(--accent-soft);border-left-color:var(--accent)}
+.bpm__say b{
+  font-family:var(--display);font-weight:700;color:var(--accent);
+  margin-right:.5rem;letter-spacing:.08em;
+}
+.bpm__say strong{font-size:1.15em;letter-spacing:.12em}
+
+/* ═══ 元件 7：兩種打法的按鍵次數對照 ════════════════════════
+   一個字一個字選 vs 整串打完再選。學生自己按「下一步」走完兩邊，
+   最後看到按鍵次數差多少 —— 用數字說話，比講「這樣比較快」有用。
+
+   HTML：<div class="wpick" data-say="…兩邊都走完才出現的結論…">
+           <div class="wp" data-title="…">
+             <output class="wp__scr"><b></b><i></i></output>
+             <ol class="wp__log"><li data-n="6" data-out="電">…</li></ol>
+             <div class="wp__foot">…</div>
+           </div>
+         </div>                                              */
+
+.wpick{margin:1.8rem 0}
+.wpick__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1rem}
+
+.wp{border-radius:16px;padding:1.15rem 1.25rem;border:3px solid;background:var(--card);display:flex;flex-direction:column}
+.wp--slow{border-color:var(--accent);background:var(--accent-soft)}
+.wp--fast{border-color:var(--go);background:var(--go-soft)}
+.wp h4{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 0 .7rem}
+.wp--slow h4{color:#C4460A}
+.wp--fast h4{color:#0B7A6D}
+
+/* 模擬的記事本畫面：上面是已經打好的字，下面是還在組字中的注音／候選字 */
+.wp__scr{
+  display:block;min-height:4.6rem;padding:.6rem .8rem;margin-bottom:.8rem;
+  border-radius:11px;background:#fff;border:3px dashed var(--rule);
+}
+.wp__scr b{
+  display:block;font-size:1.45rem;font-weight:700;line-height:1.5;
+  color:var(--ink);letter-spacing:.04em;min-height:1.5em;
+}
+.wp__scr b:empty::before{content:"（空白的記事本）";font-size:.85rem;font-weight:500;color:var(--ink-soft);letter-spacing:0}
+.wp__scr i{
+  display:block;font-style:normal;font-size:.95rem;font-weight:600;
+  color:var(--accent);letter-spacing:.06em;min-height:1.5em;
+}
+
+.wp__log{list-style:none;margin:0 0 .9rem;padding:0;flex:1}
+.wp__log li{
+  font-size:.88rem;line-height:1.65;padding:.5rem .7rem;margin-bottom:.4rem;
+  border-radius:9px;background:rgba(255,255,255,.7);border:2px solid var(--rule);
+  display:none;                       /* 走到才出現 */
+}
+.wp__log li[data-on="1"]{display:block}
+.wp__log li b{color:var(--ink);letter-spacing:.08em}
+.wp__log li em{font-style:normal;font-weight:700;color:var(--accent)}
+
+.wp__foot{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.wp__n{
+  font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--ink-soft);
+}
+.wp__n b{
+  font-size:1.5rem;color:var(--ink);margin:0 .15rem;
+  display:inline-block;min-width:1.4em;text-align:center;
+}
+.wp__go{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.9rem;
+  margin-left:auto;cursor:pointer;padding:.5rem 1.1rem;border-radius:11px;
+  border:3px solid var(--ink);background:#fff;color:var(--ink);
+  box-shadow:0 3px 0 var(--ink);transition:.1s;
+}
+.wp__go:hover{background:var(--ground-2)}
+.wp__go:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.wp__go[disabled]{opacity:.45;cursor:default;box-shadow:0 3px 0 var(--rule);border-color:var(--rule)}
+
+.wpick__say{
+  margin:1.1rem 0 0;padding:1rem 1.2rem;border-radius:12px;font-weight:500;
+  line-height:1.8;max-width:none;
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.wpick__say[data-k="all"]{background:var(--go-soft);border-left-color:var(--go)}
+.wpick__say b{color:var(--accent);font-size:1.15em}
+
+/* ═══ 元件 8：整句打字練習 ══════════════════════════════════
+   逐字比對，打對的字會一個一個亮起來。刻意<strong>不計時</strong> ——
+   課程地圖寫得很清楚：只跟自己比，不做速度排名。
+
+   ⚠️ 一定要處理組字：學生用注音打字時，輸入框會先出現「ㄉㄧㄢˋ」，
+      這時候比對一定判錯。要等 compositionend 才判。   */
+
+.trace{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+
+.trow{
+  background:var(--ground-2);border:2.5px solid var(--rule);border-radius:14px;
+  padding:.9rem 1rem;margin-bottom:.8rem;transition:.18s;
+}
+.trow:last-of-type{margin-bottom:0}
+.trow[data-s="hit"]{background:var(--go-soft);border-color:var(--go)}
+
+.trow__want{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem}
+.tch{
+  font-family:var(--display);font-weight:700;font-size:1.35rem;line-height:1;
+  width:2.1em;height:2.1em;display:grid;place-items:center;
+  background:#fff;border:3px solid var(--rule);border-radius:10px;
+  color:var(--ink-soft);transition:.15s;
+}
+.tch[data-s="ok"]{background:var(--go);border-color:var(--go);color:#fff;box-shadow:0 3px 0 #0B7A6D}
+.tch[data-s="bad"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+/* 下一個該打的字，畫一圈提示 */
+.tch[data-s="now"]{border-color:var(--ink);color:var(--ink);box-shadow:0 3px 0 var(--ink)}
+
+.trow__in{display:flex;align-items:center;gap:.6rem}
+.trow input{
+  font:inherit;font-size:1.15rem;font-weight:700;flex:1;min-width:0;
+  padding:.45rem .7rem;border:2.5px solid var(--rule);border-radius:10px;
+  background:#fff;color:var(--ink);letter-spacing:.04em;
+}
+.trow input:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.trow[data-s="hit"] input{border-color:var(--go);background:#fff}
+.trow__mark{font-size:1.4rem;min-width:1.6rem;text-align:center;line-height:1}
+.trow__say{margin:.5rem 0 0;font-size:.85rem;line-height:1.65;color:var(--ink-soft)}
+.trow__say b{color:var(--accent)}
+.trow[data-s="hit"] .trow__say b{color:var(--go)}
+
+.trace__score{
+  margin:1.1rem 0 0;padding:.85rem 1.1rem;border-radius:12px;font-weight:700;
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.trace__score[data-k="all"]{background:var(--go-soft);border-left-color:var(--go)}
+
+/* ═══ 補充框 ════════════════════════════════════════════════
+   跟 .sos（⚠️ 出事了怎麼辦）刻意長得不一樣 ——
+   這是「知道一下就好」的延伸知識，不是這節課的功課，
+   學生要能一眼就分得出來。                                  */
+.tipbox{
+  background:#EAF3FF;border:3px solid var(--b-motion-d);border-radius:18px;
+  padding:1.4rem 1.5rem;margin:1.8rem 0;box-shadow:var(--shadow-sm);
+}
+.tipbox>h3{
+  font-family:var(--display);font-weight:600;font-size:1.15rem;
+  margin:0 0 .3rem;color:var(--b-motion-d);
+}
+.tipbox__tag{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.76rem;
+  letter-spacing:.08em;background:var(--b-motion-d);color:#fff;
+  padding:.2rem .8rem;border-radius:999px;margin-bottom:.7rem;
+}
+.tipbox p{max-width:none}
+.tipbox p:last-child{margin-bottom:0}
+
+/* 迷你鍵盤（只放這個示範會用到的那幾顆鍵）。
+   跟第 1 課三顆燈實驗的 .lampbd 是同一套視覺（深色底板＋淺色鍵帽），
+   學生一看就知道是同一台機器的某一角。
+   ⚠️ 不能直接沿用 .lampbd —— 那組樣式裡混了燈泡按鈕專用的規則，
+      這裡只要底板和鍵帽，所以另外開一個乾淨的 .minibd。 */
+.minibd{
+  --u:46px; --gap:.16em;
+  --face:#FBF6EC; --face-d:#BCA98C;
+  font-size:var(--u);
+  width:max-content;max-width:100%;margin:0 auto 1.1rem;
+  background:linear-gradient(160deg,#3D2E22,#2B2119);
+  border-radius:.42em;padding:.5em;box-shadow:var(--shadow-md);
+  user-select:none;
+}
+.minibd .krow{justify-content:center}
+.minibd .krow .kk{flex:0 0 calc(var(--u) * var(--w,1))}
+.minibd .kk{font-size:.3em;position:relative}
+.minibd .kk--txt{font-size:.21em}
+@media(max-width:560px){.minibd{--u:34px}}
+
+/* 基本鍵：八顆手指的家 */
+.kk--home{background:#FFE8A8;box-shadow:0 .07em 0 #C9A94E}
+/* 定位鍵 F、J 的那條小凸起，畫在鍵面下緣 */
+.kk--bump::after{
+  content:"";position:absolute;left:50%;bottom:.16em;
+  width:.34em;height:.075em;border-radius:.05em;
+  background:#8A6E3E;transform:translateX(-50%);
+}
+
 /* 內文裡提到某顆鍵時用這個，跟鍵盤圖的視覺對得起來 */
 kbd,.k{
   display:inline-block;font-family:var(--display);font-weight:700;font-size:.82em;
