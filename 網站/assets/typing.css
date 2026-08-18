@@ -674,3 +674,65 @@ kbd,.k{
 }
 
 @media(prefers-reduced-motion:reduce){.caret__bar{animation:none}}
+
+/* ═══ 元件 9：組合鍵偵測 ════════════════════════════════════
+   第 3 課主線。畫面顯示一個任務，學生把手指放上真的鍵盤按組合鍵，
+   對不對由 JS 判斷，<strong>不是叫他打字</strong>——這裡練的是
+   「按住不放、兩顆一起放開」這個動作本身。
+
+   ⚠️ 技術上限：Win 鍵組合是作業系統層級的，網頁完全收不到，
+      所以截圖那段<strong>不能</strong>做成這個元件的任務，
+      只能放 GIF 示範。這個元件只用在 Ctrl 系列和單獨的 Shift。
+
+   HTML：<div class="hotkey">
+           <div class="hkrow" data-combo="ctrl+z" data-task="復原剛剛的動作">
+             <div class="hkrow__head">
+               <p class="hkrow__task">…</p>
+               <p class="hkrow__combo"><span class="k">Ctrl</span> ＋ <span class="k">Z</span></p>
+             </div>
+             <div class="hkrow__zone" tabindex="0">點這裡，再按組合鍵</div>
+             <p class="hkrow__mark"></p>
+             <p class="hkrow__say"></p>
+           </div>
+           <p class="hotkey__score"></p>
+         </div>
+
+   data-combo 的寫法：小寫、`+` 連接、Ctrl 永遠寫最前面，例如
+   `ctrl+z`、`ctrl+shift+s`。單獨的 Shift 就寫 `shift`。          */
+
+.hotkey{margin:1.8rem 0}
+
+.hkrow{
+  background:var(--card);border:3px solid var(--rule);border-radius:16px;
+  padding:1.2rem 1.35rem;margin-bottom:1rem;transition:.2s;box-shadow:var(--shadow-sm);
+}
+.hkrow:last-of-type{margin-bottom:0}
+.hkrow[data-s="hit"]{background:var(--go-soft);border-color:var(--go)}
+
+.hkrow__head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.7rem;margin-bottom:.9rem}
+.hkrow__task{margin:0;font-weight:700;font-size:1rem}
+.hkrow__combo{margin:0;white-space:nowrap}
+
+.hkrow__zone{
+  display:flex;align-items:center;justify-content:center;
+  min-height:3.6rem;padding:.6rem 1rem;border-radius:12px;
+  background:var(--ground-2);border:3px dashed var(--rule);
+  font-weight:600;color:var(--ink-soft);cursor:pointer;
+  transition:.15s;user-select:none;
+}
+.hkrow__zone::before{content:"👉 點這裡，再按組合鍵試試看"}
+.hkrow__zone:focus{outline:3px solid var(--accent);outline-offset:2px;border-style:solid;border-color:var(--accent);color:var(--ink)}
+.hkrow__zone:focus::before{content:"手指放好了嗎？現在按下組合鍵"}
+.hkrow[data-s="hit"] .hkrow__zone{border-style:solid;border-color:var(--go);background:#fff;color:var(--go)}
+.hkrow[data-s="hit"] .hkrow__zone::before{content:"✓ 按對了"}
+.hkrow[data-s="miss"] .hkrow__zone{border-color:var(--accent);background:var(--accent-soft)}
+
+.hkrow__say{margin:.7rem 0 0;font-size:.9rem;line-height:1.7;color:var(--ink-soft)}
+.hkrow__say b{color:var(--accent)}
+.hkrow[data-s="hit"] .hkrow__say b{color:var(--go)}
+
+.hotkey__score{
+  margin:1.1rem 0 0;padding:.85rem 1.1rem;border-radius:12px;font-weight:700;
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.hotkey__score[data-k="all"]{background:var(--go-soft);border-left-color:var(--go)}

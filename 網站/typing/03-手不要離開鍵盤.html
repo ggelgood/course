@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中文打字 第 3 課 · 手不要離開鍵盤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/typing.css?v=6">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">中文打字 第 3 課 · 大約 1 節課</span>
+    <h1>手不要<em>離開鍵盤</em></h1>
+    <p class="lede">打字的時候，手常常要離開鍵盤去點滑鼠。今天讓手完全不用離開。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要弄懂的三件事</h2>
+        <ul>
+          <li>打錯字不用整句<b>刪掉重打</b></li>
+          <li>組合鍵要怎麼<b>按住</b>才有用</li>
+          <li>怎麼<b>截圖</b>、截完圖去哪裡找</li>
+        </ul>
+      </div>
+      <div class="today__box">
+        <h2>能用鍵盤做，就不要動滑鼠</h2>
+        <p>手離開鍵盤再放回去，比你想的花時間。<br>
+        今天教的每一招，都是為了讓手<strong>留在原地</strong>。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 打錯字不要整句刪掉重打 ─────────── -->
+<section>
+  <h2 class="h2"><b>1</b>打錯了，不要整句刪掉重打</h2>
+
+  <p>很多人有一個壞習慣：打到第十個字，發現第三個字打錯了，
+  就一路按 <span class="k">Backspace</span> 刪回去，刪掉七個字，
+  只為了改一個字，然後再全部重打一次。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">游標現在停在一整句話的<strong>最後面</strong>，
+    但打錯的字在<strong>最前面</strong>。你會怎麼做？</p>
+    <p class="predict__hint">提示：想想第 1 課學過的那幾顆鍵，哪一顆能直接跳過去？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="用方向鍵一格一格移過去，字很長的話要按很多下，不是最快的方法。">按左方向鍵，一格一格移過去</button>
+      <button class="pick" data-v="b" data-say="答對了！Home 一下子就跳到這一行的最前面，不用管游標本來在哪裡。第 1 課學過的鍵，今天真的要用起來了。">按 Home，一下子跳到最前面</button>
+      <button class="pick" data-v="c" data-say="Backspace 會一路刪到最前面，把整句話都刪光了，那句話還得重打一次。">用 Backspace 一路刪到最前面</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <p>正確的做法，其實全部都是<strong>第 1 課學過的鍵</strong>，
+  只是今天要真的把它們用起來：</p>
+
+  <div class="vs">
+    <div class="vs__c vs__c--a">
+      <h4>先「走過去」</h4>
+      <p>方向鍵把游標移到錯字旁邊。</p>
+      <p>字很長的話，用 <span class="vs__key">Home</span>
+      <span class="vs__key">End</span> 直接跳到頭尾，比一格一格移快得多。</p>
+    </div>
+    <div class="vs__c vs__c--b">
+      <h4>再「刪掉它」</h4>
+      <p>錯字在游標<strong>左邊</strong> → 用 <span class="vs__key">Backspace</span></p>
+      <p>錯字在游標<strong>右邊</strong> → 用 <span class="vs__key">Delete</span></p>
+    </div>
+  </div>
+
+  <p>下面這個游標實驗室你在第 1 課玩過，這次換一句<strong>比較長</strong>的話。
+  練習只用「走過去、刪掉它」這兩步，改中間的錯字，不要整句重打。</p>
+
+  <div class="caret" data-text="我今天再學校吃了午餐" data-pos="3" data-type="在">
+    <div class="caret__line"></div>
+    <div class="caret__btns">
+      <button class="caret__btn caret__btn--move" data-act="left">← 往左</button>
+      <button class="caret__btn caret__btn--move" data-act="right">往右 →</button>
+      <button class="caret__btn caret__btn--move" data-act="home">Home</button>
+      <button class="caret__btn caret__btn--move" data-act="end">End</button>
+      <button class="caret__btn caret__btn--del" data-act="back">⌫ Backspace</button>
+      <button class="caret__btn caret__btn--del" data-act="del">Delete</button>
+      <button class="caret__btn" data-act="type">打一個「在」</button>
+      <button class="caret__btn caret__btn--reset" data-act="reset">重來</button>
+    </div>
+    <p class="caret__say"></p>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 這句話錯在哪</h3>
+    <ul>
+      <li>「我今天<strong>再</strong>學校吃了午餐」，「再」應該是「<strong>在</strong>」。
+        游標停在「再」的<strong>後面</strong>，先用 Backspace 刪掉「再」，
+        再打一個「在」，兩下就改完，不用整句重打。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 組合鍵要「按住」 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>組合鍵要「按住」</h2>
+
+  <p>接下來要教的東西，全部都是<strong>兩顆鍵一起按</strong>。
+  這句話聽起來很簡單，但很多人第一次用會失敗，原因都一樣。</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">小美想用 Ctrl 配合 C 這個組合鍵，她的做法是：
+    先按一下 <span class="k">Ctrl</span>、<strong>放開</strong>，
+    再按一下 <span class="k">C</span>、放開。結果沒有用。哪裡錯了？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="鍵盤本身沒有問題，是按的方法不對。">她的鍵盤壞了</button>
+      <button class="pick" data-v="b" data-say="順序是對的，Ctrl 本來就要先按。問題不在順序，在「放開」這個動作。">她應該先按 C 再按 Ctrl</button>
+      <button class="pick" data-v="c" data-say="答對了！組合鍵要 Ctrl 按住不放，再去按 C，兩顆鍵一起放開，這樣才算「同時按著」。分開按、中間放開，電腦不會當作是同一組。">Ctrl 要按住不放，再按 C，最後兩個一起放開</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <p><strong>記住這個動作：Ctrl 按住不放 → 再去按另一顆 → 兩個一起放開。</strong>
+  下一節開始，每一個快捷鍵都要照這個方法按。</p>
+</section>
+
+<!-- ── 3. 快捷鍵大集合（本課主線）───────────── -->
+<section class="keysec">
+  <h2 class="h2"><b>3</b>快捷鍵大集合</h2>
+
+  <p>下面六個是最常用的快捷鍵。<strong>手指放在鍵盤上</strong>，
+  照剛剛學的方法（按住不放、一起放開）試試看。
+  每一格都要你<strong>真的按一次</strong>，按對了才會知道。</p>
+
+  <h3>🌟 先學這個：Ctrl + Z 復原</h3>
+
+  <p>為什麼先教這個？因為它是一張<strong>安全網</strong>。
+  知道自己隨時能退回去，才敢放心去試別的快捷鍵，不怕按錯。</p>
+
+  <div class="hotkey">
+    <div class="hkrow" data-combo="ctrl+z" data-tip="不管做錯什麼，Ctrl + Z 都能退回上一步。">
+      <div class="hkrow__head">
+        <p class="hkrow__task">任務：按出「復原」</p>
+        <p class="hkrow__combo"><span class="k">Ctrl</span> ＋ <span class="k">Z</span></p>
+      </div>
+      <div class="hkrow__zone" tabindex="0"></div>
+      <p class="hkrow__say"></p>
+    </div>
+  </div>
+
+  <h3>複製、貼上、剪下、全選</h3>
+
+  <p>這四個是一組，打過的字不用重打，一整篇文章也能一次搬走。</p>
+
+  <div class="vs">
+    <div class="vs__c vs__c--a">
+      <h4>Ctrl + C　複製</h4>
+      <p>把選起來的東西<strong>複製一份</strong>放進剪貼簿，原本的還在。</p>
+    </div>
+    <div class="vs__c vs__c--b">
+      <h4>Ctrl + X　剪下</h4>
+      <p>跟複製很像，差別是<strong>原本的會不見</strong>，等於「剪走」。</p>
+    </div>
+    <div class="vs__c vs__c--a">
+      <h4>Ctrl + V　貼上</h4>
+      <p>把剪貼簿裡的東西<strong>貼到游標所在的位置</strong>。</p>
+    </div>
+    <div class="vs__c vs__c--b">
+      <h4>Ctrl + A　全選</h4>
+      <p>一次選起<strong>整篇</strong>，通常接著就是 Ctrl + C 整篇複製。</p>
+    </div>
+  </div>
+
+  <div class="hotkey">
+    <div class="hkrow" data-combo="ctrl+c" data-tip="接下來配合 Ctrl + V 貼上，打過的字就不用重打。">
+      <div class="hkrow__head">
+        <p class="hkrow__task">任務：按出「複製」</p>
+        <p class="hkrow__combo"><span class="k">Ctrl</span> ＋ <span class="k">C</span></p>
+      </div>
+      <div class="hkrow__zone" tabindex="0"></div>
+      <p class="hkrow__say"></p>
+    </div>
+
+    <div class="hkrow" data-combo="ctrl+v" data-tip="複製和貼上是一對，永遠一起出現。">
+      <div class="hkrow__head">
+        <p class="hkrow__task">任務：按出「貼上」</p>
+        <p class="hkrow__combo"><span class="k">Ctrl</span> ＋ <span class="k">V</span></p>
+      </div>
+      <div class="hkrow__zone" tabindex="0"></div>
+      <p class="hkrow__say"></p>
+    </div>
+
+    <div class="hkrow" data-combo="ctrl+x" data-tip="剪下之後，原本的位置會空掉，記得要找地方貼上，不然東西就只在剪貼簿裡。">
+      <div class="hkrow__head">
+        <p class="hkrow__task">任務：按出「剪下」</p>
+        <p class="hkrow__combo"><span class="k">Ctrl</span> ＋ <span class="k">X</span></p>
+      </div>
+      <div class="hkrow__zone" tabindex="0"></div>
+      <p class="hkrow__say"></p>
+    </div>
+
+    <div class="hkrow" data-combo="ctrl+a" data-tip="全選之後最常接著按 Ctrl + C，一次把整篇複製走。">
+      <div class="hkrow__head">
+        <p class="hkrow__task">任務：按出「全選」</p>
+        <p class="hkrow__combo"><span class="k">Ctrl</span> ＋ <span class="k">A</span></p>
+      </div>
+      <div class="hkrow__zone" tabindex="0"></div>
+      <p class="hkrow__say"></p>
+    </div>
+
+    <p class="hotkey__score"></p>
+  </div>
+
+  <h3>Shift：中英文切換</h3>
+
+  <p>這一顆跟前面幾個不一樣，<strong>不用配別的鍵</strong>，單獨按一下就好。
+  是打字時最常按到、卻最少人知道用途的一顆。</p>
+
+  <div class="hotkey">
+    <div class="hkrow" data-combo="shift" data-tip="打到一半突然打出英文字母，多半就是不小心按到了這一顆，再按一下就換回來。">
+      <div class="hkrow__head">
+        <p class="hkrow__task">任務：只按一下 Shift（不要配別的鍵）</p>
+        <p class="hkrow__combo"><span class="k">⇧ Shift</span></p>
+      </div>
+      <div class="hkrow__zone" tabindex="0"></div>
+      <p class="hkrow__say"></p>
+    </div>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ Ctrl + S 這課不教</h3>
+    <ul>
+      <li><strong>Ctrl + S 是存檔</strong>，你在 Scratch 第 2 課已經用過
+        「檔案 → 儲存」學過存檔的觀念了，這裡不重複。</li>
+      <li><strong>中英文切換的實際按鍵要看教室電腦</strong>，
+        大部分是 Shift，但也有可能是 Ctrl + 空白鍵，
+        如果按了 Shift 沒反應，跟老師說一聲。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 截圖工作流（本課高潮）─────────────── -->
+<section class="keysec">
+  <h2 class="h2"><b>4</b>截圖：把螢幕上的東西存下來</h2>
+
+  <p>截圖對你很實用：交作業、問同學問題、把畫面存下來，
+  都要靠它。今天教的方法完全<strong>不用滑鼠</strong>。</p>
+
+  <h3>主要用這一組：Win + Shift + S</h3>
+
+  <p>這是<strong>三顆鍵一起按</strong>：<span class="k">⊞ Win</span> ＋
+  <span class="k">⇧ Shift</span> ＋ <span class="k">S</span>。
+  按下去之後，螢幕會<strong>變暗</strong>，滑鼠會變成一個十字，
+  拖曳框出你要的範圍就完成了。</p>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">Win + Shift + S 完整流程</b>
+    <p class="shot__how">按下組合鍵 → 螢幕變暗、出現十字游標 → 拖曳框選一小塊範圍 →
+    打開小畫家 → Ctrl + V 貼上 → 存檔。全程不碰滑鼠右鍵、不用選單，
+    大概 15 秒的長度就夠，重點是讓學生看清楚「框選之後圖跑去哪裡了」。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 這是全班最容易卡住的地方</h3>
+    <ul>
+      <li><strong>「我截了啊，圖呢？」</strong>螢幕上真的什麼都不會出現，
+        因為截好的圖是放進<strong>剪貼簿</strong>，不是存成一個檔案。</li>
+      <li>要把圖<strong>拿出來看</strong>，得先打開一個能貼圖的軟體
+        （例如小畫家），再按 <span class="k">Ctrl</span> ＋
+        <span class="k">V</span> 貼上，圖才會出現。</li>
+    </ul>
+  </div>
+
+  <p>完整流程是這四步，<strong>接在一起才算完成</strong>，缺一步都不行：</p>
+
+  <ol class="steps">
+    <li>按 <strong>Win + Shift + S</strong>，拖曳框出要截的範圍</li>
+    <li>打開<strong>小畫家</strong>（或任何能貼圖的軟體）</li>
+    <li>按 <strong>Ctrl + V</strong> 貼上，圖才會出現</li>
+    <li>存檔，才能真的留下來</li>
+  </ol>
+
+  <h3>另外兩種，知道就好</h3>
+
+  <div class="vs">
+    <div class="vs__c vs__c--a">
+      <h4>PrtSc</h4>
+      <p>截<strong>整個螢幕</strong>，一樣要用 Ctrl + V 貼出來才看得到。</p>
+    </div>
+    <div class="vs__c vs__c--b">
+      <h4>Alt + PrtSc</h4>
+      <p>只截<strong>目前作用中的視窗</strong>，旁邊的東西不會被拍進去。</p>
+    </div>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 這幾顆鍵要老師先在教室電腦試過</h3>
+    <ul>
+      <li>Windows 10 和 11 的截圖行為不完全一樣，<strong>Win 11 的 PrtSc
+        有可能直接開啟一個截圖工具</strong>，跟這裡寫的不同，
+        以老師示範的為準。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 換你打打看 ───────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>同一組快捷鍵，三個地方各玩一次</h2>
+
+  <p>今天學的快捷鍵不是只有記事本能用，<strong>幾乎每一個軟體都通用</strong>。
+  下面三個地方各玩一次，體會一下這件事。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">照順序做一遍，做完就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li><strong>記事本</strong>：打一段字，用 Ctrl + A 全選，
+        Ctrl + C 複製，貼到下面一行，看看是不是變成兩份</li>
+      <li><strong>檔案總管</strong>：找一個檔案，Ctrl + C 複製、
+        Ctrl + V 貼上，出現一個「- 複製」的檔案，
+        代表 <strong>Ctrl + C 不是只能複製文字，也能複製檔案</strong></li>
+      <li><strong>瀏覽器</strong>：在這一頁選一段字，Ctrl + C 複製，
+        切到記事本按 Ctrl + V 貼上</li>
+    </ol>
+  </div>
+
+  <p>第三步你應該會發現：<strong>同一組快捷鍵，記事本、檔案總管、瀏覽器都能用</strong>。
+  這就是今天真正該記住的事：快捷鍵不是某一個軟體專屬的，是<strong>整台電腦通用</strong>的。</p>
+</section>
+
+<!-- ── 6. 考考你 ───────────────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>考考你</h2>
+  <p>三題都是真的會遇到的狀況，想清楚再選。</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">阿豪打了一段字之後，不小心用 Ctrl + A 全選、
+    又按了一下 Delete，整段字都不見了。他現在最該做什麼？</p>
+    <p class="predict__hint">今天學的哪一個快捷鍵，就是為了應付這種狀況？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="重打當然可以，但如果字很長，這樣會花很多時間，而且今天教過更快的方法。">整段重新打一次</button>
+      <button class="pick" data-v="b" data-say="Ctrl + C 是複製，現在畫面上已經沒有字可以複製了，這個快捷鍵幫不上忙。">按 Ctrl + C 試試看</button>
+      <button class="pick" data-v="c" data-say="答對了！Ctrl + Z 是復原，可以退回到刪除之前的狀態，這正是今天說的「安全網」。">按 Ctrl + Z 復原</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="predict" data-ans="a">
+    <p class="predict__q">小美按住 <span class="k">Ctrl</span> 不放，
+    再按 <span class="k">C</span>，結果卻沒有反應。
+    她的手指是怎麼放的，最可能出了什麼問題？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="答對了！Ctrl + C 是複製，前提是要先「選起來」東西才有得複製，沒有選取任何內容的話，按了也不會有反應。">她可能沒有先選取任何文字或東西</button>
+      <button class="pick" data-v="b" data-say="Ctrl + C 本來就要按住 Ctrl 才對，這不是問題所在，再想想她漏了哪個步驟。">她應該要先放開 Ctrl 再按 C</button>
+      <button class="pick" data-v="c" data-say="Ctrl + C 不需要配合 Shift，這兩顆鍵一起按反而會變成別的快捷鍵。">她應該同時按 Ctrl、Shift、C 三顆</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">小華用 Win + Shift + S 截了一張圖，
+    可是他直接打開記事本找截圖，怎麼找都找不到。哪裡出了問題？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="截圖失敗通常螢幕不會變暗、也拖曳不出框選範圍。如果流程正常跑完，圖其實已經存在剪貼簿裡了。">他的截圖根本沒有截成功</button>
+      <button class="pick" data-v="b" data-say="答對了！截圖之後圖是放在剪貼簿裡，不會自己變成一個檔案。要先打開能貼圖的軟體，按 Ctrl + V 貼上，圖才會出現，而且記事本不能貼圖，要用小畫家這種軟體。">圖在剪貼簿裡，他要打開小畫家按 Ctrl + V 才看得到</button>
+      <button class="pick" data-v="c" data-say="截圖的存放位置跟這件事沒有關係，重新開機也不會讓圖自己跑出來。">要重新開機，圖才會出現</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 7. 自由玩一玩 ───────────────────────── -->
+<section>
+  <h2 class="h2"><b>7</b>自由玩一玩</h2>
+  <p>打開<strong>記事本</strong>和<strong>小畫家</strong>，下面每一格都可以真的試一次。
+  挑你有興趣的做，試過就打勾。</p>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>打錯字，練習不整句刪掉</b><small>故意打錯一個字在句子中間，只用 Home / End / Backspace / Delete 改掉它。</small></div>
+      <div class="play"><b>複製一整段話</b><small>打一段話，Ctrl + A 全選，Ctrl + C 複製，貼到下面重複三次。</small></div>
+      <div class="play"><b>剪下再貼到別的地方</b><small>選一小段字，Ctrl + X 剪下，把游標移到最前面，Ctrl + V 貼上。</small></div>
+      <div class="play"><b>連續按三次 Ctrl + Z</b><small>先做三個動作（打字、刪字、貼上），再連續復原三次，看畫面怎麼一步一步退回去。</small></div>
+      <div class="play"><b>截一張圖存起來</b><small>用 Win + Shift + S 截一小塊螢幕，貼到小畫家，存成一個檔案。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>在記事本打一句話，然後<strong>完全不用滑鼠、也不用 Backspace 或 Delete</strong>，
+  把整句話變成兩份，貼在上下兩行。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>拆成三件事：<strong style="color:#FFBF00">先選起整句話</strong>，
+      <strong style="color:#FFBF00">複製它</strong>，
+      <strong style="color:#FFBF00">換行之後貼上</strong>。</p>
+      <p>選起一整句最快的方法，今天教過哪一個快捷鍵？</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看挑戰一的參考做法<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <p>1. 按 <strong style="color:#FFBF00">Ctrl + A</strong> 全選這句話</p>
+      <p>2. 按 <strong style="color:#FFBF00">Ctrl + C</strong> 複製</p>
+      <p>3. 按 <strong style="color:#FFBF00">End</strong> 跳到最後面，按 Enter 換行</p>
+      <p>4. 按 <strong style="color:#FFBF00">Ctrl + V</strong> 貼上</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>用 <strong>Win + Shift + S</strong> 截一張你桌面的圖，
+  貼到小畫家之後，<strong>不用滑鼠</strong>，只用今天學過的快捷鍵，
+  把圖裡的某一小段文字複製到記事本。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">回想截圖的完整流程</span></summary>
+    <div class="reveal__in">
+      <p>小畫家裡的圖是<strong style="color:#FFBF00">圖片</strong>，
+      沒辦法選取「文字」。這題真正要練的是<strong style="color:#FFBF00">整個截圖流程走一遍</strong>，
+      重點放在截圖、貼上、存檔這三個步驟有沒有都做到。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 下一課 ───────────────────────────── -->
+<section>
+  <h2 class="h2"><b>→</b>下一課要做什麼</h2>
+  <p>今天你學會了不整句重打、組合鍵怎麼按、還有截圖的完整流程，
+  手已經可以<strong>從頭到尾留在鍵盤上</strong>了。</p>
+  <p>回到第 1 課那個問題：<strong>幾萬個中文字，怎麼用這麼少的鍵打出來？</strong>
+  你已經知道注音是怎麼做到的了。但注音<strong>不是唯一的答案</strong>。</p>
+  <p><strong>下一課要看看其他發明家怎麼解這一題。</strong>
+  拼音、倉頡、無蝦米，每一種想法都不一樣，
+  而且說穿了，全部都只分成兩派。</p>
+</section>
+
+<footer>
+  <p>中文打字 第 3 課 · 手不要離開鍵盤</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/typing.js?v=7"></script>
+</body>
+</html>

@@ -645,4 +645,94 @@ document.querySelectorAll('.trace').forEach(box => {
   tally();
 });
 
+/* ── 元件 9：組合鍵偵測 ─────────────────────────────────────
+   第 3 課主線。學生把手指放上真的鍵盤按組合鍵，對不對由這裡判斷。
+   練的是「按住不放、兩顆一起放開」這個動作，不是打字。
+
+   ⚠️ 一定要 preventDefault()，不然 Ctrl+A 會選取整個網頁、
+      Ctrl+Z 在某些瀏覽器裡會觸發上一頁，很容易嚇到學生。
+
+   ⚠️ 單獨的 Shift 判斷比較特別：keydown 一定會先收到 Shift 自己，
+      但那時候還不知道學生是「只按 Shift」還是「等一下要配別的鍵」。
+      要等 keyup 才能確定——如果中途沒有夾雜別的鍵，才算對。
+
+   HTML：<div class="hotkey">
+           <div class="hkrow" data-combo="ctrl+z" data-task="…">
+             <div class="hkrow__head"><p class="hkrow__task"></p><p class="hkrow__combo"></p></div>
+             <div class="hkrow__zone" tabindex="0"></div>
+             <p class="hkrow__say"></p>
+           </div>
+           <p class="hotkey__score"></p>
+         </div>                                                */
+document.querySelectorAll('.hotkey').forEach(box => {
+  const rows  = [...box.querySelectorAll('.hkrow')];
+  const score = box.querySelector('.hotkey__score');
+  if (!rows.length) return;
+
+  const tally = () => {
+    if (!score) return;
+    const n = rows.filter(r => r.dataset.s === 'hit').length;
+    const all = n === rows.length;
+    score.innerHTML = all
+      ? (box.dataset.done || '🎉 全部按對了！')
+      : '按對 ' + n + ' / ' + rows.length + ' 個。';
+    if (all) score.dataset.k = 'all'; else delete score.dataset.k;
+  };
+
+  rows.forEach(row => {
+    const zone = row.querySelector('.hkrow__zone');
+    const say  = row.querySelector('.hkrow__say');
+    const want = row.dataset.combo || '';
+    if (!zone) return;
+
+    /* 追蹤「只按 Shift」還是中途夾了別的鍵。
+       ⚠️ 不能用「再按一次就切換」的邏輯：按住不放的時候，
+       瀏覽器會不斷重複觸發 keydown（長按的重複輸入），
+       如果每次 keydown 都切換一次狀態，長按到一半就會被自己判成錯的。
+       改成「碰過真的按下」就設 true，不會因為重複觸發而反覆橫跳。 */
+    let shiftDown = false, otherWhileShift = false;
+
+    const hit = () => {
+      row.dataset.s = 'hit';
+      if (say) say.innerHTML = '答對了！就是這個組合。' + (row.dataset.tip || '');
+      tally();
+    };
+    const miss = msg => {
+      if (row.dataset.s === 'hit') return;   // 已經答對就不要再被蓋掉
+      row.dataset.s = 'miss';
+      if (say) say.innerHTML = msg || (row.dataset.miss || '再試一次，記得<b>按住不放</b>。');
+      tally();
+    };
+
+    zone.addEventListener('keydown', e => {
+      if (row.dataset.s === 'hit') return;
+      e.preventDefault();                    // 擋掉真的觸發 Ctrl+A 全選網頁之類的副作用
+
+      if (want === 'shift') {
+        if (e.key === 'Shift') { shiftDown = true; return; }
+        if (shiftDown) otherWhileShift = true;   // 中途夾了別的鍵，不算單獨按 Shift
+        return;
+      }
+
+      const key = e.key.toLowerCase();
+      if (['control', 'shift', 'alt', 'meta'].includes(key)) return;  // 修飾鍵本身，先不判
+      const parts = [];
+      if (e.ctrlKey) parts.push('ctrl');
+      if (e.altKey) parts.push('alt');
+      parts.push(key);
+      const combo = parts.join('+');
+      combo === want ? hit() : miss('你按的是 <b>' + combo.replace(/\+/g, ' ＋ ') + '</b>。');
+    });
+
+    zone.addEventListener('keyup', e => {
+      if (want === 'shift' && e.key === 'Shift' && row.dataset.s !== 'hit') {
+        (shiftDown && !otherWhileShift) ? hit() : miss('要<b>只按 Shift</b>，不要配別的鍵一起按。');
+        shiftDown = false; otherWhileShift = false;
+      }
+    });
+  });
+
+  tally();
+});
+
 })();
