@@ -268,7 +268,7 @@
   <div class="symtest" data-done="🎉 四個都對了！同樣的注音配不同的聲調，就是完全不同的字。">
     <p class="predict__hint" style="margin:0">
       先打 <b>ㄈㄤ</b>。<b>ㄈ</b> 在 <b>Z</b>（就是 ㄅㄆㄇㄈ 那一直行的最下面），
-      <b>ㄤ</b> 在 <b>;</b>。打完注音再按聲調鍵，最後選字。
+      <b>ㄤ</b> 在 <b>;</b>。打完注音按聲調鍵，選到對的字之後按 <b>Enter</b> 送出。
     </p>
 
     <div class="symgrid">
@@ -375,16 +375,38 @@
   <h2 class="h2"><b>3</b>讓電腦自己幫你選字</h2>
 
   <p>現在你會打注音、也會打聲調了。可是打起來還是很慢，因為<strong>每打一個字，
-  就要停下來從一大排候選字裡挑一個</strong>。</p>
+  就要停下來確認一次、送出一次</strong>。</p>
 
-  <p>打字快的人不是這樣做的。</p>
+  <h3>先分清楚：空白鍵和 Enter 各做什麼</h3>
+
+  <p>這兩顆鍵最容易搞混，先講清楚再往下看。</p>
+
+  <div class="vs">
+    <div class="vs__c vs__c--a">
+      <h4>空白鍵 ＝ 一聲</h4>
+      <p>打中文的時候，空白鍵是<strong>聲調鍵</strong>，就是上一節說的那個一聲。</p>
+      <p>它<strong>不是</strong>用來把字送出去的。</p>
+    </div>
+    <div class="vs__c vs__c--b">
+      <h4>Enter ＝ 送出</h4>
+      <p>注音和聲調打完，字會先出現在<strong>組字區</strong>（下面有一條底線，
+      表示<strong>還沒真的打進去</strong>）。</p>
+      <p>按 <span class="vs__key">Enter</span> 才是告訴電腦
+      <strong>「就用這個字」</strong>，字才會真的變成文件裡的內容。</p>
+    </div>
+  </div>
+
+  <p>所以完整的流程是四步：
+  <strong>打注音 → 按聲調 → 不對的話選字 → 按 Enter 送出</strong>。</p>
+
+  <p>打字快的人，差別就在中間那兩步。</p>
 
   <div class="predict" data-ans="b">
     <p class="predict__q">要打「<strong>電腦教室</strong>」這四個字，怎麼做會比較快？</p>
     <p class="predict__hint">提示：電腦其實知道哪些字常常黏在一起。</p>
     <div class="picks">
-      <button class="pick" data-v="a" data-say="手指按快一點，省下來的時間很有限。真正花時間的不是打注音，是<b>中間停下來選字</b>那幾次。">注音打快一點就好</button>
-      <button class="pick" data-v="b" data-say="答對了！四個字的注音<b>一口氣打完</b>，中間都不要停，最後才按一次空白鍵。電腦會看整串注音去猜，猜出來的是一整個語詞。往下看有多快。">四個字的注音連著打完，最後才按一次空白鍵</button>
+      <button class="pick" data-v="a" data-say="手指按快一點，省下來的時間很有限。真正花時間的不是打注音，是<b>中間停下來選字、送出</b>那幾次。">注音打快一點就好</button>
+      <button class="pick" data-v="b" data-say="答對了！四個字的注音<b>一口氣打完</b>，中間都不要停，最後才按一次 Enter 送出。電腦會看整串注音去猜，猜出來的是一整個語詞。往下看有多快。">四個字的注音連著打完，最後才按一次 Enter</button>
       <button class="pick" data-v="c" data-say="用滑鼠在候選字裡點，比用鍵盤選還要慢，因為手要離開鍵盤再回來。<b>第 3 課</b>會專門講這件事。">用滑鼠去點候選字</button>
     </div>
     <p class="said"></p>
@@ -404,16 +426,16 @@
         <output class="wp__scr"><b></b><i></i></output>
         <ol class="wp__log">
           <li data-n="6" data-out="電" data-pend="">
-            打 <b>ㄉㄧㄢˋ</b>（4 下）→ 空白鍵（1 下）→ 從候選字裡選「電」（1 下）
+            打 <b>ㄉㄧㄢˋ</b>（4 下）→ 選字（1 下）→ 按 <em>Enter</em> 送出（1 下）
           </li>
           <li data-n="5" data-out="電腦" data-pend="">
-            打 <b>ㄋㄠˇ</b>（3 下）→ 空白鍵 → 選「腦」
+            打 <b>ㄋㄠˇ</b>（3 下）→ 選「腦」→ 按 <em>Enter</em> 送出
           </li>
           <li data-n="6" data-out="電腦教" data-pend="">
-            打 <b>ㄐㄧㄠˋ</b>（4 下）→ 空白鍵 → 選「教」
+            打 <b>ㄐㄧㄠˋ</b>（4 下）→ 選「教」→ 按 <em>Enter</em> 送出
           </li>
           <li data-n="4" data-out="電腦教室" data-pend="">
-            打 <b>ㄕˋ</b>（2 下）→ 空白鍵 → 選「室」
+            打 <b>ㄕˋ</b>（2 下）→ 選「室」→ 按 <em>Enter</em> 送出
           </li>
         </ol>
         <div class="wp__foot">
@@ -431,7 +453,7 @@
             四個字的注音<em>一口氣打完</em>，中間<em>完全不要停</em>（13 下）
           </li>
           <li data-n="1" data-out="電腦教室" data-pend="">
-            按<em>一次</em>空白鍵，電腦自己猜出「電腦教室」（1 下）
+            按<em>一次 Enter</em> 送出，電腦自己猜出「電腦教室」（1 下）
           </li>
         </ol>
         <div class="wp__foot">
@@ -457,8 +479,9 @@
   <div class="sos">
     <h3>⚠️ 剛開始一定會不習慣</h3>
     <ul>
-      <li><strong>畫面上一長串注音看起來很亂，很想停下來選字。</strong>
-        忍住，那串注音<strong>還沒有變成字</strong>，按下空白鍵才會變。</li>
+      <li><strong>畫面上一長串注音看起來很亂，很想停下來送出。</strong>
+        忍住，那串注音<strong>還在組字區裡，還沒有變成字</strong>，
+        按下 <span class="k">Enter</span> 才會真的打進去。</li>
       <li><strong>猜錯的時候</strong>：用<span class="k">←</span>
         <span class="k">→</span>方向鍵移到猜錯的那個字，再從候選字裡改掉，
         不用整串刪掉重打。</li>
@@ -473,7 +496,7 @@
   <h2 class="h2"><b>4</b>換你打打看</h2>
 
   <p>下面三句，每一句都<strong>用剛剛學的方法</strong>打：
-  整句的注音連著打完，最後才按空白鍵。</p>
+  整句的注音連著打完，最後才按 <span class="k">Enter</span> 送出。</p>
 
   <p>打對的字會一格一格<strong>亮起來</strong>。
   <strong>這裡不計時，也不比誰快</strong>，慢慢打就好。</p>
@@ -518,7 +541,7 @@
       <span class="dobox__count"><i>0</i> / 4</span>
     </div>
     <ol class="steps">
-      <li>打出你的<strong>名字</strong>（整個名字連著打完，最後才按空白鍵）</li>
+      <li>打出你的<strong>名字</strong>（整個名字連著打完，最後才按 <strong>Enter</strong>）</li>
       <li>打出你的<strong>班級</strong>，例如三年五班</li>
       <li>打出<strong>三種你喜歡的食物</strong>，中間空一格隔開</li>
       <li>打出<strong>今天的日期</strong>，例如九月十五日</li>
@@ -567,12 +590,12 @@
   </div>
 
   <div class="predict" data-ans="a">
-    <p class="predict__q">小華在打「<strong>今天天氣很好</strong>」，他每打一個字就按一次空白鍵去選字，
-    結果打得很慢，還常常選錯字。你會建議他怎麼做？</p>
+    <p class="predict__q">小華在打「<strong>今天天氣很好</strong>」，他每打一個字就停下來選字、按一次
+    <span class="k">Enter</span> 送出，結果打得很慢，還常常選錯字。你會建議他怎麼做？</p>
     <p class="predict__hint">想想剛剛那個「電腦教室」的示範，快的那一邊做了什麼？</p>
     <div class="picks">
-      <button class="pick" data-v="a" data-say="答對了！六個字的注音連著打完再按一次空白鍵，不但按得比較少，電腦拿到整串注音也猜得更準，<b>選錯字的機會反而變小了</b>。">六個字的注音連著打完，最後才按一次空白鍵</button>
-      <button class="pick" data-v="b" data-say="按快一點省不了多少時間。真正拖慢他的是<b>中間停下來選字那六次</b>，不是打注音的速度。">叫他手指按快一點</button>
+      <button class="pick" data-v="a" data-say="答對了！六個字的注音連著打完再按一次 Enter，不但按得比較少，電腦拿到整串注音也猜得更準，<b>選錯字的機會反而變小了</b>。">六個字的注音連著打完，最後才按一次 Enter</button>
+      <button class="pick" data-v="b" data-say="按快一點省不了多少時間。真正拖慢他的是<b>中間停下來選字、送出那六次</b>，不是打注音的速度。">叫他手指按快一點</button>
       <button class="pick" data-v="c" data-say="這樣反而更慢。一個字一個字打，本來就是他現在正在做的事，而且只給一個字的注音，電腦更容易猜錯。">叫他一個字一個字慢慢打，才不會選錯</button>
     </div>
     <p class="said"></p>
@@ -591,9 +614,9 @@
       <span class="dobox__count"><i>0</i> / 6</span>
     </div>
     <div class="playgrid">
-      <div class="play"><b>找五個一聲的字</b><small>打注音之後按空白鍵，一次就出來的就是一聲。例如「天」「山」「花」。</small></div>
+      <div class="play"><b>找五個一聲的字</b><small>打完注音按空白鍵（一聲），字就出來了，再按 Enter 送出。例如「天」「山」「花」。</small></div>
       <div class="play"><b>同一個注音，四個聲調</b><small>試 ㄧ、ㄕ、ㄨ 這幾個，各打出四個聲調的字，看看差多少。</small></div>
-      <div class="play"><b>打出你最喜歡的一句話</b><small>整句連著打完再按空白鍵，看電腦猜得準不準。</small></div>
+      <div class="play"><b>打出你最喜歡的一句話</b><small>整句連著打完再按 Enter，看電腦猜得準不準。</small></div>
       <div class="play"><b>故意打一個很少見的字</b><small>翻翻候選字有幾頁。想想看為什麼這種字要一個一個打。</small></div>
       <div class="play"><b>閉上眼睛找 ㄅ</b><small>不看鍵盤，只想「最左邊那一直行的最上面」，摸摸看找不找得到。</small></div>
       <div class="play"><b>摸摸看 F 和 J 的凸起</b><small>閉上眼睛用兩根食指去找。找到了，手就回到基本鍵上了。</small></div>
@@ -627,7 +650,8 @@
 
   <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
   <p>在記事本打一句<strong>十個字以上</strong>的話，
-  中間<strong>一次空白鍵都不准按</strong>，全部注音打完才按一次。</p>
+  中間<strong>一次 Enter 都不准按</strong>，全部注音打完才按一次送出。</p>
+  <p>注意：<strong>一聲的字還是要按空白鍵</strong>，那是聲調，不算送出。</p>
   <p>看看電腦猜對幾個字。猜錯的地方，想想看<strong>為什麼那裡會猜錯</strong>。</p>
 
   <details class="reveal">
@@ -642,7 +666,7 @@
 <!-- ── 下一課 ───────────────────────────── -->
 <section>
   <h2 class="h2"><b>→</b>下一課要做什麼</h2>
-  <p>今天你學會了用直行規律找注音、用空白鍵打一聲，
+  <p>今天你學會了用直行規律找注音、用空白鍵打一聲、用 <span class="k">Enter</span> 送出，
   還有<strong>整串打完再讓電腦選字</strong>這個最有用的方法。</p>
   <p>但是你有沒有發現，打字的時候手還是常常要離開鍵盤？
   選錯字要去點滑鼠、想改中間的字要去點滑鼠、要複製一段字也要去點滑鼠。</p>

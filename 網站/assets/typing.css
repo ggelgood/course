@@ -413,9 +413,9 @@
 }
 
 .bpm{
-  /* 整個鍵盤剛好 15u 寬（每一排都是 15u，實體鍵盤就是這樣對齊的）。
-     15 × 46 = 690px，一般版面塞得下；再窄就靠上面的捲軸。 */
-  --u:clamp(26px,4.6vw,46px);
+  /* 注音是這張圖的主角，所以鍵要畫得比第 1 課那張大鍵盤大一號。
+     15 × 50 = 750px，版面（60rem 扣掉左右內距）塞得下；再窄就靠上面的捲軸。 */
+  --u:clamp(30px,5vw,50px);
   --gap:.16em;
   --face:#FBF6EC;
   --face-d:#BCA98C;
@@ -429,13 +429,17 @@
   user-select:none;
 }
 
-.bpmrow{display:flex;gap:var(--gap);margin-bottom:var(--gap)}
+/* ⚠️ 每一排都要寫死 15u —— 這是整張圖對不對得齊的關鍵。
+   實體鍵盤每一排剛好一樣寬，但每排的「鍵數」不一樣，
+   所以間隙數也不一樣（第 1 排 13 個間隙、第 5 排只有 7 個）。
+   如果讓鍵各自去算寬度，間隙少的那幾排就會短一截，整張圖歪掉。
+   改成「排寬固定，鍵去分」（下面 .bk 的 flex-basis:0 ＋ grow），
+   間隙就會被吸收掉，每一排的左右邊緣一定對齊。這個坑踩過一次。 */
+.bpmrow{display:flex;gap:var(--gap);margin-bottom:var(--gap);width:calc(var(--u) * 15)}
 .bpmrow:last-child{margin-bottom:0}
 
 .bk{
-  /* ⚠️ 跟迷你鍵盤同樣的理由：.bpm 是 width:max-content，沒有固定寬度可以分，
-     所以不能用 flex-basis:0 靠 grow 去撐，要直接用 --u 把寬度算出來。 */
-  flex:0 0 calc(var(--u) * var(--w,1));
+  flex:var(--w,1) 0 0;
   height:calc(var(--u) * .92);
   position:relative;
   display:grid;place-items:center;
@@ -447,14 +451,15 @@
 }
 /* 鍵面左上角那個小小的英文字母（實體鍵盤就是印在角落） */
 .bk i{
-  position:absolute;top:.05em;left:.11em;
-  font-style:normal;font-size:.2em;font-weight:600;opacity:.5;line-height:1;
+  position:absolute;top:.04em;left:.1em;
+  font-style:normal;font-size:.24em;font-weight:700;opacity:.55;line-height:1;
 }
-.bk b{font-size:.4em;line-height:1;font-weight:700}
+/* 注音本身。這一課學生整節都在看它，字級不能小。 */
+.bk b{font-size:.52em;line-height:1;font-weight:700}
 /* 沒有注音的鍵（` = [ ] \ ' 之類），畫出來只是為了讓鍵盤看起來是完整的 */
-.bk--off{color:#9C8B76;font-size:.26em;font-weight:600;pointer-events:none}
+.bk--off{color:#9C8B76;font-size:.28em;font-weight:600;pointer-events:none}
 .bk--sp{background:transparent;box-shadow:none;pointer-events:none}
-.bk--lab{font-size:.2em;letter-spacing:-.02em;color:#7D6C58;pointer-events:none}
+.bk--lab{font-size:.22em;letter-spacing:-.02em;color:#7D6C58;pointer-events:none}
 
 .bk[data-col]{cursor:pointer}
 .bk[data-col]:hover{transform:translateY(-.04em);box-shadow:0 .11em 0 var(--face-d)}
