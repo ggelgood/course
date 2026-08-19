@@ -849,98 +849,96 @@ kbd,.k{
 .radbox__say[data-k="ok"]{background:var(--go-soft);border-left-color:var(--go);color:var(--ink)}
 .radbox__say[data-k="warn"]{background:#FFF9E6;border-left-color:var(--b-events);color:var(--ink)}
 
-/* ═══ 元件 12：配合題（點兩邊配對）══════════════════════════
-   左邊一排字、右邊一排打法卡，點一個字再點一張卡就配一次。
-   配對正確 → 兩邊一起變綠並鎖住；錯了 → 閃一下紅色，可以再試。
+/* ═══ 元件 12：連連看 ═══════════════════════════════════════
+   一個字一組：左邊三個標籤（注音／拼音／倉頡），
+   右邊三個打散的碼，把對應的兩邊連起來。
 
-   刻意<strong>不做「送出」</strong>：點下去馬上知道對不對，
-   跟前面幾課的即時回饋一致。
+   點左邊一個、再點右邊一個就連一條線（線是 SVG 畫的）。
+   連對 → 兩邊變綠、線留著；連錯 → 閃一下紅色、放掉選取。
+   ⚠️ 全程不出現任何文字回饋，這是測驗不是講義。
 
-   HTML：<div class="match" data-done="…全部配對完的話…">
-           <div class="match__grid">
-             <div class="match__col">
-               <button class="mitem" data-pair="fan">範</button>
+   HTML：<div class="link">
+           <p class="link__q">範</p>
+           <div class="link__grid">
+             <div class="link__col">
+               <button class="lnode" data-pair="bpm">注音</button>
              </div>
-             <div class="match__col">
-               <button class="mcard" data-pair="fan">…注音／拼音／倉頡…</button>
+             <div class="link__col">
+               <button class="lslot" data-pair="cj">竹十弓山</button>
              </div>
            </div>
-           <p class="match__score"></p>
-         </div>                                                */
-.match{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
-.match__grid{display:grid;grid-template-columns:auto 1fr;gap:.8rem 1.1rem;align-items:start}
-.match__col{display:flex;flex-direction:column;gap:.7rem}
-.match__head{
-  font-family:var(--display);font-weight:600;font-size:.78rem;letter-spacing:.08em;
-  color:var(--ink-soft);margin:0 0 .1rem;
+         </div>
+   左右靠 data-pair 配對，右邊順序要故意打亂。            */
+.link{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.3rem 1.5rem;margin:1.1rem 0;box-shadow:var(--shadow-md);
+}
+.link__q{
+  font-family:var(--display);font-weight:700;font-size:2.2rem;line-height:1;
+  text-align:center;margin:0 0 1.1rem;color:var(--ink);
 }
 
-/* 左邊：要配對的字 */
-.mitem{
-  font:inherit;font-family:var(--display);font-weight:700;font-size:1.8rem;
-  cursor:pointer;width:4.2rem;height:4.2rem;border-radius:14px;
-  border:3px solid var(--ink);background:#fff;color:var(--ink);
-  box-shadow:0 3px 0 var(--ink);transition:.14s;
-}
-.mitem:hover:not([data-s="hit"]){background:var(--ground-2)}
-.mitem:active:not([data-s="hit"]){transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
-.mitem[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 3px 0 var(--accent)}
+/* 中間那道空隙就是連線要穿過去的地方 */
+.link__grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:.7rem 5rem}
+.link__col{display:flex;flex-direction:column;gap:.7rem}
 
-/* 右邊：三種打法的卡片 */
-.mcard{
-  font:inherit;text-align:left;cursor:pointer;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.5rem 1rem;
-  padding:.8rem 1rem;border-radius:14px;
+/* 線畫在最上層，但不能擋住按鈕 */
+.link__wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+
+.lnode,.lslot{
+  font:inherit;cursor:pointer;text-align:center;
+  padding:.7rem .8rem;border-radius:12px;transition:.14s;
   border:2.5px solid var(--rule);background:var(--ground-2);color:var(--ink);
-  transition:.14s;
 }
-.mcard:hover:not([data-s="hit"]){background:#fff;border-color:var(--ink-soft)}
-.mcard__r{display:flex;align-items:baseline;gap:.5rem;min-width:0}
-.mcard__r b{
-  font-family:var(--display);font-weight:600;font-size:.72rem;letter-spacing:.06em;
-  color:var(--ink-soft);white-space:nowrap;
-}
-.mcard__r span{font-weight:700;font-size:1.05rem;letter-spacing:.04em}
+.lnode{font-family:var(--display);font-weight:600;font-size:1rem}
+.lslot{font-weight:700;font-size:1.15rem;letter-spacing:.05em}
 
-/* 配對成功：兩邊一起變綠、不能再點 */
-.mitem[data-s="hit"],
-.mcard[data-s="hit"]{
-  background:var(--go-soft);border-color:var(--go);color:var(--ink);
-  cursor:default;
-}
-.mitem[data-s="hit"]{box-shadow:0 3px 0 var(--go)}
-.mcard[data-s="hit"] .mcard__r b{color:var(--go)}
+.lnode:hover:not([data-s="hit"]),
+.lslot:hover:not([data-s="hit"]){background:#fff;border-color:var(--ink-soft)}
 
-/* 配錯：閃一下紅色就恢復，不留下懲罰感 */
-.mitem[data-s="miss"],
-.mcard[data-s="miss"]{animation:mshake .34s ease both;background:var(--accent-soft);border-color:var(--accent)}
-@keyframes mshake{
+/* 選中的那一個 */
+.lnode[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+/* 連對：兩邊一起變綠並鎖住 */
+.lnode[data-s="hit"],.lslot[data-s="hit"]{
+  background:var(--go-soft);border-color:var(--go);color:var(--ink);cursor:default;
+}
+
+/* 連錯：閃一下紅色 */
+.lnode[data-s="miss"],.lslot[data-s="miss"]{
+  animation:lshake .34s ease both;background:var(--accent-soft);border-color:var(--accent);
+}
+@keyframes lshake{
   0%,100%{transform:translateX(0)}
   25%{transform:translateX(-5px)}
   75%{transform:translateX(5px)}
 }
 
-.match__say{
-  margin:1rem 0 0;padding:.8rem 1rem;border-radius:12px;font-size:.9rem;
-  line-height:1.7;color:var(--ink-soft);
-  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+/* 連好的線：綠色，畫的時候從左往右長出來 */
+.link__wires line{
+  stroke:var(--go);stroke-width:4;stroke-linecap:round;
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  animation:ldraw .4s cubic-bezier(.32,.72,0,1) forwards;
 }
-.match__say:empty{display:none}
-.match__say[data-k="ok"]{background:var(--go-soft);border-left-color:var(--go);color:var(--ink)}
-.match__say[data-k="warn"]{background:#FFF9E6;border-left-color:var(--b-events);color:var(--ink)}
-
-.match__score{
-  margin:1.1rem 0 0;padding:.85rem 1.1rem;border-radius:12px;font-weight:700;
-  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
-}
-.match__score[data-k="all"]{background:var(--go-soft);border-left-color:var(--go)}
+@keyframes ldraw{to{stroke-dashoffset:0}}
 
 @media (max-width:34rem){
-  .match__grid{grid-template-columns:1fr}
-  .match__col{flex-direction:row;flex-wrap:wrap}
-  .mitem{width:3.4rem;height:3.4rem;font-size:1.4rem}
-  .mcard{width:100%}
+  .link__grid{gap:.6rem 2.2rem}
+  .lslot{font-size:1rem}
 }
+@media (prefers-reduced-motion:reduce){
+  .lnode[data-s="miss"],.lslot[data-s="miss"]{animation:none}
+  .link__wires line{animation:none;stroke-dashoffset:0}
+}
+
+/* ═══ 打單字的兩行四列版面 ══════════════════════════════════
+   打一個字不需要整行的空間，排成格子比較好掃。
+   放在 .trace 裡面包住那幾個 .trow 就好。              */
+.tgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem}
+.tgrid .trow{margin-bottom:0;padding:.8rem .7rem}
+.tgrid .trow__want{justify-content:center;margin-bottom:.55rem}
+.tgrid .trow input{text-align:center;font-size:1.05rem;padding:.4rem .5rem}
+@media (max-width:52rem){.tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ═══ 元件 13：總成績 ═══════════════════════════════════════
    總測驗最底下那一條。自己去數整頁所有題目裡答對了幾題，
@@ -975,6 +973,5 @@ kbd,.k{
 .tally[data-k="all"] .tally__bar i{background:#fff}
 
 @media (prefers-reduced-motion:reduce){
-  .mitem[data-s="miss"],.mcard[data-s="miss"]{animation:none}
   .tally__bar i{transition:none}
 }

@@ -811,95 +811,92 @@ document.querySelectorAll('.radbox').forEach(box => {
   });
 });
 
-/* ── 元件 12：配合題 ────────────────────────────────────────
-   點左邊一個字、再點右邊一張卡，配對正確就一起鎖成綠色。
+/* ── 元件 12：連連看 ────────────────────────────────────────
+   一個字一組：左邊三個標籤（注音／拼音／倉頡），
+   右邊三個打散的碼，把對應的兩邊連起來。
 
-   刻意不做「送出」鈕：點下去馬上知道對不對，
-   跟前面幾課的即時回饋一致。配錯只閃一下紅色，不扣分、可以再試。
+   點左邊一個、再點右邊一個就連一條線。
+   連對 → 兩邊變綠、線留著；連錯 → 閃一下紅色、放掉選取。
 
-   HTML：<div class="match" data-done="…">
-           <div class="match__grid">
-             <div class="match__col"><button class="mitem" data-pair="fan">範</button></div>
-             <div class="match__col"><button class="mcard" data-pair="fan">…</button></div>
-           </div>
-           <p class="match__say"></p>
-           <p class="match__score"></p>
-         </div>
+   ⚠️ 這是測驗不是講義：全程<strong>不出現任何文字回饋</strong>，
+      對錯只用顏色和線表示。
 
-   ⚠️ 左右兩邊用 data-pair 的值配對，值一樣就是一組。
-      HTML 裡右邊的順序要故意打亂，不然照著排就配完了。      */
-document.querySelectorAll('.match').forEach(box => {
-  const items = [...box.querySelectorAll('.mitem')];
-  const cards = [...box.querySelectorAll('.mcard')];
-  const score = box.querySelector('.match__score');
-  const say   = box.querySelector('.match__say');
-  if (!items.length || !cards.length) return;
+   ⚠️ 線是 SVG 畫的，座標要在版面算好之後才量得到 ——
+      視窗改變大小、字體載入完成都會讓位置跑掉，所以用
+      ResizeObserver 盯著，一有變動就重畫。                 */
+document.querySelectorAll('.link').forEach(box => {
+  const grid  = box.querySelector('.link__grid');
+  const wires = box.querySelector('.link__wires');
+  const nodes = [...box.querySelectorAll('.lnode')];   // 左邊：標籤
+  const slots = [...box.querySelectorAll('.lslot')];   // 右邊：碼
+  if (!grid || !wires || !nodes.length || !slots.length) return;
 
-  let picked = null;                       // 目前選中的那個字
+  const NS = 'http://www.w3.org/2000/svg';
+  const joined = [];                     // 已經連好的組：{node, slot}
+  let picked = null;
 
-  const tell = (msg, kind) => {
-    if (!say) return;
-    say.innerHTML = msg || '';
-    if (kind) say.dataset.k = kind; else delete say.dataset.k;
+  const clearPick = () => {
+    nodes.forEach(n => n.setAttribute('aria-pressed', 'false'));
+    picked = null;
   };
 
-  const tally = () => {
-    if (!score) return;
-    const n = items.filter(i => i.dataset.s === 'hit').length;
-    const all = n === items.length;
-    score.innerHTML = all
-      ? (box.dataset.done || '🎉 全部配對成功！')
-      : '配對成功 ' + n + ' / ' + items.length + ' 組。';
-    if (all) score.dataset.k = 'all'; else delete score.dataset.k;
-  };
-
-  /* 閃一下紅色就恢復，不要留著懲罰學生 */
+  /* 閃一下紅色就恢復，不留懲罰感 */
   const flash = el => {
     el.dataset.s = 'miss';
     setTimeout(() => { if (el.dataset.s === 'miss') delete el.dataset.s; }, 600);
   };
 
-  const clearPick = () => {
-    items.forEach(i => i.setAttribute('aria-pressed', 'false'));
-    picked = null;
+  /* 把已連好的線全部重畫一次（位置會隨版面變動） */
+  const draw = () => {
+    wires.textContent = '';
+    const base = grid.getBoundingClientRect();
+    joined.forEach(({node, slot}) => {
+      const a = node.getBoundingClientRect();
+      const b = slot.getBoundingClientRect();
+      const x1 = a.right - base.left, y1 = a.top - base.top + a.height / 2;
+      const x2 = b.left  - base.left, y2 = b.top - base.top + b.height / 2;
+      const line = document.createElementNS(NS, 'line');
+      line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+      // 讓線有「長出來」的動畫：先算出長度給 CSS 當 dash 長度
+      line.style.setProperty('--len', Math.hypot(x2 - x1, y2 - y1).toFixed(1));
+      wires.appendChild(line);
+    });
   };
 
-  items.forEach(item => {
-    item.setAttribute('aria-pressed', 'false');
-    item.addEventListener('click', () => {
-      if (item.dataset.s === 'hit') return;             // 配好了就不能再動
-      const same = picked === item;
+  nodes.forEach(node => {
+    node.setAttribute('aria-pressed', 'false');
+    node.addEventListener('click', () => {
+      if (node.dataset.s === 'hit') return;          // 連好了就不能再動
+      const same = picked === node;
       clearPick();
-      if (same) return tell('');                        // 再點一次取消選取
-      picked = item;
-      item.setAttribute('aria-pressed', 'true');
-      tell('選好了「<b>' + item.textContent.trim() + '</b>」，現在點右邊那張你覺得對的卡片。');
+      if (same) return;                              // 再點一次取消選取
+      picked = node;
+      node.setAttribute('aria-pressed', 'true');
     });
   });
 
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      if (card.dataset.s === 'hit') return;
-      if (!picked) return tell('先點左邊的字，再點卡片。', 'warn');
-
-      if (card.dataset.pair === picked.dataset.pair) {
+  slots.forEach(slot => {
+    slot.addEventListener('click', () => {
+      if (slot.dataset.s === 'hit' || !picked) return;
+      if (slot.dataset.pair === picked.dataset.pair) {
         picked.dataset.s = 'hit';
-        card.dataset.s = 'hit';
-        tell('配對成功！「<b>' + picked.textContent.trim() + '</b>」就是這三種打法。', 'ok');
+        slot.dataset.s = 'hit';
+        joined.push({node: picked, slot});
         clearPick();
+        draw();
       } else {
-        flash(card);
+        flash(slot);
         flash(picked);
-        tell('這張不是「<b>' + picked.textContent.trim() + '</b>」的。再看一次注音，唸唸看。', 'warn');
-        // 配錯就把選取放掉：每次都從「先點一個字」重新開始，狀態才不會含糊。
-        // （留著選取的話，學生再點一次同一個字會變成取消選取，反而卡住。）
+        // 連錯就放掉選取：每次都從「先點左邊」重新開始，狀態才不含糊
         clearPick();
       }
-      tally();
     });
   });
 
-  tally();
+  /* 版面一變（視窗縮放、字體載入完成、上面的題目展開）線就得重畫 */
+  if (window.ResizeObserver) new ResizeObserver(draw).observe(grid);
+  addEventListener('resize', draw);
 });
 
 /* ── 元件 13：總成績 ────────────────────────────────────────
@@ -909,13 +906,13 @@ document.querySelectorAll('.match').forEach(box => {
    考試感會讓慢的學生放棄。這裡只是把散在各大題的
    即時回饋加總起來，讓學生看得到自己走到哪。
 
-   所有題型（.sym / .trow / .hkrow / .mitem）答對時都會被
+   所有題型（.sym / .trow / .hkrow / .lnode）答對時都會被
    各自的元件標上 data-s="hit"，所以這裡只要盯著那個屬性就好，
    不用跟每個元件各接一次。
 
    HTML：<div class="tally" data-done="…全部答對的話…"></div>   */
 document.querySelectorAll('.tally').forEach(box => {
-  const SEL = '.sym, .trow, .hkrow, .mitem';
+  const SEL = '.sym, .trow, .hkrow, .lnode';
   const all = [...document.querySelectorAll(SEL)];
   if (!all.length) { box.hidden = true; return; }
 
