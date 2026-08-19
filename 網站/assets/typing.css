@@ -848,3 +848,133 @@ kbd,.k{
 .radbox__say:empty{display:none}
 .radbox__say[data-k="ok"]{background:var(--go-soft);border-left-color:var(--go);color:var(--ink)}
 .radbox__say[data-k="warn"]{background:#FFF9E6;border-left-color:var(--b-events);color:var(--ink)}
+
+/* ═══ 元件 12：配合題（點兩邊配對）══════════════════════════
+   左邊一排字、右邊一排打法卡，點一個字再點一張卡就配一次。
+   配對正確 → 兩邊一起變綠並鎖住；錯了 → 閃一下紅色，可以再試。
+
+   刻意<strong>不做「送出」</strong>：點下去馬上知道對不對，
+   跟前面幾課的即時回饋一致。
+
+   HTML：<div class="match" data-done="…全部配對完的話…">
+           <div class="match__grid">
+             <div class="match__col">
+               <button class="mitem" data-pair="fan">範</button>
+             </div>
+             <div class="match__col">
+               <button class="mcard" data-pair="fan">…注音／拼音／倉頡…</button>
+             </div>
+           </div>
+           <p class="match__score"></p>
+         </div>                                                */
+.match{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:1.5rem;margin:1.75rem 0;box-shadow:var(--shadow-md)}
+.match__grid{display:grid;grid-template-columns:auto 1fr;gap:.8rem 1.1rem;align-items:start}
+.match__col{display:flex;flex-direction:column;gap:.7rem}
+.match__head{
+  font-family:var(--display);font-weight:600;font-size:.78rem;letter-spacing:.08em;
+  color:var(--ink-soft);margin:0 0 .1rem;
+}
+
+/* 左邊：要配對的字 */
+.mitem{
+  font:inherit;font-family:var(--display);font-weight:700;font-size:1.8rem;
+  cursor:pointer;width:4.2rem;height:4.2rem;border-radius:14px;
+  border:3px solid var(--ink);background:#fff;color:var(--ink);
+  box-shadow:0 3px 0 var(--ink);transition:.14s;
+}
+.mitem:hover:not([data-s="hit"]){background:var(--ground-2)}
+.mitem:active:not([data-s="hit"]){transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.mitem[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 3px 0 var(--accent)}
+
+/* 右邊：三種打法的卡片 */
+.mcard{
+  font:inherit;text-align:left;cursor:pointer;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:.5rem 1rem;
+  padding:.8rem 1rem;border-radius:14px;
+  border:2.5px solid var(--rule);background:var(--ground-2);color:var(--ink);
+  transition:.14s;
+}
+.mcard:hover:not([data-s="hit"]){background:#fff;border-color:var(--ink-soft)}
+.mcard__r{display:flex;align-items:baseline;gap:.5rem;min-width:0}
+.mcard__r b{
+  font-family:var(--display);font-weight:600;font-size:.72rem;letter-spacing:.06em;
+  color:var(--ink-soft);white-space:nowrap;
+}
+.mcard__r span{font-weight:700;font-size:1.05rem;letter-spacing:.04em}
+
+/* 配對成功：兩邊一起變綠、不能再點 */
+.mitem[data-s="hit"],
+.mcard[data-s="hit"]{
+  background:var(--go-soft);border-color:var(--go);color:var(--ink);
+  cursor:default;
+}
+.mitem[data-s="hit"]{box-shadow:0 3px 0 var(--go)}
+.mcard[data-s="hit"] .mcard__r b{color:var(--go)}
+
+/* 配錯：閃一下紅色就恢復，不留下懲罰感 */
+.mitem[data-s="miss"],
+.mcard[data-s="miss"]{animation:mshake .34s ease both;background:var(--accent-soft);border-color:var(--accent)}
+@keyframes mshake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  75%{transform:translateX(5px)}
+}
+
+.match__say{
+  margin:1rem 0 0;padding:.8rem 1rem;border-radius:12px;font-size:.9rem;
+  line-height:1.7;color:var(--ink-soft);
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.match__say:empty{display:none}
+.match__say[data-k="ok"]{background:var(--go-soft);border-left-color:var(--go);color:var(--ink)}
+.match__say[data-k="warn"]{background:#FFF9E6;border-left-color:var(--b-events);color:var(--ink)}
+
+.match__score{
+  margin:1.1rem 0 0;padding:.85rem 1.1rem;border-radius:12px;font-weight:700;
+  background:var(--ground-2);border-left:5px solid var(--rule);transition:.2s;
+}
+.match__score[data-k="all"]{background:var(--go-soft);border-left-color:var(--go)}
+
+@media (max-width:34rem){
+  .match__grid{grid-template-columns:1fr}
+  .match__col{flex-direction:row;flex-wrap:wrap}
+  .mitem{width:3.4rem;height:3.4rem;font-size:1.4rem}
+  .mcard{width:100%}
+}
+
+/* ═══ 元件 13：總成績 ═══════════════════════════════════════
+   總測驗最底下那一條。自己去數整頁所有題目裡答對了幾題，
+   不用送出、不用算分——學生答對一題就馬上跳一次。
+
+   HTML：<div class="tally" data-done="…全部答對的話…"></div>      */
+.tally{
+  position:sticky;bottom:1rem;z-index:5;
+  margin:2.5rem 0 0;padding:1.1rem 1.4rem;border-radius:16px;
+  background:var(--ink);color:var(--ground);
+  border:3px solid var(--ink);box-shadow:var(--shadow-lg);
+  font-family:var(--display);font-weight:700;font-size:1.15rem;
+  display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;
+  transition:.25s;
+}
+.tally b{font-size:1.6rem;color:#FFBF00;font-variant-numeric:tabular-nums}
+.tally small{font-family:var(--body);font-weight:500;font-size:.85rem;opacity:.8}
+
+/* 進度條：答對越多越長 */
+.tally__bar{
+  flex:1 1 8rem;height:.7rem;border-radius:999px;
+  background:rgba(251,246,236,.2);overflow:hidden;min-width:6rem;
+}
+.tally__bar i{
+  display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),#FFBF00);
+  transition:width .45s cubic-bezier(.32,.72,0,1);
+}
+/* 全部答對 → 整條變綠 */
+.tally[data-k="all"]{background:var(--go);border-color:var(--go)}
+.tally[data-k="all"] b{color:#fff}
+.tally[data-k="all"] .tally__bar i{background:#fff}
+
+@media (prefers-reduced-motion:reduce){
+  .mitem[data-s="miss"],.mcard[data-s="miss"]{animation:none}
+  .tally__bar i{transition:none}
+}

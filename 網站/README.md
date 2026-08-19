@@ -453,6 +453,53 @@ python -m http.server 8765 --directory 課程講義/網站
 
 > ⚠️ 不能直接沿用三顆燈實驗的 `.lampbd`——那組樣式裡混了燈泡按鈕專用的規則。
 
+### 配合題
+
+點左邊一個字、再點右邊一張卡就配一次。配對成功兩邊一起變綠並鎖住，
+配錯只閃一下紅色、放掉選取，可以再試。**沒有「送出」鈕**。
+
+```html
+<div class="match" data-done="🎉 全部配對成功！">
+  <div class="match__grid">
+    <div class="match__col">
+      <p class="match__head">字</p>
+      <button class="mitem" type="button" data-pair="fan">範</button>
+    </div>
+    <div class="match__col">
+      <p class="match__head">三種打法</p>
+      <button class="mcard" type="button" data-pair="fan">
+        <span class="mcard__r"><b>注音</b><span>ㄈㄢˋ</span></span>
+        <span class="mcard__r"><b>拼音</b><span>fan</span></span>
+        <span class="mcard__r"><b>倉頡</b><span>竹十弓山</span></span>
+      </button>
+    </div>
+  </div>
+  <p class="match__say"></p>
+  <p class="match__score"></p>
+</div>
+```
+
+> ⚠️ 左右兩邊靠 `data-pair` 的值配對，值一樣就是一組。
+> **右邊卡片的順序要故意跟左邊不一樣**，不然照著排就配完了。
+
+### 總成績
+
+測驗頁最底下那一條，會自己去數整頁**所有題目**答對了幾題，
+釘在畫面下緣（sticky），學生答對一題就跳一次。
+
+```html
+<div class="tally" data-done="全部答對，太厲害了 🎉"></div>
+```
+
+裡面的內容是 JS 生的，HTML 只要放這一個空的 `<div>`。
+它認得的題型是 `.sym`／`.trow`／`.hkrow`／`.mitem`——
+這四種答對時都會被各自的元件標上 `data-s="hit"`，
+所以**新增題型時，只要那個元件也用 `data-s="hit"` 標答對，就會自動被算進去**
+（要記得把新的 selector 加進 `typing.js` 元件 13 的 `SEL`）。
+
+> 刻意不做「送出」和「分數」——課程地圖寫得很清楚：考試感會讓慢的學生放棄。
+> 這裡只是把散在各大題的即時回饋加總起來。
+
 ---
 
 ## 右側進度脊椎
