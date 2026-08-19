@@ -8,219 +8,325 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/lesson.css?v=4">
-<link rel="stylesheet" href="assets/home.css?v=4">
+<link rel="stylesheet" href="assets/home.css?v=5">
 </head>
-<body>
+<body class="home">
 
-<!-- ══════ 首頁大標 ══════ -->
-<header class="hero">
-  <div class="wrap">
-    <span class="tag">國小電腦課</span>
-    <h1>今天要學<em>什麼？</em></h1>
-    <p class="hero__sub">點下面的課，就會打開那一課的講義。<br>沒上完也沒關係，隨時可以回來從頭看。</p>
-  </div>
-</header>
+<a class="skiplink" href="#panel">跳到課程內容</a>
 
-<main class="wrap">
+<div class="shell">
 
-<!-- ══════ 課程一：Scratch 入門（進行中）══════ -->
-<section class="course">
-  <div class="course__head">
-    <span class="badge badge--live">進行中</span>
-    <h2>Scratch 入門</h2>
-    <p class="course__meta">中年級 · 一學期 17 節 · 五個單元</p>
+<!-- ══════ 側欄：課程永遠在這裡，不用捲頁就能換課 ══════ -->
+<aside class="side">
+
+  <div class="side__brand">
+    <span class="side__kicker">國小電腦課</span>
+    <b>課程總覽</b>
   </div>
 
-  <!-- 單元一 -->
-  <div class="unit">
-    <h3 class="unit__t"><span>單元一</span>第一次玩 Scratch <small>從零開始，學會存檔</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="lessons/01-讓小貓動起來.html">
-        <span class="lcard__n">1</span>
-        <b>讓小貓動起來</b>
-        <small>認識畫面四區、綠旗、移動、說話</small>
-      </a>
-      <a class="lcard" href="lessons/02-換一個主角.html">
-        <span class="lcard__n">2</span>
-        <b>換一個主角</b>
-        <small>角色庫、背景庫，還有最重要的<b>存檔</b></small>
-      </a>
-      <a class="lcard" href="lessons/03-轉個彎變個樣.html">
-        <span class="lcard__n">3</span>
-        <b>轉個彎，變個樣</b>
-        <small>右轉左轉、變大變小、換造型</small>
-      </a>
+  <nav class="side__group" aria-label="進行中的課程">
+    <p class="side__label">進行中</p>
+    <a class="cnav" href="#course-scratch" data-panel="course-scratch">
+      <span class="cnav__dot"></span>
+      <span class="cnav__t">Scratch 入門</span>
+      <span class="cnav__n">17</span>
+    </a>
+    <a class="cnav" href="#course-typing" data-panel="course-typing">
+      <span class="cnav__dot"></span>
+      <span class="cnav__t">中文打字</span>
+      <span class="cnav__n">4</span>
+    </a>
+  </nav>
+
+  <nav class="side__group" aria-label="準備中的課程">
+    <p class="side__label">準備中</p>
+    <a class="cnav cnav--soon" href="#course-advanced" data-panel="course-advanced">
+      <svg class="cnav__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span class="cnav__t">Scratch 進階</span>
+    </a>
+    <a class="cnav cnav--soon" href="#course-hardware" data-panel="course-hardware">
+      <svg class="cnav__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span class="cnav__t">Arduino / micro:bit</span>
+    </a>
+    <a class="cnav cnav--soon" href="#course-literacy" data-panel="course-literacy">
+      <svg class="cnav__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span class="cnav__t">資訊素養</span>
+    </a>
+  </nav>
+
+  <div class="side__foot">
+    <a class="cnav" href="#course-teacher" data-panel="course-teacher">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <span class="cnav__t">給老師 · 小工具</span>
+    </a>
+  </div>
+
+</aside>
+
+<!-- ══════ 內容區：一次只顯示一門課 ══════ -->
+<main class="panel" id="panel">
+
+<!-- ────── 課程一：Scratch 入門 ────── -->
+<section class="course" id="course-scratch">
+  <header class="course__head">
+    <div class="course__title">
+      <h1 tabindex="-1">Scratch 入門</h1>
+      <span class="badge badge--live">進行中</span>
     </div>
-  </div>
+    <p class="course__meta">中年級 · 一學期 17 節 · 六個單元</p>
+  </header>
 
-  <!-- 單元二 -->
-  <div class="unit">
-    <h3 class="unit__t"><span>單元二</span>動畫與聲音 <small>讓電腦幫你重複做</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="lessons/04-重複做.html">
-        <span class="lcard__n">4</span>
-        <b>重複做</b>
-        <small>一塊積木取代八塊，畫出正方形</small>
-      </a>
-      <a class="lcard" href="lessons/05-一直做等一下加聲音.html">
-        <span class="lcard__n">5</span>
-        <b>一直做、等一下、加聲音</b>
-        <small>重複無限次、等待、播放音效</small>
-      </a>
-      <a class="lcard lcard--work" href="lessons/06-作品-走路動畫.html">
-        <span class="lcard__n">★</span>
-        <b>作品：走路動畫</b>
-        <small>第 6 節 · 做一個真的在走路的角色</small>
-      </a>
-    </div>
-  </div>
+  <div class="course__tools"><button class="toggleall" type="button">全部展開</button></div>
 
-  <!-- 單元三 -->
-  <div class="unit">
-    <h3 class="unit__t"><span>單元三</span>你來控制 <small>從「看」變成「玩」</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="lessons/07-按鍵盤讓它動.html">
-        <span class="lcard__n">7</span>
-        <b>按鍵盤，讓它動</b>
-        <small>當按鍵被按下，程式可以有很多串</small>
-      </a>
-      <a class="lcard" href="lessons/08-上下左右別跑出去.html">
-        <span class="lcard__n">8</span>
-        <b>上下左右，別跑出去</b>
-        <small>面朝四個方向、碰到邊緣就反彈</small>
-      </a>
-      <a class="lcard lcard--work" href="lessons/09-作品-可以操控的角色.html">
-        <span class="lcard__n">★</span>
-        <b>作品：可以操控的角色</b>
-        <small>第 9 節 · 第一個別人可以玩的東西</small>
-      </a>
-    </div>
-  </div>
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">單元一</span>
+      <span class="unit__t">第一次玩 Scratch</span>
+      <small class="unit__s">從零開始，學會存檔</small>
+      <span class="unit__c">3 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="lessons/01-讓小貓動起來.html">
+        <span class="ls__n">1</span>
+        <span class="ls__txt"><b class="ls__t">讓小貓動起來</b><small class="ls__s">認識畫面四區、綠旗、移動、說話</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="lessons/02-換一個主角.html">
+        <span class="ls__n">2</span>
+        <span class="ls__txt"><b class="ls__t">換一個主角</b><small class="ls__s">角色庫、背景庫，還有最重要的存檔</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="lessons/03-轉個彎變個樣.html">
+        <span class="ls__n">3</span>
+        <span class="ls__txt"><b class="ls__t">轉個彎，變個樣</b><small class="ls__s">右轉左轉、變大變小、換造型</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
 
-  <!-- 單元四 -->
-  <div class="unit">
-    <h3 class="unit__t"><span>單元四</span>角色之間的合作 <small>本學期的重頭戲：廣播</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="lessons/10-加入第二個角色.html">
-        <span class="lcard__n">10</span>
-        <b>加入第二個角色</b>
-        <small>兩個角色對話，然後你會發現很難</small>
-      </a>
-      <a class="lcard" href="lessons/11-廣播喊一聲大家都聽到.html">
-        <span class="lcard__n">11</span>
-        <b>廣播：喊一聲，大家都聽到</b>
-        <small>上一課那個問題，這一課解決</small>
-      </a>
-      <a class="lcard" href="lessons/12-一聲令下全部一起動.html">
-        <span class="lcard__n">12</span>
-        <b>一聲令下，全部一起動</b>
-        <small>一個訊息叫醒一整群、用廣播換場景</small>
-      </a>
-      <a class="lcard lcard--work" href="lessons/13-作品-兩人小短劇.html">
-        <span class="lcard__n">★</span>
-        <b>作品：兩人小短劇</b>
-        <small>第 13 節 · 先寫劇本，再寫程式</small>
-      </a>
-    </div>
-  </div>
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元二</span>
+      <span class="unit__t">動畫與聲音</span>
+      <small class="unit__s">讓電腦幫你重複做</small>
+      <span class="unit__c">3 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="lessons/04-重複做.html">
+        <span class="ls__n">4</span>
+        <span class="ls__txt"><b class="ls__t">重複做</b><small class="ls__s">一塊積木取代八塊，畫出正方形</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="lessons/05-一直做等一下加聲音.html">
+        <span class="ls__n">5</span>
+        <span class="ls__txt"><b class="ls__t">一直做、等一下、加聲音</b><small class="ls__s">重複無限次、等待、播放音效</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li class="ls--work"><a href="lessons/06-作品-走路動畫.html">
+        <span class="ls__n">6</span>
+        <span class="ls__txt"><b class="ls__t">走路動畫</b><span class="tag tag--work">作品</span><small class="ls__s">做一個真的在走路的角色</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
 
-  <!-- 單元五 -->
-  <div class="unit">
-    <h3 class="unit__t"><span>單元五</span>會判斷的程式 <small>做遊戲的關鍵</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="lessons/14-碰到就有事發生.html">
-        <span class="lcard__n">14</span>
-        <b>碰到就有事發生</b>
-        <small>如果⋯那麼、碰到偵測</small>
-      </a>
-      <a class="lcard lcard--work" href="lessons/15-作品-小小躲避遊戲.html">
-        <span class="lcard__n">★</span>
-        <b>作品：小小躲避遊戲</b>
-        <small>第 15 節 · 一個真正能玩的遊戲</small>
-      </a>
-    </div>
-  </div>
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元三</span>
+      <span class="unit__t">你來控制</span>
+      <small class="unit__s">從「看」變成「玩」</small>
+      <span class="unit__c">3 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="lessons/07-按鍵盤讓它動.html">
+        <span class="ls__n">7</span>
+        <span class="ls__txt"><b class="ls__t">按鍵盤，讓它動</b><small class="ls__s">當按鍵被按下，程式可以有很多串</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="lessons/08-上下左右別跑出去.html">
+        <span class="ls__n">8</span>
+        <span class="ls__txt"><b class="ls__t">上下左右，別跑出去</b><small class="ls__s">面朝四個方向、碰到邊緣就反彈</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li class="ls--work"><a href="lessons/09-作品-可以操控的角色.html">
+        <span class="ls__n">9</span>
+        <span class="ls__txt"><b class="ls__t">可以操控的角色</b><span class="tag tag--work">作品</span><small class="ls__s">第一個別人可以玩的東西</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
 
-  <!-- 單元六 -->
-  <div class="unit">
-    <h3 class="unit__t"><span>單元六</span>期末專題 <small>題目自己出</small></h3>
-    <div class="lgrid">
-      <a class="lcard lcard--final" href="lessons/16-期末專題-想一個作品.html">
-        <span class="lcard__n">16</span>
-        <b>想一個作品，開始做</b>
-        <small>挑類型、寫規劃單、動手</small>
-      </a>
-      <a class="lcard lcard--final" href="lessons/17-期末專題-完成與發表.html">
-        <span class="lcard__n">17</span>
-        <b>完成與發表</b>
-        <small>收尾、除錯，然後演給大家看</small>
-      </a>
-    </div>
-  </div>
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元四</span>
+      <span class="unit__t">角色之間的合作</span>
+      <small class="unit__s">本學期的重頭戲：廣播</small>
+      <span class="unit__c">4 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="lessons/10-加入第二個角色.html">
+        <span class="ls__n">10</span>
+        <span class="ls__txt"><b class="ls__t">加入第二個角色</b><small class="ls__s">兩個角色對話，然後你會發現很難</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="lessons/11-廣播喊一聲大家都聽到.html">
+        <span class="ls__n">11</span>
+        <span class="ls__txt"><b class="ls__t">廣播：喊一聲，大家都聽到</b><small class="ls__s">上一課那個問題，這一課解決</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="lessons/12-一聲令下全部一起動.html">
+        <span class="ls__n">12</span>
+        <span class="ls__txt"><b class="ls__t">一聲令下，全部一起動</b><small class="ls__s">一個訊息叫醒一整群、用廣播換場景</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li class="ls--work"><a href="lessons/13-作品-兩人小短劇.html">
+        <span class="ls__n">13</span>
+        <span class="ls__txt"><b class="ls__t">兩人小短劇</b><span class="tag tag--work">作品</span><small class="ls__s">先寫劇本，再寫程式</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
+
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元五</span>
+      <span class="unit__t">會判斷的程式</span>
+      <small class="unit__s">做遊戲的關鍵</small>
+      <span class="unit__c">2 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="lessons/14-碰到就有事發生.html">
+        <span class="ls__n">14</span>
+        <span class="ls__txt"><b class="ls__t">碰到就有事發生</b><small class="ls__s">如果⋯那麼、碰到偵測</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li class="ls--work"><a href="lessons/15-作品-小小躲避遊戲.html">
+        <span class="ls__n">15</span>
+        <span class="ls__txt"><b class="ls__t">小小躲避遊戲</b><span class="tag tag--work">作品</span><small class="ls__s">一個真正能玩的遊戲</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
+
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元六</span>
+      <span class="unit__t">期末專題</span>
+      <small class="unit__s">題目自己出</small>
+      <span class="unit__c">2 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li class="ls--final"><a href="lessons/16-期末專題-想一個作品.html">
+        <span class="ls__n">16</span>
+        <span class="ls__txt"><b class="ls__t">想一個作品，開始做</b><span class="tag tag--final">專題</span><small class="ls__s">挑類型、寫規劃單、動手</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li class="ls--final"><a href="lessons/17-期末專題-完成與發表.html">
+        <span class="ls__n">17</span>
+        <span class="ls__txt"><b class="ls__t">完成與發表</b><span class="tag tag--final">專題</span><small class="ls__s">收尾、除錯，然後演給大家看</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
 </section>
 
-<!-- ══════ 課程二：中文打字（製作中）══════ -->
-<section class="course">
-  <div class="course__head">
-    <span class="badge badge--live">進行中</span>
-    <h2>中文打字</h2>
+<!-- ────── 課程二：中文打字 ────── -->
+<section class="course" id="course-typing">
+  <header class="course__head">
+    <div class="course__title">
+      <h1 tabindex="-1">中文打字</h1>
+      <span class="badge badge--live">進行中</span>
+    </div>
     <p class="course__meta">中年級 · 共 4 節 · 已經會打一點字的學生</p>
-  </div>
+  </header>
 
-  <div class="unit">
-    <h3 class="unit__t"><span>第 1 節</span>先把鍵盤認清楚 <small>五個區，一區一區來</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="typing/01-鍵盤大導覽.html">
-        <span class="lcard__n">1</span>
-        <b>鍵盤大導覽</b>
-        <small>五個分區、編輯鍵、還有右上角那三顆燈</small>
-      </a>
-    </div>
-  </div>
+  <div class="course__tools"><button class="toggleall" type="button">全部展開</button></div>
 
-  <div class="unit">
-    <h3 class="unit__t"><span>第 2 節</span>把中文字打出來 <small>注音的規律，還有讓電腦幫忙選字</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="typing/02-注音怎麼變成中文字.html">
-        <span class="lcard__n">2</span>
-        <b>注音怎麼變成中文字</b>
-        <small>注音鍵位的直行規律、五個聲調、整串打完再選字</small>
-      </a>
-    </div>
-  </div>
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">第 1 節</span>
+      <span class="unit__t">先把鍵盤認清楚</span>
+      <small class="unit__s">五個區，一區一區來</small>
+      <span class="unit__c">1 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="typing/01-鍵盤大導覽.html">
+        <span class="ls__n">1</span>
+        <span class="ls__txt"><b class="ls__t">鍵盤大導覽</b><small class="ls__s">五個分區、編輯鍵、還有右上角那三顆燈</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
 
-  <div class="unit">
-    <h3 class="unit__t"><span>第 3 節</span>手不要離開鍵盤 <small>改錯字、快捷鍵、截圖</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="typing/03-手不要離開鍵盤.html">
-        <span class="lcard__n">3</span>
-        <b>手不要離開鍵盤</b>
-        <small>不整句重打、組合鍵要按住、Win+Shift+S 截圖流程</small>
-      </a>
-    </div>
-  </div>
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">第 2 節</span>
+      <span class="unit__t">把中文字打出來</span>
+      <small class="unit__s">注音的規律，還有讓電腦幫忙選字</small>
+      <span class="unit__c">1 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="typing/02-注音怎麼變成中文字.html">
+        <span class="ls__n">2</span>
+        <span class="ls__txt"><b class="ls__t">注音怎麼變成中文字</b><small class="ls__s">注音鍵位的直行規律、五個聲調、整串打完再選字</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
 
-  <div class="unit">
-    <h3 class="unit__t"><span>第 4 節</span>輸入法大觀園 <small>注音、拼音、倉頡、無蝦米，原來只分兩派</small></h3>
-    <div class="lgrid">
-      <a class="lcard" href="typing/04-輸入法大觀園.html">
-        <span class="lcard__n">4</span>
-        <b>輸入法大觀園</b>
-        <small>用唸的 vs 用拆的、四種輸入法並排看、選擇你的輸入法</small>
-      </a>
-    </div>
-  </div>
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">第 3 節</span>
+      <span class="unit__t">手不要離開鍵盤</span>
+      <small class="unit__s">改錯字、快捷鍵、截圖</small>
+      <span class="unit__c">1 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="typing/03-手不要離開鍵盤.html">
+        <span class="ls__n">3</span>
+        <span class="ls__txt"><b class="ls__t">手不要離開鍵盤</b><small class="ls__s">不整句重打、組合鍵要按住、Win+Shift+S 截圖流程</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
+
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">第 4 節</span>
+      <span class="unit__t">輸入法大觀園</span>
+      <small class="unit__s">注音、拼音、倉頡、無蝦米，原來只分兩派</small>
+      <span class="unit__c">1 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="typing/04-輸入法大觀園.html">
+        <span class="ls__n">4</span>
+        <span class="ls__txt"><b class="ls__t">輸入法大觀園</b><small class="ls__s">用唸的 vs 用拆的、四種輸入法並排看、選擇你的輸入法</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
 </section>
 
-<!-- ══════ 課程三：預留 ══════ -->
-<section class="course course--soon">
-  <div class="course__head">
-    <span class="badge badge--soon">準備中</span>
-    <h2>Scratch 進階</h2>
+<!-- ────── 課程三：Scratch 進階（準備中）────── -->
+<section class="course" id="course-advanced">
+  <header class="course__head">
+    <div class="course__title">
+      <h1 tabindex="-1">Scratch 進階</h1>
+      <span class="badge badge--soon">準備中</span>
+    </div>
     <p class="course__meta">高年級 · 尚未開始製作</p>
-  </div>
-  <div class="soonbox">
-    <h4>這一區之後放 Scratch 進階的課</h4>
+  </header>
+  <div class="soon">
     <p>入門課刻意沒教的東西，會放在這裡：</p>
     <ul>
       <li><strong>變數</strong>——可以做計分、生命值、倒數計時</li>
@@ -232,15 +338,16 @@
   </div>
 </section>
 
-<!-- ══════ 課程四：預留 ══════ -->
-<section class="course course--soon">
-  <div class="course__head">
-    <span class="badge badge--soon">準備中</span>
-    <h2>Arduino / micro:bit</h2>
+<!-- ────── 課程四：Arduino / micro:bit（準備中）────── -->
+<section class="course" id="course-hardware">
+  <header class="course__head">
+    <div class="course__title">
+      <h1 tabindex="-1">Arduino / micro:bit</h1>
+      <span class="badge badge--soon">準備中</span>
+    </div>
     <p class="course__meta">尚未開始製作</p>
-  </div>
-  <div class="soonbox">
-    <h4>這一區之後放硬體的課</h4>
+  </header>
+  <div class="soon">
     <p>從螢幕裡的程式，變成真的會亮、會響、會動的東西。</p>
     <ul>
       <li>認識板子和接線</li>
@@ -251,17 +358,19 @@
   </div>
 </section>
 
-<!-- ══════ 課程五：預留 ══════ -->
-<section class="course course--soon">
-  <div class="course__head">
-    <span class="badge badge--soon">準備中</span>
-    <h2>資訊素養</h2>
+<!-- ────── 課程五：資訊素養（準備中）────── -->
+<section class="course" id="course-literacy">
+  <header class="course__head">
+    <div class="course__title">
+      <h1 tabindex="-1">資訊素養</h1>
+      <span class="badge badge--soon">準備中</span>
+    </div>
     <p class="course__meta">尚未開始製作</p>
-  </div>
-  <div class="soonbox">
-    <h4>這一區之後放不寫程式的課</h4>
+  </header>
+  <div class="soon">
+    <p>這一區之後放不寫程式的課。</p>
     <ul>
-      <li>檔案管理（打字已獨立成上面的「中文打字」）</li>
+      <li>檔案管理（打字已獨立成「中文打字」）</li>
       <li>網路安全、個資保護</li>
       <li>怎麼查資料、怎麼判斷資料可不可信</li>
       <li>做簡報、做文件</li>
@@ -269,25 +378,39 @@
   </div>
 </section>
 
-<!-- ══════ 給老師 ══════ -->
-<section class="forteacher">
-  <h3>🧑‍🏫 給老師（學生可以跳過這一段）</h3>
-  <p><strong>🧰 小工具</strong>——都是單一檔案、不用安裝、<strong>不上傳、沒網路也能用</strong>：</p>
-  <ul>
-    <li><strong>✂️ <a href="tools/圖片裁剪.html">圖片裁剪工具</a></strong>——切掉不要的部分，或裁成固定比例（16:9、正方形⋯⋯），也可以轉正躺著的照片</li>
-    <li><strong>🖼️ <a href="tools/圖片壓縮.html">圖片壓縮工具</a></strong>——把截圖和照片縮小到適合放進講義的大小（GIF 不能用它壓，要在 ScreenToGif 錄的時候就調小）</li>
-  </ul>
-  <p>兩個可以接著用：<strong>先裁再壓</strong>。</p>
-  <p>要新增一門課，複製上面任何一個「準備中」區塊，把 <code>soonbox</code> 換成 <code>unit</code> ＋ <code>lgrid</code> 就好，樣式會自動套用。</p>
-  <p>課程規劃、教學設計原則、以及每一課的積木對照，都寫在 <code>docs/課程地圖.md</code>。元件用法和維護注意事項在 <code>網站/README.md</code>。</p>
-  <p><strong>改完 <code>assets/</code> 裡的檔案，記得把所有 HTML 的 <code>?v=</code> 版本號加一</strong>——不然學生的瀏覽器會繼續用舊的快取版本。指令在 <code>網站/README.md</code>。</p>
+<!-- ────── 給老師 ────── -->
+<section class="course" id="course-teacher">
+  <header class="course__head">
+    <div class="course__title">
+      <h1 tabindex="-1">給老師</h1>
+    </div>
+    <p class="course__meta">學生可以跳過這一區</p>
+  </header>
+
+  <div class="teacher">
+    <h3>🧰 小工具</h3>
+    <p>都是單一檔案、不用安裝、<strong>不上傳、沒網路也能用</strong>：</p>
+    <ul>
+      <li><strong>✂️ <a href="tools/圖片裁剪.html">圖片裁剪工具</a></strong>——切掉不要的部分，或裁成固定比例（16:9、正方形⋯⋯），也可以轉正躺著的照片</li>
+      <li><strong>🖼️ <a href="tools/圖片壓縮.html">圖片壓縮工具</a></strong>——把截圖和照片縮小到適合放進講義的大小（GIF 不能用它壓，要在 ScreenToGif 錄的時候就調小）</li>
+    </ul>
+    <p>兩個可以接著用：<strong>先裁再壓</strong>。</p>
+
+    <h3>要新增一門課</h3>
+    <p>兩個地方各加一段：側欄的 <code>.cnav</code> 連結，和內容區對應的
+      <code>&lt;section class="course" id="…"&gt;</code>。兩邊的 id 對上就會自動運作，
+      樣式不用另外寫。課的內容用 <code>&lt;details class="unit"&gt;</code> ＋ <code>&lt;ul class="ls"&gt;</code>。</p>
+
+    <h3>維護注意事項</h3>
+    <p>課程規劃、教學設計原則、以及每一課的積木對照，都寫在 <code>docs/課程地圖.md</code>。
+      元件用法和維護注意事項在 <code>網站/README.md</code>。</p>
+    <p><strong>改完 <code>assets/</code> 裡的檔案，記得把所有 HTML 的 <code>?v=</code> 版本號加一</strong>——不然學生的瀏覽器會繼續用舊的快取版本。指令在 <code>網站/README.md</code>。</p>
+  </div>
 </section>
 
-<footer>
-  <p>國小電腦課 · 課程總覽</p>
-</footer>
-
 </main>
+</div>
 
+<script src="assets/home.js?v=1"></script>
 </body>
 </html>

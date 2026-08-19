@@ -8,6 +8,7 @@
 │   ├── lesson.css      ← 所有樣式（改這裡，全部的課一起變）
 │   ├── lesson.js       ← 所有共用互動
 │   ├── home.css        ← 只有首頁 index.html 用
+│   ├── home.js         ← 只有首頁 index.html 用（側欄切換課程）
 │   ├── typing.css      ← 只有「中文打字」那幾課用
 │   └── typing.js       ← 只有「中文打字」那幾課用
 ├── lessons/            ← Scratch 入門 17 課，01 到 17
@@ -479,6 +480,83 @@ python -m http.server 8765 --directory 課程講義/網站
 - 想調整整體風格，改 `lesson.css` 開頭的 `:root` 變數就夠了
 - **Scratch 積木色不要改**——顏色＝分類，是學生要學的訊號
 - 基礎字級 `--base: 18px` 是為中年級設定的，不要調小
+
+---
+
+## 首頁（`index.html`）的結構
+
+首頁是**左邊釘住的課程側欄 ＋ 右邊只顯示選中的那一門課**。
+課程再多，側欄自己捲，右邊永遠只有一門課的份量，不用捲整頁去找課。
+
+```
+.shell
+├── aside.side           ← 側欄：課程清單（進行中／準備中／給老師）
+│   └── a.cnav[data-panel="course-xxx"]
+└── main.panel
+    └── section.course#course-xxx   ← 一門課一個 section，一次只顯示一個
+        └── details.unit            ← 單元，可收合
+            └── ul.ls               ← 該單元的課
+```
+
+### 新增一門課
+
+**兩個地方各加一段，id 對上就會自動運作**，樣式和切換都不用另外寫：
+
+1. 側欄加一條連結（`進行中` 或 `準備中` 那一組裡面）：
+
+```html
+<a class="cnav" href="#course-newone" data-panel="course-newone">
+  <span class="cnav__dot"></span>
+  <span class="cnav__t">課程名稱</span>
+  <span class="cnav__n">6</span>
+</a>
+```
+
+2. 內容區加一個 section（`id` 要跟上面的 `data-panel` 一模一樣）：
+
+```html
+<section class="course" id="course-newone">
+  <header class="course__head">
+    <div class="course__title">
+      <h1 tabindex="-1">課程名稱</h1>
+      <span class="badge badge--live">進行中</span>
+    </div>
+    <p class="course__meta">年段 · 共 N 節</p>
+  </header>
+  <div class="course__tools"><button class="toggleall" type="button">全部展開</button></div>
+
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">單元一</span>
+      <span class="unit__t">單元標題</span>
+      <small class="unit__s">一句話說明</small>
+      <span class="unit__c">2 堂</span>
+      <span class="unit__chev"><!-- 直接複製別的單元的箭頭 svg --></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="lessons/xx-課名.html">
+        <span class="ls__n">1</span>
+        <span class="ls__txt"><b class="ls__t">課名</b><small class="ls__s">副標</small></span>
+        <!-- 直接複製別的課的箭頭 svg -->
+      </a></li>
+    </ul>
+  </details>
+</section>
+```
+
+課的種類用 `<li>` 的 class 區分：一般課不用加，作品課加 `ls--work`（綠），
+期末專題加 `ls--final`（橘），再在標題後面放 `<span class="tag tag--work">作品</span>`。
+
+準備中的課程不用 `details`／`ls`，直接放一個 `<div class="soon">` 寫預告就好。
+
+### 首頁的互動是怎麼運作的
+
+- **單元收合**用原生的 `<details>`，完全不靠 JS，鍵盤也能操作
+- **課程切換**才用 `home.js`。它刻意做成「加分用」的：JS 沒載到的話，
+  側欄連結就是普通錨點，點下去捲到那門課，所有課程也都看得到——**功能不會壞**
+- 動效（滑過浮起、箭頭滑出、收合過渡、切換淡入）全部包在
+  `@media (prefers-reduced-motion: reduce)` 的保護裡，
+  使用者在系統關掉動畫就會全部安靜下來
 
 ---
 
