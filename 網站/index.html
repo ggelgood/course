@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/lesson.css?v=4">
-<link rel="stylesheet" href="assets/home.css?v=5">
+<link rel="stylesheet" href="assets/home.css?v=6">
 </head>
 <body class="home">
 
@@ -36,14 +36,15 @@
       <span class="cnav__t">中文打字</span>
       <span class="cnav__n">5</span>
     </a>
+    <a class="cnav" href="#course-advanced" data-panel="course-advanced">
+      <span class="cnav__dot"></span>
+      <span class="cnav__t">Scratch 進階</span>
+      <span class="cnav__n">1 / 17</span>
+    </a>
   </nav>
 
   <nav class="side__group" aria-label="準備中的課程">
     <p class="side__label">準備中</p>
-    <a class="cnav cnav--soon" href="#course-advanced" data-panel="course-advanced">
-      <svg class="cnav__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      <span class="cnav__t">Scratch 進階</span>
-    </a>
     <a class="cnav cnav--soon" href="#course-hardware" data-panel="course-hardware">
       <svg class="cnav__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
       <span class="cnav__t">Arduino / micro:bit</span>
@@ -334,24 +335,167 @@
   </details>
 </section>
 
-<!-- ────── 課程三：Scratch 進階（準備中）────── -->
+<!-- ────── 課程三：Scratch 進階（製作中）──────
+     講義做好一課就把 .ls--soon 那一列換成真的 <a>，順便改上面的
+     badge 和側欄的 1 / 17。單元標題與課名依 docs/Scratch進階-課程地圖.md。 -->
 <section class="course" id="course-advanced">
   <header class="course__head">
     <div class="course__title">
       <h1 tabindex="-1">Scratch 進階</h1>
-      <span class="badge badge--soon">準備中</span>
+      <span class="badge badge--soon">製作中 1 / 17</span>
     </div>
-    <p class="course__meta">高年級 · 尚未開始製作</p>
+    <p class="course__meta">高年級 · 一學期 17 節 · 五個單元 · 終點是「分身」</p>
   </header>
-  <div class="soon">
-    <p>入門課刻意沒教的東西，會放在這裡：</p>
-    <ul>
-      <li><strong>變數</strong>——可以做計分、生命值、倒數計時</li>
-      <li><strong>分身</strong>——一次生出很多個角色（子彈、敵人、雨滴）</li>
-      <li><strong>清單</strong>——記住一整排資料</li>
-      <li><strong>畫筆</strong>——讓角色邊走邊畫圖</li>
-      <li><strong>自製積木</strong>——把常用的一段程式包成自己的積木</li>
+
+  <div class="course__tools"><button class="toggleall" type="button">全部展開</button></div>
+
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">單元一</span>
+      <span class="unit__t">位置說得準</span>
+      <small class="unit__s">座標與畫筆，先把「在哪裡」講清楚</small>
+      <span class="unit__c">3 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="lessons/adv-01-x和y舞台上的地址.html">
+        <span class="ls__n">1</span>
+        <span class="ls__txt"><b class="ls__t">x 和 y：舞台上的地址</b><small class="ls__s">用兩個數字說出角色站在哪裡，五個互動練習</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">2</span>
+        <span class="ls__txt"><b class="ls__t">畫筆：讓角色邊走邊畫</b><small class="ls__s">下筆、停筆、換顏色，看見移動的軌跡</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">3</span>
+        <span class="ls__txt"><b class="ls__t">用重複畫出圖形</b><span class="tag tag--work">作品</span><small class="ls__s">正方形、三角形、六邊形，找出 360÷邊數</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
     </ul>
+  </details>
+
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元二</span>
+      <span class="unit__t">記住一個數字</span>
+      <small class="unit__s">變數、隨機、判斷——做得出第一個遊戲</small>
+      <span class="unit__c">5 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">4</span>
+        <span class="ls__txt"><b class="ls__t">變數：給電腦一本記事本</b><small class="ls__s">建立變數、設為，還有舞台上的監看框</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">5</span>
+        <span class="ls__txt"><b class="ls__t">「設為」和「改變」差在哪</b><small class="ls__s">整學期最大的 bug 來源，做生命值和倒數計時</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">6</span>
+        <span class="ls__txt"><b class="ls__t">隨機數：每次玩都不一樣</b><small class="ls__s">隨機取數、加減乘除</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">7</span>
+        <span class="ls__txt"><b class="ls__t">如果…否則，還有大於小於</b><small class="ls__s">條件不成立的時候，也可以有事發生</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">8</span>
+        <span class="ls__txt"><b class="ls__t">接東西計分遊戲</b><span class="tag tag--work">作品</span><small class="ls__s">變數＋隨機＋碰到，第一個真的能玩的東西</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+    </ul>
+  </details>
+
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元三</span>
+      <span class="unit__t">包起來</span>
+      <small class="unit__s">自製積木：改一次，全部都改</small>
+      <span class="unit__c">4 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">9</span>
+        <span class="ls__txt"><b class="ls__t">同一段程式抄三次</b><small class="ls__s">整學期最重要的一次「撞牆」，不教新積木</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">10</span>
+        <span class="ls__txt"><b class="ls__t">自製積木：做一塊自己的積木</b><small class="ls__s">把一段程式取一個名字</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">11</span>
+        <span class="ls__txt"><b class="ls__t">讓自己的積木帶數字</b><small class="ls__s">參數：留一個洞給用的人填</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">12</span>
+        <span class="ls__txt"><b class="ls__t">用自製積木畫一幅圖</b><span class="tag tag--work">作品</span><small class="ls__s">座標、畫筆、參數在這裡合流</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+    </ul>
+  </details>
+
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元四</span>
+      <span class="unit__t">很多個自己</span>
+      <small class="unit__s">分身——這學期的終點</small>
+      <span class="unit__c">3 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">13</span>
+        <span class="ls__txt"><b class="ls__t">一個角色，很多個自己</b><small class="ls__s">一張食譜，做出二十盤菜</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">14</span>
+        <span class="ls__txt"><b class="ls__t">分身要會消失</b><small class="ls__s">只生不刪會爆掉，而且看不到任何錯誤訊息</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">15</span>
+        <span class="ls__txt"><b class="ls__t">躲避／射擊小遊戲</b><span class="tag tag--work">作品</span><small class="ls__s">分身當子彈或敵人，配上計分與生命值</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+    </ul>
+  </details>
+
+  <details class="unit">
+    <summary class="unit__sum">
+      <span class="unit__n">單元五</span>
+      <span class="unit__t">期末專題</span>
+      <small class="unit__s">做一個自己想做的東西</small>
+      <span class="unit__c">2 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">16</span>
+        <span class="ls__txt"><b class="ls__t">想一個作品，開始做</b><span class="tag tag--final">專題</span><small class="ls__s">畫草圖、決定玩法與計分規則</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+      <li class="ls--soon"><span class="ls__row">
+        <span class="ls__n">17</span>
+        <span class="ls__txt"><b class="ls__t">完成與發表</b><span class="tag tag--final">專題</span><small class="ls__s">做完、展示、講給同學聽</small></span>
+        <span class="tag tag--soon">準備中</span>
+      </span></li>
+    </ul>
+  </details>
+
+  <div class="soon" style="max-width:none;margin-top:1.6rem">
+    <p><strong>這門課刻意不教「清單」</strong>（記住一整排資料）——它需要的時間，這 17 節裡放不下，留到下學期。</p>
   </div>
 </section>
 

@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 1 課 · x 和 y：舞台上的地址</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=3">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<!-- ══════ 開場區：老師投影這一塊 ══════ -->
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 1 課 · 大約 1 節課</span>
+    <h1>x 和 y：<em>舞台上的地址</em></h1>
+    <p class="lede">想叫角色「去右上角」，現在你只能<strong style="color:#FFBF00">用滑鼠拖過去</strong>。今天要讓程式自己叫它過去。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要學會什麼</h2>
+        <p>用<strong style="color:#FFBF00">兩個數字</strong>說出角色站在舞台的哪裡，然後叫它自己走過去。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的一塊積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--motion">定位到 x: <i>0</i> y: <i>0</i></div>
+        </div>
+        <p style="font-size:.88rem;margin-top:.6rem">只有一塊，但<strong style="color:#FFBF00">那兩個數字要花點時間搞懂</strong>。這一課的下面有很多可以動手玩的東西，慢慢玩。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 0. 開學提醒 ───────────────────── -->
+<section>
+  <h2 class="h2"><b>0</b>先講一件小事：存檔</h2>
+  <p>存檔你在入門課學過了：<strong>檔案 → 儲存到你的電腦</strong>。進階課多一條規矩——</p>
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 每一節課存成新的檔名，不要蓋掉舊的</h3>
+    <ul>
+      <li>檔名這樣取：<code>座號_姓名_進階第1課</code>、<code>座號_姓名_進階第2課</code>⋯⋯</li>
+      <li>為什麼？<strong>進階課的程式會愈做愈大</strong>，後面學到「自製積木」和「分身」的時候，很容易改一改就整個壞掉。有舊檔可以退回去，就不用重做。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 1. 為什麼需要座標 ───────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>一個叫不動的問題</h2>
+  <p>入門課你學過「移動 10 點」和「右轉 90 度」。用這兩塊，你可以叫角色<strong>往前走</strong>、<strong>轉個彎</strong>。</p>
+  <p>但如果我說：<strong>「叫它直接去舞台的右上角。」</strong></p>
+  <p>用移動和轉彎做得到嗎？做得到，但你要一直試——走多遠？轉幾度？試到對為止。而且角色從別的地方出發，答案又不一樣了。</p>
+
+  <p><strong style="color:#FF6B1A">問題出在哪：你沒有辦法「說出」右上角是哪裡。</strong></p>
+
+  <p>電腦需要一個<strong>地址</strong>。就像你家的地址是「○○路 12 號」，舞台上的每一個位置，也有自己的號碼。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">猜猜看：舞台<strong>正中間</strong>那個位置，號碼是多少？</p>
+    <p class="predict__hint">先猜，等一下就會知道答案。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="像方格紙那樣從 1 開始數，是很合理的猜測——但 Scratch 不是這樣。它把 0 放在正中間，這樣「左邊」和「右邊」才對稱。">1</button>
+      <button class="pick" data-v="b" data-say="答對了！<b>正中間是 0</b>。因為 0 放在中間，左邊和右邊才能一樣長——這也是為什麼等一下會出現負數。">0</button>
+      <button class="pick" data-v="c" data-say="舞台是 480 寬、360 高沒錯，但那是「總共多寬」，不是中間那一點的號碼。中間那一點是 0。">240</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 2. 先看一條線 ───────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>先看一條線就好</h2>
+  <p>舞台有左右、也有上下，兩個方向一起看太多了。<strong>我們先只看左右這一條線。</strong></p>
+  <p>這條線跟你數學課看過的<strong>數線</strong>一模一樣：<strong>0 在正中間</strong>，往右數字愈來愈大，往左⋯⋯</p>
+  <p>往左就<strong style="color:#FF6B1A">變成負的</strong>。−60、−120、−180，愈往左愈小。</p>
+
+  <div class="sos">
+    <h3>🤔 為什麼要用負數？直接從 0 數到 480 不好嗎？</h3>
+    <ul>
+      <li>可以，但那樣<strong>「正中間」會變成 240</strong>——一個很難記的數字。</li>
+      <li>把 0 放中間之後，<strong>左右兩邊剛好對稱</strong>：右邊最遠是 240，左邊最遠就是 −240。只要記一個數字。</li>
+      <li>而且「負的」剛好就是「反方向」的意思。<strong>看到負號，就想成「往另一邊」</strong>，不用想得太複雜。</li>
+    </ul>
+  </div>
+
+  <p>下面這條線可以點。<strong>直接點你覺得對的位置</strong>，把小貓放過去：</p>
+
+  <div class="cxbox" id="lnBox">
+    <p class="cxbox__q">把小貓放到 <b id="lnGoalTxt" style="font-family:var(--mono);color:var(--accent)">0</b> 的位置</p>
+    <p class="cxbox__hint">點線上任何地方都可以。差一點點沒關係，方向對就算過。</p>
+
+    <div class="cxline">
+      <span class="cxline__side cxline__side--neg">← 負的</span>
+      <span class="cxline__side cxline__side--pos">正的 →</span>
+      <div class="cxline__track" id="lnTrack">
+        <i class="cxline__zero"></i>
+        <span class="cxline__goal" id="lnGoal"></span>
+        <span class="cxline__pin" id="lnPin">🐱</span>
+      </div>
+    </div>
+
+    <div class="cxdots" id="lnDots"></div>
+    <p class="cxsay" id="lnSay">點一下上面那條線，開始第一題。</p>
+  </div>
+</section>
+
+<!-- ── 3. 兩條線合起來 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>兩條線合起來，就是舞台</h2>
+  <p>剛剛那條是<strong>左右</strong>的線，Scratch 叫它 <strong style="color:#4C97FF">x</strong>。</p>
+  <p>還有一條<strong>上下</strong>的線，叫 <strong style="color:#FF8C1A">y</strong>。規矩一樣：<strong>中間是 0，往上愈來愈大，往下變成負的</strong>。</p>
+
+  <p>把兩條線交叉疊在一起，中間那個交叉點就是 <strong>(0, 0)</strong>——舞台的正中央。</p>
+
+  <p><strong style="color:#FF6B1A">下面這個舞台可以直接拖小貓。</strong> 一邊拖，一邊看左邊和下面那兩條線上的點怎麼跟著跑：</p>
+
+  <div class="cxbox">
+    <div class="cxdesk">
+      <div class="cxdesk__y"><div class="cxproj" id="pjY"><i class="cxproj__bar"></i></div></div>
+
+      <div class="cxdesk__stage">
+        <div class="cxstage" id="deskStage">
+          <i class="cxstage__ax cxstage__ax--x"></i>
+          <i class="cxstage__ax cxstage__ax--y"></i>
+          <i class="cxdrop cxdrop--v" id="dropV"></i>
+          <i class="cxdrop cxdrop--h" id="dropH"></i>
+          <i class="cxstage__o"></i>
+          <span class="cxstage__olbl">(0, 0)</span>
+          <span class="cxstage__cnr" data-c="lt" style="left:6px;top:6px">(−240, 180)</span>
+          <span class="cxstage__cnr" data-c="rt" style="right:6px;top:6px">(240, 180)</span>
+          <span class="cxstage__cnr" data-c="lb" style="left:6px;bottom:6px">(−240, −180)</span>
+          <span class="cxstage__cnr" data-c="rb" style="right:6px;bottom:6px">(240, −180)</span>
+          <span class="cxcat" id="deskCat">🐱</span>
+        </div>
+      </div>
+
+      <div class="cxdesk__x"><div class="cxproj" id="pjX"><i class="cxproj__bar"></i></div></div>
+    </div>
+
+    <div class="cxmons">
+      <span class="cxmon cxmon--x"><b class="cxmon__k">x 座標</b><b class="cxmon__v" id="mvX">0</b></span>
+      <span class="cxmon cxmon--y"><b class="cxmon__k">y 座標</b><b class="cxmon__v" id="mvY">0</b></span>
+    </div>
+
+    <p class="cxbox__hint" style="text-align:center;margin:.7rem 0 0">
+      上面那兩個框，就是 Scratch 舞台上會出現的<strong>監看框</strong>。等一下你在電腦上勾起來，長得一模一樣。
+    </p>
+
+    <p style="font-weight:700;margin:1.4rem 0 .2rem">試試看：把小貓拖到四個角落各停一次</p>
+    <ul class="cxtask" id="deskTask">
+      <li data-c="lt">左上角 <b>(−240, 180)</b></li>
+      <li data-c="rt">右上角 <b>(240, 180)</b></li>
+      <li data-c="lb">左下角 <b>(−240, −180)</b></li>
+      <li data-c="rb">右下角 <b>(240, −180)</b></li>
+    </ul>
+
+    <p class="cxsay" id="deskSay">用滑鼠按住小貓，拖著它在舞台上走走看。</p>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 四個角落的數字，其實只有兩個</h3>
+    <ul>
+      <li>左右最遠：<strong>240</strong>（右邊）和 <strong>−240</strong>（左邊）</li>
+      <li>上下最遠：<strong>180</strong>（上面）和 <strong>−180</strong>（下面）</li>
+      <li>所以<strong>不用背四個角落</strong>，只要記住「<strong style="color:#FF6B1A">右邊大、上面大</strong>」，再記 240 和 180 就好。</li>
+    </ul>
+  </div>
+
+  <details class="reveal">
+    <summary>等一下，為什麼往下是負的？我覺得往下應該愈來愈大耶<span class="peek">很多人都這樣想，點我</span></summary>
+    <div class="reveal__in">
+      <p>會這樣想很正常，因為<strong>你平常看到的東西都是「往下數字愈大」</strong>——課本的頁數、電梯的樓層數字往下按⋯⋯</p>
+      <p>但 Scratch 的 y 是照<strong>數學課的數線</strong>做的：<strong>0 在中間，往上是正的，往下是負的</strong>。跟溫度計一樣——零下 5 度寫成 −5，在 0 的下面。</p>
+      <p><strong style="color:#FF6B1A">記法：把 y 想成溫度計，豎著放的。</strong> 往上爬是正的，掉到 0 以下就變負的。</p>
+    </div>
+  </details>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">在真的 Scratch 裡勾選 x 座標、y 座標監看框，然後拖角色</b>
+    <p class="shot__how">重點是<b>拖的時候舞台上那兩個數字一直在變</b>。約 6 秒，慢慢拖，讓學生看清楚往左走 x 怎麼變成負的。檔名 <code>adv-01-2-勾選監看框.gif</code>、<code>adv-01-3-拖角色看數字變.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 4. 四個區域 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>四個區域，正負的組合</h2>
+  <p>兩條線把舞台切成<strong>四塊</strong>。每一塊的正負組合都不一樣：</p>
+  <div class="cxask" style="justify-content:flex-start;font-size:.95rem;font-weight:400">
+    <span>左上＝x <b class="cxsign cxsign--neg">負</b>、y <b class="cxsign cxsign--pos">正</b></span>
+  </div>
+  <p>剩下三塊你自己推推看。下面來點名——<strong>看題目，點對應的那一塊</strong>：</p>
+
+  <div class="cxbox" id="qdBox">
+    <p class="cxask">
+      <span>x 是</span><b class="cxsign" id="qdSx">正</b>
+      <span>、y 是</span><b class="cxsign" id="qdSy">正</b>
+      <span>→ 點哪一塊？</span>
+    </p>
+
+    <div class="cxstage" style="max-width:420px;margin:0 auto;cursor:default">
+      <i class="cxstage__ax cxstage__ax--x"></i>
+      <i class="cxstage__ax cxstage__ax--y"></i>
+      <i class="cxstage__o"></i>
+      <div class="cxquad" id="qdQuad">
+        <button data-q="lt">左上</button>
+        <button data-q="rt">右上</button>
+        <button data-q="lb">左下</button>
+        <button data-q="rb">右下</button>
+      </div>
+    </div>
+
+    <div class="cxdots" id="qdDots"></div>
+    <p class="cxsay" id="qdSay">四題，點點看。</p>
+  </div>
+</section>
+
+<!-- ── 5. 定位到 x y ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>叫它自己過去</h2>
+  <p>知道地址之後，就可以用這塊積木了。它在藍色的<strong>「動作」</strong>裡：</p>
+
+  <div class="stack">
+    <div class="blk blk--motion">定位到 x: <i>0</i> y: <i>0</i></div>
+  </div>
+
+  <p>它<strong>不會慢慢走過去，是直接瞬間跳過去</strong>。填什麼數字，角色就出現在哪裡。</p>
+
+  <p><strong style="color:#FF6B1A">下面有五個目標。</strong> 把數字打進積木裡，按「執行」，看小貓跳得準不準：</p>
+
+  <div class="cxbox" id="tlBox">
+    <p class="cxbox__q">讓小貓跳到 <span style="color:var(--go)">綠色虛線圈</span> 的位置</p>
+    <p class="cxbox__hint">差 20 點以內就算過關。打錯也沒關係，小貓會跳到你打的地方，看得出來差在哪。</p>
+
+    <div class="cxstage" style="max-width:440px;margin:0 auto;cursor:default" id="tlStage">
+      <i class="cxstage__ax cxstage__ax--x"></i>
+      <i class="cxstage__ax cxstage__ax--y"></i>
+      <i class="cxstage__o"></i>
+      <span class="cxstage__olbl">(0, 0)</span>
+      <span class="cxgoal" id="tlGoal">◎</span>
+      <span class="cxcat" id="tlCat">🐱</span>
+    </div>
+
+    <div class="cxrow">
+      <div class="blk blk--motion" style="cursor:default">
+        定位到 x: <input class="cxfield" id="tlX" type="number" inputmode="numeric" value="0" aria-label="x 座標">
+        y: <input class="cxfield" id="tlY" type="number" inputmode="numeric" value="0" aria-label="y 座標">
+      </div>
+      <button class="btn" id="tlRun">執行 ▶</button>
+    </div>
+
+    <div class="cxdots" id="tlDots"></div>
+    <p class="cxsay" id="tlSay">第一題的目標已經放好了，看看它在哪一區。</p>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：「定位到」用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="k">from</span> turtle <span class="k">import</span> *      <span class="c"># 準備工作</span>
+
+<span class="f">goto</span>(<span class="n">100</span>, <span class="n">50</span>)           <span class="c"># 定位到 x: 100 y: 50</span></pre>
+      <p class="pypeek__note"><strong>goto</strong> 是英文的「去到」。括號裡的兩個數字，<strong>前面那個是 x，後面那個是 y</strong>——跟積木上的順序一模一樣。</p>
+      <p class="pypeek__note">連負數的寫法都一樣：<code>goto(-120, -90)</code> 就是積木填 x: −120 y: −90。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 6. 反過來讀 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>反過來：看位置，說出號碼</h2>
+  <p>剛剛是「給號碼、放角色」。現在反過來——<strong>角色已經在那裡了，它的號碼是多少？</strong></p>
+  <p>這個比較難，但也比較有用：等一下你在 Scratch 裡玩的時候，常常是<strong>先把角色拖到滿意的位置，再去看它的號碼是多少</strong>，然後把號碼抄進積木裡。</p>
+
+  <div class="cxbox" id="rdBox">
+    <p class="cxbox__q">小貓現在站的位置，座標是多少？</p>
+    <p class="cxbox__hint">先看它在哪一區（正負），就可以刪掉一半的選項。</p>
+
+    <div class="cxstage" style="max-width:420px;margin:0 auto;cursor:default" id="rdStage">
+      <i class="cxstage__ax cxstage__ax--x"></i>
+      <i class="cxstage__ax cxstage__ax--y"></i>
+      <i class="cxstage__o"></i>
+      <span class="cxstage__olbl">(0, 0)</span>
+      <span class="cxcat" id="rdCat">🐱</span>
+    </div>
+
+    <div class="cxopts" id="rdOpts"></div>
+    <div class="cxdots" id="rdDots"></div>
+    <p class="cxsay" id="rdSay">四題。</p>
+  </div>
+</section>
+
+<!-- ── 7. 常見卡關 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>7</b>最容易搞錯的三件事</h2>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 一、往下是負的，不是愈來愈大</h3>
+    <ul>
+      <li>想往下移動，y 要<strong>變小</strong>（往負的方向）。</li>
+      <li>記法：<strong>y 是豎著的溫度計</strong>，往上爬是正的。</li>
+    </ul>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 二、x 和 y 填反了</h3>
+    <ul>
+      <li><strong>x 一定是左右，y 一定是上下</strong>，不會換。</li>
+      <li>記法：<strong>x 的兩撇像一把打橫的剪刀</strong>，y 有一根往下的尾巴，是直的。</li>
+    </ul>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 三、以為角色會「走」過去</h3>
+    <ul>
+      <li>「定位到」是<strong>瞬間跳</strong>，中間不會經過。</li>
+      <li>想看到它走過去的路線，要等下一課的<strong>畫筆</strong>——下筆之後再定位，就會留下一條線。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 8. 換你在電腦上做 ────────────────── -->
+<section>
+  <h2 class="h2"><b>8</b>換你在電腦上做</h2>
+  <p>上面玩過的東西，現在到真的 Scratch 裡做一次。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <ol class="steps">
+      <li>打開 Scratch，在<strong>動作</strong>那一區的下面，找到 <strong>x 座標</strong> 和 <strong>y 座標</strong>，把前面的<strong>方框勾起來</strong></li>
+      <li>看舞台左上角——出現兩個<strong>監看框</strong>了，跟講義上那兩個一樣</li>
+      <li><strong>用滑鼠把角色拖來拖去</strong>，一邊拖一邊看那兩個數字怎麼變</li>
+      <li>把角色拖到<strong>四個角落</strong>各停一次，把看到的數字記下來</li>
+      <li>拖出 <strong>定位到 x: y:</strong>，填 <strong>x: 0 y: 0</strong>，點一下積木，角色會跳回正中間</li>
+      <li>改成 <strong>x: −200 y: −150</strong>（記得加小橫槓），再點一次</li>
+    </ol>
+  </div>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">標好四個角落數字的舞台全圖</b>
+    <p class="shot__how">拍一張乾淨的舞台截圖，然後<b>在四個角落各標一組座標</b>，中間標 (0, 0)。這張是整課的地圖，學生卡住會一直回來看。檔名 <code>adv-01-1-舞台座標圖.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>只改 x，y 不動</b><small>連點幾次，角色會排成一條橫的線。這就是「x 管左右」。</small></div>
+      <div class="play"><b>只改 y，x 不動</b><small>這次排成直的。y 管上下。</small></div>
+      <div class="play"><b>兩個都填 0</b><small>不管角色跑到哪裡，一按就回正中間——這是最好用的「救援積木」。</small></div>
+      <div class="play"><b>填超過範圍的數字</b><small>像 x: 500。角色會卡在邊邊，不會真的跑出去。</small></div>
+      <div class="play"><b>把角色拖到你喜歡的位置，再抄號碼</b><small>看監看框的數字，把它填進積木裡。這招之後每一課都會用到。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 挑戰 ─────────────────────────── -->
+<section class="challenge">
+  <h2 class="h2"><b>★</b>做完了？來挑戰</h2>
+
+  <p class="challenge__lv">挑戰一</p>
+  <p>做一個<strong>「瞬間移動」的角色</strong>：按 1 跳到左上角、按 2 跳到右上角、按 3 跳到左下角、按 4 跳到右下角。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p>需要<strong>四串程式</strong>，每一串長得一樣，只有兩個地方不同：<strong>按哪個鍵</strong>，還有<strong>定位到的兩個數字</strong>。</p>
+      <p>帽子積木是入門課第 7 課的 <strong>當按鍵被按下</strong>，點 ▾ 就可以改成 1、2、3、4。</p>
+    </div>
+  </details>
+
+  <details class="reveal">
+    <summary>看參考答案<span class="peek">真的想不出來再點</span></summary>
+    <div class="reveal__in">
+      <div class="stack">
+        <div class="blk blk--events blk--hat">當 <i>1</i> 鍵被按下</div>
+        <div class="blk blk--motion">定位到 x: <i>-200</i> y: <i>150</i></div>
+      </div>
+      <p style="margin-top:.9rem">另外三串一樣，只要換數字：<br>
+      2 鍵 → x: <b>200</b> y: <b>150</b>　　3 鍵 → x: <b>-200</b> y: <b>-150</b>　　4 鍵 → x: <b>200</b> y: <b>-150</b></p>
+      <p><strong style="color:#FFBF00">沒有用滿 240 和 180</strong>，是因為角色有大小，貼到最邊邊會被切掉一半。留一點空間比較好看。</p>
+    </div>
+  </details>
+
+  <p class="challenge__lv" style="margin-top:2.2rem">挑戰二（比較難）</p>
+  <p>做一個<strong>「你猜我在哪」的小遊戲</strong>：按綠旗，角色跳到一個位置，你自己先猜座標是多少，再看監看框對不對。</p>
+
+  <details class="reveal">
+    <summary>卡住了？看提示<span class="peek">想想怎麼讓它每次都不一樣</span></summary>
+    <div class="reveal__in">
+      <p>先做最簡單的版本就好：<strong>綠旗 → 定位到你自己決定的一個位置</strong>，然後把監看框<strong>取消勾選</strong>，猜完再勾回來對答案。</p>
+      <p>想讓它<strong>每次都跳到不一樣的地方</strong>？那需要「隨機取數」——那是<strong>第 6 課</strong>的東西，你可以先偷偷去運算區找找看那塊綠色的積木，找到就拿來用。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-01-座標練習.sb3" download>
+      <span class="ic">🎯</span>
+      <span>adv-01-座標練習.sb3<small>四個角落都放好標記的舞台，下載後雙擊就能打開</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 1 課 · x 和 y：舞台上的地址</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   進階第 1 課專用互動
+   ───────────────────────────────────────────────────────────
+   舞台座標系：x 從 -240 到 240（共 480），y 從 -180 到 180（共 360）。
+   畫面上一律用百分比定位，所以舞台縮放不會跑掉。
+   ═══════════════════════════════════════════════════════════ */
+(() => {
+'use strict';
+
+const XMAX = 240, YMAX = 180;
+const pctX = v => (v + XMAX) / (XMAX * 2) * 100;      /* 座標 → 左邊距 % */
+const pctY = v => (YMAX - v) / (YMAX * 2) * 100;      /* 座標 → 上邊距 %，往下是負的 */
+const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+const snap5 = v => Math.round(v / 5) * 5;
+const neg = v => String(v).replace('-', '−');         /* 用真的減號，比 hyphen 好認 */
+const say = (el, txt, k) => { if (!el) return; el.innerHTML = txt; el.dataset.k = k || ''; };
+
+/* 進度圓點：建立 n 顆，回傳一個「更新第幾題」的函式 */
+const makeDots = (box, n) => {
+  if (!box) return () => {};
+  box.innerHTML = '';
+  const dots = Array.from({length:n}, () => box.appendChild(document.createElement('i')));
+  return (done, now) => dots.forEach((d, i) => {
+    d.dataset.on  = i < done ? '1' : '0';
+    d.dataset.now = i === now ? '1' : '0';
+  });
+};
+window.__cx = {XMAX, YMAX, pctX, pctY, clamp, snap5, neg, say, makeDots};
+
+/* ── A：一條數線 ───────────────────────────────────────────
+   刻意設計：目標圈「答完才出現」。先畫出來就等於送答案。      */
+(() => {
+  const track = document.getElementById('lnTrack');
+  if (!track) return;
+  const pin = document.getElementById('lnPin'), goal = document.getElementById('lnGoal');
+  const txt = document.getElementById('lnGoalTxt'), out = document.getElementById('lnSay');
+  const paint = makeDots(document.getElementById('lnDots'), 5);
+
+  [-240,-180,-120,-60,0,60,120,180,240].forEach(v => {
+    const t = document.createElement('i');
+    t.className = 'cxline__tick'; t.style.left = pctX(v) + '%';
+    track.appendChild(t);
+    const n = document.createElement('span');
+    n.className = 'cxline__num'; n.style.left = pctX(v) + '%';
+    n.innerHTML = v === 0 ? '<b>0</b>' : neg(v);
+    track.appendChild(n);
+  });
+
+  const Q = [
+    {v:0,    hi:'這是最重要的一個位置——<b>正中間就是 0</b>。'},
+    {v:120,  hi:'0 的右邊是正的，愈往右數字愈大。'},
+    {v:-120, hi:'跟上一題<b>一樣遠，但在另一邊</b>。這就是負號的意思：反方向。'},
+    {v:240,  hi:'右邊的盡頭是 <b>240</b>。'},
+    {v:-60,  hi:'左邊的盡頭是 −240，所以 −60 只在 0 的左邊一點點。'}
+  ];
+  let i = 0, done = 0;
+
+  const ask = () => {
+    txt.textContent = neg(Q[i].v);
+    goal.dataset.on = '0'; pin.dataset.on = '0';
+    paint(done, i);
+  };
+
+  track.addEventListener('click', e => {
+    if (i >= Q.length) return;
+    const r = track.getBoundingClientRect();
+    const v = clamp(snap5((e.clientX - r.left) / r.width * (XMAX*2) - XMAX), XMAX);
+    const want = Q[i].v;
+
+    pin.style.left = pctX(v) + '%'; pin.dataset.on = '1';
+    goal.style.left = pctX(want) + '%'; goal.dataset.on = '1';
+
+    if (Math.abs(v - want) <= 30) {
+      done = ++i;
+      if (i >= Q.length) {
+        paint(done, -1);
+        say(out, '五題全部答對了！<b>0 在中間、右邊是正的、左邊是負的</b>——這條線你已經會了。接下來要把<b>兩條</b>這樣的線疊在一起。', 'y');
+      } else {
+        say(out, '✓ 對了（你點的是 ' + neg(v) + '）。' + Q[i-1].hi + ' 換下一題。', 'y');
+        setTimeout(ask, 1500);
+      }
+      return;
+    }
+    if (want !== 0 && v !== 0 && Math.sign(v) !== Math.sign(want)) {
+      say(out, '你點在 <b>' + neg(v) + '</b>，<b style="color:#B24A12">方向反了</b>。有小橫槓的負數在 0 的<b>左邊</b>，沒有橫槓的正數在<b>右邊</b>。看一下綠色虛線圈，再點一次。', 'n');
+      return;
+    }
+    say(out, '你點在 <b>' + neg(v) + '</b>，方向是對的，但差比較遠。目標在綠色虛線圈那裡，再點一次。', 'n');
+  });
+
+  ask();
+})();
+})();
+</script>
+
+<script>
+/* ── B：舞台主控台（拖曳 ＋ 兩條投影線 ＋ 監看框 ＋ 四角落任務）──
+   這是整課的核心。負數之所以難，是因為它在螢幕上看不見；
+   把小貓的位置「投影」到左邊和下面兩條線上，負號就變成看得到的東西。 */
+(() => {
+'use strict';
+const {XMAX, YMAX, pctX, pctY, clamp, snap5, neg, say} = window.__cx;
+
+const stage = document.getElementById('deskStage');
+if (!stage) return;
+const cat = document.getElementById('deskCat');
+const dv = document.getElementById('dropV'), dh = document.getElementById('dropH');
+const mx = document.getElementById('mvX'), my = document.getElementById('mvY');
+const out = document.getElementById('deskSay');
+const pjX = document.getElementById('pjX'), pjY = document.getElementById('pjY');
+const tasks = [...document.querySelectorAll('#deskTask li')];
+
+const mk = host => {
+  const m = document.createElement('i'); m.className = 'cxproj__mk'; host.appendChild(m);
+  const n = document.createElement('span'); n.className = 'cxproj__n'; host.appendChild(n);
+  return {m, n};
+};
+const px = mk(pjX), py = mk(pjY);
+const z1 = document.createElement('span');
+z1.className = 'cxproj__n cxproj__n--zero'; z1.textContent = '0'; z1.style.left = '50%';
+pjX.appendChild(z1);
+const z2 = document.createElement('span');
+z2.className = 'cxproj__n cxproj__n--zero'; z2.textContent = '0'; z2.style.top = '50%';
+pjY.appendChild(z2);
+
+const corner = (x, y) =>
+  (x <= -180 && y >=  120) ? 'lt' : (x >= 180 && y >=  120) ? 'rt' :
+  (x <= -180 && y <= -120) ? 'lb' : (x >= 180 && y <= -120) ? 'rb' : '';
+const zone = (x, y) => {
+  if (x === 0 && y === 0) return '<b>正中間 (0, 0)</b>';
+  const a = x < 0 ? '左' : x > 0 ? '右' : '正中';
+  const b = y > 0 ? '上' : y < 0 ? '下' : '間';
+  return '<b>' + a + b + '邊</b>';
+};
+let hit = 0;
+
+const place = (x, y) => {
+  const L = pctX(x), T = pctY(y);
+  cat.style.left = L + '%'; cat.style.top = T + '%';
+
+  dv.style.left = L + '%';
+  dv.style.top = Math.min(T, 50) + '%';
+  dv.style.height = Math.abs(T - 50) + '%';
+  dh.style.top = T + '%';
+  dh.style.left = Math.min(L, 50) + '%';
+  dh.style.width = Math.abs(L - 50) + '%';
+
+  px.m.style.left = L + '%'; px.n.style.left = L + '%'; px.n.textContent = neg(x);
+  py.m.style.top  = T + '%'; py.n.style.top  = T + '%'; py.n.textContent = neg(y);
+  z1.style.opacity = Math.abs(L - 50) < 7 ? '0' : '1';
+  z2.style.opacity = Math.abs(T - 50) < 9 ? '0' : '1';
+
+  mx.textContent = x; my.textContent = y;
+
+  const c = corner(x, y);
+  document.querySelectorAll('#deskStage .cxstage__cnr').forEach(el =>
+    el.dataset.hit = (el.dataset.c === c ? '1' : '0'));
+
+  if (c) {
+    const li = tasks.find(t => t.dataset.c === c);
+    if (li && li.dataset.ok !== '1') {
+      li.dataset.ok = '1'; hit++;
+      if (hit === 4) {
+        say(out, '四個角落都去過了！發現了嗎——<b>四個角落只用到兩組數字：240 和 180</b>，差別只在有沒有負號。所以不用背四個，記住「<b>右邊大、上面大</b>」就好。', 'y');
+        return;
+      }
+      say(out, '✓ 到了' + (c[0] === 'l' ? '左' : '右') + (c[1] === 't' ? '上' : '下') +
+               '角。還有 ' + (4 - hit) + ' 個角落沒去過。', 'y');
+      return;
+    }
+  }
+  say(out, '小貓在' + zone(x, y) + '　x = <b style="color:#3373CC">' + neg(x) +
+           '</b>　y = <b style="color:#DB6E00">' + neg(y) + '</b>', '');
+};
+
+const from = e => {
+  const r = stage.getBoundingClientRect();
+  place(clamp(snap5((e.clientX - r.left) / r.width * (XMAX * 2) - XMAX), XMAX),
+        clamp(snap5(YMAX - (e.clientY - r.top) / r.height * (YMAX * 2)), YMAX));
+};
+
+let on = false;
+stage.addEventListener('pointerdown', e => {
+  on = true; cat.dataset.drag = '1';
+  stage.setPointerCapture(e.pointerId); from(e); e.preventDefault();
+});
+stage.addEventListener('pointermove', e => { if (on) from(e); });
+const stop = () => { on = false; cat.dataset.drag = '0'; };
+stage.addEventListener('pointerup', stop);
+stage.addEventListener('pointercancel', stop);
+
+place(0, 0);
+say(out, '用滑鼠按住小貓，拖著它在舞台上走走看。', '');
+})();
+</script>
+
+<script>
+/* ── C：象限點名 ──────────────────────────────────────────
+   四題剛好把四種正負組合走一遍。答錯不跳題，把誤解講清楚再來一次。 */
+(() => {
+'use strict';
+const {say, makeDots} = window.__cx;
+
+const quad = document.getElementById('qdQuad');
+if (!quad) return;
+const sx = document.getElementById('qdSx'), sy = document.getElementById('qdSy');
+const out = document.getElementById('qdSay');
+const paint = makeDots(document.getElementById('qdDots'), 4);
+const NAME = {lt:'左上', rt:'右上', lb:'左下', rb:'右下'};
+
+const Q = [
+  {x:1,  y:1,  a:'rt', hi:'兩個都是正的，就在<b>右上</b>——最好記的一塊。'},
+  {x:-1, y:1,  a:'lt', hi:'x 負的＝<b>左邊</b>，y 正的＝<b>上面</b>，合起來就是左上。'},
+  {x:1,  y:-1, a:'rb', hi:'x 正的＝右邊，y 負的＝<b>下面</b>。'},
+  {x:-1, y:-1, a:'lb', hi:'兩個都是負的＝<b>左下</b>。負號就是「往反方向」。'}
+];
+let i = 0, done = 0;
+
+const ask = () => {
+  const q = Q[i];
+  sx.textContent = q.x > 0 ? '正' : '負';
+  sy.textContent = q.y > 0 ? '正' : '負';
+  sx.className = 'cxsign ' + (q.x > 0 ? 'cxsign--pos' : 'cxsign--neg');
+  sy.className = 'cxsign ' + (q.y > 0 ? 'cxsign--pos' : 'cxsign--neg');
+  quad.querySelectorAll('button').forEach(b => { b.dataset.s = ''; b.disabled = false; });
+  paint(done, i);
+};
+
+quad.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+  if (i >= Q.length) return;
+  const q = Q[i], got = btn.dataset.q;
+  if (got === q.a) {
+    btn.dataset.s = 'hit';
+    quad.querySelectorAll('button').forEach(b => b.disabled = true);
+    done = ++i;
+    if (i >= Q.length) {
+      paint(done, -1);
+      say(out, '四塊都答對了！<b>左右看 x 的正負，上下看 y 的正負</b>——兩個分開判斷，就不會亂。', 'y');
+      return;
+    }
+    say(out, '✓ 對了。' + q.hi + ' 換下一題。', 'y');
+    setTimeout(ask, 1500);
+    return;
+  }
+  btn.dataset.s = 'miss';
+  const wrongX = (got[0] === 'l') !== (q.x < 0);
+  const wrongY = (got[1] === 't') !== (q.y > 0);
+  let why;
+  if (wrongX && wrongY) why = '<b>左右和上下都反了。</b>';
+  else if (wrongX) why = 'x 是' + (q.x > 0 ? '正的，要往<b>右邊</b>' : '負的，要往<b>左邊</b>') + '。';
+  else why = 'y 是' + (q.y > 0 ? '正的，要往<b>上面</b>' : '負的，要往<b>下面</b>') + '。';
+  say(out, '你點的是' + NAME[got] + '。' + why + ' 再點一次。', 'n');
+}));
+
+ask();
+})();
+</script>
+
+<script>
+/* ── D：座標傳送（打數字讓小貓跳過去）───────────────────────
+   關鍵：打錯時小貓「真的跳到打錯的地方」，錯在哪一眼就看得到。 */
+(() => {
+'use strict';
+const {XMAX, YMAX, pctX, pctY, clamp, neg, say, makeDots} = window.__cx;
+
+const stage = document.getElementById('tlStage');
+if (!stage) return;
+const cat = document.getElementById('tlCat'), goal = document.getElementById('tlGoal');
+const fx = document.getElementById('tlX'), fy = document.getElementById('tlY');
+const run = document.getElementById('tlRun'), out = document.getElementById('tlSay');
+const paint = makeDots(document.getElementById('tlDots'), 5);
+
+const Q = [
+  {x:120,  y:90,   hi:'右上角那一區，兩個都是正的。'},
+  {x:-120, y:90,   hi:'跨到左邊了，<b>x 要加小橫槓</b>，y 還是正的。'},
+  {x:-150, y:-120, hi:'左下角，<b>兩個都要加小橫槓</b>。'},
+  {x:180,  y:-150, hi:'右下角：x 正的、<b>y 負的</b>。這一組最多人搞錯。'},
+  {x:0,    y:0,    hi:'回到正中間。<b>兩個都填 0</b>——角色跑不見的時候，這招最好用。'}
+];
+let i = 0, done = 0;
+
+const put = (el, x, y) => { el.style.left = pctX(x) + '%'; el.style.top = pctY(y) + '%'; };
+
+const ask = () => {
+  put(goal, Q[i].x, Q[i].y);
+  goal.style.display = '';
+  paint(done, i);
+};
+
+run.addEventListener('click', () => {
+  if (i >= Q.length) return;
+  const q = Q[i];
+  const gx = clamp(Math.round(+fx.value || 0), XMAX);
+  const gy = clamp(Math.round(+fy.value || 0), YMAX);
+  put(cat, gx, gy);
+
+  const dx = Math.abs(gx - q.x), dy = Math.abs(gy - q.y);
+  if (dx <= 20 && dy <= 20) {
+    done = ++i;
+    if (i >= Q.length) {
+      paint(done, -1);
+      goal.style.display = 'none';
+      say(out, '五題全過！你已經會用<b>兩個數字</b>指定舞台上的任何一個位置了。等一下到 Scratch 裡用真的積木做一次。', 'y');
+      return;
+    }
+    say(out, '✓ 命中！' + q.hi + ' 換下一題。', 'y');
+    setTimeout(ask, 1600);
+    return;
+  }
+  const bad = [];
+  if (gx !== 0 && q.x !== 0 && Math.sign(gx) !== Math.sign(q.x))
+    bad.push('<b>x 的正負反了</b>：目標在' + (q.x < 0 ? '左邊，要加小橫槓' : '右邊，不用小橫槓'));
+  else if (dx > 20) bad.push('x 差了 ' + dx + ' 點');
+  if (gy !== 0 && q.y !== 0 && Math.sign(gy) !== Math.sign(q.y))
+    bad.push('<b>y 的正負反了</b>：目標在' + (q.y < 0 ? '下面，要加小橫槓' : '上面，不用小橫槓'));
+  else if (dy > 20) bad.push('y 差了 ' + dy + ' 點');
+  say(out, '小貓跳到 (' + neg(gx) + ', ' + neg(gy) + ') 了——' + bad.join('；') + '。改一下數字再按一次。', 'n');
+});
+
+[fx, fy].forEach(f => f.addEventListener('keydown', e => { if (e.key === 'Enter') run.click(); }));
+put(cat, 0, 0);
+ask();
+})();
+</script>
+
+<script>
+/* ── E：反過來讀座標（四選一）─────────────────────────────
+   每一題的三個錯的選項都是「真的會犯的錯」：
+   ① y 的正負反了　② x 和 y 對調　③ 兩個都反。          */
+(() => {
+'use strict';
+const {pctX, pctY, neg, say, makeDots} = window.__cx;
+
+const box = document.getElementById('rdOpts');
+if (!box) return;
+const cat = document.getElementById('rdCat'), out = document.getElementById('rdSay');
+const paint = makeDots(document.getElementById('rdDots'), 4);
+
+const Q = [
+  {x:120, y:90, opts:[[120,90],[120,-90],[90,120],[-120,90]], why:[
+    '', 'y 的正負反了：小貓在<b>上面</b>，y 要是正的。',
+        'x 和 y 對調了：<b>前面那個是左右</b>，後面那個才是上下。',
+        'x 的正負反了：小貓在<b>右邊</b>，x 不用小橫槓。']},
+  {x:-150, y:60, opts:[[150,60],[-150,60],[-60,150],[-150,-60]], why:[
+    'x 的正負反了：小貓在<b>左邊</b>，x 要加小橫槓。', '',
+        'x 和 y 對調了。左右是 −150，上下才是 60。',
+        'y 的正負反了：小貓在 0 的<b>上面</b>一點，y 是正的。']},
+  {x:90, y:-120, opts:[[90,120],[-90,-120],[90,-120],[-120,90]], why:[
+    'y 的正負反了：小貓在<b>下面</b>，y 一定要加小橫槓。',
+        'x 的正負反了：小貓在<b>右邊</b>。', '',
+        'x 和 y 對調，而且正負也跟著跑掉了。']},
+  {x:-180, y:-90, opts:[[-90,-180],[180,90],[-180,-90],[-180,90]], why:[
+    'x 和 y 對調了。<b>左右先講、上下後講。</b>',
+        '兩個正負都反了：小貓在<b>左下角</b>，兩個都要加小橫槓。', '',
+        'y 的正負反了：小貓在 0 的<b>下面</b>。']}
+];
+let i = 0, done = 0;
+
+const ask = () => {
+  const q = Q[i];
+  cat.style.left = pctX(q.x) + '%'; cat.style.top = pctY(q.y) + '%';
+  box.innerHTML = '';
+  q.opts.forEach((o, k) => {
+    const b = document.createElement('button');
+    b.className = 'cxopt'; b.dataset.k = k;
+    b.textContent = '( ' + neg(o[0]) + ' , ' + neg(o[1]) + ' )';
+    box.appendChild(b);
+  });
+  paint(done, i);
+};
+
+box.addEventListener('click', e => {
+  const btn = e.target.closest('.cxopt');
+  if (!btn || btn.disabled || i >= Q.length) return;
+  const q = Q[i], k = +btn.dataset.k, o = q.opts[k];
+
+  if (o[0] === q.x && o[1] === q.y) {
+    btn.dataset.s = 'hit';
+    box.querySelectorAll('.cxopt').forEach(b => b.disabled = true);
+    done = ++i;
+    if (i >= Q.length) {
+      paint(done, -1);
+      say(out, '四題都對！<b>先看在哪一區（正負），再看離中間多遠</b>——這個順序最不會錯。', 'y');
+      return;
+    }
+    say(out, '✓ 答對了。換下一題。', 'y');
+    setTimeout(ask, 1400);
+    return;
+  }
+  btn.dataset.s = 'miss'; btn.disabled = true;
+  say(out, q.why[k] + ' 再選一次。', 'n');
+});
+
+ask();
+})();
+</script>
+</body>
+</html>
