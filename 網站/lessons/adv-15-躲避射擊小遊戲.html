@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 15 課 · 作品：躲避／射擊小遊戲</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 15 課 · 作品 · 大約 1 節課</span>
+    <h1>作品：<em>躲避／射擊小遊戲</em></h1>
+    <p class="lede">今天<strong style="color:#FFBF00">不教新積木</strong>。分身當子彈或敵人，配上前面單元的計分和生命值，做出單元四的畢業作品。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p><strong style="color:#FFBF00">射擊版</strong>或<strong style="color:#FFBF00">躲避版</strong>，二選一，補上分身那一段。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天怎麼上</h2>
+        <p>打開半成品直接補分身，<strong style="color:#FFBF00">最後會跟同學交換玩</strong>，幫對方抓一個怪怪的地方。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 今天不一樣 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>單元四的畢業作品</h2>
+  <p>主角、計分、生命值都已經在半成品裡幫你做好了。<strong>缺的就是分身那一段</strong>——這正是這學期最後也最重要的一塊拼圖。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🙋 選一版就好，不用兩個都做</h3>
+    <ul>
+      <li><strong>射擊版</strong>：按空白鍵發射子彈，打中敵人加分。</li>
+      <li><strong>躲避版</strong>：敵人從隨機位置不斷冒出來，你要閃開，撐得愈久分數愈高。</li>
+      <li>兩版<strong style="color:#FF6B1A">都用到分身</strong>，選你比較想玩的那一種就好。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 積木小抄 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>你會用到這些積木</h2>
+  <p>全部都是第 13、14 課學過的，忘記哪一塊做什麼，看這裡就好：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <div class="blk blk--control">建立 <i>自己</i> 的分身</div>
+      <small>本尊生一顆子彈或一隻敵人出來</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--events blk--hat">當分身產生</div>
+      <small>子彈／敵人自己的程式，寫在這底下</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>邊緣 ▾</i>？</span> 那麼</div>
+      <small>子彈飛出畫面，或敵人掉出畫面，該刪除了</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--control">刪除此分身</div>
+      <small><strong>一定要放在分身自己的程式裡</strong>，不是本尊的程式裡</small>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. 射擊版 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>射擊版：按空白鍵發射子彈</h2>
+  <p>本尊（發射器）的程式：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat">當按下 <i>空白鍵 ▾</i> 鍵</div>
+    <div class="blk blk--control">建立 <i>自己</i> 的分身</div>
+  </div>
+
+  <p>子彈（分身）的程式：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat">當分身產生</div>
+    <div class="blk blk--looks">顯示</div>
+    <div class="blk blk--motion">定位到 x: <span class="blk blk--sensing" style="display:inline-flex;padding:.1em .4em">主角 的 x 座標</span> y: <span class="blk blk--sensing" style="display:inline-flex;padding:.1em .4em">主角 的 y 座標</span></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--motion">改變 y <i>10</i></div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>敵人 ▾</i>？</span> 那麼</div>
+          <div class="cwrap__in">
+            <div class="blk blk--vars">將 <i>分數</i> 改變 <i>1</i></div>
+            <div class="blk blk--control">刪除此分身</div>
+          </div>
+          <div class="cwrap__end"></div>
+        </div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>邊緣 ▾</i>？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--control">刪除此分身</div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4. 躲避版 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>躲避版：敵人從天而降</h2>
+  <p>本尊（敵人產生器，藏起來的角色）的程式：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--looks">隱藏</div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--control">建立 <i>自己</i> 的分身</div>
+        <div class="blk blk--control">等待 <span class="blk blk--ops" style="display:inline-flex;padding:.1em .4em">隨機取數 <i>0.5</i> 到 <i>1.5</i></span> 秒</div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p>敵人（分身）的程式：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat">當分身產生</div>
+    <div class="blk blk--looks">顯示</div>
+    <div class="blk blk--motion">定位到 x: <span class="blk blk--ops" style="display:inline-flex;padding:.1em .4em">隨機取數 <i>-200</i> 到 <i>200</i></span> y: <i>180</i></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--motion">改變 y <i>-3</i></div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>主角 ▾</i>？</span> 那麼</div>
+          <div class="cwrap__in">
+            <div class="blk blk--vars">將 <i>生命值</i> 改變 <i>-1</i></div>
+            <div class="blk blk--control">刪除此分身</div>
+          </div>
+          <div class="cwrap__end"></div>
+        </div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">y 座標 &lt; -170 ？</span> 那麼</div>
+          <div class="cwrap__in">
+            <div class="blk blk--vars">將 <i>分數</i> 改變 <i>1</i></div>
+            <div class="blk blk--control">刪除此分身</div>
+          </div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p style="font-size:.92rem;color:var(--ink-soft)">躲過一個敵人（沒被碰到、飛到底部）也加分——分數代表「撐了多久」。</p>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 第一關 · 一定要做到</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>打開你選的半成品（射擊或躲避）</li>
+      <li>照著第 3 節或第 4 節，補上<strong>本尊</strong>和<strong>分身</strong>的程式</li>
+      <li>按綠旗玩一次，確認能玩、會計分、分身不會愈堆愈多</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 第二關 · 做完了再加</b>
+      <span class="dobox__tip">加一點規則 👇</span>
+      <span class="dobox__count"><i>0</i> / 2</span>
+    </div>
+    <ol class="steps">
+      <li>加<strong>如果 生命值 = 0 → 停止全部</strong>（第 7 課學的）</li>
+      <li>分數愈高，敵人／子彈的速度或頻率跟著變快</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🥇 第三關 · 還有時間就挑戰</b>
+      <span class="dobox__tip">挑你想做的，不用全做 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>加開始畫面：綠旗先說「按空白鍵開始」，等按下才真的開始</li>
+      <li>加音效：碰到、刪除分身的那一刻播放一個音效</li>
+      <li>換一個自己喜歡的角色和背景</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">射擊版成品試玩</b>
+    <p class="shot__how">錄一段實際玩的畫面：按空白鍵發射、打中敵人加分。約 6 秒。檔名 <code>adv-15-1-射擊成品.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <figure class="shot shot--gif shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">躲避版成品試玩</b>
+    <p class="shot__how">錄一段實際玩的畫面：主角左右閃避敵人，撐愈久分數愈高。約 6 秒。檔名 <code>adv-15-2-躲避成品.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>玩一下畫面就變頓</strong> —— 子彈或敵人忘了刪除分身，第 14 課的重點在這裡驗收。</li>
+      <li><strong>碰到判斷完全沒反應</strong> —— 檢查「碰到」判斷是不是寫在<strong>分身</strong>的程式裡，不是本尊身上（本尊通常已經隱藏，碰不到任何東西）。</li>
+      <li><strong>子彈/敵人全部疊在同一個位置</strong> —— 檢查有沒有用「隨機取數」或「主角的 x 座標」，還是填了固定數字。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 6. 同儕試玩 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>同儕試玩：交換抓怪怪的地方</h2>
+  <p>做完的人，跟旁邊同學<strong>交換玩對方的遊戲</strong>。玩的時候留意這三件事：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">「有沒有卡頓的地方？」</b>
+      <small>玩久一點，畫面會不會愈來愈頓——分身可能沒刪乾淨。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">「分數計得準不準？」</b>
+      <small>打中／躲過的時候，分數有沒有確實加到。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">「有沒有一個怪怪的地方？」</b>
+      <small>不用找到全部的問題，說出<strong>一個</strong>你覺得奇怪的地方就好。</small>
+    </div>
+  </div>
+
+  <p class="predict__hint">💡 <strong>別人玩你的遊戲，是最快找到自己沒發現的 bug 的方法。</strong> 拿到回饋之後，回去修一個地方，再存檔。</p>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-15-射擊-半成品.sb3" download>
+      <span class="ic">🔫</span>
+      <span>adv-15-射擊-半成品.sb3<small>主角、計分、生命值都已完成，缺子彈的分身程式</small></span>
+      <span class="go">下載 →</span>
+    </a>
+    <a class="file" href="../files/adv-15-躲避-半成品.sb3" download>
+      <span class="ic">🛡️</span>
+      <span>adv-15-躲避-半成品.sb3<small>主角、計分、生命值都已完成，缺敵人的分身程式</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效——<strong>這一課沒有半成品幾乎上不完</strong>。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 15 課 · 躲避／射擊小遊戲 —— 單元四完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+</body>
+</html>

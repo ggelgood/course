@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 14 課 · 分身要會消失</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 14 課 · 大約 1 節課</span>
+    <h1>分身<em>要會消失</em></h1>
+    <p class="lede">上禮拜只教怎麼「生」分身。今天要親眼看到<strong style="color:#FFBF00">只生不刪會怎麼爆掉</strong>，還有怎麼收拾。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要解決的問題</h2>
+        <p>分身生一堆卻不刪掉，畫面會<strong style="color:#FFBF00">卡住、變慢，找不出原因</strong>。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的新積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--control">刪除此分身</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 刻意讓它爆掉 ───────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先看一次爆掉的樣子</h2>
+  <p>把上禮拜的下雨程式，本尊的「重複 20 次」<strong>改成「重複無限次」</strong>——生了不停，也沒有刪除的機制。按「🔁 只生不刪」，看畫面會變成怎樣：</p>
+
+  <div class="cxbox">
+    <div class="clonelab" data-clonelab data-limit="140" data-rain-n="20" data-emoji="mix" data-speed="1.6">
+      <div class="cxstage clonelab__stage" data-stage>
+        <i class="cxstage__ax cxstage__ax--x"></i>
+        <i class="cxstage__ax cxstage__ax--y"></i>
+        <canvas class="clonelab__cv" data-cv></canvas>
+        <i class="cxstage__o"></i>
+        <span class="cxcat clonelab__master" data-master>🐱</span>
+      </div>
+      <div class="clonelab__ctl">
+        <button class="pbtn pbtn--pen" data-act="burst">🔁 重複無限次：建立分身（不刪除）</button>
+        <button class="pbtn" style="background:var(--ink-soft)" data-act="stop">⏸ 停止產生</button>
+        <button class="pbtn pbtn--clear" data-act="reset">全部清空</button>
+      </div>
+      <label class="clonelab__chk"><input type="checkbox" data-delete> 飛出畫面下緣就刪除此分身</label>
+      <p class="clonelab__state" data-state></p>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">分身數量一直往上衝，畫面愈來愈滿。<strong style="color:#FF6B1A">這就是「只生不刪」的下場。</strong></p>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 真正的 Scratch 更難查</h3>
+    <p>這台模擬台好心告訴你分身數量。<strong>真正的 Scratch 撞到上限時，不會跳出任何錯誤訊息</strong>——只會覺得「怎麼愈跑愈頓」，新手完全不知道問題出在哪。</p>
+  </div>
+</section>
+
+<!-- ── 2. 加上刪除，順了 ─────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>加一塊「刪除此分身」</h2>
+  <p>回上面那台，勾選<strong>「飛出畫面下緣就刪除此分身」</strong>，再按一次「只生不刪」——這次畫面應該會維持乾淨。</p>
+
+  <p>對應到真正的 Scratch，分身的程式要多這一段：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat">當分身產生</div>
+    <div class="blk blk--looks">顯示</div>
+    <div class="blk blk--motion">定位到 x: <span class="blk blk--ops" style="display:inline-flex;padding:.15em .5em">隨機取數 <i>-240</i> 到 <i>240</i></span> y: <i>180</i></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--motion">改變 y <i>-5</i></div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">y 座標 &lt; -170 ？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--control">刪除此分身</div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p>掉到底部（y 小於 -170）的分身，就把自己刪掉——<strong style="color:#FF6B1A">分身自己刪除自己</strong>，本尊完全不用管這件事。</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">如果把「刪除此分身」接在<strong>本尊</strong>的程式裡（例如放在「建立自己的分身」後面），會發生什麼事？</p>
+    <p class="predict__hint">想想「刪除此分身」是誰在刪誰。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不是完全沒作用——它確實會刪掉分身，只是刪的時機不對，一生出來馬上就刪，等於白生。">完全沒作用，因為本尊不能刪分身</button>
+      <button class="pick" data-v="b" data-say="不會累積更多。相反地，分身一生出來馬上被刪，數量反而不會增加。">分身會越生越多，跟預期一樣</button>
+      <button class="pick" data-v="c" data-say="答對了！「建立自己的分身」之後緊接著「刪除此分身」，等於分身<b>一出生馬上被刪掉</b>，畫面上根本看不到任何一滴雨——這是本課第一大錯：刪除要放在分身自己的程式裡，不是本尊的程式裡。">分身一生出來就立刻消失，畫面上完全看不到</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 分身上限 300 ──────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>記住這個數字：300</h2>
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 Scratch 的分身上限是 300 個</h3>
+    <ul>
+      <li>只生不刪，<strong>一定會撞到這個上限</strong>——差別只在快或慢。</li>
+      <li>撞到的時候<strong>看不到任何錯誤訊息</strong>，只會覺得遊戲愈玩愈頓、愈玩愈怪。</li>
+      <li>所以只要用到分身，<strong style="color:#FF6B1A">「什麼時候該刪除」要跟「什麼時候該建立」一起想清楚</strong>，不要生完就忘記它。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>打開上禮拜的下雨檔案，把本尊的「重複 20 次」<strong>改成「重複無限次」</strong>，跑 10 秒，親眼看畫面卡住</li>
+      <li>在分身程式的無限重複裡，加上<strong>如果 y &lt; -170 → 刪除此分身</strong></li>
+      <li>再跑一次，確認畫面<strong>不再堆積、維持乾淨</strong></li>
+      <li>把本尊改回「重複 20 次」，這樣正式收工比較安全</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">分身爆掉的樣子</b>
+    <p class="shot__how">錄一段「重複無限次建立分身、不刪除」跑 10 秒的畫面，雨滴愈積愈多、愈跑愈頓。約 8 秒。<b>卡住的畫面本身就是教材</b>，不用另外加字說明。檔名 <code>adv-14-1-分身爆掉.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>加了「刪除此分身」還是爆掉</strong> —— 檢查是不是放在<strong>本尊</strong>的程式裡，要放在「當分身產生」底下才對。</li>
+      <li><strong>分身一生出來就不見</strong> —— 「刪除此分身」放在無限重複<strong>外面</strong>，一開始就被執行到了；要放進「如果」裡面，等條件成立才刪。</li>
+      <li><strong>畫面還是慢慢變頓</strong> —— 檢查刪除的條件寫對了嗎（是不是 y 座標，範圍會不會太窄）。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 變化練習 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>試試看：換個刪除時機</h2>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>碰到角色就刪除</b><small>把刪除條件換成「如果 碰到 貓 ▾」，做出「吃掉」的效果。</small></div>
+      <div class="play"><b>飛出邊界就刪除</b><small>用「碰到邊緣」取代 y 座標的判斷，四個方向都能觸發刪除。</small></div>
+      <div class="play"><b>按一下清空全部分身</b><small>試試看能不能做一個按鍵，讓所有分身立刻消失（提示：想想要在哪個程式加判斷）。</small></div>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🌟 加碼（給快的學生）</h3>
+    <p>建立變數時，選<strong>「僅適用於當前分身」</strong>，可以讓每個分身有自己的一份數值（例如自己的下落速度）。這個比較進階，<strong>不是這節課的正課</strong>，有興趣可以自己摸索看看。</p>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-13-下雨範例.sb3" download>
+      <span class="ic">🌧️</span>
+      <span>adv-13-下雨範例.sb3<small>沿用上禮拜的檔案，這次要幫分身加上刪除的判斷</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 14 課 · 分身要會消失</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/clonelab.js?v=1"></script>
+</body>
+</html>

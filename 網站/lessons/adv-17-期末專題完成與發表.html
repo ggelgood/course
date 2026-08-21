@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 17 課 · 期末專題：完成與發表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 17 課 · 期末專題 · 第 2 節（最後一節）</span>
+    <h1>完成，<em>然後演給大家看</em></h1>
+    <p class="lede">這學期的最後一節課，也是<strong style="color:#FFBF00">整個 Scratch 課程的最後一節</strong>。把作品收尾，然後上台讓大家看看你做了什麼。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天的流程</h2>
+        <p><strong style="color:#FFBF00">前半節</strong>：把作品做完、除錯、存檔。<br><strong style="color:#FFBF00">後半節</strong>：輪流上台發表。</p>
+      </div>
+      <div class="today__box">
+        <h2>第一件事</h2>
+        <p>打開你上週的檔案：<strong style="color:#FFBF00">檔案 → 從你的電腦挑選</strong>，找到 <code>座號_姓名_進階期末專題</code>。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 把它做完 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先把基本版做完</h2>
+  <p>回頭看上週草圖學習單的<strong>第 ①～④ 格</strong>——角色、玩法、計分、結束條件。</p>
+  <p><strong>先把它們全部做完</strong>，再考慮加新東西。做到一半的功能不如沒有——<strong style="color:#FF6B1A">能玩比較重要，砍功能不延長</strong>。</p>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 完成基本版</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>打開上週的檔案，確認東西都還在</li>
+      <li>草圖學習單的核心玩法，<strong>全部做完</strong></li>
+      <li>從頭到尾<strong>完整玩一次</strong>，確認會計分、會結束</li>
+      <li><strong>存檔</strong></li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 還有時間就加</b>
+      <span class="dobox__tip">上週寫的「有時間再加」👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>加上<strong>音效</strong>，碰到、計分的那一刻播放一下</li>
+      <li>加一句<strong>開場說明</strong>，讓別人一看就知道怎麼玩</li>
+      <li>加一串<strong>綠旗歸位</strong>：位置、變數、分身都設回開始的樣子</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ── 2. 發表前的除錯 ──────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>發表前，自己抓一次蟲</h2>
+  <p>上台前<strong>一定要從頭跑一次</strong>。進階課特別容易出包的是這幾件事：</p>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🔍 上台前檢查</b>
+      <span class="dobox__tip">每一項都要按按看確認 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <ol class="steps">
+      <li><strong>連按兩次綠旗會壞掉嗎？</strong> 變數有沒有重新設為初始值？</li>
+      <li><strong>玩久一點畫面會不會變頓？</strong> 檢查每一個「建立分身」有沒有配對的「刪除此分身」。</li>
+      <li><strong>自製積木改一次，呼叫的地方都跟著變了嗎？</strong> 確認沒有殘留舊版本沒改到的呼叫。</li>
+      <li><strong>角色會不會跑出舞台不見？</strong> 需要的話加邊界判斷。</li>
+      <li><strong>停不下來的東西有辦法停嗎？</strong> 紅色停止鈕，或加「停止 全部」。</li>
+      <li><strong>有沒有沒接好、孤零零的積木？</strong> 沒接到帽子的積木永遠不會執行。</li>
+    </ol>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 第 2 項是進階課專屬的地雷</h3>
+    <ul>
+      <li>分身沒刪乾淨，<strong>第一次玩不會發現</strong>——要玩久一點、玩兩三次才會卡。</li>
+      <li>發表的時候你一定會<strong>示範不只一次</strong>，這個問題會被放大。</li>
+      <li>解法：檢查每一個「建立自己的分身」，<strong>都要能找到對應的「刪除此分身」</strong>在哪裡觸發。</li>
+    </ul>
+  </div>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>💾 最後存檔</b>
+      <span class="dobox__tip">改完一定要再存一次 👇</span>
+      <span class="dobox__count"><i>0</i> / 2</span>
+    </div>
+    <ol class="steps">
+      <li>點<strong>「檔案 → 儲存到你的電腦」</strong>，蓋掉舊的</li>
+      <li>確認存好了，準備上台</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ── 3. 準備發表 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>準備你的發表內容</h2>
+  <p>上台不是只有把作品播出來。<strong>先想好下面這幾句話</strong>，講起來會順很多：</p>
+
+  <div class="plan">
+    <div class="plan__row">
+      <b>① 我做的是什麼</b>
+      <small>一句話講完。「這是一個要接住掉下來的東西、生命值歸零就結束的遊戲。」</small>
+      <div class="plan__line"></div>
+    </div>
+    <div class="plan__row">
+      <b>② 我用了幾個變數，各自記什麼</b>
+      <small><strong style="color:#FF6B1A">這是進階課發表的固定要求。</strong>「我用了兩個變數：分數記得幾分、生命值記還剩幾條命。」</small>
+      <div class="plan__line"></div>
+    </div>
+    <div class="plan__row">
+      <b>③ 最難做的是哪一段，後來怎麼解決的</b>
+      <small>「一開始分身生了不刪，玩到後面畫面會頓，後來加了『飛出畫面就刪除』才順。」</small>
+      <div class="plan__line"></div>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 為什麼第 ② 句是固定要求</h3>
+    <ul>
+      <li>這是<strong>最快檢核學生有沒有真的懂變數</strong>的方法——講得出來的就是懂了，講不出來的，通常是照抄範例。</li>
+      <li>「記什麼」比「叫什麼名字」更重要——如果答得出「生命值記還剩幾條命」，代表你真的知道這個變數在程式裡的作用，不是隨便建一個而已。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 發表 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>發表時間</h2>
+  <p>輪到你的時候，把你的檔案打開，按綠旗，然後講你準備的內容。<strong>大概一分鐘就好。</strong></p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">上台的人</b>
+      <small>先按綠旗讓大家看，再講三句話，<strong>記得講變數那句</strong>。緊張是正常的。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">台下的人</b>
+      <small>認真看。看到<b>你不會做的效果</b>，記下來等一下問他怎麼做的。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">給回饋的時候</b>
+      <small>說<b>具體</b>的：「我喜歡分身生成的速度」比「很棒」有用一百倍。</small>
+    </div>
+  </div>
+
+  <div class="sos" style="background:#FFF9E6;border-color:var(--b-events)">
+    <h3>🎤 如果你的作品沒做完</h3>
+    <ul>
+      <li><strong>照樣上台。</strong> 做到哪裡就演到哪裡，沒有人會笑你。</li>
+      <li>講你<strong>本來想做什麼</strong>、<strong>卡在哪裡</strong>——這反而是很有價值的分享。</li>
+      <li>真正的程式設計師也常常做不完。<strong>會講清楚自己卡在哪，比假裝做完更厲害。</strong></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 學期結束 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>這學期你走了多遠</h2>
+  <p>開學第一節課，你只會用滑鼠拖角色到 (100, 50)。</p>
+  <p>現在你會：用座標和畫筆畫出圖形、用變數記分數、用隨機讓每次都不一樣、用「如果⋯否則」做判斷、把一段程式包成自己的積木、還有——<strong>讓一份程式同時有很多個自己在跑</strong>。你做出了<strong>四個作品和一個期末專題</strong>。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🎓 最後三件事</h3>
+    <ul>
+      <li><strong>你的檔案都留著。</strong> 想繼續改、想給家人看，隨時可以打開。</li>
+      <li><strong>「程式」和「執行中的程式」是兩件事。</strong> 這是這學期唯一一個真正的電腦科學觀念——同一份程式碼，可以同時有很多份在跑，各跑各的。想通這件事，以後學任何語言都會受用。</li>
+      <li><strong>你學到的不只是 Scratch。</strong> 「把大問題拆成小步驟」「先讓它撞牆，再學怎麼解決」「改一次、全部都改」——這些以後學任何語言都用得到。</li>
+    </ul>
+  </div>
+
+  <details class="reveal">
+    <summary>想知道接下來還可以學什麼？<span class="peek">點我</span></summary>
+    <div class="reveal__in">
+      <p><strong>Scratch 還有清單（list）沒教</strong>——需要同時理解「一個名字裝一整排」和「第幾項」，是變數之後的另一個抽象跳躍，留給下學期。</p>
+      <p><strong>還記得那些「偷看 Python」的面板嗎？</strong> 定義、呼叫、變數、`for`、`if`⋯⋯這些在真正的程式語言裡是一模一樣的東西，只是不用拖積木、改用打字。</p>
+      <p>積木不是玩具版的程式。<strong>你這學期學的每一個概念，專業的程式設計師每天都在用。</strong></p>
+    </div>
+  </details>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 17 課 · 期末專題：完成與發表 —— 兩年的 Scratch 課程到這裡結束，辛苦了 🎉</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+</body>
+</html>

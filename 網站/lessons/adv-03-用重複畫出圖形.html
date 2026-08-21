@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 3 課 · 作品：用重複畫出圖形</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 3 課 · 作品 · 大約 1 節課</span>
+    <h1>作品：<em>用重複畫出圖形</em></h1>
+    <p class="lede">今天<strong style="color:#FFBF00">不教新積木</strong>。把「移動、右轉」和上一課的「畫筆」組在一起，畫出正方形、三角形，還有更多邊的圖形。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>用<strong style="color:#FFBF00">重複</strong>畫出正方形、正三角形，還有你自己想挑戰的圖形。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的關鍵數字</h2>
+        <p>畫完一整圈，總共要轉<strong style="color:#FFBF00">一整圈（360 度）</strong>。轉幾次，每次就轉 <strong>360 ÷ 次數</strong> 度。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 今天不一樣 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>今天不一樣</h2>
+  <p>前兩節課，每一節都在學新積木。今天<strong>一塊新的都沒有</strong>——「移動」「右轉」是入門課教過的，「下筆」「全部擦掉」是上禮拜教的。今天是把它們<strong>組起來</strong>，畫出圖形。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🙋 上禮拜的畫筆還記得嗎</h3>
+    <ul>
+      <li>忘記怎麼「加入畫筆擴充功能」的，先翻回<a href="adv-02-畫筆讓角色邊走邊畫.html">上一課</a>看一下，只要 1 分鐘。</li>
+      <li>今天每個程式開頭都會用到<strong>全部擦掉、下筆</strong>——這個習慣上禮拜已經練過了。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 笨方法 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>先笨笨地畫一次正方形</h2>
+  <p>正方形有<strong>四條一樣長的邊</strong>，每個角都是<strong>直角（90 度）</strong>。最直接的做法，就是「移動、右轉」寫四次：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--ops">全部擦掉</div>
+    <div class="blk blk--ops">下筆</div>
+    <div class="blk blk--motion">移動 <i>100</i> 點</div>
+    <div class="blk blk--motion">右轉 <i>90</i> 度</div>
+    <div class="blk blk--motion">移動 <i>100</i> 點</div>
+    <div class="blk blk--motion">右轉 <i>90</i> 度</div>
+    <div class="blk blk--motion">移動 <i>100</i> 點</div>
+    <div class="blk blk--motion">右轉 <i>90</i> 度</div>
+    <div class="blk blk--motion">移動 <i>100</i> 點</div>
+    <div class="blk blk--motion">右轉 <i>90</i> 度</div>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">這串程式能畫出正方形沒錯。但如果想把邊長從 100 改成 150，要改幾個地方？</p>
+    <p class="predict__hint">數數看上面「移動 100 點」出現了幾次。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不只一個——「移動 100 點」在這串程式裡出現了四次，每一個都要分別改。">1 個地方</button>
+      <button class="pick" data-v="b" data-say="答對了！四塊「移動 100 點」要一個一個改成 150，改漏一個，畫出來的就不是正方形了。這就是複製貼上的麻煩。">4 個地方</button>
+      <button class="pick" data-v="c" data-say="「右轉 90 度」不用改——邊長跟角度是兩件事，改邊長不需要動到轉彎的角度。">8 個地方</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 用重複濃縮 ────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>用「重複」把它濃縮</h2>
+  <p>「移動、右轉」重複了四次，剛好可以塞進<strong>重複 4 次</strong>裡面：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1rem">😖 笨方法</b>
+      <div class="stack" style="margin:.5rem 0 0">
+        <div class="blk blk--motion">移動 <i>100</i> 點</div>
+        <div class="blk blk--motion">右轉 <i>90</i> 度</div>
+        <div class="blk blk--motion">移動 <i>100</i> 點</div>
+        <div class="blk blk--motion">右轉 <i>90</i> 度</div>
+        <div class="blk blk--motion">…（還有四塊）</div>
+      </div>
+      <small>8 塊積木，改邊長要改 4 個地方</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1rem">😎 聰明方法</b>
+      <div class="stack" style="margin:.5rem 0 0">
+        <div class="cwrap">
+          <div class="blk blk--control">重複 <i>4</i> 次</div>
+          <div class="cwrap__in">
+            <div class="blk blk--motion">移動 <i>100</i> 點</div>
+            <div class="blk blk--motion">右轉 <i>90</i> 度</div>
+          </div>
+          <div class="cwrap__end cwrap__end--loop"></div>
+        </div>
+      </div>
+      <small>2 塊積木裝進重複裡，改邊長只要改 1 個地方</small>
+    </div>
+  </div>
+
+  <p>結果<strong>一模一樣</strong>，但短了很多，也好改很多。</p>
+</section>
+
+<!-- ── 4. 挑戰三角形 ────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>挑戰：正三角形</h2>
+  <p>正方形轉 4 次、每次 90 度。那正三角形呢？<strong>轉 3 次</strong>——但每次要轉幾度？</p>
+
+  <p>下面這台會照你填的數字畫。<strong style="color:#FF6B1A">先照直覺填填看，不用先想對。</strong></p>
+
+  <div class="cxbox">
+    <div class="penlab" data-penlab>
+      <div class="cxstage penlab__stage" data-stage>
+        <i class="cxstage__ax cxstage__ax--x"></i>
+        <i class="cxstage__ax cxstage__ax--y"></i>
+        <canvas class="penlab__cv" data-cv></canvas>
+        <i class="cxstage__o"></i>
+        <i class="penlab__dir" data-dir></i>
+        <span class="cxcat penlab__cat" data-cat>🐱</span>
+      </div>
+
+      <div class="penlab__row">
+        <label>邊數 <input class="pnum" type="number" min="3" max="12" value="3" data-sides></label>
+        <label>每次轉 <input class="pnum" type="number" min="1" max="180" value="60" data-angle> 度</label>
+      </div>
+      <div class="penlab__ctl">
+        <button class="pbtn pbtn--go" data-act="poly">畫畫看</button>
+        <button class="pbtn pbtn--clear" data-act="clear">全部擦掉</button>
+      </div>
+
+      <p class="penlab__state" data-state></p>
+    </div>
+  </div>
+
+  <p>大部分人第一次都會填 <strong>60 度</strong>——因為正三角形的角看起來就是 60 度。試試看，畫出來是什麼樣子？</p>
+
+  <div class="predict" data-ans="a">
+    <p class="predict__q">填「邊數 3、每次轉 60 度」，畫出來會是正三角形嗎？</p>
+    <p class="predict__hint">先猜，再回上面試一次。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="答對了！60 度是三角形裡面的角（內角），但程式要的是「轉彎轉了幾度」，這兩個不是同一件事——轉太少，角色沒轉夠就往前走，圖形會歪掉、收不回起點。" >不會，圖形會歪掉，收不回起點</button>
+      <button class="pick" data-v="b" data-say="可惜不是。填 60 度畫出來的圖形會歪掉——角色轉的角度不夠，走不出正三角形。試試看就知道了。">會，跟正方形一樣準確</button>
+      <button class="pick" data-v="c" data-say="程式不會擋你，填多少就轉多少度——但畫出來的形狀會是錯的，不會自動修正。">程式會自動擋住，不讓你填錯</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>💡 為什麼是 60 度不對</h3>
+    <ul>
+      <li>60 度是三角形<strong>裡面的角</strong>（內角）。但「右轉」量的是<strong>身體轉了幾度</strong>，跟內角是兩回事。</li>
+      <li>想像你自己沿著三角形的邊走：走到一個角，要<strong>轉夠一個角度才能接上下一條邊</strong>。把三個角落轉的角度加起來，剛好是<strong>繞一整圈，也就是 360 度</strong>。</li>
+      <li>所以三角形每次要轉 <strong>360 ÷ 3 ＝ 120 度</strong>。回到上面那台，把角度改成 <strong>120</strong> 再畫一次看看。</li>
+      <li style="color:var(--go)"><strong>記住這句話：轉幾次，就填 360 ÷ 次數。</strong>這是今天最重要的公式，正方形、三角形、六邊形、八邊形都靠它。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>換你在 Scratch 裡做</h2>
+  <p>分成三關。<strong>第一關一定要做到</strong>，後面兩關做得到多少算多少。</p>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 第一關 · 一定要做到</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>拼出開頭：<strong>當綠旗被點擊 → 全部擦掉 → 下筆</strong></li>
+      <li>用<strong>重複 4 次</strong>包住「移動、右轉 90 度」，畫出<strong>正方形</strong></li>
+      <li>改成<strong>重複 3 次</strong>，右轉先填 60 度，看它歪掉</li>
+      <li>改成 <strong>120 度</strong>，畫出正確的<strong>正三角形</strong></li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 第二關 · 做完了再加</b>
+      <span class="dobox__tip">用今天的公式自己算 👇</span>
+      <span class="dobox__count"><i>0</i> / 2</span>
+    </div>
+    <ol class="steps">
+      <li>畫一個<strong>正六邊形</strong>：重複 6 次，右轉要填幾度？自己用 360 ÷ 次數算</li>
+      <li>畫一個<strong>正八邊形</strong>：重複 8 次，右轉要填幾度？</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🥇 第三關 · 還有時間就挑戰</b>
+      <span class="dobox__tip">挑你想做的，不用全做 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>畫一個<strong>圓</strong>：重複 36 次，右轉 10 度（36 × 10 ＝ 360，邊數多到看起來就是圓）</li>
+      <li>回第 4 節的那台機器，先試出更多邊數的角度（想想看正十二邊形要轉幾度？）</li>
+      <li>每畫一種圖形前，換一次<strong>筆的顏色</strong>，畫出彩色的一排圖形</li>
+      <li>用「定位到 x: y:」把圖形分別畫在舞台的不同位置，排成一排</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--wide">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">四種圖形成品並排</b>
+    <p class="shot__how">把正方形、正三角形、正六邊形、圓排在同一張截圖裡（可以用第三關的「定位到」把它們畫在不同位置）。放在講義上當範例。檔名 <code>adv-03-1-四種圖形成品.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>圖形歪掉、收不回起點</strong> —— 轉的角度用成了內角，不是 360 ÷ 次數。回第 4 節重算一次。</li>
+      <li><strong>什麼都沒畫出來</strong> —— 忘了「下筆」，這是上禮拜學過的坑。</li>
+      <li><strong>畫面愈畫愈亂</strong> —— 忘了在綠旗後面放「全部擦掉」，舊的圖案疊在一起了。</li>
+      <li>都試過還是不行，舉手找老師。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-03-圖形範例.sb3" download>
+      <span class="ic">🔷</span>
+      <span>adv-03-圖形範例.sb3<small>老師做好的範例，四種圖形都在同一個檔案裡</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 3 課 · 用重複畫出圖形 —— 單元一完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/penlab.js?v=5"></script>
+</body>
+</html>

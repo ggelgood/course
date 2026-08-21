@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 8 課 · 作品：接東西計分遊戲</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 8 課 · 作品 · 大約 1 節課</span>
+    <h1>作品：<em>接東西計分遊戲</em></h1>
+    <p class="lede">今天<strong style="color:#FFBF00">不教新積木</strong>。把變數、隨機、碰到判斷全部組起來，做出這學期<strong>第一個真的能玩的東西</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>蘋果從天上<strong style="color:#FFBF00">不斷掉下來</strong>，用<strong>方向鍵移動的碗</strong>去接，接到<strong>分數加一分</strong>。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天怎麼上</h2>
+        <p><strong style="color:#FFBF00">時間最緊的一課</strong>，直接打開半成品範例檔，不用從零開始搭。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 今天不一樣 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>單元二的終點</h2>
+  <p>前四節課：變數、設為與改變、隨機、如果否則。今天全部用上，做一個<strong>會計分、會結束、玩起來有意思</strong>的東西——不是「會動的作品」，是「可以玩的遊戲」。</p>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 一定要打開範例檔，不要從零搭</h3>
+    <ul>
+      <li>今天時間最緊。範例檔裡<strong>兩個角色、背景都已經放好</strong>，程式是空的，直接開始拼積木就好。</li>
+      <li>從零搭角色、背景會用掉太多時間，<strong>光準備就沒時間玩到「真的在玩遊戲」的感覺</strong>。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 積木小抄 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>你會用到這些積木</h2>
+  <p>全部都是前四節課學過的。忘記哪一塊做什麼，看這裡就好：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <div class="blk blk--vars">將 <i>分數</i> 設為 <i>0</i></div>
+      <small>綠旗開頭一定要有，<strong>不然重玩會接著上次的分數</strong>（第 5 課的坑）</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">定位到 x: <i>隨機</i> y: <i>180</i></div>
+      <small>蘋果每次從<strong>上緣隨機的 x 位置</strong>重新掉下來</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--motion">改變 y <i>-5</i></div>
+      <small>y 愈變愈小，蘋果<strong>往下掉</strong></small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>蘋果 ▾</i>？</span> 那麼</div>
+      <small>碗跟蘋果重疊時，這裡面的事才會發生</small>
+    </div>
+    <div class="cheat">
+      <div class="blk blk--vars">將 <i>分數</i> 改變 <i>1</i></div>
+      <small>接到一次加一分——<strong>是「改變」不是「設為」</strong></small>
+    </div>
+    <div class="cheat">
+      <div class="cwrap">
+        <div class="blk blk--control">重複無限次</div>
+        <div class="cwrap__in"><div class="blk blk--motion">改變 y <i>-5</i></div></div>
+        <div class="cwrap__end cwrap__end--loop"></div>
+      </div>
+      <small>蘋果要<strong>一直掉</strong>，所以包在無限重複裡</small>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. 蘋果的程式 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>先做蘋果：掉下來、掉到底重來</h2>
+  <p>點選「蘋果」角色，拼出這串：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--motion">定位到 x: <span class="blk blk--ops" style="display:inline-flex;padding:.15em .5em">隨機取數 <i>-200</i> 到 <i>200</i></span> y: <i>170</i></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--motion">改變 y <i>-5</i></div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">y 座標 &lt; -170 ？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--motion">定位到 x: <span class="blk blk--ops" style="display:inline-flex;padding:.15em .5em">隨機取數 <i>-200</i> 到 <i>200</i></span> y: <i>170</i></div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p>念出來就是：<strong>蘋果不斷往下掉，掉到底就跳回頂端，換一個新的隨機位置重新掉。</strong></p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">如果把「如果 y 座標 &lt; -170」判斷放在無限重複<strong>外面</strong>（跟重複同一層，不是包在裡面），會發生什麼事？</p>
+    <p class="predict__hint">想想「如果」只檢查一次，還是每次都檢查。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不會一路掉出畫面消失不見——「如果」放外面的話，它只在程式一開始執行一次，之後就再也不會檢查了。">蘋果會一路掉出畫面，消失不見</button>
+      <button class="pick" data-v="b" data-say="答對了！「如果」放在重複外面，只會在程式跑到那一行的當下檢查一次（那時候 y 還是 170，條件不成立），之後蘋果掉到底也不會再被檢查到，會一路掉出畫面。">蘋果會一直重複判斷，效果不會變</button>
+      <button class="pick" data-v="c" data-say="不會出錯。程式會正常執行，只是「掉到底重來」這個效果不會發生。">Scratch 會顯示錯誤訊息</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 4. 碗的程式 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>再做碗：方向鍵移動、接到加分</h2>
+  <p>點選「碗」角色：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--vars">將 <i>分數</i> 設為 <i>0</i></div>
+    <div class="blk blk--motion">定位到 x: <i>0</i> y: <i>-150</i></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in">
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">按下 <i>向右 ▾</i> 鍵？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--motion">改變 x <i>10</i></div></div>
+          <div class="cwrap__end"></div>
+        </div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">按下 <i>向左 ▾</i> 鍵？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--motion">改變 x <i>-10</i></div></div>
+          <div class="cwrap__end"></div>
+        </div>
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>蘋果 ▾</i>？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--vars">將 <i>分數</i> 改變 <i>1</i></div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 為什麼移動的判斷也要放進無限重複</h3>
+    <ul>
+      <li>「按下方向鍵」跟「碰到蘋果」都需要<strong>每一格畫面都重新檢查一次</strong>——放進無限重複，才能一直盯著。</li>
+      <li>放外面的話，只會在綠旗那一瞬間檢查一次，之後按鍵盤完全沒反應。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>換你在 Scratch 裡做</h2>
+  <p>分成三關。<strong>第一關一定要做到</strong>，後面兩關做得到多少算多少。</p>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 第一關 · 一定要做到</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>打開範例檔，選「蘋果」角色，拼出第 3 節的<strong>掉落程式</strong></li>
+      <li>選「碗」角色，拼出<strong>方向鍵移動</strong>的部分</li>
+      <li>加上<strong>碰到蘋果就加分</strong></li>
+      <li>按綠旗，玩一次，確認分數會累加</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 第二關 · 做完了再加</b>
+      <span class="dobox__tip">加一點規則 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>建一個<strong>生命值</strong>變數，綠旗設為 3；蘋果碰到<strong>地板沒接到</strong>就扣一點（想想看「碰到地板」跟「y 座標 &lt; -170」是不是同一件事）</li>
+      <li>加<strong>如果 生命值 = 0 → 停止全部</strong>（第 7 課學的）</li>
+      <li>用<strong>時間</strong>變數做限時 30 秒（第 5 課的倒數計時）</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🥇 第三關 · 還有時間就挑戰</b>
+      <span class="dobox__tip">挑你想做的，不用全做 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>分數愈高，蘋果掉得<strong>愈快</strong>（改變 y 的數字跟著分數變大）</li>
+      <li>加第二種掉落物（例如石頭），碰到<strong>扣分</strong>而不是加分</li>
+      <li>換一個自己喜歡的角色和背景</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">完成的接東西遊戲試玩</b>
+    <p class="shot__how">錄一段實際玩的畫面：蘋果掉下來、碗左右移動去接、分數即時累加。約 8 秒。放在講義最顯眼的地方，讓學生知道目標長什麼樣。檔名 <code>adv-08-1-成品試玩.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>分數一直是 0，接到也沒反應</strong> —— 檢查「碰到蘋果」有沒有放進無限重複裡面，還是只在最外面檢查一次。</li>
+      <li><strong>重玩一次分數沒歸零</strong> —— 綠旗開頭忘了「分數設為 0」，第 5 課的坑又出現了。</li>
+      <li><strong>蘋果掉出畫面就不見了</strong> —— 檢查「如果 y &lt; -170」是不是放在無限重複<strong>裡面</strong>，不是外面。</li>
+      <li><strong>方向鍵按了角色不動</strong> —— 檢查「如果按下…鍵」有沒有放進無限重複，只放外面只會檢查一次。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-08-接東西-半成品.sb3" download>
+      <span class="ic">🍎</span>
+      <span>adv-08-接東西-半成品.sb3<small>蘋果、碗兩個角色和背景都已放好，程式是空的，直接拼積木</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效——<strong>這一課沒有這個檔案幾乎上不完</strong>。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 8 課 · 接東西計分遊戲 —— 單元二完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+</body>
+</html>

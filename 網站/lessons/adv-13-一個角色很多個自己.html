@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 13 課 · 一個角色，很多個自己</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 13 課 · 大約 1 節課 · 本學期終點</span>
+    <h1>一個角色，<em>很多個自己</em></h1>
+    <p class="lede">要下 20 滴雨，<strong style="color:#FFBF00">難道要放 20 個角色？</strong> 今天教這學期最重要的一塊積木——分身。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個角色，按一下綠旗，<strong style="color:#FFBF00">變出 20 滴各自往下掉的雨滴</strong>。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的新積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--control">建立 <i>自己</i> 的分身</div>
+          <div class="blk blk--events blk--hat">當分身產生</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 問題與比喻 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>20 滴雨，難道要放 20 個角色？</h2>
+  <p>想做下雨的效果，一滴雨用一個角色，20 滴雨就要放 20 個角色——每個角色都要自己寫一次程式。這太誇張了。</p>
+  <p><strong style="color:#FF6B1A">今天的做法：一個角色，複製出好幾個「分身」</strong>，每個分身各自往下掉，互不干擾。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 用食譜來想像分身</h3>
+    <ul>
+      <li>你的程式是<strong>一張食譜</strong>。</li>
+      <li>「建立自己的分身」就是<strong>照食譜做出一盤菜</strong>。</li>
+      <li>做 20 次，就有<strong>20 盤菜，各自放在各自的桌上</strong>——<strong style="color:#FF6B1A">食譜只有一份，但菜有 20 盤，各吃各的、互不影響</strong>。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 本尊要藏起來 ───────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>本尊：負責生，自己藏起來</h2>
+  <p>原本的角色叫<strong>本尊</strong>。本尊的工作只有一件事：<strong>生出分身，然後把自己藏起來</strong>。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--looks">隱藏</div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複 <i>20</i> 次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--control">建立 <i>自己</i> 的分身</div>
+        <div class="blk blk--control">等待 <i>0.2</i> 秒</div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 這個習慣今天就要養成：本尊要隱藏</h3>
+    <p>不隱藏的話，畫面上會多一隻<strong>不會動的本尊</strong>杵在原地——分身都在忙，本尊自己站著不動，很奇怪也很容易搞混。<strong>養成「生完就藏」的習慣。</strong></p>
+  </div>
+</section>
+
+<!-- ── 3. 分身的程式 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>分身：自己的一份，自己跑</h2>
+  <p>本尊只負責「生」，分身要做什麼，寫在<strong>另一塊全新的事件積木</strong>底下：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat">當分身產生</div>
+    <div class="blk blk--looks">顯示</div>
+    <div class="blk blk--motion">定位到 x: <span class="blk blk--ops" style="display:inline-flex;padding:.15em .5em">隨機取數 <i>-240</i> 到 <i>240</i></span> y: <i>180</i></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複無限次</div>
+      <div class="cwrap__in"><div class="blk blk--motion">改變 y <i>-5</i></div></div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 這是整個學期最重要的一句話</h3>
+    <p><strong style="color:#FF6B1A">「當分身產生」底下的程式，每一個分身都會各跑一份。</strong> 呼應剛剛的食譜比喻：這塊積木底下寫的，就是<strong>每一盤菜自己會做的事</strong>——20 盤菜，各自照著同一張食譜動作，但彼此互不干擾。</p>
+  </div>
+</section>
+
+<!-- ── 4. 動手試：下雨模擬台 ─────────── -->
+<section>
+  <h2 class="h2"><b>4</b>先看一次「下雨」長什麼樣</h2>
+  <p>按「🚩 下 20 滴雨」，本尊（🐱）會先藏起來，然後每 0.2 秒生一滴，每一滴各自往下掉：</p>
+
+  <div class="cxbox">
+    <div class="clonelab" data-clonelab data-limit="60" data-rain-n="20" data-emoji="💧" data-speed="2.4">
+      <div class="cxstage clonelab__stage" data-stage>
+        <i class="cxstage__ax cxstage__ax--x"></i>
+        <i class="cxstage__ax cxstage__ax--y"></i>
+        <canvas class="clonelab__cv" data-cv></canvas>
+        <i class="cxstage__o"></i>
+        <span class="cxcat clonelab__master" data-master>🐱</span>
+      </div>
+      <div class="clonelab__ctl">
+        <button class="pbtn pbtn--go" data-act="rain">🚩 下 20 滴雨</button>
+        <button class="pbtn pbtn--clear" data-act="reset">全部清空</button>
+      </div>
+      <p class="clonelab__state" data-state></p>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">注意看：本尊<strong>一開始生就消失了</strong>，畫面上動的全部是分身。這台<strong>沒有刪除分身</strong>，雨滴會一路掉到底部堆著——下禮拜會處理這件事。</p>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>選一個雨滴造型的角色，拼出<strong>本尊的程式</strong>（第 2 節）：綠旗 → 隱藏 → 重複 20 次：建立分身、等 0.2 秒</li>
+      <li>拼出<strong>分身的程式</strong>（第 3 節）：當分身產生 → 顯示 → 隨機定位到頂端 → 重複無限次：y 改變 -5</li>
+      <li>按綠旗，確認<strong>本尊消失，20 滴雨各自往下掉</strong></li>
+      <li>試著把「20」改成「50」，觀察畫面變化</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">下雨成品：本尊消失，一堆雨滴各自往下掉</b>
+    <p class="shot__how">按綠旗錄一段完整過程：本尊瞬間隱藏，雨滴一滴一滴冒出來各自下落。約 6 秒。檔名 <code>adv-13-1-下雨成品.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">本尊隱藏前後對比</b>
+    <p class="shot__how">兩張並排：左邊沒加「隱藏」，本尊呆呆站在中間；右邊加了「隱藏」，畫面只剩雨滴。讓學生一眼看出差別。檔名 <code>adv-13-2-本尊隱藏前後對比.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>畫面上有一隻不會動的角色</strong> —— 本尊忘了隱藏，加一塊「隱藏」在綠旗底下。</li>
+      <li><strong>按綠旗什麼都沒發生</strong> —— 檢查分身的程式是不是接在<strong>「當分身產生」</strong>底下，而不是「當綠旗被點擊」。這是本課最常見的錯。</li>
+      <li><strong>雨滴全部疊在同一個位置</strong> —— 檢查「定位到」有沒有真的用了「隨機取數」，還是填了固定數字。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 6. 變化練習 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>試試看：換個效果</h2>
+
+  <div class="dobox dobox--bare">
+    <div class="dobox__head">
+      <b>🎲 試試看</b>
+      <span class="dobox__tip">不用照順序，挑喜歡的做 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <div class="playgrid">
+      <div class="play"><b>星星往上飄</b><small>把「y 改變 -5」換成「y 改變 5」，定位到底部出發，看星星飄上去。</small></div>
+      <div class="play"><b>氣泡邊飄邊變大</b><small>在無限重複裡加一塊「尺寸改變 1」，分身會愈長愈大。</small></div>
+      <div class="play"><b>按空白鍵才生一個</b><small>把本尊的「重複 20 次」換成「當按下空白鍵 → 建立分身」，想生就按。</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-13-下雨範例.sb3" download>
+      <span class="ic">🌧️</span>
+      <span>adv-13-下雨範例.sb3<small>老師做好的範例，可以拆開看本尊和分身的程式怎麼分工</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 13 課 · 一個角色，很多個自己</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/clonelab.js?v=1"></script>
+</body>
+</html>

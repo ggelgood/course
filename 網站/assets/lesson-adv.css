@@ -244,3 +244,147 @@
   .cxline__num{font-size:.72rem}
   .cxstage__cnr{font-size:.66rem}
 }
+
+/* ── 元件 F：畫筆工作台（第 2、3 課）───────────────────────
+   一台小烏龜。角色在舞台上走，下筆的時候留下線。
+   線畫在 <canvas> 上，但每一段都存進 strokes 陣列，
+   視窗縮放時整張重畫——不然縮一下畫好的圖就沒了。          */
+.penlab{max-width:520px; margin:0 auto}
+.penlab__stage{position:relative}
+.penlab__cv{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+.penlab__dir{
+  position:absolute; left:50%; top:50%; width:64px; height:64px;
+  margin:-32px 0 0 -32px; pointer-events:none;
+  transition:left .18s, top .18s, transform .2s;
+}
+.penlab__dir::after{
+  content:"➤"; position:absolute; left:100%; top:50%;
+  transform:translate(-2px,-50%); font-size:.95rem; color:var(--accent);
+  text-shadow:0 0 3px #fff, 0 0 3px #fff;
+}
+.penlab__cat{z-index:2}
+
+/* 控制列 */
+.penlab__ctl{display:flex; flex-wrap:wrap; gap:.45rem; justify-content:center; margin:.9rem 0 0}
+.pbtn{
+  font-family:var(--body); font-size:.9rem; font-weight:600; color:#fff;
+  border:none; border-radius:999px; padding:.42rem .95rem; cursor:pointer;
+  box-shadow:var(--shadow-sm); transition:transform .12s, filter .15s;
+}
+.pbtn:hover{filter:brightness(1.07)}
+.pbtn:active{transform:translateY(2px); box-shadow:none}
+.pbtn:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
+.pbtn--pen{background:var(--b-motion)}      /* 畫筆積木在 Scratch 是綠色，但這裡沿用「動作」的藍 */
+.pbtn--pen[data-on="1"]{background:#0C7268; box-shadow:inset 0 0 0 3px rgba(255,255,255,.5)}
+.pbtn--move{background:var(--b-motion)}
+.pbtn--clear{background:var(--ink-soft)}
+.pbtn--go{background:var(--accent)}
+.pbtn:disabled{opacity:.5; cursor:default; filter:none}
+
+/* 顏色與粗細 */
+.penlab__row{
+  display:flex; flex-wrap:wrap; gap:.6rem; align-items:center;
+  justify-content:center; margin:.7rem 0 0; font-size:.86rem; color:var(--ink-soft);
+}
+.pswatch{
+  width:26px; height:26px; border-radius:50%; cursor:pointer;
+  border:3px solid var(--card); box-shadow:0 0 0 1.5px var(--rule);
+}
+.pswatch[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+.psize{width:120px; accent-color:var(--accent)}
+.penlab__state{
+  text-align:center; font-size:.88rem; margin:.8rem 0 0;
+  font-family:var(--mono); color:var(--ink-soft);
+}
+.penlab__state b{color:var(--ink)}
+
+/* 多邊形參數（第 3、12 課用，poly 模式）*/
+.pnum{
+  width:56px; padding:.3rem .4rem; text-align:center;
+  border:2px solid var(--rule); border-radius:8px;
+  font-family:var(--mono); font-size:1rem; color:var(--ink);
+}
+.pnum:focus-visible{outline:3px solid var(--ink); outline-offset:1px}
+.penlab__row label{display:inline-flex; align-items:center; gap:.35rem}
+
+/* ── 元件 G：變數模擬台（varlab，第 4–7 課）─────────────────
+   假的「舞台監看框」。按鈕跑一小段程式，數字跟著跳。          */
+.varlab{max-width:480px; margin:0 auto}
+.varlab__panel{
+  background:#2B2119; border-radius:14px; padding:1rem 1rem .9rem;
+  box-shadow:var(--shadow-sm);
+}
+.varlab__chk{
+  display:flex; align-items:center; gap:.5rem; color:#FBF6EC;
+  font-size:.86rem; margin:0 0 .7rem; cursor:pointer; user-select:none;
+}
+.varlab__chk input{width:17px; height:17px; accent-color:var(--b-vars)}
+.varlab__mons{display:flex; flex-wrap:wrap; gap:.55rem}
+.varlab__mon{
+  display:flex; align-items:center; gap:.4rem;
+  background:rgba(255,255,255,.94); border-radius:8px;
+  padding:.32rem .6rem; box-shadow:0 2px 0 rgba(0,0,0,.25);
+  transition:opacity .15s, transform .15s;
+}
+.varlab__mon--hidden{opacity:0; transform:scale(.85); pointer-events:none}
+.varlab__label{font-size:.78rem; font-weight:700; color:#5A4A3A}
+.varlab__val{font-family:var(--mono); font-weight:700; font-size:1.05rem; color:var(--b-vars-d); min-width:1.4em; text-align:right}
+.varlab__mon--flash{animation:varlabPulse .3s ease}
+@keyframes varlabPulse{
+  0%{transform:scale(1)} 35%{transform:scale(1.18); box-shadow:0 0 0 3px var(--b-vars)} 100%{transform:scale(1)}
+}
+.varlab__ctl{display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin:.9rem 0 0}
+.varlab__say{
+  text-align:center; font-size:.9rem; margin:.7rem 0 0; min-height:1.4em;
+  color:var(--ink-soft);
+}
+.varlab__say:not(:empty){color:var(--ink); font-weight:600}
+
+/* 兩台並排（第 5 課「設為 vs 改變」對照賽）*/
+.vrace{display:grid; grid-template-columns:1fr; gap:1.1rem; margin:1rem 0}
+@media (min-width:640px){ .vrace{grid-template-columns:1fr 1fr} }
+.vrace__c{
+  background:var(--card); border:2px solid var(--rule); border-radius:14px;
+  padding:1rem; text-align:center;
+}
+.vrace__c h4{margin:0 0 .6rem; font-family:var(--display)}
+.vrace__c--a h4{color:var(--accent)}
+.vrace__c--b h4{color:var(--go)}
+@media (prefers-reduced-motion: reduce){
+  .varlab__mon--flash{animation:none}
+}
+
+/* ── 自製積木色（第 10、11、12 課）─────────────────────────
+   Scratch「我的積木」分類是桃紅色，官方色版沒收進 lesson.css，
+   進階課才用得到，所以放在這裡。                              */
+:root{ --b-my: #FF6680; --b-my-d: #FF3355; }
+.blk--my{--c:var(--b-my); --cd:var(--b-my-d)}
+
+/* ── 元件 H：條件模擬台（condlab，第 7 課）───────────────────
+   輸入一個數字，即時看「如果…否則」是走哪一邊。            */
+.condlab{max-width:440px; margin:0 auto; text-align:center}
+.condlab__in{display:inline-flex; align-items:center; gap:.5rem; font-size:.95rem; margin:0 0 .8rem}
+.condlab__out{
+  margin:.8rem 0 0; font-size:.92rem; min-height:1.4em; color:var(--ink-soft);
+}
+.condlab__out:not(:empty){color:var(--ink); font-weight:600}
+.hilite{
+  outline:3px solid var(--go); outline-offset:2px; border-radius:10px;
+  background:var(--go-soft); transition:outline-color .15s, background .15s;
+}
+
+/* ── 元件 I：分身模擬台（clonelab，第 13、14 課）────────────
+   本尊負責生，畫布上一堆獨立下落的小圓點是分身。              */
+.clonelab{max-width:520px; margin:0 auto}
+.clonelab__stage{position:relative}
+.clonelab__cv{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+.clonelab__master{z-index:2; transition:opacity .2s}
+.clonelab__ctl{display:flex; flex-wrap:wrap; gap:.45rem; justify-content:center; margin:.9rem 0 0}
+.clonelab__chk{
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+  font-size:.88rem; margin:.8rem 0 0; cursor:pointer; user-select:none; color:var(--ink-soft);
+}
+.clonelab__chk input{width:17px; height:17px; accent-color:var(--go)}
+.clonelab__state{
+  text-align:center; font-size:.9rem; margin:.7rem 0 0; font-family:var(--mono); color:var(--ink-soft);
+}

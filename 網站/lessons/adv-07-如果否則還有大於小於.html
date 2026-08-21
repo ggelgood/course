@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 7 課 · 如果…否則，還有大於小於</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 7 課 · 大約 1 節課</span>
+    <h1>如果…否則，<em>還有大於小於</em></h1>
+    <p class="lede">入門課學過「如果…那麼」，但條件<strong style="color:#FFBF00">不成立的時候，什麼都不會發生</strong>。今天讓「不成立」也能做點事。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要解決的問題</h2>
+        <p>分數夠不夠<strong style="color:#FFBF00">兩種情況都要有反應</strong>——過關要說話，沒過關也要說話。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的新積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">　　</span> 那麼／否則</div>
+          <div class="blk blk--ops" style="display:inline-flex;padding:.15em .5em">&gt;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 兩塊積木的形狀 ─────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>兩塊「如果」，長得不一樣</h2>
+  <p>入門課學過的「如果」，只有<strong>一個口袋</strong>：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1rem">舊的：如果…那麼</b>
+      <div class="stack" style="margin:.5rem 0 0">
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">碰到 <i>邊緣 ▾</i>？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--motion">反彈</div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <small>條件不成立的話，<strong>肚子裡的事完全不會發生</strong>——程式直接跳過，往下走</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1rem">新的：如果…否則</b>
+      <div class="stack" style="margin:.5rem 0 0">
+        <div class="cwrap">
+          <div class="blk blk--control">如果 <span class="blk blk--bool">分數 &gt; 10 ？</span> 那麼</div>
+          <div class="cwrap__in"><div class="blk blk--looks">說出 <i>過關</i></div></div>
+          <div class="blk blk--control">否則</div>
+          <div class="cwrap__in"><div class="blk blk--looks">說出 <i>再加油</i></div></div>
+          <div class="cwrap__end"></div>
+        </div>
+      </div>
+      <small><strong>兩個口袋</strong>——條件成立走上面，不成立走下面，<strong>一定會有一邊發生</strong></small>
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. 比較積木 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>先認識比較積木</h2>
+  <p>「如果」的六角形凹槽裡，除了「碰到」，還可以放<strong>比較兩個數字</strong>的積木，在<strong>運算</strong>分類裡：</p>
+
+  <div class="stack">
+    <div class="blk blk--ops" style="display:inline-flex;padding:.2em .6em">50 &gt; 50</div>
+    <div class="blk blk--ops" style="display:inline-flex;padding:.2em .6em">50 &lt; 50</div>
+    <div class="blk blk--ops" style="display:inline-flex;padding:.2em .6em">50 = 50</div>
+  </div>
+
+  <p>把左邊格子填變數名字、右邊格子填數字，就變成一個<strong>可以判斷真假的問題</strong>，例如「分數 &gt; 10」。</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">積木上寫「分數 &gt; 10」，如果不小心把左右填反，寫成「10 &gt; 分數」，會怎樣？</p>
+    <p class="predict__hint">想想看這句話的意思變成什麼。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="會出現不一樣的結果——「分數 > 10」問的是「分數比 10 大嗎」，「10 > 分數」問的是「10 比分數大嗎」，這是完全相反的問題。">結果完全一樣，順序不影響</button>
+      <button class="pick" data-v="b" data-say="程式不會擋你，兩邊都可以正常執行，只是問的問題變了。">Scratch 會出現錯誤，跑不動</button>
+      <button class="pick" data-v="c" data-say="答對了！「分數 > 10」是問「分數比較大嗎」，「10 > 分數」是問「10 比較大嗎」——分數是 15 的話，前者成立、後者不成立，答案完全相反。">意思會變成相反的問題，答案可能整個反過來</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 動手試：過關判斷 ───────────── -->
+<section>
+  <h2 class="h2"><b>3</b>動手試：分數過關判斷</h2>
+  <p>改一改下面的分數，看「如果…否則」會走哪一邊：</p>
+
+  <div class="condlab" data-condlab data-cmp="&gt;" data-n="10">
+    <label class="condlab__in">分數 = <input type="number" class="pnum" value="5" data-val></label>
+    <div class="stack" style="margin:.7rem 0 0;align-items:center">
+      <div class="blk blk--control">如果 <span class="blk blk--bool">分數 &gt; 10 ？</span> 那麼</div>
+      <div class="cwrap__in" data-branch="yes"><div class="blk blk--looks">說出 <i>過關</i></div></div>
+      <div class="blk blk--control">否則</div>
+      <div class="cwrap__in" data-branch="no"><div class="blk blk--looks">說出 <i>再加油</i></div></div>
+    </div>
+    <p class="condlab__out" data-out></p>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">試試看填 <strong>15</strong>，再填 <strong>10</strong>——填 10 的時候走哪一邊？「大於」不包含「等於」，10 不會過關。</p>
+</section>
+
+<!-- ── 4. 生命值歸零 ────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>生命值歸零，遊戲結束</h2>
+  <p>單一口袋的「如果」也還是用得到——這是<strong>第 8 課作品的結束條件</strong>：</p>
+
+  <div class="condlab" data-condlab data-cmp="=" data-n="0">
+    <label class="condlab__in">生命值 = <input type="number" class="pnum" value="3" data-val></label>
+    <div class="stack" style="margin:.7rem 0 0;align-items:center">
+      <div class="blk blk--control">如果 <span class="blk blk--bool">生命值 = 0 ？</span> 那麼</div>
+      <div class="cwrap__in" data-branch="yes"><div class="blk blk--control">停止全部</div></div>
+    </div>
+    <p class="condlab__out" data-out></p>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">把上面的生命值改成 <strong>0</strong>，看「停止全部」會不會被標出來。</p>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>建一個變數<strong>分數</strong>，拼出：<strong>如果 分數 &gt; 10 → 說「過關」，否則 → 說「再加油」</strong></li>
+      <li>改分數的值，跑兩次，確認兩邊都出現過</li>
+      <li>拼出：<strong>如果 生命值 = 0 → 停止全部</strong></li>
+      <li>挑戰：把第二個「如果…否則」<strong>放進第一個的「否則」裡</strong>，做出三種等第（例如分數 &gt; 15 說「優等」，否則如果 &gt; 5 說「及格」，否則說「加油」）</li>
+    </ol>
+  </div>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">兩種「如果」的形狀對比</b>
+    <p class="shot__how">把「如果…那麼」和「如果…否則」並排截圖，標出「一個口袋」跟「兩個口袋」。檔名 <code>adv-07-1-兩種如果的形狀.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">巢狀的三種等第</b>
+    <p class="shot__how">拍第二個「如果」放進「否則」裡的完整積木堆疊，讓學生看到巢狀長什麼樣。檔名 <code>adv-07-2-巢狀等第.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>比較積木左右填反</strong> —— 「分數 &gt; 10」跟「10 &gt; 分數」是相反的問題，檢查變數是不是放在該放的那一格。</li>
+      <li><strong>巢狀疊了三層以上，自己都看不懂</strong> —— <strong>超過兩層就先停下來</strong>，想想能不能簡化。</li>
+      <li><strong>「否則」那格找不到</strong> —— 要先把「如果…那麼」換成「如果…否則」，不是同一塊積木改字，是要換一塊新的。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-07-判斷練習.sb3" download>
+      <span class="ic">⚖️</span>
+      <span>adv-07-判斷練習.sb3<small>分數、生命值兩個變數已建好，可以直接練習判斷</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 7 課 · 如果…否則，還有大於小於</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script>
+/* 本課專用：條件模擬台。輸入數字，即時標出「如果…否則」走哪一邊。
+   data-cmp 只支援 "&gt;" 和 "="，這一課只教得到這兩種比較。 */
+(() => {
+  document.querySelectorAll('[data-condlab]').forEach(root => {
+    const input = root.querySelector('[data-val]');
+    const out   = root.querySelector('[data-out]');
+    const yes   = root.querySelector('[data-branch="yes"]');
+    const no    = root.querySelector('[data-branch="no"]');
+    const cmp   = root.dataset.cmp;
+    const n     = +root.dataset.n;
+    if (!input) return;
+
+    const draw = () => {
+      const v = +input.value;
+      const hit = cmp === '=' ? v === n : v > n;
+      if (yes) yes.classList.toggle('hilite', hit);
+      if (no)  no.classList.toggle('hilite', !hit);
+      if (out) {
+        const q = cmp === '=' ? (v + ' = ' + n) : (v + ' > ' + n);
+        out.textContent = hit
+          ? '「' + q + '」成立，走「那麼」這一格。'
+          : (no ? '「' + q + '」不成立，走「否則」這一格。' : '「' + q + '」不成立，這一格不會執行。');
+      }
+    };
+    input.addEventListener('input', draw);
+    draw();
+  });
+})();
+</script>
+</body>
+</html>

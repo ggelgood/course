@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 5 課 ·「設為」和「改變」差在哪</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 5 課 · 大約 1 節課</span>
+    <h1>「設為」和「改變」<em>差在哪</em></h1>
+    <p class="lede">上禮拜的分數加不起來，因為<strong style="color:#FFBF00">「設為」每次都清空重填</strong>。今天要學另一塊，讓數字真的能累加。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要解決的問題</h2>
+        <p>做出一個<strong style="color:#FFBF00">按一下真的會加一分</strong>的分數，還有生命值、倒數計時。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的新積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--vars">將 <i>分數</i> 改變 <i>1</i></div>
+          <div class="blk blk--vars">隱藏變數 <i>分數</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 救星登場 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>上禮拜的坑，今天補起來</h2>
+  <p>上禮拜你發現「設為 1」不管點幾次都停在 1。原因是<strong>「設為」每次都把盒子清空，重新放一個數字進去</strong>。</p>
+  <p>今天這一塊剛好相反：</p>
+
+  <div class="stack">
+    <div class="blk blk--vars">將 <i>分數</i> 改變 <i>1</i></div>
+  </div>
+
+  <p>把上禮拜的積木<strong style="color:#FF6B1A">「設為」換成「改變」</strong>，再點點看：</p>
+
+  <div class="varlab" data-varlab data-vars='{"分數":0}'>
+    <div class="varlab__panel">
+      <div class="varlab__mons" data-mons></div>
+    </div>
+    <div class="varlab__ctl">
+      <button class="pbtn pbtn--pen" data-run='[{"op":"change","name":"分數","val":1}]'>🐱 角色被點擊 → 分數改變 1</button>
+    </div>
+    <p class="varlab__say" data-say></p>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">連按十次，這次分數會一路跟著跳到 10。</p>
+</section>
+
+<!-- ── 2. 一句話收 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>用一句話記住差別</h2>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 設為 ＝ 清空重填；改變 ＝ 在原本的基礎上加</h3>
+    <ul>
+      <li><strong>設為 N</strong>：不管盒子裡原本裝什麼，<strong>直接換成 N</strong>。</li>
+      <li><strong>改變 N</strong>：把盒子裡原本的數字<strong>拿出來、加上 N、再放回去</strong>。</li>
+      <li>兩個都能用來讓分數變成某個數字，但<strong style="color:#FF6B1A">只有「改變」能一步一步累加</strong>。</li>
+    </ul>
+  </div>
+
+  <p><strong>眼見為憑</strong>——下面兩台一模一樣的起點（分數都是 0），左邊按「重複 10 次：設為 1」，右邊按「重複 10 次：改變 1」。<strong style="color:#FF6B1A">先猜猜看結果會不會一樣，再按按看。</strong></p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">兩邊都「重複 10 次」，一邊放「設為 1」、一邊放「改變 1」。跑完之後，兩邊的分數會一樣嗎？</p>
+    <p class="predict__hint">想想上面那句「一句話」。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不會一樣。「設為 1」跑 10 次，每次都是清空重填成 1，最後還是 1；「改變 1」跑 10 次，會一路累加到 10。">會一樣，都是 1</button>
+      <button class="pick" data-v="b" data-say="答對了！「設為 1」跑 10 次結果還是 1（每次都被清空重填）；「改變 1」跑 10 次會累加成 10。同一個數字、同一個重複次數，結果差了 10 倍。">不會一樣，設為那邊是 1，改變那邊是 10</button>
+      <button class="pick" data-v="c" data-say="方向反了。「改變」才是會累加的那一塊，「設為」不管跑幾次都停在同一個數字。">不會一樣，設為那邊比較大</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="vrace">
+    <div class="vrace__c vrace__c--a">
+      <h4>😖 重複 10 次：設為 1</h4>
+      <div class="varlab" data-varlab data-vars='{"分數":0}'>
+        <div class="varlab__panel"><div class="varlab__mons" data-mons></div></div>
+        <div class="varlab__ctl">
+          <button class="pbtn pbtn--clear" data-run='[{"op":"repeat","n":10,"body":[{"op":"set","name":"分數","val":1},{"op":"wait","ms":140}]}]'>▶ 跑跑看</button>
+        </div>
+      </div>
+    </div>
+    <div class="vrace__c vrace__c--b">
+      <h4>😎 重複 10 次：改變 1</h4>
+      <div class="varlab" data-varlab data-vars='{"分數":0}'>
+        <div class="varlab__panel"><div class="varlab__mons" data-mons></div></div>
+        <div class="varlab__ctl">
+          <button class="pbtn pbtn--go" data-run='[{"op":"repeat","n":10,"body":[{"op":"change","name":"分數","val":1},{"op":"wait","ms":140}]}]'>▶ 跑跑看</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 全班最常犯的錯，就是這一課的重點</h3>
+    <ul>
+      <li>把<strong>「設為」放進「重複」裡面</strong>，是這學期最常見的 bug。看起來合理（「不是應該每次都加一次嗎」），結果分數永遠停在同一個數字。</li>
+      <li>記住：<strong>「設為」放重複裡＝一直重來；「改變」放重複裡＝一直累加。</strong></li>
+    </ul>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：改變用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="n">score</span> = <span class="n">score</span> + <span class="n">1</span>    <span class="c"># 分數改變 1</span></pre>
+      <p class="pypeek__note">為什麼 <code>score</code> 要寫兩次？因為等號右邊<strong>先算出「原本的 score 加 1」</strong>，算完才放回左邊的 <code>score</code> 裡。跟 Scratch 的「改變」做的是同一件事：<strong>拿出來、加、放回去。</strong></p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 3. 應用一：生命值 ─────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>應用一：生命值</h2>
+  <p>生命值是「改變」最常見的用法：<strong>一開始給固定數字，碰到壞東西就扣一點</strong>。</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--vars">將 <i>生命值</i> 設為 <i>3</i></div>
+  </div>
+  <div class="stack" style="margin-top:.6rem">
+    <div class="blk blk--events blk--hat">當角色碰到 <i>敵人</i></div>
+    <div class="blk blk--vars">將 <i>生命值</i> 改變 <i>-1</i></div>
+  </div>
+
+  <p>試試看：<strong style="color:#FF6B1A">「改變 -1」就是扣一點</strong>——負數一樣可以用在「改變」裡。</p>
+
+  <div class="varlab" data-varlab data-vars='{"生命值":3}'>
+    <div class="varlab__panel"><div class="varlab__mons" data-mons></div></div>
+    <div class="varlab__ctl">
+      <button class="pbtn pbtn--go" data-run='[{"op":"set","name":"生命值","val":3}]'>🚩 綠旗 → 生命值設為 3</button>
+      <button class="pbtn pbtn--pen" data-run='[{"op":"change","name":"生命值","val":-1}]'>💥 碰到敵人 → 改變 -1</button>
+    </div>
+    <p class="varlab__say" data-say></p>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">生命值可以扣到負的——今天先不管，<strong>怎麼在歸零時「結束遊戲」是下下禮拜的事</strong>（要用到還沒教的「如果」）。</p>
+</section>
+
+<!-- ── 4. 應用二：倒數計時 ───────────── -->
+<section>
+  <h2 class="h2"><b>4</b>應用二：倒數計時</h2>
+  <p>倒數計時是「改變」加「等待」的組合：</p>
+
+  <div class="stack">
+    <div class="blk blk--events blk--hat"><span class="flag">⚑</span> 當綠旗被點擊</div>
+    <div class="blk blk--vars">將 <i>時間</i> 設為 <i>10</i></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複 <i>10</i> 次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--vars">將 <i>時間</i> 改變 <i>-1</i></div>
+        <div class="blk blk--control">等待 <i>1</i> 秒</div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p>按下去，數字會<strong>一秒一秒真的倒數</strong>：</p>
+
+  <div class="varlab" data-varlab data-vars='{"時間":10}'>
+    <div class="varlab__panel"><div class="varlab__mons" data-mons></div></div>
+    <div class="varlab__ctl">
+      <button class="pbtn pbtn--go" data-run='[{"op":"set","name":"時間","val":10},{"op":"repeat","n":10,"body":[{"op":"wait","ms":700},{"op":"change","name":"時間","val":-1}]}]'>🚩 開始倒數</button>
+    </div>
+    <p class="varlab__say" data-say></p>
+  </div>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>把上禮拜的「角色被點擊 → 分數設為 1」改成 <strong>分數改變 1</strong>，連按幾次分數會累加</li>
+      <li>綠旗開頭記得加 <strong>將分數設為 0</strong>——不然重玩一次會接著上次的分數</li>
+      <li>做出<strong>生命值</strong>：綠旗設為 3，做一個會扣血的觸發（角色被點擊也可以，先不用碰到判斷）</li>
+      <li>建立新變數<strong>時間</strong>，設為 10，用<strong>重複 10 次：改變 -1、等待 1 秒</strong>做出倒數</li>
+      <li>試試看<strong>「隱藏變數」</strong>積木，跟取消勾選監看框有什麼不一樣</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">設為 vs 改變，兩份程式並排跑</b>
+    <p class="shot__how">左邊「重複 10 次：設為 1」，右邊「重複 10 次：改變 1」，同時按綠旗。左邊監看框停在 1，右邊一路跳到 10。約 5 秒。檔名 <code>adv-05-1-設為vs改變對比.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>分數一直卡在同一個數字</strong> —— 檢查是不是把「設為」放進了重複裡面。</li>
+      <li><strong>重玩一次分數沒有歸零</strong> —— 綠旗開頭忘了「設為 0」，接著上次的分數繼續加。</li>
+      <li><strong>倒數計時秒數不對</strong> —— 檢查「等待」和「改變」的順序，順序不影響結果，但兩塊都要在重複裡面。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-05-設為改變練習.sb3" download>
+      <span class="ic">🔁</span>
+      <span>adv-05-設為改變練習.sb3<small>分數、生命值、時間三個變數都已建好</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 5 課 ·「設為」和「改變」差在哪</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/varlab.js?v=1"></script>
+</body>
+</html>

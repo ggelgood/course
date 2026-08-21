@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 4 課 · 變數：給電腦一本記事本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 4 課 · 大約 1 節課</span>
+    <h1>變數：<em>給電腦一本記事本</em></h1>
+    <p class="lede">想做一個「按一下加一分」的東西，但翻遍積木區，<strong style="color:#FFBF00">沒有一塊積木會記東西</strong>。今天要自己做一個能記數字的盒子。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一個叫<strong style="color:#FFBF00">分數</strong>的盒子，可以裝一個數字，而且<strong>舞台上看得到它</strong>。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的新積木</h2>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--vars">建立一個變數</div>
+          <div class="blk blk--vars">將 <i>分數</i> 設為 <i>0</i></div>
+        </div>
+        <p style="font-size:.88rem;margin-top:.6rem">今天<strong style="color:#FFBF00">只學「是什麼」</strong>，還不學怎麼用它做東西——那是下禮拜的事。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 問題 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>分數要放在哪裡？</h2>
+  <p>想像你要做一個「按一下小貓，分數加一分」的東西。動作、外觀、事件……<strong>翻遍所有分類，找不到一塊「存數字」的積木。</strong></p>
+  <p>因為 Scratch <strong>本來就沒有一個叫「分數」的東西</strong>。想要有，得自己造一個出來——這就是<strong style="color:#FF6B1A">變數</strong>要做的事。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 變數是什麼</h3>
+    <ul>
+      <li>想成一個<strong>有名字的盒子</strong>，可以裝一個數字（或一小段文字）。</li>
+      <li>盒子裡的數字<strong>可以換</strong>——這就是「變」數的意思，跟數學課的固定數字不一樣。</li>
+      <li>今天你會自己造一個盒子出來，取名叫「分數」。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 建立變數 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>建立一個變數</h2>
+  <p>點左邊積木區的<strong>「變數」</strong>分類，會看到一顆<strong>「建立一個變數」</strong>的按鈕（不是積木，是按鈕）。點下去，跳出一個框要你<strong>取名字</strong>。</p>
+
+  <div class="stack">
+    <div class="blk blk--vars">建立一個變數</div>
+  </div>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">建立變數的完整流程</b>
+    <p class="shot__how">從點「變數」分類 → 點「建立一個變數」按鈕 → 跳出命名框，打「分數」→ 按確定 → 積木區多出一整排橘色的變數積木，舞台左上角也多了一個監看框。約 6 秒。檔名 <code>adv-04-1-建立變數流程.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <p><strong style="color:#FF6B1A">取名字是今天最重要的一步。</strong> 有人會偷懶打「變數1」——三個禮拜後回來看自己的程式，完全看不懂「變數1」是在記什麼。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">要做一個記錄玩家生命值的變數，下面哪個名字最好？</p>
+    <p class="predict__hint">想像三個禮拜後你自己回來看這個程式。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="能動，但完全看不出來裡面裝的是什麼。三個禮拜後你要花時間回想「變數2 到底是分數還是生命值」，這種時間不該浪費。">變數2</button>
+      <button class="pick" data-v="b" data-say="答對了！一看名字就知道裡面裝什麼，不用回頭看程式猜。命名的唯一標準：別人（包括未來的你）看得懂。">生命值</button>
+      <button class="pick" data-v="c" data-say="太籠統了。「東西」可以是任何東西，跟沒取名字差不多，一樣看不出來裝的是什麼。">東西</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：變數用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="n">score</span> = <span class="n">0</span>          <span class="c"># 建立一個叫 score 的變數，裡面放 0</span></pre>
+      <p class="pypeek__note">在打字的程式語言裡，<strong>不用先「建立」再「設為」，寫一行就兩件事一起做完了。</strong> <code>score = 0</code> 這一行，等號左邊是變數的名字，右邊是要放進去的數字。</p>
+      <p class="pypeek__note">這是整個進階課<strong>最值得記住的一個對照</strong>——不管是 Scratch 的橘色積木，還是 Python 打的這一行字，做的都是同一件事：<strong>造一個盒子，放進一個數字。</strong></p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 3. 舞台監看框 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>設為：真的把數字放進去</h2>
+  <p>盒子造好了，還是空的。要放數字，用這一塊：</p>
+
+  <div class="stack">
+    <div class="blk blk--vars">將 <i>分數</i> 設為 <i>0</i></div>
+  </div>
+
+  <p>下面這台模擬<strong>舞台上的監看框</strong>——真正的 Scratch 裡，建好變數之後舞台左上角就會出現一個一模一樣的框，數字跟著程式即時變化。按按看兩顆按鈕：</p>
+
+  <div class="varlab" data-varlab data-vars='{"分數":0}'>
+    <div class="varlab__panel">
+      <label class="varlab__chk"><input type="checkbox" checked data-show="分數"> 在舞台上顯示「分數」</label>
+      <div class="varlab__mons" data-mons></div>
+    </div>
+    <div class="varlab__ctl">
+      <button class="pbtn pbtn--go" data-run='[{"op":"set","name":"分數","val":0}]'>🚩 當綠旗被點擊 → 分數設為 0</button>
+      <button class="pbtn pbtn--pen" data-run='[{"op":"set","name":"分數","val":100}]'>🐱 角色被點擊 → 分數設為 100</button>
+    </div>
+    <p class="varlab__say" data-say></p>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">試試看<strong>取消勾選</strong>上面那個框——監看框會從舞台上消失，但變數還在，只是不顯示而已。</p>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 建好變數，但監看框不見了？</h3>
+    <ul>
+      <li>變數積木最左邊有一個<strong>小方格</strong>，勾起來監看框才會出現在舞台上。</li>
+      <li>不小心點到取消勾選，變數<strong>不會消失</strong>，只是不顯示，重新勾起來就回來了。</li>
+      <li><strong>拖動監看框</strong>可以換位置，不會擋到角色就好。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>點<strong>「變數」</strong>分類 → <strong>建立一個變數</strong>，取名叫<strong>分數</strong></li>
+      <li>確認舞台左上角出現<strong>分數的監看框</strong>，數字是 0</li>
+      <li>拼出：<strong>當綠旗被點擊 → 將分數設為 0</strong></li>
+      <li>拼出：<strong>當角色被點擊 → 將分數設為 100</strong>，按按看角色，數字真的變了</li>
+      <li>再建一個新變數，取名叫<strong>生命值</strong>，設為 <strong>3</strong></li>
+    </ol>
+  </div>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">舞台上的變數監看框</b>
+    <p class="shot__how">拍舞台左上角，兩個監看框（分數、生命值）都顯示著。標註「這是舞台監看框，不用點積木也看得到現在的值」。檔名 <code>adv-04-2-舞台監看框.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+</section>
+
+<!-- ── 5. 刻意撞牆 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>挑戰：讓分數「每點一下加一分」</h2>
+  <p>現在試試看更有趣的：<strong>做一個「角色被點擊 → 分數加一分」</strong>的程式。你目前只有「設為」這一塊，試試看能不能用它做到。</p>
+
+  <p>下面這台只有「設為 1」——<strong style="color:#FF6B1A">多點幾次，看看分數會變成怎樣</strong>：</p>
+
+  <div class="varlab" data-varlab data-vars='{"分數":0}'>
+    <div class="varlab__panel">
+      <div class="varlab__mons" data-mons></div>
+    </div>
+    <div class="varlab__ctl">
+      <button class="pbtn pbtn--pen" data-run='[{"op":"set","name":"分數","val":1}]'>🐱 角色被點擊 → 分數設為 1</button>
+    </div>
+    <p class="varlab__say" data-say></p>
+  </div>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">連續點了十次「角色被點擊」，分數最後會是多少？</p>
+    <p class="predict__hint">回上面那台，自己點十次看看。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不會累加。每次點擊都是「設為 1」——不管點幾次，都是把盒子清空、重新放進 1，不是在原本的基礎上加。">10</button>
+      <button class="pick" data-v="b" data-say="更不可能。「設為」不會累加，數字不會自己跳到一個奇怪的數字。">5</button>
+      <button class="pick" data-v="c" data-say="答對了！「設為 1」的意思是「把盒子清空，放進 1」，每次都從頭來，不管點幾次都是 1。這就是「設為」做不到「累加」的原因。">1</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos">
+    <h3>🤔 想一想，先不要問老師</h3>
+    <ul>
+      <li>「設為」每次都<strong>清空重填</strong>，這是它的本質，不是壞掉。</li>
+      <li>要做出「每點一下加一分」，<strong>需要一塊不一樣的積木</strong>——它不在變數分類的最上面，要自己找找看叫什麼名字。</li>
+      <li><strong style="color:#FF6B1A">下禮拜會正式教這一塊。</strong> 今天先自己摸索，摸不出來也沒關係。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-04-變數起手式.sb3" download>
+      <span class="ic">📝</span>
+      <span>adv-04-變數起手式.sb3<small>分數、生命值兩個變數已建好，可以直接練習</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 4 課 · 變數：給電腦一本記事本</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/varlab.js?v=1"></script>
+</body>
+</html>

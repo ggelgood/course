@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 12 課 · 作品：用自製積木畫一幅圖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 12 課 · 作品 · 大約 1 節課</span>
+    <h1>作品：<em>用自製積木畫一幅圖</em></h1>
+    <p class="lede">今天<strong style="color:#FFBF00">不教新積木</strong>。座標、畫筆、重複、參數——單元一到三學的東西，今天全部合流。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>一塊<strong style="color:#FFBF00">正N邊形(邊數, 邊長)</strong> 積木，呼叫幾次，組成<strong>一整幅自己的畫</strong>。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天怎麼上</h2>
+        <p>沒有標準答案，<strong style="color:#FFBF00">畫什麼、排哪裡、什麼顏色都你決定</strong>。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 回顧痛點 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>第 3 課的痛點，今天解決</h2>
+  <p>第 3 課畫圖形，每換一種形狀就要改<strong>兩個數字</strong>：重複幾次、右轉幾度。三角形改一次，六邊形又改一次，八邊形再改一次。</p>
+  <p>今天把它包成一塊積木：<strong style="color:#FF6B1A">正N邊形(邊數, 邊長)</strong>——呼叫的時候填兩個數字，剩下的積木自己算。</p>
+</section>
+
+<!-- ── 2. 建立積木 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>建立「正N邊形」積木</h2>
+  <p>建立一個積木，取名<strong>正N邊形</strong>，加<strong>兩個數字輸入</strong>：<strong>邊數</strong>、<strong>邊長</strong>。定義裡放：</p>
+
+  <div class="stack">
+    <div class="blk blk--my blk--hat">定義 <i>正N邊形</i> <span class="blk blk--my" style="display:inline-flex;padding:.15em .5em">邊數</span> <span class="blk blk--my" style="display:inline-flex;padding:.15em .5em">邊長</span></div>
+    <div class="blk blk--ops">下筆</div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複 <span class="blk blk--my" style="display:inline-flex;padding:.1em .4em">邊數</span> 次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--motion">移動 <span class="blk blk--my" style="display:inline-flex;padding:.1em .4em">邊長</span> 點</div>
+        <div class="blk blk--motion">右轉 <span class="blk blk--ops" style="display:inline-flex;padding:.1em .4em">360 ÷ <i>邊數</i></span> 度</div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+    <div class="blk blk--ops">停筆</div>
+  </div>
+
+  <p><strong style="color:#FF6B1A">右轉的角度不用手打數字</strong>——把「360 ÷ 邊數」整塊運算積木塞進右轉的格子裡，呼叫的時候，角度自己算給你。</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 為什麼「下筆」「停筆」要放進定義裡</h3>
+    <ul>
+      <li>放進定義，代表<strong>每次呼叫「正N邊形」都會自動下筆、畫完自動停筆</strong>——呼叫的人不用自己記得。</li>
+      <li>不放的話，呼叫的人得自己在外面加下筆停筆，很容易漏掉，畫面就會多出奇怪的連線。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 3. 畫圖機：先在這裡試 ─────────── -->
+<section>
+  <h2 class="h2"><b>3</b>先在畫圖機試出想要的圖</h2>
+  <p>這台跟第 3 課同一台，多了<strong>邊長、中心位置、疊加</strong>三個控制。呼叫幾次、擺在哪裡，都自己試試看：</p>
+
+  <div class="cxbox">
+    <div class="penlab" data-penlab data-full="1">
+      <div class="cxstage penlab__stage" data-stage>
+        <i class="cxstage__ax cxstage__ax--x"></i>
+        <i class="cxstage__ax cxstage__ax--y"></i>
+        <canvas class="penlab__cv" data-cv></canvas>
+        <i class="cxstage__o"></i>
+        <i class="penlab__dir" data-dir></i>
+        <span class="cxcat penlab__cat" data-cat>🐱</span>
+      </div>
+
+      <div class="penlab__row">
+        <label>邊數 <input class="pnum" type="number" min="3" max="12" value="6" data-sides></label>
+        <label>每次轉 <input class="pnum" type="number" min="1" max="180" value="60" data-angle> 度</label>
+        <label>邊長 <input class="pnum" type="number" min="10" max="120" value="40" data-len></label>
+      </div>
+      <div class="penlab__row">
+        <label>中心 x <input class="pnum" type="number" min="-240" max="240" value="0" data-cx></label>
+        <label>中心 y <input class="pnum" type="number" min="-180" max="180" value="0" data-cy></label>
+        <label><input type="checkbox" data-keep checked> 疊加（不清版）</label>
+      </div>
+      <div class="penlab__row">
+        <span>顏色</span>
+        <span data-swatches></span>
+      </div>
+
+      <div class="penlab__ctl">
+        <button class="pbtn pbtn--go" data-act="poly">畫這個圖形</button>
+        <button class="pbtn pbtn--clear" data-act="clear">全部擦掉，重新來</button>
+      </div>
+
+      <p class="penlab__state" data-state></p>
+    </div>
+
+    <p class="cxbox__hint" style="text-align:center;margin:1rem 0 0">
+      試試看：<strong>畫一個六邊形，換個顏色和位置，再畫一個三角形</strong>——「疊加」勾著的話，兩個圖形會留在同一張畫布上。
+    </p>
+  </div>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox dobox--tier1">
+    <div class="dobox__head">
+      <b>🥉 第一關 · 一定要做到</b>
+      <span class="dobox__tip">做完一步就打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>建立「正N邊形」積木，帶<strong>邊數、邊長</strong>兩個參數，把第 2 節的內容放進定義</li>
+      <li>在主程式呼叫兩次，例如<strong>正N邊形(4, 80)</strong>、<strong>正N邊形(6, 60)</strong></li>
+      <li>用<strong>「定位到 x y」</strong>把兩次呼叫分開位置，畫出兩個不重疊的圖形</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier2">
+    <div class="dobox__head">
+      <b>🥈 第二關 · 做完了再加</b>
+      <span class="dobox__tip">加顏色、排更多個 👇</span>
+      <span class="dobox__count"><i>0</i> / 2</span>
+    </div>
+    <ol class="steps">
+      <li>每次呼叫前加<strong>「筆的顏色設為」</strong>，讓每個圖形顏色不一樣</li>
+      <li>呼叫至少<strong>五次</strong>，排成一整幅畫（一排、一個圓陣、隨你排）</li>
+    </ol>
+  </div>
+
+  <div class="dobox dobox--tier3">
+    <div class="dobox__head">
+      <b>🥇 第三關 · 還有時間就挑戰</b>
+      <span class="dobox__tip">挑你想做的，不用全做 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li><strong>同心圖形</strong>：同一個中心位置，呼叫好幾次不同邊長，畫出一圈一圈的效果</li>
+      <li><strong>彩虹色</strong>：用重複＋改變顏色特效，讓每次呼叫顏色自動換一階</li>
+      <li><strong>隨機位置隨機邊數</strong>：把第 6 課的「隨機取數」接進「正N邊形」的參數裡</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--wide shot--key">
+    <span class="shot__kind">📷 截圖 · 最重要</span>
+    <b class="shot__what">學生的成品畫作</b>
+    <p class="shot__how">挑一幅排得好看的截圖，連舞台一起拍。放在講義最上面當範例，學生會更想動手排。檔名 <code>adv-12-1-成品畫作.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>圖形之間被連線接起來</strong> —— 換位置的「定位到」前面忘了「停筆」，把「下筆／停筆」放進定義裡就不會忘。</li>
+      <li><strong>畫面愈畫愈亂</strong> —— 沒有先「全部擦掉」就重跑，舊的圖案疊在新的上面。</li>
+      <li><strong>換了邊數，角度沒有跟著變</strong> —— 檢查右轉那格是不是塞了「360÷邊數」整塊運算積木，還是手打了固定數字。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-12-正N邊形範例.sb3" download>
+      <span class="ic">🎨</span>
+      <span>adv-12-正N邊形範例.sb3<small>老師做好的範例畫作，可以拆開看積木怎麼拼的</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 12 課 · 用自製積木畫一幅圖 —— 單元三完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/penlab.js?v=5"></script>
+</body>
+</html>

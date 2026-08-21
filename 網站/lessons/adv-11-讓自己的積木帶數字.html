@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進階第 11 課 · 讓自己的積木帶數字</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/lesson-adv.css?v=5">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">進階 第 11 課 · 大約 1 節課</span>
+    <h1>讓自己的積木<em>帶數字</em></h1>
+    <p class="lede">要閃三下、閃五下、閃十下，<strong style="color:#FFBF00">難道要做三塊積木？</strong> 今天讓一塊積木自己記得「這次要做幾次」。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要解決的問題</h2>
+        <p>同一塊「閃爍」積木，呼叫的時候<strong style="color:#FFBF00">自己填要閃幾下</strong>。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的新東西</h2>
+        <p>積木的<strong style="color:#FFBF00">「數字輸入」欄位</strong>——幫積木留一個洞，讓呼叫的人自己填。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 問題 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>閃三下、閃五下……難道要做三塊積木？</h2>
+  <p>上禮拜的「閃爍」積木，肚子裡固定寫死<strong>「重複 3 次」</strong>。如果某個角色想閃五下，難道要另外再做一塊「閃爍五下」？再一塊「閃爍十下」？</p>
+  <p>今天的做法：<strong style="color:#FF6B1A">讓「閃爍」自己留一個洞，呼叫的時候把數字填進去</strong>。這個洞，叫做<strong>參數</strong>。</p>
+</section>
+
+<!-- ── 2. 加入數字輸入 ───────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>幫積木加一個數字輸入</h2>
+  <p>在「我的積木」分類裡，<strong>右鍵點「閃爍」積木</strong>（或點旁邊的編輯按鈕），選「編輯」，會跳出積木編輯視窗。點<strong>「＋ 加入輸入項」→ 數字</strong>，取名叫<strong>「幾下」</strong>。</p>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">幫積木加入數字輸入的完整流程</b>
+    <p class="shot__how">右鍵「閃爍」→ 編輯 → 加入輸入項 → 選數字 → 命名「幾下」→ 確定。回到程式區，「定義 閃爍」帽子上多了一個橢圓形的洞。約 6 秒。檔名 <code>adv-11-1-加入數字輸入.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <p>確定之後，定義帽子變成這樣：</p>
+
+  <div class="stack">
+    <div class="blk blk--my blk--hat">定義 閃爍 <i>幾下</i></div>
+  </div>
+
+  <p>「幾下」變成一個<strong>橢圓形的洞</strong>，接在帽子上。這個洞就是「參數」——每次呼叫的時候，可以填不一樣的數字進去。</p>
+</section>
+
+<!-- ── 3. 拖參數進洞裡 ───────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>把參數拖進「重複」的洞裡</h2>
+  <p>光加參數還不夠，要把它<strong style="color:#FF6B1A">從定義帽子上拖下來，塞進「重複 3 次」的數字格</strong>，取代原本寫死的 3：</p>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 本課最重要</span>
+    <b class="shot__what">把「幾下」從帽子上拖進重複次數的洞裡</b>
+    <p class="shot__how">從「定義 閃爍 幾下」帽子上的「幾下」橢圓，用滑鼠拖到下面「重複 3 次」的數字格上放開，數字 3 被換成「幾下」。約 5 秒。<b>這是本課最容易卡住的操作</b>，一定要拍清楚滑鼠拖曳的路徑。檔名 <code>adv-11-2-拖參數進洞裡.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <p>成功之後，定義會變成：</p>
+
+  <div class="stack">
+    <div class="blk blk--my blk--hat">定義 <i>閃爍</i> <span class="blk blk--my" style="display:inline-flex;padding:.15em .5em">幾下</span></div>
+    <div class="cwrap">
+      <div class="blk blk--control">重複 <span class="blk blk--my" style="display:inline-flex;padding:.1em .4em">幾下</span> 次</div>
+      <div class="cwrap__in">
+        <div class="blk blk--looks">隱藏</div>
+        <div class="blk blk--control">等待 <i>0.2</i> 秒</div>
+        <div class="blk blk--looks">顯示</div>
+        <div class="blk blk--control">等待 <i>0.2</i> 秒</div>
+      </div>
+      <div class="cwrap__end cwrap__end--loop"></div>
+    </div>
+  </div>
+
+  <p>下面比較兩種做法。改改看呼叫時填的數字，看兩邊的差別：</p>
+
+  <div class="paramlab">
+    <label class="condlab__in">呼叫：閃爍 (<input type="number" class="pnum" value="5" min="0" max="20" data-n>)</label>
+    <div class="cheatgrid" style="margin-top:.9rem">
+      <div class="cheat">
+        <b style="font-family:var(--display);font-size:1rem">😖 版本 A：手打數字</b>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--my blk--hat">定義 <i>閃爍</i> 幾下</div>
+          <div class="blk blk--control">重複 <i>3</i> 次</div>
+        </div>
+        <p class="condlab__out" data-out="a"></p>
+      </div>
+      <div class="cheat">
+        <b style="font-family:var(--display);font-size:1rem">😎 版本 B：拖參數進洞裡</b>
+        <div class="stack" style="margin:.5rem 0 0">
+          <div class="blk blk--my blk--hat">定義 <i>閃爍</i> 幾下</div>
+          <div class="blk blk--control">重複 <span class="blk blk--my" style="display:inline-flex;padding:.1em .4em">幾下</span> 次</div>
+        </div>
+        <p class="condlab__out" data-out="b"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">版本 A 看起來也能「呼叫並執行」，按下去角色真的會閃。為什麼版本 A 是錯的？</p>
+    <p class="predict__hint">試試看，在上面把呼叫的數字從 5 改成 10，兩邊有什麼不一樣。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="版本 A 不會壞掉、不會報錯，它會正常跑完——只是不管你呼叫時填多少，永遠只閃 3 下，數字完全沒用上。">版本 A 執行到一半會壞掉</button>
+      <button class="pick" data-v="b" data-say="答對了！版本 A 的「重複 3 次」是寫死的數字，跟「幾下」這個參數完全沒有關係——不管呼叫時填 5 還是 100，都只會閃 3 下。參數要「拖進洞裡」才會真的生效，不是手打一個剛好一樣的數字。">版本 A 不管呼叫時填多少，永遠只閃 3 下，參數形同虛設</button>
+      <button class="pick" data-v="c" data-say="兩邊看起來都正常跑，不會有錯誤訊息。差別在「填的數字有沒有真的被用上」，不是會不會跑。">版本 A 會跳出錯誤訊息，提醒你要用參數</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 這是本課最容易踩的坑</h3>
+    <p>看起來會動，不代表是對的。<strong>檢查的方法很簡單：呼叫的時候換一個數字，結果有沒有跟著變。</strong>沒有變，就是漏掉「拖參數進洞裡」這一步。</p>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：帶參數的積木用打字的怎麼寫？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="k">def</span> <span class="f">閃爍</span>(次數):          <span class="c"># 定義 閃爍，參數叫「次數」</span>
+    <span class="k">for</span> i <span class="k">in</span> <span class="f">range</span>(次數):
+        <span class="f">hideturtle</span>(); <span class="f">sleep</span>(<span class="n">0.2</span>)
+        <span class="f">showturtle</span>(); <span class="f">sleep</span>(<span class="n">0.2</span>)
+
+<span class="f">閃爍</span>(<span class="n">5</span>)                 <span class="c"># 呼叫，填 5 進去</span></pre>
+      <p class="pypeek__note">括號裡的<strong>次數</strong>，跟 Scratch 橢圓形洞裡的<strong>幾下</strong>是同一件事——都是「呼叫的人可以自己填」的數字。名字在兩邊<strong>完全對應</strong>：定義時取的參數名字，肚子裡就用那個名字。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 4. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>換你在 Scratch 裡做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>編輯「閃爍」積木，加入數字輸入，取名<strong>幾下</strong></li>
+      <li>把定義裡的「重複 3 次」<strong>拖成「重複 幾下 次」</strong>（不是手打）</li>
+      <li>回到主程式，呼叫的地方會多一個空格，填<strong>不同的數字</strong>試試看（5、10、2）</li>
+      <li>確認換數字，閃爍的次數真的跟著變</li>
+    </ol>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🙋 怎麼確認自己真的懂參數</h3>
+    <p>問自己一個問題：<strong>「這個洞要取什麼名字？」</strong> 答得出「幾下」「幾邊」這種<strong>看得懂用途</strong>的名字，就是真的懂了；答不出來，或只會說「數字」，代表還在照抄。</p>
+  </div>
+</section>
+
+<!-- ── 5. 挑戰：兩個參數 ─────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>挑戰：一塊積木，兩個參數</h2>
+  <p>參數不只能有一個。試著把第 3 課畫圖形的程式包成一塊積木，取名<strong>「正N邊形」</strong>，帶<strong>兩個</strong>數字輸入：<strong>邊數</strong>和<strong>邊長</strong>。</p>
+
+  <div class="stack">
+    <div class="blk blk--my blk--hat">定義 <i>正N邊形</i> <span class="blk blk--my" style="display:inline-flex;padding:.15em .5em">邊數</span> <span class="blk blk--my" style="display:inline-flex;padding:.15em .5em">邊長</span></div>
+  </div>
+
+  <p>肚子裡用「重複 <strong>邊數</strong> 次：移動 <strong>邊長</strong> 點、右轉 360÷<strong>邊數</strong> 度」——這樣呼叫<strong>正N邊形(6, 80)</strong>就能畫出邊長 80 的正六邊形。</p>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)"><strong>下禮拜的作品課會正式做這一塊</strong>，今天先想想看架構就好，不用現在完成。</p>
+</section>
+
+<!-- ── 附件 ─────────────────────────── -->
+<section>
+  <h2 class="h2"><b>↓</b>這一課的檔案</h2>
+  <div class="files">
+    <a class="file" href="../files/adv-09-三角色閃爍.sb3" download>
+      <span class="ic">✨</span>
+      <span>adv-09-三角色閃爍.sb3<small>沿用之前的檔案，「閃爍」積木已經在裡面，直接練習加參數</small></span>
+      <span class="go">下載 →</span>
+    </a>
+  </div>
+  <p style="font-size:.9rem;color:var(--ink-soft)">（把實際檔案放進 <code>網站/files/</code> 資料夾就會生效。）</p>
+</section>
+
+<footer>
+  <p>Scratch 進階 · 第 11 課 · 讓自己的積木帶數字</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script>
+/* 本課專用：參數對照台。呼叫時填的數字改變，
+   版本 A（手打數字）永遠不變，版本 B（拖參數）會跟著變。 */
+(() => {
+  const root = document.querySelector('.paramlab');
+  if (!root) return;
+  const n = root.querySelector('[data-n]');
+  const outA = root.querySelector('[data-out="a"]');
+  const outB = root.querySelector('[data-out="b"]');
+
+  const draw = () => {
+    const v = Math.max(0, Math.min(20, +n.value || 0));
+    outA.innerHTML = '呼叫 閃爍(' + v + ')：還是<b>閃 3 下</b>（沒反應）';
+    outB.innerHTML = '呼叫 閃爍(' + v + ')：真的<b>閃 ' + v + ' 下</b>';
+  };
+  n.addEventListener('input', draw);
+  draw();
+})();
+</script>
+</body>
+</html>
