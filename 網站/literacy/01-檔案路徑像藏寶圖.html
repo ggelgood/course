@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>資訊素養 第 1 課 · 檔案路徑：像一張藏寶圖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/literacy.css?v=1">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">資訊素養 第 1 課 · 大約 1 節課</span>
+    <h1>檔案路徑：<em>像一張藏寶圖</em></h1>
+    <p class="lede">你下載了一張圖片，等一下要用的時候卻<strong style="color:#FFBF00">找不到它跑去哪了</strong>。今天讓你變成能看懂藏寶圖的人，再也不會弄丟檔案。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要弄懂的三件事</h2>
+        <ul>
+          <li><b>資料夾</b>是什麼，為什麼箱子裡還有箱子</li>
+          <li><b>桌面</b>其實也只是一個資料夾</li>
+          <li>下載的東西，<b>都跑到同一個地方</b>去了</li>
+        </ul>
+      </div>
+      <div class="today__box">
+        <h2>今天的比喻</h2>
+        <p><strong style="color:#FFBF00">資料夾像一格一格的地圖</strong>，檔案路徑就是你從起點走到藏寶箱的<strong>走法紀錄</strong>。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 資料夾是什麼 ───────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>資料夾：箱子裡還有箱子</h2>
+  <p>電腦裡的<strong>資料夾</strong>，就是一個可以裝東西的箱子。跟你房間的箱子不一樣的地方是——<strong style="color:#FF6B1A">箱子裡面還可以再放箱子</strong>，一層疊一層。</p>
+
+  <div class="nestbox">
+    <div class="nestbox__lv nestbox__lv--1">📁 本機<small>最大的箱子，裝著所有東西</small></div>
+    <div class="nestbox__lv nestbox__lv--2">📁 文件<small>本機裡的一個箱子</small></div>
+    <div class="nestbox__lv nestbox__lv--3">📄 我的日記.docx<small>箱子裡真正的東西：一個檔案</small></div>
+  </div>
+
+  <details class="reveal">
+    <summary>那要怎麼分「這是箱子」還是「這是東西」？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p><strong>資料夾（箱子）</strong>：圖示長得像一個黃色的小夾子，點兩下會<strong>打開，看到裡面還有別的東西</strong>。</p>
+      <p><strong>檔案（東西）</strong>：圖示是照片、文件、影片的樣子，點兩下會<strong>打開來播放或顯示內容</strong>，不會再「進去」了。</p>
+      <p>還有一個更準的判斷方法：檔案的名字後面通常有一小段字，例如 <code>.docx</code>、<code>.jpg</code>、<code>.mp4</code>——這叫<strong>副檔名</strong>，資料夾通常沒有這個。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 桌面也是資料夾 ─────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>你天天看到的「桌面」，其實也是資料夾</h2>
+  <p>很多人以為桌面是一個特別的東西，跟資料夾不一樣。<strong style="color:#FF6B1A">其實桌面就是一個資料夾</strong>，只是電腦特別把它放在螢幕最前面，讓你一開機就看得到。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">你覺得「桌面」是什麼？</p>
+    <p class="predict__hint">想想看，你能不能把一個檔案從桌面「拖」到別的資料夾裡？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不對喔。桌面能放檔案、能建資料夾、也能把東西拖進拖出——這些都是資料夾才有的行為。桌面沒有比較特別，只是它被放在最前面而已。">電腦裡一個特別的地方，跟資料夾不一樣</button>
+      <button class="pick" data-v="b" data-say="答對了！桌面就是一個資料夾，只是它的位置比較特別——開機就看得到，所以很多人放常用的東西在這裡。它的路徑通常長這樣：本機 › 桌面。">也是一個資料夾，只是比較常打開，所以放在最前面</button>
+      <button class="pick" data-v="c" data-say="不只是背景。桌面上那些小圖示都是真的檔案或資料夾捷徑，可以點開、可以刪除、可以搬到別的地方去——它是貨真價實的資料夾。">只是一張背景圖片，不能真的放檔案</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 下載的東西去哪了 ───────────── -->
+<section>
+  <h2 class="h2"><b>3</b>下載的東西，都跑到同一個地方</h2>
+  <p>用瀏覽器下載一張圖片或一個檔案，如果你沒有特別選位置，它<strong style="color:#FF6B1A">幾乎都會自動放進一個叫「下載」的資料夾</strong>——這是找不到下載檔案時，第一個該去看的地方。</p>
+
+  <figure class="shot shot--wide">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">瀏覽器下載列 ＋ 對應的「下載」資料夾</b>
+    <p class="shot__how">左半邊截瀏覽器右上角跳出的下載提示（可以看到檔名），右半邊截打開「下載」資料夾、同一個檔案真的在裡面的畫面，兩張並排讓學生一眼對上。檔名 <code>lit-01-1-下載去哪了.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">你用瀏覽器下載一張圖片，存的時候沒有特別選地方，它通常會跑到哪裡？</p>
+    <p class="predict__hint">回想一下，你是不是也曾經「找不到」剛下載的東西？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不一定喔。除非你自己選了「儲存到桌面」，不然瀏覽器預設不會放在桌面——這正是很多人「明明下載了，桌面卻找不到」的原因。">自動存到桌面</button>
+      <button class="pick" data-v="b" data-say="答對了！瀏覽器預設都會把下載的東西丟進「下載」這個資料夾。下次東西不見，先去那裡找找看。">自動存到一個叫「下載」的資料夾</button>
+      <button class="pick" data-v="c" data-say="真的有存起來，只是你可能不知道去哪裡找。剛剛學的「下載」資料夾就是答案。">不會真的存起來，只是暫時顯示一下</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 這是今天最重要的一句話</h3>
+    <p><strong style="color:#FF6B1A">檔案路徑，就是「從起點走到這個檔案，中間經過了哪些資料夾」的紀錄。</strong> 每經過一層資料夾，就在路徑上多寫一個名字，用 <code>›</code>（或電腦裡常見的 <code>\</code>）接起來。接下來直接玩玩看。</p>
+  </div>
+</section>
+
+<!-- ── 4. 藏寶圖關卡一 ───────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>藏寶圖關卡一：只隔一層</h2>
+  <p>下面是一張迷你藏寶圖。點資料夾就會「走進去」，上面那條深色的路徑列會即時記下你走過的名字。找到藏寶箱（📜）就過關：</p>
+
+  <div class="pathmap" data-pathmap data-tree='{"name":"本機","children":[{"name":"文件","children":[{"name":"家長聯絡簿.docx"}]},{"name":"桌面","children":[{"name":"小遊戲.exe"},{"name":"班級合照.jpg","treasure":true}]},{"name":"下載","children":[{"name":"廣告單.pdf"}]}]}'>
+    <p class="pathmap__clue" data-clue>老師說，你要交的班級合照存在「桌面」裡，去把它找出來！</p>
+    <div class="pathmap__crumb" data-crumb></div>
+    <div class="pathmap__grid" data-grid></div>
+    <div class="pathmap__ctl">
+      <button class="pbtn" type="button" data-act="up">⬆ 上一層</button>
+      <button class="pbtn" type="button" data-act="restart">🔄 重新開始</button>
+    </div>
+    <p class="pathmap__msg" data-msg></p>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">點錯也沒關係，這裡不會扣分——<strong>亂點亂找也是探險的一部分</strong>。</p>
+</section>
+
+<!-- ── 5. 藏寶圖關卡二 ───────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>藏寶圖關卡二：再深一層</h2>
+  <p>這次藏寶箱藏得更深，中間要多走一層資料夾：</p>
+
+  <div class="pathmap" data-pathmap data-tree='{"name":"本機","children":[{"name":"下載","children":[{"name":"廣告.pdf"}]},{"name":"文件","children":[{"name":"日記.docx"},{"name":"三年級","children":[{"name":"數學習作.docx"},{"name":"國語習作.docx","treasure":true}]}]}]}'>
+    <p class="pathmap__clue" data-clue>國語習作存在「文件 › 三年級」資料夾裡，去找出來！</p>
+    <div class="pathmap__crumb" data-crumb></div>
+    <div class="pathmap__grid" data-grid></div>
+    <div class="pathmap__ctl">
+      <button class="pbtn" type="button" data-act="up">⬆ 上一層</button>
+      <button class="pbtn" type="button" data-act="restart">🔄 重新開始</button>
+    </div>
+    <p class="pathmap__msg" data-msg></p>
+  </div>
+</section>
+
+<!-- ── 6. 藏寶圖關卡三 ───────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>藏寶圖關卡三：挑戰！還有假路可以走</h2>
+  <p>這關最深，而且<strong style="color:#FF6B1A">有好幾條看起來很像的路</strong>——線索要讀清楚，不要看到資料夾名字有點像就點下去：</p>
+
+  <div class="pathmap" data-pathmap data-tree='{"name":"本機","children":[{"name":"桌面","children":[{"name":"筆記.txt"}]},{"name":"文件","children":[{"name":"三年級","children":[{"name":"美勞作品.jpg"}]},{"name":"四年級","children":[{"name":"社會","children":[{"name":"報告草稿.docx"}]},{"name":"自然","children":[{"name":"實驗紀錄.docx"},{"name":"植物觀察日記.docx","treasure":true}]}]}]}]}'>
+    <p class="pathmap__clue" data-clue>植物觀察日記存在「文件 › 四年級 › 自然」裡，注意有好幾個資料夾長得很像，看清楚再點！</p>
+    <div class="pathmap__crumb" data-crumb></div>
+    <div class="pathmap__grid" data-grid></div>
+    <div class="pathmap__ctl">
+      <button class="pbtn" type="button" data-act="up">⬆ 上一層</button>
+      <button class="pbtn" type="button" data-act="restart">🔄 重新開始</button>
+    </div>
+    <p class="pathmap__msg" data-msg></p>
+  </div>
+
+  <div class="sos">
+    <h3>🎉 三關都過了？</h3>
+    <p>你現在已經知道：<strong>檔案路徑就是把走過的資料夾名字，一個一個接起來寫下來</strong>。接下來換你自己排排看。</p>
+  </div>
+</section>
+
+<!-- ── 7. 排出正確路徑 ───────────────── -->
+<section>
+  <h2 class="h2"><b>7</b>換你排排看：組出正確的路徑</h2>
+  <p>小華說：「我畫的太陽花，存在桌面的『美術作業』資料夾裡。」把下面三塊拖曳排出正確的路徑：</p>
+
+  <div class="sortbox"
+       data-answer="123"
+       data-msg-ok="✓ 完全正確！「桌面 › 美術作業 › 太陽花.jpg」——先到桌面，再進美術作業資料夾，才找到這個檔案。"
+       data-msg-near="快好了！再讀一次小華說的話：先到哪裡，再進哪個資料夾，最後才是檔案。"
+       data-msg-swap="順序不對喔！小華是先到「桌面」，才進「美術作業」資料夾，最後找到「太陽花.jpg」——想想看誰先誰後。">
+    <p style="font-weight:700;margin:0 0 .3rem">題目：小華畫的太陽花，存在桌面的「美術作業」資料夾裡。</p>
+    <div class="slots">
+      <div class="drag pchip pchip--file" data-k="3"><span class="pchip__ic">📄</span>太陽花.jpg</div>
+      <div class="drag pchip pchip--folder" data-k="1"><span class="pchip__ic">📁</span>桌面</div>
+      <div class="drag pchip pchip--folder" data-k="2"><span class="pchip__ic">📁</span>美術作業</div>
+    </div>
+    <button class="btn" data-check>檢查看看</button>
+    <p class="verdict"></p>
+  </div>
+</section>
+
+<!-- ── 8. 綜合檢核 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>8</b>最後檢查一下，你真的懂了嗎</h2>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">看到一條路徑「桌面 › 暑假作業 › 照片.jpg」，這是什麼意思？</p>
+    <p class="predict__hint">想想「›」在做什麼。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="不是一個怪名字，「›」不是檔名的一部分，它是用來分開「經過的每一站」的符號。">有一個檔案，它的名字就叫「桌面›暑假作業›照片.jpg」</button>
+      <button class="pick" data-v="b" data-say="答對了！從桌面出發，先進「暑假作業」這個資料夾，裡面有一個叫「照片.jpg」的檔案。「›」就是「接著走進」的意思。">從桌面出發，先進暑假作業資料夾，裡面有一個叫照片.jpg的檔案</button>
+      <button class="pick" data-v="c" data-say="不是三個並排的東西，前面兩個是「經過的資料夾」，只有最後一個「照片.jpg」才是真正的檔案。">有三個東西並排放在一起：桌面、暑假作業、照片.jpg</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">下面哪一個比較可能是「資料夾」，不是「檔案」？</p>
+    <p class="predict__hint">回想第 1 節學的判斷方法。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="「.mp4」是副檔名，通常代表這是一個影片檔案，不是資料夾。">巧虎.mp4</button>
+      <button class="pick" data-v="b" data-say="答對了！「暑假作業」沒有副檔名，圖示也會是黃色箱子，這是資料夾的樣子。">暑假作業</button>
+      <button class="pick" data-v="c" data-say="「.docx」是副檔名，代表這是一份 Word 文件檔案。">日記.docx</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">朋友傳給你一個檔案，你按「儲存」把它存下來，最快可以去哪裡找到它？</p>
+    <p class="predict__hint">想想第 3 節學的。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="除非你自己選了桌面，不然預設不會放在那裡。">桌面</button>
+      <button class="pick" data-v="b" data-say="答對了！只要沒有特別選位置，幾乎都會進「下載」資料夾——這是今天學的重要習慣：東西不見，先去下載資料夾看看。">下載資料夾</button>
+      <button class="pick" data-v="c" data-say="不會自動存進隨身碟，除非你自己選了那個位置。">隨身碟</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 9. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>9</b>換你在真正的電腦上做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>打開「檔案總管」（工作列上那個黃色資料夾圖示）</li>
+      <li>點左邊的<strong>「桌面」</strong>，看上面那條「地址列」寫的路徑</li>
+      <li>點左邊的<strong>「下載」</strong>，看看裡面現在有哪些東西</li>
+      <li>在地址列的空白處點一下，<strong>整條路徑的文字會被選起來</strong>，試著唸出來給旁邊同學聽</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">在檔案總管的地址列看到真正的路徑</b>
+    <p class="shot__how">打開檔案總管 → 點「桌面」→ 滑鼠點一下上面的地址列（會從一格一格的按鈕變成一整條文字）→ 學生會看到類似 <code>本機 › 桌面</code> 的文字，跟今天學的完全對得上。約 6 秒。檔名 <code>lit-01-2-地址列變路徑文字.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>找不到「檔案總管」</strong> —— Windows 通常在工作列最左邊，圖示是一個黃色的資料夾。</li>
+      <li><strong>地址列點了沒反應</strong> —— 要點文字的<strong>空白處</strong>，不是點某一格資料夾按鈕。</li>
+      <li><strong>「下載」資料夾是空的</strong> —— 代表這台電腦最近沒下載過東西，是正常的，不是壞掉。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>資訊素養 · 第 1 課 · 檔案路徑：像一張藏寶圖</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/literacy.js?v=1"></script>
+</body>
+</html>

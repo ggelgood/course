@@ -1,0 +1,67 @@
+/* ═══════════════════════════════════════════════════════════
+   Arduino 課專用樣式
+   ───────────────────────────────────────────────────────────
+   只有這門課的講義會 link 這個檔。共用的東西（點擊揭曉、打勾
+   清單、預測題、排序題、求救框…）走 lesson.css，這裡只放這門
+   課才有的元件。引用順序：lesson.css 在前、arduino.css 在後。
+   ═══════════════════════════════════════════════════════════ */
+
+/* ═══ 元件 1：GVS 插槽配對（gvsmatch）══════════════════════ */
+.gvsmatch{
+  max-width:480px; margin:1.2rem auto; padding:1.2rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:16px;
+  box-shadow:var(--shadow-sm); text-align:center;
+}
+.gvsmatch__wires{display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; margin:0 0 1.4rem}
+.gwire{
+  --wc:#999;
+  display:flex; flex-direction:column; align-items:center; gap:.25rem;
+  min-width:88px; padding:.6rem .7rem; border-radius:12px; cursor:pointer;
+  font-family:var(--body); font-weight:700; font-size:.92rem; color:#fff;
+  background:var(--wc); border:3px solid transparent; box-shadow:var(--shadow-sm);
+  transition:transform .12s;
+}
+.gwire small{font-weight:400; font-size:.76rem; opacity:.92}
+.gwire:hover{transform:translateY(-2px)}
+.gwire--pick{border-color:var(--ink); box-shadow:0 0 0 3px rgba(43,33,25,.25)}
+.gwire--ok{opacity:.55; cursor:default; transform:none}
+.gwire--ok::after{content:" ✓"}
+
+.gvsmatch__slots{display:flex; justify-content:center; gap:.9rem; margin:0 0 1rem}
+.gslot{
+  width:64px; height:64px; border-radius:14px; cursor:pointer;
+  font-family:var(--mono); font-weight:700; font-size:1.4rem;
+  background:#2B2119; color:#FBF6EC; border:3px solid #4E3120;
+  transition:background .15s, transform .12s;
+}
+.gslot:hover{transform:translateY(-2px)}
+.gslot--ok{background:var(--go); border-color:var(--go); cursor:default}
+.gslot--bad{background:#B2270E; border-color:#B2270E; animation:gshake .35s}
+@keyframes gshake{
+  0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)}
+}
+.gvsmatch__msg{min-height:1.5em; font-size:.9rem; font-weight:600; color:var(--ink-soft); margin:0}
+
+/* ═══ 元件 2：擴展板插槽示意（純視覺，靜態圖）══════════════
+   一排標好 V/G/S 的插槽圖，講解時用，不用互動。            */
+.shieldrow{
+  display:flex; justify-content:center; gap:.4rem; margin:1rem auto; flex-wrap:wrap;
+}
+.shieldrow__slot{
+  display:flex; flex-direction:column; align-items:center; gap:.3rem;
+  background:#2B2119; border-radius:10px; padding:.5rem .8rem;
+}
+.shieldrow__slot b{
+  font-family:var(--mono); font-size:1.1rem; color:#FBF6EC;
+  width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+  border-radius:6px;
+}
+.shieldrow__slot b.--v{background:#E5484D}
+.shieldrow__slot b.--g{background:#3D2E22; border:2px solid #6B5744}
+.shieldrow__slot b.--s{background:#FFBF00; color:#2B2119}
+.shieldrow__slot small{color:#D8C7A8; font-size:.72rem}
+
+@media (max-width:520px){
+  .gvsmatch{padding:.9rem}
+  .gslot{width:54px; height:54px; font-size:1.2rem}
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arduino 第 5 課 · ★ 關卡：獨立完成一個 LED 電路</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=1">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">Arduino 第 5 課 · 關卡 · 大約 1 節課</span>
+    <h1>★ 關卡：<em>獨立完成一個 LED 電路</em></h1>
+    <p class="lede">今天<strong style="color:#FFBF00">不教新東西</strong>。前四課學的板子、GVS、接線、排查順序，今天要靠自己全部用上一次——<strong>不看提示，自己接、自己上傳、自己排除問題</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>為什麼這關很重要</h2>
+        <p>下一課開始，你會跟 AI 助手一起共創程式。<strong style="color:#FFBF00">如果接線邏輯還不熟，東西不會動的時候，你會分不清是接線錯還是 AI 給錯</strong>——這關就是確認你已經準備好了。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天怎麼上</h2>
+        <p>沒有步驟教學，只有一個<strong style="color:#FFBF00">任務描述</strong>和一張<strong>自我檢查清單</strong>。卡住了，先回頭想前四課學過的東西。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 任務 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>今天的任務</h2>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>🎯 任務描述</h3>
+    <ul>
+      <li>拿一顆 <strong>LED 模組</strong>，接到擴展板<strong>任何一個你自己選的插槽</strong></li>
+      <li>寫（或改）一支程式，讓它<strong>閃爍</strong>——閃的速度自己決定</li>
+      <li>上傳成功、真的看到它照你要的速度閃</li>
+    </ul>
+  </div>
+
+  <p>這裡<strong style="color:#FF6B1A">故意不給接線圖、不給程式碼</strong>。前四課你已經做過一模一樣的事，這次靠自己想起來怎麼做。</p>
+
+  <details class="reveal">
+    <summary>完全想不起來從哪裡開始？看這裡（只有方向，沒有答案）<span class="peek">先自己想 3 分鐘</span></summary>
+    <div class="reveal__in">
+      <p><strong>接線的部分</strong>：回想第 2 課教的三個字母，還有第 3 課實際接過一次的順序。</p>
+      <p><strong>程式的部分</strong>：回想第 3 課打開的那個範例程式叫什麼名字，還有你改過哪兩種數字。</p>
+      <p>這裡只提醒「去哪裡找」，不會直接把接法或程式碼寫出來——想清楚了再回去動手。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 2. 自我檢查清單 ───────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>做完了嗎？自己檢查一次</h2>
+  <p>這張清單全部都是<strong style="color:#FF6B1A">看得到、答得出來的事實</strong>，不是「好不好看」——能一項一項打勾，就代表這關真的過了。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✅ 自我檢查</b>
+      <span class="dobox__tip">一項一項對照，答不出來就代表還沒真的完成 👇</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
+    </div>
+    <ol class="steps">
+      <li>我說得出來，我接的 LED 模組，V、G、S 三條線<strong>各自接在擴展板的哪一排</strong></li>
+      <li>我說得出來，S 那條線的<strong>插槽號碼</strong>，跟我程式碼裡寫的<strong>腳位號碼</strong>是同一個數字</li>
+      <li>上傳的時候，下面黑色視窗<strong>沒有跳出紅字</strong></li>
+      <li>LED <strong>真的在閃</strong>，不是board上內建那顆，是我自己接的那顆</li>
+      <li>我知道 <strong>delay() 裡的數字</strong>是在控制什麼</li>
+      <li>如果現在把 USB 拔掉重插，LED 會<strong>自己繼續閃</strong>（不用重新上傳）</li>
+    </ol>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">最後一項「拔掉 USB 重插，LED 會自己繼續閃」，為什麼可以拿來當檢查項目？</p>
+    <p class="predict__hint">想想程式上傳之後，存在哪裡。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="程式上傳之後不是存在電腦裡，是存進了板子本身，斷電重接也還在，這正是這一題想確認的事。">因為程式是存在電腦裡，跟板子沒關係</button>
+      <button class="pick" data-v="b" data-say="答對了！上傳成功後，程式是存在板子裡的，不是只存在電腦上——這代表只要板子有電，不用連電腦、不用重新上傳，程式就會一直執行。這也是為什麼這個檢查能確認「真的上傳成功了」，不是電腦剛好還開著才會動。">因為程式上傳後存在板子裡，不需要一直連著電腦執行</button>
+      <button class="pick" data-v="c" data-say="這個檢查不是測試接線鬆不鬆，是測試「程式有沒有真的存進板子」這件事，跟接線牢不牢固是不同的問題。">這只是測試接線有沒有鬆掉，跟程式沒關係</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 過關之後 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>六項都打勾了？</h2>
+  <p>恭喜，你已經準備好進入下一個階段。<strong style="color:#FF6B1A">從下一課開始，每一課會多兩件事</strong>：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">一個新零件</b>
+      <small>每課認識一種新的模組，接線邏輯跟今天完全一樣，只是零件不一樣。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">跟 AI 助手共創程式</b>
+      <small>不用再自己一行一行改程式碼，改成用一句話講清楚你要什麼，讓 AI 助手幫你寫。</small>
+    </div>
+  </div>
+
+  <p>今天練的<strong>接線判讀</strong>和<strong>兩層排查順序</strong>，之後每一課都用得到——只是排查順序會再多兩層（提示詞講清楚了沒、AI 給的邏輯對不對），那是下一課才會正式教的事。</p>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 六項清單還打不完全勾？</h3>
+    <p>先不要往下一課走。<strong>回去翻第 2、3、4 課</strong>，找出卡住的是接線還是程式，兩層排查順序這時候正好拿來用——先查硬體，再查上傳。真的還是卡住，舉手找老師，先講你查過哪些地方。</p>
+  </div>
+</section>
+
+<footer>
+  <p>Arduino 課 · 第 5 課 · ★ 關卡：獨立完成一個 LED 電路 —— 打地基階段完成</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+</body>
+</html>

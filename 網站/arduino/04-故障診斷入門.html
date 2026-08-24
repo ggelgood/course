@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arduino 第 4 課 · 故障診斷入門</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=1">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">Arduino 第 4 課 · 大約 1 節課</span>
+    <h1>故障診斷<em>入門</em></h1>
+    <p class="lede">前三課都是「照著做就會成功」。今天反過來——<strong style="color:#FFBF00">先看清楚接錯線會發生什麼事</strong>，再學一套排查順序，讓你下次卡住不用每次都舉手等老師。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要看到什麼</h2>
+        <p><strong style="color:#FFBF00">老師會示範</strong>接反、短路實際發生的樣子——這段<strong>只看不做</strong>，你不用也不可以自己嘗試。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天要學會的事</h2>
+        <p>建立一套<strong style="color:#FFBF00">排查順序</strong>：東西不會動的時候，先查什麼、再查什麼。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 安全規則 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先講清楚三條安全規則</h2>
+  <p>電路不是玩具，接錯線<strong style="color:#FF6B1A">真的會燒壞零件、發燙、冒煙</strong>。這學期接下來每一課都要守住這三條：</p>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 三條安全規則</h3>
+    <ul>
+      <li><strong>先接線、確認過，才插 USB 通電。</strong> 不要在通電的狀態下改接線。</li>
+      <li><strong>不要用手直接碰裸露的接腳</strong>，尤其是剛通電過的零件——可能會燙。</li>
+      <li><strong>要改接線，先把 USB 拔掉。</strong> 順序永遠是：拔線 → 改接線 → 檢查一次 → 才插回去。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 2. 老師示範 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>親眼看一次：接錯線會怎樣</h2>
+  <p><strong style="color:#FF6B1A">接下來這段是老師示範，全班一起看，不是你自己動手做的部分。</strong></p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 老師會示範兩件事</h3>
+    <ul>
+      <li><strong>正負極接反</strong>：把一顆要犧牲的 LED 模組故意接反，看實際會發生什麼。</li>
+      <li><strong>短路</strong>：把電源線和接地線直接接在一起，中間不經過任何零件。</li>
+    </ul>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">老師示範接反、短路的實際後果</b>
+    <p class="shot__how">錄下示範過程：接反的瞬間（可能發燙、冒一點煙或燒出痕跡）、短路的瞬間。全程只有老師的手在操作。約 10 秒。<b>這段影像本身就是最好的安全教材</b>，讓學生看過一次，警覺感會是真的。檔名 <code>ard-04-1-接錯示範.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">看完示範，如果你自己接線的時候不確定 V 和 G 有沒有接反，該怎麼辦？</p>
+    <p class="predict__hint">想想今天學的三條安全規則。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="先通電看看會不會有反應，是最危險的做法——萬一真的接反，通電那一刻零件可能就壞了，沒有「先試試看」這個安全選項。">先通電試試看，壞了再說</button>
+      <button class="pick" data-v="b" data-say="不確定的時候更不應該自己亂猜線色，猜錯風險一樣高。">憑線的顏色猜一猜，應該不會錯</button>
+      <button class="pick" data-v="c" data-say="答對了！不確定的時候，通電前先舉手讓老師確認一次，這是最安全的做法，也是今天安全規則的精神——先確認過，才通電。">在還沒通電之前，先舉手請老師檢查</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 建立排查順序 ───────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>東西不會動，照這個順序查</h2>
+  <p>這學期你會一直用到這套順序，現在只有兩層要查，之後開始跟 AI 助手共創程式，還會再多兩層——那是後面課的事，今天先把這兩層練熟：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem;color:var(--accent)">第一層：硬體</b>
+      <small>板子上有沒有燈亮？（代表有沒有通電）接線的 V／G／S 有沒有插對插槽？腳位號碼跟程式碼裡寫的是不是同一個？</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem;color:var(--accent)">第二層：上傳</b>
+      <small>下面黑色視窗有沒有跳紅字？板子和埠有沒有選對？程式碼有沒有不小心刪到符號？</small>
+    </div>
+  </div>
+
+  <p><strong style="color:#FF6B1A">永遠先查硬體，再查上傳。</strong> 硬體都沒接對，程式再怎麼檢查也沒用；硬體確認沒問題了，才去看程式碼跟上傳有沒有出錯。</p>
+</section>
+
+<!-- ── 4. 練習診斷 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>練習：這是哪一層的問題</h2>
+
+  <div class="predict" data-ans="a">
+    <p class="predict__q">小明的 LED 完全不亮，板子上內建的電源燈也沒亮。最可能是哪一層的問題？</p>
+    <p class="predict__hint">內建電源燈沒亮，代表連最基本的電都沒有。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="答對了！連板子本身的電源燈都沒亮，代表問題出在最底層——可能是 USB 沒插好、或線只能充電不能傳資料，這是硬體層，還輪不到看程式碼。">硬體層——先檢查 USB 線和板子有沒有通電</button>
+      <button class="pick" data-v="b" data-say="程式碼寫錯的話，板子本身還是會通電、內建電源燈還是會亮，只是程式的行為不對，跟這裡「連電源燈都沒亮」的狀況不符。">上傳層——程式碼一定寫錯了</button>
+      <button class="pick" data-v="c" data-say="LED 模組本身壞掉的機率不是不可能，但排查要照順序來——連最基本的電源都沒亮，應該先查供電本身，不是先懷疑某個零件壞掉。">LED 模組本身壞了，換一顆就好</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">小華按了上傳，下面黑色視窗跳出一大串紅字，板子上內建電源燈是亮的。最可能是哪一層的問題？</p>
+    <p class="predict__hint">電源燈亮，代表硬體這關已經過了。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="電源燈已經亮了，代表板子有通電、USB 也接上了，硬體這層基本上沒問題，問題應該在更上面一層。">硬體層——USB 線可能沒接好</button>
+      <button class="pick" data-v="b" data-say="答對了！電源燈亮代表硬體 OK，紅字通常代表板子／埠選錯，或程式碼裡有打字上的小錯誤（例如漏打分號），這是上傳層要查的範圍。">上傳層——檢查板子／埠有沒有選對，或程式碼是不是有打字錯誤</button>
+      <button class="pick" data-v="c" data-say="接線對不對是硬體層的事，而且電源燈已經亮了，代表最基本的接線和供電是通的，現在的紅字訊息比較指向程式或環境設定的問題。">接線的 V／G／S 一定插錯了</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 5. 卡住了 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>以後卡住，先照這個順序自己查</h2>
+  <div class="sos">
+    <h3>⚠️ 兩層排查順序（這學期會一直用）</h3>
+    <ul>
+      <li><strong>第一層・硬體</strong>：板子有燈亮嗎？接線的 V／G／S 對了嗎？腳位號碼跟程式碼一致嗎？</li>
+      <li><strong>第二層・上傳</strong>：黑色視窗有紅字嗎？板子和埠選對了嗎？</li>
+      <li>兩層都查過還是不行，才舉手找老師——<strong>先講你查過哪些，老師比較幫得上忙</strong>。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Arduino 課 · 第 4 課 · 故障診斷入門</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+</body>
+</html>

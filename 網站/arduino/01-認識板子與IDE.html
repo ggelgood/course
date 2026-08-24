@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arduino 第 1 課 · 認識板子與 IDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=1">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">Arduino 第 1 課 · 大約 1 節課</span>
+    <h1>認識板子<em>與 IDE</em></h1>
+    <p class="lede">這學期你會做出好幾個自己設計的裝置，最後還會跟 AI 助手一起共創程式。但今天完全不碰 AI——<strong style="color:#FFBF00">先把最基本的環境搞懂，之後才不會分不清是哪裡的問題</strong>。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>讓板子上<strong style="color:#FFBF00">一顆內建的燈自己閃起來</strong>——不改任何程式，只確認「電腦、板子、軟體，三個東西都接得通」。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天不做的事</h2>
+        <p>今天<strong style="color:#FFBF00">不寫任何一行程式</strong>，也不接任何零件。先把工具用熟，下一課才開始接線。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 認識你的板子 ───────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>你手上的兩塊板子</h2>
+  <p>桌上有兩塊板子疊在一起：</p>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 兩塊板子分別是什麼</h3>
+    <ul>
+      <li><strong>下面那塊（Arduino UNO）</strong>：真正的「大腦」，你寫的程式會存在這裡，靠它運算。</li>
+      <li><strong>上面那塊（Sensor Shield 擴展板）</strong>：把 UNO 的接腳整個複製一份、標好用途，讓你不用直接對著 UNO 密密麻麻的針腳，改成插進標好字的插槽就好。這學期<strong style="color:#FF6B1A">所有零件都插在這塊擴展板上</strong>，不會直接碰 UNO。</li>
+    </ul>
+  </div>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">UNO 疊上擴展板的樣子</b>
+    <p class="shot__how">拍整組板子（UNO＋Sensor Shield 疊好），標出「這是 UNO」「這是擴展板」兩個箭頭。檔名 <code>ard-01-1-板子外觀.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <p>先不用管擴展板上那些插槽——<strong>下一課</strong>才會正式教怎麼看。今天只要記得：<strong>兩塊板子疊在一起，中間的針腳要對齊插緊，不能歪一邊</strong>。</p>
+</section>
+
+<!-- ── 2. 安裝 IDE ──────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>安裝 Arduino IDE</h2>
+  <p><strong>IDE</strong> 是你等一下要用來寫程式、把程式送進板子裡的軟體，全名是「整合開發環境」，不用背這個詞，知道它是「寫程式用的軟體」就好。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>照老師指示的位置下載並安裝 <strong>Arduino IDE</strong></li>
+      <li>安裝好之後打開它，畫面應該會有一大塊<strong>空白區域</strong>（等一下要放程式碼）</li>
+      <li>用 <strong>USB 傳輸線</strong>把板子接到電腦</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">安裝 IDE 到打開軟體的完整流程</b>
+    <p class="shot__how">從下載頁面 → 安裝過程 → 第一次打開 IDE 看到的畫面。約 8 秒。檔名 <code>ard-01-2-IDE安裝流程.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ USB 傳輸線的一個大坑</h3>
+    <p>有些 USB 線<strong>只能充電，不能傳資料</strong>（常見於手機的隨附充電線）。如果等一下 IDE 完全找不到板子，<strong style="color:#FF6B1A">先換一條線試試看</strong>，這是最常見的原因之一，不是你操作錯。</p>
+  </div>
+</section>
+
+<!-- ── 3. 認識 IDE 介面 ──────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>認識 IDE 畫面上的東西</h2>
+  <p>打開 IDE，你會看到這幾個區域：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">中間一大塊空白</b>
+      <small>程式碼會寫在這裡。今天先不用管裡面寫了什麼。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">→ 上傳按鈕</b>
+      <small>一個圓圈裡有箭頭的按鈕，按下去程式就會送進板子裡。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">下面黑色小視窗</b>
+      <small>上傳成功或失敗，訊息會出現在這裡。<strong>以後排查問題常常要看這裡</strong>，先認識它長什麼樣子。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">工具／板子、埠</b>
+      <small>要告訴 IDE「我接的是哪一塊板子、哪一個連接埠」，選錯了程式就送不進去。</small>
+    </div>
+  </div>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">IDE 介面標註圖</b>
+    <p class="shot__how">截 IDE 完整畫面，用箭頭標出「程式碼區」「上傳按鈕」「黑色訊息視窗」「板子與埠選單」四個地方。檔名 <code>ard-01-3-IDE介面標註.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+</section>
+
+<!-- ── 4. 上傳第一支程式 ─────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>上傳一支現成的程式，什麼都不改</h2>
+  <p>Arduino IDE 內建一支範例程式叫 <strong>Blink</strong>（閃爍），會讓板子上<strong>一顆內建的小燈</strong>一直閃。今天的任務只有：<strong style="color:#FF6B1A">打開它、選對板子和埠、按上傳，不改任何一個字</strong>。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>點選單裡的<strong>「檔案」→「範例」→「01.Basics」→「Blink」</strong></li>
+      <li>跳出一個新視窗，裡面已經有寫好的程式碼——<strong>不用看懂，也不要改</strong></li>
+      <li>點<strong>「工具」</strong>，確認板子選的是 <strong>Arduino UNO</strong></li>
+      <li>點<strong>「工具」→「埠」</strong>，選有出現的那個選項（通常只有一個）</li>
+      <li>按<strong>上傳按鈕</strong>（圓圈箭頭），等下面黑色視窗跑完</li>
+    </ol>
+  </div>
+
+  <p>成功的話，板子上會有一顆小燈（通常標著 <strong>L</strong>）<strong>自己一直閃</strong>——不用接任何東西，這顆燈是板子本身內建的。</p>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">開啟 Blink 範例到上傳成功、內建燈開始閃的完整過程</b>
+    <p class="shot__how">從選單開啟範例 → 選板子和埠 → 按上傳 → 黑色視窗跑完顯示成功 → 板子上 L 燈開始閃。約 10 秒。檔名 <code>ard-01-4-上傳Blink成功.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">如果上傳的時候，「工具」→「埠」裡面完全沒有任何選項可以選，最可能的原因是什麼？</p>
+    <p class="predict__hint">想想板子要「被電腦看到」需要什麼。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="程式碼是範例內建的，這個階段還沒有機會打錯字，跟埠找不到沒有關係。">程式碼裡打錯字了</button>
+      <button class="pick" data-v="b" data-say="板子種類選錯，通常還是會出現一個埠的選項可以選，只是選了之後上傳會失敗；完全沒有選項通常是更早一步的問題。">板子型號選錯了</button>
+      <button class="pick" data-v="c" data-say="答對了！IDE 要先「看到」板子接上電腦，才會列出埠可以選。最常見的原因是 USB 線只能充電不能傳資料，或者線根本沒插緊。">USB 線沒接好，或用了只能充電的線</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 5. 卡住了 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>卡住了？先看這裡</h2>
+  <div class="sos">
+    <h3>⚠️ 今天最常見的三個狀況</h3>
+    <ul>
+      <li><strong>埠選單是空的</strong> —— 換一條 USB 線試試看，很多線只能充電。</li>
+      <li><strong>上傳按下去，黑色視窗跳出紅字</strong> —— 先看「板子」和「埠」有沒有選對，這是今天最常見的紅字原因。</li>
+      <li><strong>板子上很多顆燈亮著，但 L 燈沒有閃</strong> —— 板子有通電是好事（代表有電源），但要看清楚哪一顆才是標 <strong>L</strong> 的那顆，其他燈本來就會一直亮，不是閃的那顆。</li>
+      <li>都試過還是不行，舉手找老師，<strong>不要一直重複按上傳</strong>。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Arduino 課 · 第 1 課 · 認識板子與 IDE</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+</body>
+</html>

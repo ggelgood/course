@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arduino 第 3 課 · 第一個零件：LED 模組</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=1">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">Arduino 第 3 課 · 大約 1 節課</span>
+    <h1>第一個零件：<em>LED 模組</em></h1>
+    <p class="lede">上一課練習了怎麼接線，今天讓<strong style="color:#FFBF00">你自己接的零件真的亮起來</strong>，還會親手改一次程式碼——這是這學期唯一一次手動改程式，之後就換 AI 助手幫你寫。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要做出什麼</h2>
+        <p>自己接一顆 <strong style="color:#FFBF00">LED 模組</strong>，讓它照你想要的速度閃爍。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天的重點</h2>
+        <p>你會第一次看到<strong style="color:#FFBF00">程式碼長什麼樣子</strong>，改一兩個數字，親眼看到改了什麼、發生了什麼。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 認識 LED 模組 ──────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>認識 LED 模組</h2>
+  <p>模組上除了 LED 本體，還<strong style="color:#FF6B1A">已經內建了一顆電阻</strong>——這顆電阻的工作是「擋住」一部分電流，不然 LED 會因為電流太大而燒壞。因為是模組化的設計，你<strong>不用自己另外接電阻</strong>，這也是這學期不用麵包板的原因之一。</p>
+
+  <div class="shieldrow">
+    <div class="shieldrow__slot"><b class="--v">V</b><small>電源</small></div>
+    <div class="shieldrow__slot"><b class="--g">G</b><small>接地</small></div>
+    <div class="shieldrow__slot"><b class="--s">S</b><small>訊號</small></div>
+  </div>
+
+  <p>接法跟上一課練習的一樣：V 對 V、G 對 G、S 對 S。<strong>S（訊號）這條線，等一下程式碼裡會用「接在哪個腳位」來稱呼它</strong>——例如接在標號 7 的插槽，程式裡就會寫「腳位 7」。</p>
+</section>
+
+<!-- ── 2. 接線 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>動手接線</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 3</span>
+    </div>
+    <ol class="steps">
+      <li>拔掉 USB，確定板子沒通電</li>
+      <li>把 LED 模組接到擴展板<strong>任一個標了數字的插槽</strong>（V 對 V、G 對 G、S 對 S），<strong>記住你接的是幾號</strong></li>
+      <li>接好之後才插回 USB</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">LED 模組接線過程</b>
+    <p class="shot__how">拍把 LED 模組用三條線接到擴展板某個標號插槽的過程，鏡頭帶到插槽上的數字。約 6 秒。檔名 <code>ard-03-1-LED模組接線.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 3. 第一次看程式碼 ─────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>打開 Blink，這次要改</h2>
+  <p>跟第 1 課一樣，打開<strong>「檔案」→「範例」→「01.Basics」→「Blink」</strong>。這次要改兩個地方，讓程式對上你接的腳位：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">改腳位號碼</b>
+      <small>程式碼裡有寫著數字 <code>13</code> 的地方（那是內建燈的腳位），<strong>把 13 改成你接 LED 的插槽號碼</strong>，程式碼裡總共有兩個地方寫著 13，兩個都要改。</small>
+    </div>
+    <div class="cheat">
+      <b style="font-family:var(--display);font-size:1.05rem">認識 delay()</b>
+      <small>程式碼裡有 <code>delay(1000)</code> 這樣的字，<strong>1000 代表「等待 1000 毫秒」</strong>，也就是 1 秒。這個數字決定燈亮、燈暗各維持多久。</small>
+    </div>
+  </div>
+
+  <details class="pypeek">
+    <summary>偷看一下：這段程式在寫什麼？<span class="peek">好奇再點</span></summary>
+    <div class="pypeek__in">
+<pre><span class="f">digitalWrite</span>(<span class="n">13</span>, <span class="k">HIGH</span>);  <span class="c">// 讓 13 號腳位「有電」，LED 亮</span>
+<span class="f">delay</span>(<span class="n">1000</span>);           <span class="c">// 等待 1000 毫秒（1 秒）</span>
+<span class="f">digitalWrite</span>(<span class="n">13</span>, <span class="k">LOW</span>);   <span class="c">// 讓 13 號腳位「沒電」，LED 暗</span>
+<span class="f">delay</span>(<span class="n">1000</span>);           <span class="c">// 再等待 1 秒</span></pre>
+      <p class="pypeek__note"><strong>HIGH</strong> 是「有電」，<strong>LOW</strong> 是「沒電」——LED 就是靠這樣一下有電一下沒電，才會一閃一閃。這四行會不斷重複執行。</p>
+    </div>
+  </details>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">如果把兩個 <code>delay(1000)</code> 都改成 <code>delay(200)</code>，LED 閃爍的樣子會怎麼變？</p>
+    <p class="predict__hint">數字變小，代表「等待」的時間變怎樣？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="方向反了。數字變小，等待的時間變短，燈應該是變得更快閃，不是變慢。">閃得更慢，因為數字變小了</button>
+      <button class="pick" data-v="b" data-say="答對了！delay 裡的數字愈小，等待的時間愈短，燈就閃得愈快。1000 毫秒是 1 秒，200 毫秒不到四分之一秒，會閃得很快。">閃得更快，因為等待的時間變短了</button>
+      <button class="pick" data-v="c" data-say="兩個 delay 都改了，亮跟暗的時間都變短，燈確實會持續閃，不會突然停下來。">燈會停止閃爍，一直保持亮著</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 4. 動手改、上傳 ───────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>換你動手改</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>把程式碼裡<strong>兩個 13</strong>都改成你接 LED 的插槽號碼</li>
+      <li>選對板子和埠，按<strong>上傳</strong></li>
+      <li>看到 LED 開始閃，確認閃爍的是你接的那顆，不是板子上內建那顆</li>
+      <li>試著把<strong>兩個 delay 的數字</strong>都改成同一個更小的數字，再上傳一次，感受速度變化</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif shot--key shot--wide">
+    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
+    <b class="shot__what">改腳位號碼、改 delay，兩次上傳前後對比</b>
+    <p class="shot__how">錄一段：改完腳位號碼上傳、LED 開始閃 → 再改小 delay 數字上傳、閃爍變快。約 10 秒，讓學生看到「改程式碼真的會改變板子上發生的事」。檔名 <code>ard-03-2-改程式上傳對比.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 5. 卡住了 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>卡住了？先看這裡</h2>
+  <div class="sos">
+    <h3>⚠️ 今天最常見的三個狀況</h3>
+    <ul>
+      <li><strong>板子內建的燈在閃，外接的 LED 沒反應</strong> —— 程式碼裡的腳位號碼可能沒改對，或者兩個 13 只改了一個。</li>
+      <li><strong>LED 完全不亮</strong> —— 先檢查接線的 V／G／S 有沒有插對插槽，再檢查腳位號碼跟你接的插槽是不是同一個數字。</li>
+      <li><strong>上傳按下去，黑色視窗跳紅字</strong> —— 通常是改程式碼的時候不小心刪到不該刪的符號（例如分號 <code>;</code>），對照原本的範例檢查有沒有多刪或少刪。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Arduino 課 · 第 3 課 · 第一個零件：LED 模組</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+</body>
+</html>

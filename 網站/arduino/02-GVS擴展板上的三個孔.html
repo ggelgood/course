@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arduino 第 2 課 · GVS：擴展板上的三個孔</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=1">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">Arduino 第 2 課 · 大約 1 節課</span>
+    <h1>GVS：<em>擴展板上的三個孔</em></h1>
+    <p class="lede">這學期每一個零件模組都只有<strong style="color:#FFBF00">三條線</strong>。今天搞懂這三條線分別是什麼、為什麼一定要接對，之後接十幾種不同零件都是同一套邏輯。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要弄懂的事</h2>
+        <p>擴展板上每個插槽都標著 <strong style="color:#FFBF00">V、G、S</strong> 三個字母——這三個字母是什麼意思、線要怎麼對齊插。</p>
+      </div>
+      <div class="today__box">
+        <h2>今天不做的事</h2>
+        <p>今天<strong style="color:#FFBF00">不會讓任何燈亮起來</strong>，先把接線邏輯練熟，下一課才真的接一個會動的零件。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 為什麼是三條線 ─────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>為什麼每個零件都是三條線</h2>
+  <p>這學期你會接十幾種不同的零件——按鈕、旋鈕、蜂鳴器、馬達⋯⋯長得完全不一樣，但<strong style="color:#FF6B1A">接線的邏輯都一樣：三條線，各自負責一件事</strong>。</p>
+
+  <div class="shieldrow">
+    <div class="shieldrow__slot"><b class="--v">V</b><small>電源</small></div>
+    <div class="shieldrow__slot"><b class="--g">G</b><small>接地</small></div>
+    <div class="shieldrow__slot"><b class="--s">S</b><small>訊號</small></div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 GVS 是什麼</h3>
+    <ul>
+      <li><strong style="color:#E5484D">V（電源）</strong>：給零件「電」，讓它有力氣工作。通常是紅色線。</li>
+      <li><strong>G（接地）</strong>：電要能「流回去」才會一直有電流通過，這條線就是回程的路。通常是黑色線。</li>
+      <li><strong style="color:#B58900">S（訊號）</strong>：零件跟板子之間「說話」用的線——零件把偵測到的東西告訴板子，或板子叫零件做什麼動作，都靠這條。通常是黃色或白色線。</li>
+    </ul>
+  </div>
+
+  <p>想成水管：<strong>V 是水從哪裡進來，G 是水流去哪裡（沒有出口，水就不會流動）</strong>，<strong>S 則是中間閥門開多大這個「訊息」</strong>。電路也一樣，沒有接地，電流出不去，零件就不會工作。</p>
+</section>
+
+<!-- ── 2. 認識擴展板上的插槽 ─────────── -->
+<section>
+  <h2 class="h2"><b>2</b>擴展板上的插槽長什麼樣</h2>
+  <p>看你的擴展板，會看到一整排一整排的插槽，<strong>每一排都印著 V、G、S 三個字母</strong>。模組的接頭要對齊字母插上去——<strong style="color:#FF6B1A">V 對 V、G 對 G、S 對 S</strong>，不能插歪一格。</p>
+
+  <figure class="shot shot--key">
+    <span class="shot__kind">📷 截圖 · 最重要</span>
+    <b class="shot__what">擴展板插槽的 V／G／S 標示特寫</b>
+    <p class="shot__how">近拍擴展板上任一排插槽，清楚看到印著的 V、G、S 三個字母，用顏色標註對應電源／接地／訊號。檔名 <code>ard-02-1-擴展板插槽標示.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <p>大部分模組會有一個<strong>三孔的接頭（一個小插座）</strong>，裡面三條線已經固定好順序，你只要用<strong>杜邦線</strong>把模組的三孔跟擴展板對應的三孔連起來就好。</p>
+</section>
+
+<!-- ── 3. 練習配對 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>練習：三條線各自接到哪裡</h2>
+  <p>先點一條線，再點你覺得它該接的插槽。配對之前想清楚：<strong>這條線的顏色在剛剛學過的表格裡代表什麼</strong>。</p>
+
+  <div class="gvsmatch" data-gvsmatch>
+    <div class="gvsmatch__wires" data-wires>
+      <button class="gwire" data-id="v" data-color="#E5484D">紅色線<small>？</small></button>
+      <button class="gwire" data-id="g" data-color="#2B2119">黑色線<small>？</small></button>
+      <button class="gwire" data-id="s" data-color="#CC9900">黃色線<small>？</small></button>
+    </div>
+    <div class="gvsmatch__slots" data-slots>
+      <button class="gslot" data-id="s">S</button>
+      <button class="gslot" data-id="v">V</button>
+      <button class="gslot" data-id="g">G</button>
+    </div>
+    <p class="gvsmatch__msg" data-msg></p>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">⚠️ <strong>不同模組的線色可能不一樣</strong>，這裡的紅／黑／黃是最常見的配色，但真正準的方法是<strong>看模組上印的字或看接頭形狀</strong>，不是死背顏色。</p>
+</section>
+
+<!-- ── 4. 短路是什麼 ─────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>什麼情況會短路</h2>
+  <p><strong>短路</strong>：電源（V）直接接到接地（G），中間<strong>沒有經過任何零件</strong>。電流會突然暴衝，板子或零件可能會發燙、冒煙、燒壞。</p>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 最容易短路的兩個狀況</h3>
+    <ul>
+      <li><strong>兩條杜邦線的金屬頭互相碰到</strong>——尤其是還沒插進插槽、線就放在桌上通電的時候。</li>
+      <li><strong>模組插反或插錯位置</strong>，讓 V 跟 G 連在一起。</li>
+    </ul>
+    <p>下一課開始<strong>正式接線之前，養成習慣：先把所有線接好、檢查過一次，才插 USB 通電</strong>——這個順序能避開大部分短路的機會。</p>
+  </div>
+
+  <div class="predict" data-ans="a">
+    <p class="predict__q">如果不小心把 V 和 G 用一條線直接接在一起（沒有經過任何模組），會發生什麼事？</p>
+    <p class="predict__hint">想想電流會不會被「擋住」。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="答對了！這就是短路——電流沒有經過任何東西阻擋，會瞬間衝很大，板子或線材可能發燙、冒煙，甚至燒壞。這也是安全規則裡最重要的一條。">電流會瞬間衝很大，可能發燙冒煙</button>
+      <button class="pick" data-v="b" data-say="不會什麼都沒發生——沒有零件擋著電流，反而是最危險的狀況，不是最安全的狀況。">什麼都不會發生，因為沒有接任何零件</button>
+      <button class="pick" data-v="c" data-say="板子不會自動關機保護，Arduino 沒有這種機制，所以更需要學生自己小心，不能依賴板子會擋下來。">板子會自動關機保護自己</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 5. 動手做 ────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>換你在板子上做</h2>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>先<strong>拔掉 USB 線</strong>，確定板子沒有通電</li>
+      <li>拿一個模組（老師會給），找到它接頭上的 V、G、S（或看模組上印的字）</li>
+      <li>用杜邦線把模組接到擴展板<strong>任何一排</strong>插槽，記得對齊字母</li>
+      <li>接好之後<strong>舉手給老師檢查一次</strong>，確認沒有插歪，再插 USB</li>
+    </ol>
+  </div>
+
+  <figure class="shot shot--gif">
+    <span class="shot__kind">🎬 GIF 動畫</span>
+    <b class="shot__what">杜邦線接好的樣子</b>
+    <p class="shot__how">拍手把模組的三孔接頭對齊擴展板插槽、慢慢插上去的過程。約 5 秒。檔名 <code>ard-02-2-接線示範.gif</code>。</p>
+    <div class="shot__box">🎞️</div>
+  </figure>
+</section>
+
+<!-- ── 6. 卡住了 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>卡住了？先看這裡</h2>
+  <div class="sos">
+    <h3>⚠️ 今天最常見的狀況</h3>
+    <ul>
+      <li><strong>接頭插不進去</strong> —— 檢查方向有沒有對，不要用力硬插，通常是方向反了。</li>
+      <li><strong>忘記哪條線是哪個</strong> —— 看模組上有沒有印字，沒有的話問老師這個模組的說明。</li>
+      <li><strong>不確定插對了沒</strong> —— 這就是為什麼今天要先舉手給老師檢查，再通電。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Arduino 課 · 第 2 課 · GVS：擴展板上的三個孔</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/arduino.js?v=1"></script>
+</body>
+</html>

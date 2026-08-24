@@ -41,17 +41,15 @@
       <span class="cnav__t">Scratch 進階</span>
       <span class="cnav__n">17 / 17</span>
     </a>
-  </nav>
-
-  <nav class="side__group" aria-label="準備中的課程">
-    <p class="side__label">準備中</p>
-    <a class="cnav cnav--soon" href="#course-hardware" data-panel="course-hardware">
-      <svg class="cnav__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      <span class="cnav__t">Arduino / micro:bit</span>
-    </a>
-    <a class="cnav cnav--soon" href="#course-literacy" data-panel="course-literacy">
-      <svg class="cnav__lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    <a class="cnav" href="#course-literacy" data-panel="course-literacy">
+      <span class="cnav__dot"></span>
       <span class="cnav__t">資訊素養</span>
+      <span class="cnav__n">1</span>
+    </a>
+    <a class="cnav" href="#course-hardware" data-panel="course-hardware">
+      <span class="cnav__dot"></span>
+      <span class="cnav__t">Arduino</span>
+      <span class="cnav__n">5</span>
     </a>
   </nav>
 
@@ -500,39 +498,96 @@
   </div>
 </section>
 
-<!-- ────── 課程四：Arduino / micro:bit（準備中）────── -->
+<!-- ────── 課程四：Arduino × AI 共創課（製作中）────── -->
 <section class="course" id="course-hardware">
   <header class="course__head">
     <div class="course__title">
-      <h1 tabindex="-1">Arduino / micro:bit</h1>
-      <span class="badge badge--soon">準備中</span>
+      <h1 tabindex="-1">Arduino × AI 共創課</h1>
+      <span class="badge badge--soon">製作中 5 堂</span>
     </div>
-    <p class="course__meta">尚未開始製作</p>
+    <p class="course__meta">六年級 · 一學期 18 節 · 五個階段 · 終點是學會故障診斷</p>
   </header>
-  <div class="soon">
-    <p>從螢幕裡的程式，變成真的會亮、會響、會動的東西。</p>
+
+  <div class="course__tools"><button class="toggleall" type="button">全部展開</button></div>
+
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">階段一</span>
+      <span class="unit__t">打地基，不用 AI</span>
+      <small class="unit__s">板子、GVS 接線邏輯、故障診斷 SOP，扎實了才放手</small>
+      <span class="unit__c">5 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="arduino/01-認識板子與IDE.html">
+        <span class="ls__n">1</span>
+        <span class="ls__txt"><b class="ls__t">認識板子與 IDE</b><small class="ls__s">安裝軟體、上傳第一支現成程式，確認環境通不通</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="arduino/02-GVS擴展板上的三個孔.html">
+        <span class="ls__n">2</span>
+        <span class="ls__txt"><b class="ls__t">GVS：擴展板上的三個孔</b><small class="ls__s">電源、接地、訊號，這學期所有零件都靠這套邏輯接線</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="arduino/03-第一個零件LED模組.html">
+        <span class="ls__n">3</span>
+        <span class="ls__txt"><b class="ls__t">第一個零件：LED 模組</b><small class="ls__s">親手改一次程式碼，之後就換 AI 助手寫</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li><a href="arduino/04-故障診斷入門.html">
+        <span class="ls__n">4</span>
+        <span class="ls__txt"><b class="ls__t">故障診斷入門</b><small class="ls__s">親眼看一次接錯線的後果，建立排查 SOP</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+      <li class="ls--work"><a href="arduino/05-關卡獨立完成LED電路.html">
+        <span class="ls__n">5</span>
+        <span class="ls__txt"><b class="ls__t">關卡：獨立完成一個 LED 電路</b><span class="tag tag--work">關卡</span><small class="ls__s">不看提示，靠自己接線上傳，進入下一階段的把關課</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
+
+  <div class="soon" style="max-width:none;margin-top:1.6rem">
+    <p>接下來還會加入：</p>
     <ul>
-      <li>認識板子和接線</li>
-      <li>讓 LED 亮起來、讓蜂鳴器叫</li>
-      <li>感測器：光線、溫度、按鈕</li>
-      <li>把 Scratch 學的「重複」「如果」用在真實世界</li>
+      <li><strong>階段二（10 堂）</strong>：每課一個新零件，接完線就跟 AI 助手共創程式，自己實驗</li>
+      <li><strong>階段三（3 堂）</strong>：整合兩三個零件，做出自己設計的小裝置並發表</li>
     </ul>
   </div>
 </section>
 
-<!-- ────── 課程五：資訊素養（準備中）────── -->
+<!-- ────── 課程五：資訊素養（製作中）────── -->
 <section class="course" id="course-literacy">
   <header class="course__head">
     <div class="course__title">
       <h1 tabindex="-1">資訊素養</h1>
-      <span class="badge badge--soon">準備中</span>
+      <span class="badge badge--soon">製作中 1 堂</span>
     </div>
-    <p class="course__meta">尚未開始製作</p>
+    <p class="course__meta">中年級 · 不寫程式的課</p>
   </header>
-  <div class="soon">
-    <p>這一區之後放不寫程式的課。</p>
+
+  <div class="course__tools"><button class="toggleall" type="button">全部展開</button></div>
+
+  <details class="unit" open>
+    <summary class="unit__sum">
+      <span class="unit__n">單元一</span>
+      <span class="unit__t">認識檔案與資料夾</span>
+      <small class="unit__s">檔案路徑，就像一張藏寶圖</small>
+      <span class="unit__c">1 堂</span>
+      <span class="unit__chev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+    </summary>
+    <ul class="ls">
+      <li><a href="literacy/01-檔案路徑像藏寶圖.html">
+        <span class="ls__n">1</span>
+        <span class="ls__txt"><b class="ls__t">檔案路徑：像一張藏寶圖</b><small class="ls__s">資料夾、桌面、下載資料夾，還有三關藏寶圖探險</small></span>
+        <svg class="ls__go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </a></li>
+    </ul>
+  </details>
+
+  <div class="soon" style="max-width:none;margin-top:1.6rem">
+    <p>之後還會加入：</p>
     <ul>
-      <li>檔案管理（打字已獨立成「中文打字」）</li>
       <li>網路安全、個資保護</li>
       <li>怎麼查資料、怎麼判斷資料可不可信</li>
       <li>做簡報、做文件</li>

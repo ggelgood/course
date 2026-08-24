@@ -1,0 +1,111 @@
+/* ═══════════════════════════════════════════════════════════
+   資訊素養系列 — 專用樣式
+   ───────────────────────────────────────────────────────────
+   只有「資訊素養」底下的課會 link 這個檔。
+   共用的東西（點擊揭曉、打勾清單、預測題、排序題、求救框…）
+   還是走 lesson.css，這裡只放這個系列才有的元件。
+
+   引用順序一定是 lesson.css 在前、literacy.css 在後。
+   ═══════════════════════════════════════════════════════════ */
+
+/* ═══ 元件 1：藏寶圖路徑探險台（pathmap）══════════════════════
+   一層一層點資料夾往下走，路徑列即時把走過的名字接起來。
+   資料完全由 data-tree（JSON）決定，HTML 裡寫好、不用改 JS。
+   見 literacy.js 開頭註解的完整用法。                          */
+
+.pathmap{
+  max-width:560px; margin:1.2rem auto; padding:1.1rem 1.2rem 1.3rem;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(255,191,0,.10), transparent 45%),
+    #FBF1DA;
+  border:2px dashed var(--accent);
+  border-radius:16px;
+  box-shadow:var(--shadow-sm);
+}
+
+.pathmap__clue{
+  font-size:.94rem; background:var(--accent-soft); color:var(--ink);
+  border-radius:10px; padding:.6rem .8rem; margin:0 0 .9rem;
+  display:flex; gap:.5rem; align-items:flex-start;
+}
+.pathmap__clue::before{content:"🗺️"; font-size:1.1rem; line-height:1.3}
+
+.pathmap__crumb{
+  display:flex; flex-wrap:wrap; align-items:center; gap:.25rem;
+  font-family:var(--mono); font-size:.92rem; font-weight:700;
+  background:#2B2119; color:#FBF6EC; border-radius:10px;
+  padding:.55rem .75rem; margin:0 0 1rem; min-height:1.6em;
+}
+.pathmap__seg{color:#D8C7A8}
+.pathmap__seg--now{color:#FFBF00}
+.pathmap__sep{color:#8A7860; font-style:normal; padding:0 .1rem}
+
+.pathmap__grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
+  gap:.6rem; margin:0 0 .9rem;
+}
+.pmtile{
+  display:flex; flex-direction:column; align-items:center; gap:.35rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:12px;
+  padding:.7rem .4rem .6rem; cursor:pointer; font-family:var(--body);
+  color:var(--ink); box-shadow:var(--shadow-sm); transition:transform .12s, border-color .12s;
+}
+.pmtile:hover{transform:translateY(-2px); border-color:var(--accent)}
+.pmtile:active{transform:translateY(0)}
+.pmtile:disabled{cursor:default; opacity:.55; transform:none}
+.pmtile:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
+.pmtile__ic{font-size:1.9rem}
+.pmtile__name{font-size:.82rem; text-align:center; line-height:1.3; word-break:break-word}
+.pmtile--folder .pmtile__ic{filter:drop-shadow(0 2px 0 rgba(43,33,25,.15))}
+
+.pathmap__ctl{display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 .7rem}
+.pathmap__ctl .pbtn{
+  font-family:var(--body); font-size:.88rem; font-weight:600; color:#fff;
+  border:none; border-radius:999px; padding:.4rem .9rem; cursor:pointer;
+  background:var(--ink-soft); box-shadow:var(--shadow-sm);
+}
+.pathmap__ctl .pbtn:disabled{opacity:.45; cursor:default}
+.pathmap__ctl .pbtn:not(:disabled):hover{filter:brightness(1.08)}
+
+.pathmap__msg{
+  min-height:1.5em; font-size:.94rem; font-weight:600; margin:0;
+  color:var(--ink-soft);
+}
+.pathmap--won .pathmap__msg{color:var(--go); font-size:1rem}
+.pathmap--won{border-style:solid; border-color:var(--go)}
+.pathmap--won .pathmap__crumb{background:#0C4A3E}
+
+/* ═══ 元件 2：資料夾巢狀示意（純視覺，第 1 節用）════════════
+   靜態的箱子疊箱子圖，配 <details class="reveal"> 一起用。 */
+.nestbox{
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  margin:1rem auto; max-width:320px;
+}
+.nestbox__lv{
+  width:100%; border-radius:14px; padding:1rem; text-align:center;
+  font-weight:700; color:#fff; box-shadow:var(--shadow-sm);
+}
+.nestbox__lv--1{background:var(--b-motion)}
+.nestbox__lv--2{width:80%; background:var(--b-vars)}
+.nestbox__lv--3{width:60%; background:var(--go)}
+.nestbox__lv small{display:block; font-weight:400; font-size:.78rem; margin-top:.2rem; opacity:.9}
+
+@media (max-width:520px){
+  .pathmap{padding:.9rem .8rem 1.1rem}
+  .pathmap__grid{grid-template-columns:repeat(auto-fill,minmax(78px,1fr))}
+  .pmtile__ic{font-size:1.6rem}
+}
+
+/* ═══ 元件 3：路徑碎片（pchip，排序題用）══════════════════════
+   排序題（沿用 lesson.css 的 .sortbox／.drag）需要「積木」，
+   這裡的積木長得像資料夾／檔案標籤，不是 Scratch 積木。      */
+.pchip{
+  display:inline-flex; align-items:center; gap:.45rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:10px;
+  padding:.55rem .9rem; font-weight:700; font-family:var(--body); font-size:.98rem;
+  box-shadow:var(--shadow-sm); color:var(--ink);
+}
+.pchip--folder{border-color:var(--b-motion)}
+.pchip--folder .pchip__ic{color:var(--b-motion-d)}
+.pchip--file{border-color:var(--go)}
+.pchip__ic{font-size:1.15rem}
