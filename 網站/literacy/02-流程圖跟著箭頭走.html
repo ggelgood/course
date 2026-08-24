@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=4">
-<link rel="stylesheet" href="../assets/literacy.css?v=2">
+<link rel="stylesheet" href="../assets/literacy.css?v=3">
 </head>
 <body>
 
@@ -141,34 +141,71 @@
 
 <!-- ── 4. 排排看 ──────────────────────────── -->
 <section>
-  <h2 class="h2"><b>4</b>換你排排看：組出正確的流程圖</h2>
-  <p>小明每天早上會做這些事：<strong>先起床，接著刷牙，然後穿衣服，再背書包，最後出門</strong>。把下面幾塊拖曳排出正確的流程：</p>
+  <h2 class="h2"><b>4</b>換你排排看：把符號放進流程圖</h2>
+  <p>小明每天早上會做這些事：<strong>先起床，接著刷牙，然後穿衣服，再背書包，最後出門</strong>。下面那張流程圖的格子是空的，<strong style="color:#FF6B1A">把上面盤子裡的符號放進正確的格子</strong>：</p>
 
-  <div class="sortbox"
-       data-answer="123456"
-       data-swap="3>4"
-       data-msg-ok="✓ 完全正確！起床 → 刷牙 → 穿衣服 → 背書包 → 出門，每一步都照著小明說的順序排好了。"
-       data-msg-nohat="再看一次最上面那塊——流程圖一定要從「開始」出發，哪一塊才是開始？"
-       data-msg-swap="順序不對喔！小明是先「刷牙」，再「穿衣服」——再讀一次題目，想想誰先誰後。"
-       data-msg-near="快好了！再讀一次小明說的話，照他講的順序排排看。">
-    <p style="font-weight:700;margin:0 0 .3rem">題目：先起床，接著刷牙，然後穿衣服，再背書包，最後出門。</p>
-    <div class="slots">
-      <div class="drag fchip fchip--step" data-k="4"><span class="fchip__ic">▭</span>穿衣服</div>
-      <div class="drag fchip fchip--end" data-k="6"><span class="fchip__ic">◯</span>結束</div>
-      <div class="drag fchip fchip--start" data-k="1"><span class="fchip__ic">◯</span>開始</div>
-      <div class="drag fchip fchip--step" data-k="5"><span class="fchip__ic">▭</span>背書包</div>
-      <div class="drag fchip fchip--step" data-k="3"><span class="fchip__ic">▭</span>刷牙</div>
-      <div class="drag fchip fchip--step" data-k="2"><span class="fchip__ic">▭</span>起床</div>
+  <div class="fpz" data-fpz
+       data-msg-ok="✓ 完全正確！起床 → 刷牙 → 穿衣服 → 背書包 → 出門，每一格都照著小明說的順序放好了。注意最上面和最下面都是橢圓形。"
+       data-msg-empty="還有空格沒放喔！六個格子都要放一個符號，再按檢查看看。"
+       data-msg-nohat="第一格放錯了——流程圖一定要從橢圓形的「開始」出發，先把它放到最上面那一格。"
+       data-swap="brush|dress"
+       data-msg-swap="這兩塊互換了！小明是先「刷牙」，再「穿衣服」——再讀一次題目，想想誰先誰後。"
+       data-msg-near="再讀一次小明說的話，照他講的順序放放看。">
+    <p class="fpz__q">題目：先起床，接著刷牙，然後穿衣服，再背書包，最後出門。</p>
+    <p class="fpz__how">用拖的，或是<strong>點一下符號、再點一下空格</strong>都可以。放錯了再點它一次就能拿起來換。</p>
+    <p class="fpz__how" data-note></p>
+
+    <div class="fpz__tray" data-tray>
+      <div class="fpc fpc--start" data-k="start">開始</div>
+      <div class="fpc fpc--step"  data-k="wake">起床</div>
+      <div class="fpc fpc--step"  data-k="brush">刷牙</div>
+      <div class="fpc fpc--step"  data-k="dress">穿衣服</div>
+      <div class="fpc fpc--step"  data-k="bag">背書包</div>
+      <div class="fpc fpc--end"   data-k="out">出門</div>
     </div>
-    <button class="btn" data-check>檢查看看</button>
+
+    <div class="flow">
+      <div class="fpz__slot" data-want="start" data-n="1"></div>
+      <div class="flow__arrow"></div>
+      <div class="fpz__slot" data-want="wake" data-n="2"></div>
+      <div class="flow__arrow"></div>
+      <div class="fpz__slot" data-want="brush" data-n="3"></div>
+      <div class="flow__arrow"></div>
+      <div class="fpz__slot" data-want="dress" data-n="4"></div>
+      <div class="flow__arrow"></div>
+      <div class="fpz__slot" data-want="bag" data-n="5"></div>
+      <div class="flow__arrow"></div>
+      <div class="fpz__slot" data-want="out" data-n="6"></div>
+    </div>
+
+    <div class="fpz__ctl">
+      <button class="pbtn" type="button" data-check>檢查看看</button>
+      <button class="pbtn" type="button" data-reset>🔄 全部倒回盤子</button>
+    </div>
     <p class="verdict"></p>
   </div>
 </section>
 
-<!-- ── 5. 動手做 ─────────────────────────── -->
+<!-- ── 5. 自己畫一張 ───────────────────────── -->
 <section>
-  <h2 class="h2"><b>5</b>換你在紙上畫一張</h2>
-  <p>挑一件你<strong>每天都會做</strong>的事——例如綁鞋帶、削鉛筆、疊棉被，或是你自己想到的事情，在紙上畫出它的流程圖。</p>
+  <h2 class="h2"><b>5</b>換你自己畫一張</h2>
+  <p>下面是一台<strong style="color:#FF6B1A">流程圖編輯器</strong>，符號可以隨便你擺在哪裡。挑一件你<strong>每天都會做</strong>的事——例如綁鞋帶、削鉛筆、疊棉被，或是你自己想到的事情，把它的流程圖畫出來。</p>
+
+  <div class="fed" data-fed data-mode="move">
+    <div class="fed__bar">
+      <button class="fbtn fbtn--start" type="button" data-add="start">➕ 開始</button>
+      <button class="fbtn fbtn--step"  type="button" data-add="step">➕ 步驟</button>
+      <button class="fbtn"             type="button" data-add="end">➕ 結束</button>
+      <span class="fed__sep"></span>
+      <button class="fbtn" type="button" data-mode="link" aria-pressed="false">🔗 連箭頭</button>
+      <button class="fbtn" type="button" data-act="del">🗑️ 刪掉選到的</button>
+      <button class="fbtn" type="button" data-act="clear">🧹 全部清空</button>
+    </div>
+    <div class="fed__canvas" data-canvas>
+      <svg class="fed__wires" data-wires aria-hidden="true"></svg>
+    </div>
+    <p class="fed__say" data-note></p>
+  </div>
 
   <div class="dobox">
     <div class="dobox__head">
@@ -178,25 +215,20 @@
     </div>
     <ol class="steps">
       <li>先想一件你每天都做的事，把它拆成好幾個小步驟</li>
-      <li>照順序把每個步驟寫下來——<strong>不要跳步、也不要漏掉</strong></li>
-      <li>在紙上畫出符號：最上面一個橢圓寫「開始」，每個步驟畫一個長方形</li>
-      <li>用箭頭把所有格子由上往下連起來，最後畫一個橢圓寫「結束」</li>
+      <li>按 <strong>➕ 開始</strong> 放一個橢圓，點兩下把字改成你要的</li>
+      <li>每一個步驟按一次 <strong>➕ 步驟</strong>，<strong>由上往下擺好</strong>，最後放一個 <strong>➕ 結束</strong></li>
+      <li>按 <strong>🔗 連箭頭</strong>，照順序把每兩塊接起來——先點起點，再點終點</li>
       <li>畫好以後讀給旁邊同學聽，請他<strong>只照著你畫的圖</strong>做一次看看，做不做得出來</li>
     </ol>
   </div>
-
-  <figure class="shot">
-    <span class="shot__kind">📷 截圖</span>
-    <b class="shot__what">一張學生手繪流程圖的範例照片</b>
-    <p class="shot__how">找一張畫得清楚、有橢圓＋長方形＋箭頭三種符號都齊全的手繪流程圖，拍照放在這裡，給還沒動筆的學生一個具體的參考。檔名 <code>lit-02-1-手繪流程圖範例.png</code>。</p>
-    <div class="shot__box">🖼️</div>
-  </figure>
 
   <div class="sos">
     <h3>⚠️ 卡住了？先看這裡</h3>
     <ul>
       <li><strong>步驟寫得太籠統</strong>（例如「整理房間」）——拆小一點，拆到<strong>一個長方形只做一件具體的事</strong>為止。</li>
-      <li><strong>忘記畫箭頭</strong>——沒有箭頭，別人不知道該往哪個方向讀，順序就不見了。</li>
+      <li><strong>字改不了</strong>——要對著那塊符號<strong>點兩下</strong>（不是一下），改完按 Enter。</li>
+      <li><strong>箭頭連不出來</strong>——要先按 <strong>🔗 連箭頭</strong> 那顆鈕，它變成橘色才是連線模式，然後點起點、再點終點。</li>
+      <li><strong>連錯了想刪掉</strong>——點一下那條箭頭（會變橘色），再按 <strong>🗑️ 刪掉選到的</strong>。</li>
       <li><strong>同學照著做卻卡住</strong>——通常代表漏了一步，回去看看是不是中間跳過了什麼。</li>
     </ul>
   </div>
@@ -209,5 +241,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/literacy.js?v=3"></script>
 </body>
 </html>

@@ -59,13 +59,16 @@
 .pmtile--folder .pmtile__ic{filter:drop-shadow(0 2px 0 rgba(43,33,25,.15))}
 
 .pathmap__ctl{display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 .7rem}
-.pathmap__ctl .pbtn{
+
+/* 小圓鈕：pathmap、流程拼圖、流程圖編輯器共用 */
+.pbtn{
   font-family:var(--body); font-size:.88rem; font-weight:600; color:#fff;
   border:none; border-radius:999px; padding:.4rem .9rem; cursor:pointer;
   background:var(--ink-soft); box-shadow:var(--shadow-sm);
 }
-.pathmap__ctl .pbtn:disabled{opacity:.45; cursor:default}
-.pathmap__ctl .pbtn:not(:disabled):hover{filter:brightness(1.08)}
+.pbtn:disabled{opacity:.45; cursor:default}
+.pbtn:not(:disabled):hover{filter:brightness(1.08)}
+.pbtn:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
 
 .pathmap__msg{
   min-height:1.5em; font-size:.94rem; font-weight:600; margin:0;
@@ -127,15 +130,10 @@
 .flow__node--start{background:var(--go)}
 .flow__node--end{background:var(--ink-soft)}
 .flow__node--step{border-radius:10px; background:var(--b-motion)}
-.flow__node--decision{
-  position:relative; background:none; color:var(--ink);
-  padding:1.5rem 1.3rem; min-width:9.5rem; z-index:0;
-}
-.flow__node--decision::before{
-  content:""; position:absolute; inset:0; z-index:-1;
-  background:var(--b-events); border-radius:10px;
-  transform:scale(.72) rotate(45deg); box-shadow:var(--shadow-sm);
-}
+/* 菱形的形狀在下面「符號的形狀與顏色」那一段統一定義，
+   這裡只給它撐出菱形需要的內距（左右要留多一點，
+   不然文字會頂到斜邊外面去）。 */
+.flow__node--decision{padding:1.4rem 2.4rem; min-width:10.5rem; box-shadow:none}
 
 .flow__arrow{
   width:3px; height:1.7rem; background:var(--ink-soft); position:relative; flex:none;
@@ -168,22 +166,172 @@
 .flowkey__name{font-weight:700}
 .flowkey__d{font-size:.85rem; color:var(--ink-soft); line-height:1.4}
 
-/* ═══ 元件 6：流程圖積木（fchip，排序題用）════════════════════
-   沿用 lesson.css 的 .sortbox／.drag，長得像流程圖符號的標籤。 */
-.fchip{
-  display:inline-flex; align-items:center; gap:.5rem;
-  background:var(--card); border:2px solid var(--rule); border-radius:10px;
-  padding:.6rem 1rem; font-weight:700; font-family:var(--body); font-size:.98rem;
-  box-shadow:var(--shadow-sm); color:var(--ink);
+/* ═══ 符號的形狀與顏色（三個元件共用）════════════════════════
+   靜態流程圖（.flow__node）、拼圖碎片（.fpc）、編輯器上的節點
+   （.fednode）長得一模一樣——形狀＝意思，是學生要學的訊號，
+   三個地方一定要一致，所以顏色與圓角寫在同一組選擇器裡。     */
+.fpc--start,.fpc--end,.fednode--start,.fednode--end{border-radius:999px}
+.fpc--start,.fednode--start{background:var(--go); color:#fff}
+.fpc--end,.fednode--end{background:var(--ink-soft); color:#fff}
+.fpc--step,.fednode--step{border-radius:10px; background:var(--b-motion); color:#fff}
+
+/* 菱形：底下墊一片 clip-path 切出來的菱形，文字本身不轉——
+   直接旋轉整個元素的話中文字會斜著寫，非常難讀。
+
+   ⚠️ 踩過的坑：本來是用 transform:scale()+rotate(45deg) 做的，
+   但方塊轉 45 度以後「外框」會變成原本的 1.4 倍，在盤子裡
+   會壓到旁邊的碎片。clip-path 是切掉、不是轉，永遠不會超出自己。
+
+   兩層：::before 是選取時才出現的外框，::after 是黃色的底，
+   ::after 內縮 3px，露出來的那一圈就是外框。            */
+.fpc--decision,.fednode--decision,.flow__node--decision{
+  position:relative; z-index:0; background:none; color:var(--ink);
 }
-.fchip--start,.fchip--end{border-radius:999px}
-.fchip--start{border-color:var(--go)}
-.fchip--end{border-color:var(--ink-soft)}
-.fchip--step{border-color:var(--b-motion)}
-.fchip--decision{border-color:var(--b-events); border-style:dashed}
-.fchip__ic{font-size:1.1rem}
+.fpc--decision::before,.fpc--decision::after,
+.fednode--decision::before,.fednode--decision::after,
+.flow__node--decision::after{
+  content:""; position:absolute; inset:0;
+  clip-path:polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.fpc--decision::before,.fednode--decision::before{z-index:-2; background:transparent}
+.fpc--decision::after,.fednode--decision::after,.flow__node--decision::after{
+  z-index:-1; inset:3px; background:var(--b-events);
+  /* 陰影要沿著切出來的菱形走，所以用 drop-shadow 不用 box-shadow。
+     菱形本體的方框是透明的，box-shadow 會在下面畫出一條方方的線。 */
+  filter:drop-shadow(0 2px 0 rgba(43,33,25,.12));
+}
+
+/* ═══ 元件 6：流程拼圖（fpz）══════════════════════════════════
+   上面一盤打散的符號，下面一張留空的流程圖骨架。
+   拖曳，或「點一下符號、再點一下空格」都可以放（兩種都支援，
+   拖不動的學生用點的一樣能玩）。放錯可以再拿起來換位置。
+   見 literacy.js 元件 2 的註解。                              */
+.fpz{
+  background:var(--card); border:3px solid var(--ink); border-radius:18px;
+  padding:1.5rem; margin:1.75rem 0; box-shadow:var(--shadow-md);
+}
+.fpz__q{font-weight:700; margin:0 0 .3rem}
+.fpz__how{font-size:.86rem; color:var(--ink-soft); margin:0 0 .9rem}
+
+.fpz__tray{
+  display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center; align-items:center;
+  min-height:5.4rem; padding:.9rem; margin:0 0 1.2rem;
+  background:var(--ground-2); border:3px dashed var(--rule); border-radius:14px;
+}
+.fpz__tray.hot{border-color:var(--accent); background:var(--accent-soft)}
+.fpz__tray[data-empty="1"]::after{
+  content:"符號都放到下面去了，按「檢查看看」吧 👇";
+  color:var(--ink-soft); font-size:.9rem; font-weight:600;
+}
+
+.fpc{
+  display:inline-flex; align-items:center; justify-content:center; text-align:center;
+  font-family:var(--body); font-weight:700; font-size:.95rem; line-height:1.3;
+  padding:.8rem 1.1rem; min-width:8rem; cursor:grab; user-select:none;
+  box-shadow:var(--shadow-sm); transition:transform .12s, box-shadow .12s;
+}
+.fpc:active{cursor:grabbing}
+.fpc--decision{padding:1.35rem 2.3rem; min-width:10.5rem; box-shadow:none}
+.fpc:focus-visible{outline:3px solid var(--ink); outline-offset:3px}
+.fpc.lift{opacity:.35}
+/* 被「拿在手上」的碎片：菱形的框要畫在墊片上，
+   畫在外框會框出一個看不見的長方形，學生會以為選錯了。 */
+.fpc.sel{transform:translateY(-3px); box-shadow:0 0 0 3px var(--ink), var(--shadow-md)}
+.fpc--decision.sel{box-shadow:none; transform:translateY(-3px)}
+.fpc--decision.sel::before{background:var(--ink)}
+
+.fpz__slot{
+  display:grid; place-items:center; position:relative;
+  min-width:10.5rem; min-height:4.4rem; padding:.3rem;
+  border:3px dashed var(--rule); border-radius:12px; background:var(--ground-2);
+}
+.fpz__slot[data-empty="1"]::after{
+  content:attr(data-n); font-family:var(--display); font-weight:600;
+  font-size:1.1rem; color:var(--rule);
+}
+.fpz__slot.hot{border-color:var(--accent); background:var(--accent-soft)}
+.fpz__slot[data-s="hit"]{border-style:solid; border-color:var(--go); background:var(--go-soft)}
+.fpz__slot[data-s="miss"]{border-style:solid; border-color:var(--accent); background:var(--accent-soft)}
+
+.fpz__ctl{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-top:1.1rem}
+
+/* ═══ 元件 7：流程圖編輯器（fed）══════════════════════════════
+   自由擺放版：按鈕加符號 → 拖到任何位置 → 連箭頭 → 改文字。
+   取代原本「在紙上畫一張」的作業。見 literacy.js 元件 3。    */
+.fed{
+  border:3px solid var(--ink); border-radius:18px; overflow:hidden;
+  margin:1.8rem 0; box-shadow:var(--shadow-md); background:var(--card);
+}
+.fed__bar{
+  display:flex; flex-wrap:wrap; gap:.5rem; align-items:center;
+  padding:.75rem .85rem; background:var(--ink);
+}
+.fed__sep{flex:1 1 auto}
+
+.fbtn{
+  font-family:var(--body); font-weight:700; font-size:.88rem; color:#fff;
+  border:none; border-radius:999px; padding:.45rem 1rem; cursor:pointer;
+  background:var(--ink-soft); box-shadow:var(--shadow-sm);
+}
+.fbtn:hover{filter:brightness(1.1)}
+.fbtn:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+.fbtn--start{background:var(--go)}
+.fbtn--step{background:var(--b-motion)}
+.fbtn--decision{background:var(--b-events); color:var(--ink)}
+.fbtn[aria-pressed="true"]{background:var(--accent); box-shadow:0 0 0 3px rgba(255,107,26,.4)}
+
+.fed__canvas{
+  position:relative; height:32rem; overflow:hidden; touch-action:none;
+  background:
+    radial-gradient(circle, rgba(43,33,25,.16) 1.4px, transparent 1.5px) 0 0/22px 22px,
+    var(--ground);
+}
+/* svg 整層不擋滑鼠，只有那條看不見的粗線可以被點到
+   （細箭頭本身太細，點不太到，所以底下墊一條 16px 的透明線） */
+.fed__wires{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+.fedwire--hit{stroke:transparent; stroke-width:16; pointer-events:stroke; cursor:pointer}
+.fedwire--line{stroke:var(--ink-soft); stroke-width:3; stroke-linecap:round; pointer-events:none}
+.fedwire--line.is-on{stroke:var(--accent); stroke-width:4}
+.fed__wires .mk path{fill:var(--ink-soft)}
+.fed__wires .mk--sel path{fill:var(--accent)}
+
+.fednode{
+  position:absolute; z-index:2; max-width:13rem; text-align:center;
+  font-family:var(--body); font-weight:700; font-size:.95rem; line-height:1.3;
+  padding:.8rem 1.05rem; min-width:7.5rem;
+  cursor:grab; user-select:none; touch-action:none; box-shadow:var(--shadow-sm);
+}
+.fednode:active{cursor:grabbing}
+.fednode--decision{padding:1.35rem 2.3rem; min-width:10.5rem; box-shadow:none}
+.fednode.sel{box-shadow:0 0 0 3px var(--ink), var(--shadow-md)}
+.fednode--decision.sel{box-shadow:none}
+.fednode--decision.sel::before{background:var(--ink)}
+/* 連箭頭模式選到的「起點」 */
+.fednode.src{box-shadow:0 0 0 4px var(--accent), var(--shadow-md)}
+.fednode--decision.src{box-shadow:none}
+.fednode--decision.src::before{background:var(--accent)}
+.fednode[data-edit="1"]{cursor:text; user-select:text}
+.fednode__t{display:block; outline:none; min-width:2.5rem}
+.fed[data-mode="link"] .fednode{cursor:crosshair}
+
+.fedlab{
+  position:absolute; z-index:3; transform:translate(-50%,-50%);
+  font-size:.78rem; font-weight:700; color:var(--accent);
+  background:var(--accent-soft); border:2px solid var(--accent); border-radius:999px;
+  padding:.05rem .55rem; cursor:pointer; user-select:none; font-family:var(--body);
+}
+.fedlab:hover{filter:brightness(.97)}
+
+.fed__say{
+  margin:0; padding:.7rem 1rem; font-size:.9rem; font-weight:600;
+  color:var(--ink-soft); background:var(--ground-2); border-top:2px solid var(--rule);
+  min-height:1.5em;
+}
 
 @media (max-width:480px){
   .flow__node{font-size:.94rem; padding:.75rem 1rem}
   .flow__branch{gap:1rem}
+  .fpz{padding:1rem}
+  .fpz__slot{min-width:8.5rem; min-height:4rem}
+  .fed__canvas{height:26rem}
 }
