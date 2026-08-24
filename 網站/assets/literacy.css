@@ -330,8 +330,20 @@
 
 @media (max-width:480px){
   .flow__node{font-size:.94rem; padding:.75rem 1rem}
-  .flow__branch{gap:1rem}
-  .fpz{padding:1rem}
-  .fpz__slot{min-width:8.5rem; min-height:4rem}
+  .flow__node--decision{padding:1.2rem 1.6rem; min-width:8.6rem}
+
+  /* ⚠️ 分岔的兩條路一定要保持並排——疊成直的，「分岔」這件事
+     就看不見了。手機上把格子縮小、間距縮小，寧可擠也不要疊。 */
+  .flow__branch{gap:.6rem; flex-wrap:nowrap; align-self:stretch; justify-content:center}
+  .flow__path{flex:1 1 0; min-width:0}
+  .flow__path .fpz__slot,.flow__path .flow__node{min-width:0; width:100%}
+
+  .fpz{padding:1rem .7rem}
+  .fpz__slot{min-width:7.6rem; min-height:3.9rem}
+  .fpz__slot .fpc{min-width:0; max-width:100%; padding:.65rem .5rem; font-size:.88rem}
+  .fpz__slot .fpc--decision{padding:1.15rem 1.3rem}
+  .fpc{min-width:6.4rem; padding:.7rem .8rem; font-size:.9rem}
+  .fpc--decision{min-width:8.6rem; padding:1.15rem 1.6rem}
+
   .fed__canvas{height:26rem}
 }
