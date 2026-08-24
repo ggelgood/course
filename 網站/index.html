@@ -25,7 +25,6 @@
   </div>
 
   <nav class="side__group" aria-label="進行中的課程">
-    <p class="side__label">進行中</p>
     <a class="cnav" href="#course-scratch" data-panel="course-scratch">
       <span class="cnav__dot"></span>
       <span class="cnav__t">Scratch 入門</span>
@@ -39,7 +38,7 @@
     <a class="cnav" href="#course-advanced" data-panel="course-advanced">
       <span class="cnav__dot"></span>
       <span class="cnav__t">Scratch 進階</span>
-      <span class="cnav__n">17 / 17</span>
+      <span class="cnav__n">17</span>
     </a>
     <a class="cnav" href="#course-literacy" data-panel="course-literacy">
       <span class="cnav__dot"></span>
@@ -56,7 +55,7 @@
   <div class="side__foot">
     <a class="cnav" href="#course-teacher" data-panel="course-teacher">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-      <span class="cnav__t">給老師 · 小工具</span>
+      <span class="cnav__t">小工具</span>
     </a>
   </div>
 
@@ -595,33 +594,22 @@
   </div>
 </section>
 
-<!-- ────── 給老師 ────── -->
+<!-- ────── 小工具 ────── -->
 <section class="course" id="course-teacher">
   <header class="course__head">
     <div class="course__title">
-      <h1 tabindex="-1">給老師</h1>
+      <h1 tabindex="-1">小工具</h1>
     </div>
     <p class="course__meta">學生可以跳過這一區</p>
   </header>
 
   <div class="teacher">
-    <h3>🧰 小工具</h3>
     <p>都是單一檔案、不用安裝、<strong>不上傳、沒網路也能用</strong>：</p>
     <ul>
       <li><strong>✂️ <a href="tools/圖片裁剪.html">圖片裁剪工具</a></strong>——切掉不要的部分，或裁成固定比例（16:9、正方形⋯⋯），也可以轉正躺著的照片</li>
       <li><strong>🖼️ <a href="tools/圖片壓縮.html">圖片壓縮工具</a></strong>——把截圖和照片縮小到適合放進講義的大小（GIF 不能用它壓，要在 ScreenToGif 錄的時候就調小）</li>
     </ul>
     <p>兩個可以接著用：<strong>先裁再壓</strong>。</p>
-
-    <h3>要新增一門課</h3>
-    <p>兩個地方各加一段：側欄的 <code>.cnav</code> 連結，和內容區對應的
-      <code>&lt;section class="course" id="…"&gt;</code>。兩邊的 id 對上就會自動運作，
-      樣式不用另外寫。課的內容用 <code>&lt;details class="unit"&gt;</code> ＋ <code>&lt;ul class="ls"&gt;</code>。</p>
-
-    <h3>維護注意事項</h3>
-    <p>課程規劃、教學設計原則、以及每一課的積木對照，都寫在 <code>docs/課程地圖.md</code>。
-      元件用法和維護注意事項在 <code>網站/README.md</code>。</p>
-    <p><strong>改完 <code>assets/</code> 裡的檔案，記得把所有 HTML 的 <code>?v=</code> 版本號加一</strong>——不然學生的瀏覽器會繼續用舊的快取版本。指令在 <code>網站/README.md</code>。</p>
   </div>
 </section>
 
