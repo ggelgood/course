@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=4">
-<link rel="stylesheet" href="../assets/literacy.css?v=3">
+<link rel="stylesheet" href="../assets/literacy.css?v=5">
 </head>
 <body>
 
@@ -23,9 +23,10 @@
 
     <div class="today">
       <div class="today__box">
-        <h2>今天要弄懂的三件事</h2>
+        <h2>今天要弄懂的四件事</h2>
         <ul>
           <li><b>流程圖</b>是什麼、為什麼要畫它</li>
+          <li>順序排錯了<b>會有什麼後果</b></li>
           <li>三個基本符號：<b>開始／結束</b>、<b>步驟</b>、<b>箭頭</b></li>
           <li>流程圖要<b>照著箭頭走</b>，不能跳著看</li>
         </ul>
@@ -70,9 +71,89 @@
   </details>
 </section>
 
-<!-- ── 2. 三個基本符號 ─────────────────────── -->
+<!-- ── 2. 順序錯了會怎樣 ───────────────────── -->
 <section>
-  <h2 class="h2"><b>2</b>認識三個基本符號</h2>
+  <h2 class="h2"><b>2</b>順序弄錯了，會怎樣？</h2>
+  <p>你可能會想：「不就是先後不一樣而已，有那麼嚴重嗎？」我們把小華那件事<strong style="color:#FF6B1A">只對調兩步</strong>，其他都不改，看看結果差多少：</p>
+
+  <div class="flowvs">
+    <div class="flowvs__c flowvs__c--ok">
+      <h4>✅ 順序對的</h4>
+      <div class="flow flow--mini">
+        <div class="flow__node flow__node--step">刷牙</div>
+        <div class="flow__arrow"></div>
+        <div class="flow__node flow__node--step">換衣服</div>
+      </div>
+      <p class="flowvs__out">穿著乾淨的衣服出門 👍</p>
+    </div>
+    <div class="flowvs__c flowvs__c--bad">
+      <h4>❌ 這兩步對調</h4>
+      <div class="flow flow--mini">
+        <div class="flow__node flow__node--step">換衣服</div>
+        <div class="flow__arrow"></div>
+        <div class="flow__node flow__node--step">刷牙</div>
+      </div>
+      <p class="flowvs__out">牙膏噴到剛換好的衣服，要再換一次 😱</p>
+    </div>
+  </div>
+
+  <p>再看一個電腦課上真的會發生的例子——這一個的後果更嚴重，因為<strong style="color:#FF6B1A">錯了就救不回來</strong>：</p>
+
+  <div class="flowvs">
+    <div class="flowvs__c flowvs__c--ok">
+      <h4>✅ 順序對的</h4>
+      <div class="flow flow--mini">
+        <div class="flow__node flow__node--step">存檔</div>
+        <div class="flow__arrow"></div>
+        <div class="flow__node flow__node--step">關掉程式</div>
+      </div>
+      <p class="flowvs__out">作品好好地留在電腦裡 👍</p>
+    </div>
+    <div class="flowvs__c flowvs__c--bad">
+      <h4>❌ 這兩步對調</h4>
+      <div class="flow flow--mini">
+        <div class="flow__node flow__node--step">關掉程式</div>
+        <div class="flow__arrow"></div>
+        <div class="flow__node flow__node--step">存檔</div>
+      </div>
+      <p class="flowvs__out">程式已經關了，這節課做的東西全部不見 😱</p>
+    </div>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 所以流程圖在乎的是什麼</h3>
+    <p>流程圖裡的每一步<strong>做什麼</strong>當然重要，但<strong style="color:#FF6B1A">誰先誰後同樣重要</strong>。同樣的幾個步驟，換個順序就可能變成完全不同的結果——這就是為什麼流程圖一定要有箭頭。</p>
+  </div>
+
+  <p>不過也不是每兩步對調都會出事。下面三組，<strong>猜猜看哪一組對調會出問題</strong>：</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">哪一組的兩步對調以後，事情就做不成了？</p>
+    <p class="predict__hint">想一想：後面那一步，會不會「非得等前面那一步做完才做得到」？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="這一組對調沒關係——先開燈還是先開窗，兩件事互相不影響，做完都一樣。">開燈 → 開窗</button>
+      <button class="pick" data-v="b" data-say="答對了！沒有「倒水」哪來的水可以喝。<b>後面那一步需要前面那一步的結果</b>，這種就絕對不能對調。">倒一杯水 → 把水喝掉</button>
+      <button class="pick" data-v="c" data-say="這一組對調也沒關係——先收鉛筆還是先收橡皮擦，最後書包裡的東西都一樣。">把鉛筆收進書包 → 把橡皮擦收進書包</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <details class="reveal">
+    <summary>怎麼看出「這兩步不能對調」？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>問自己一句話就好：<strong style="color:#FF6B1A">後面這一步，需要前面那一步做完才做得到嗎？</strong></p>
+      <ul>
+        <li><strong>需要</strong> → 絕對不能對調。（沒倒水就沒得喝、沒存檔就沒東西可以留、沒開檔案就不能改）</li>
+        <li><strong>不需要</strong> → 對調也沒差。（先收鉛筆還是先收橡皮擦都一樣）</li>
+      </ul>
+      <p>等一下你自己畫流程圖的時候，就用這句話檢查每兩步之間的順序有沒有排對。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 3. 三個基本符號 ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>認識三個基本符號</h2>
   <p>流程圖不是隨便畫格子——<strong style="color:#FF6B1A">不同形狀，代表不同的意思</strong>。今天先認識最基本的三個：</p>
 
   <div class="flowkey">
@@ -105,9 +186,9 @@
   </div>
 </section>
 
-<!-- ── 3. 照著流程圖走一遍 ─────────────────── -->
+<!-- ── 4. 照著流程圖走一遍 ─────────────────── -->
 <section>
-  <h2 class="h2"><b>3</b>換你照著這張圖走一遍</h2>
+  <h2 class="h2"><b>4</b>換你照著這張圖走一遍</h2>
   <p>下面是「刷牙」這件事的完整流程圖。<strong style="color:#FF6B1A">從「開始」出發，順著箭頭往下讀</strong>，讀完再回答問題：</p>
 
   <div class="flow">
@@ -139,9 +220,9 @@
   </div>
 </section>
 
-<!-- ── 4. 排排看 ──────────────────────────── -->
+<!-- ── 5. 排排看 ──────────────────────────── -->
 <section>
-  <h2 class="h2"><b>4</b>換你排排看：把符號放進流程圖</h2>
+  <h2 class="h2"><b>5</b>換你排排看：把符號放進流程圖</h2>
   <p>小明每天早上會做這些事：<strong>先起床，接著刷牙，然後穿衣服，再背書包，最後出門</strong>。下面那張流程圖的格子是空的，<strong style="color:#FF6B1A">把上面盤子裡的符號放進正確的格子</strong>：</p>
 
   <div class="fpz" data-fpz
@@ -186,9 +267,9 @@
   </div>
 </section>
 
-<!-- ── 5. 自己畫一張 ───────────────────────── -->
+<!-- ── 6. 自己畫一張 ───────────────────────── -->
 <section>
-  <h2 class="h2"><b>5</b>換你自己畫一張</h2>
+  <h2 class="h2"><b>6</b>換你自己畫一張</h2>
   <p>下面是一台<strong style="color:#FF6B1A">流程圖編輯器</strong>，符號可以隨便你擺在哪裡。挑一件你<strong>每天都會做</strong>的事——例如綁鞋帶、削鉛筆、疊棉被，或是你自己想到的事情，把它的流程圖畫出來。</p>
 
   <div class="fed" data-fed data-mode="move">
@@ -211,13 +292,14 @@
     <div class="dobox__head">
       <b>✋ 動手做</b>
       <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
-      <span class="dobox__count"><i>0</i> / 5</span>
+      <span class="dobox__count"><i>0</i> / 6</span>
     </div>
     <ol class="steps">
       <li>先想一件你每天都做的事，把它拆成好幾個小步驟</li>
       <li>按 <strong>➕ 開始</strong> 放一個橢圓，點兩下把字改成你要的</li>
       <li>每一個步驟按一次 <strong>➕ 步驟</strong>，<strong>由上往下擺好</strong>，最後放一個 <strong>➕ 結束</strong></li>
       <li>按 <strong>🔗 連箭頭</strong>，照順序把每兩塊接起來——先點起點，再點終點</li>
+      <li><strong>檢查順序</strong>：每兩步都問一次「後面這步需要前面那步做完才做得到嗎？」需要的話，順序就不能反</li>
       <li>畫好以後讀給旁邊同學聽，請他<strong>只照著你畫的圖</strong>做一次看看，做不做得出來</li>
     </ol>
   </div>
@@ -241,6 +323,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=4"></script>
-<script src="../assets/literacy.js?v=3"></script>
+<script src="../assets/literacy.js?v=5"></script>
 </body>
 </html>

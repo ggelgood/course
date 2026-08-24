@@ -179,6 +179,11 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
   function sync() {
     tray.dataset.empty = tray.querySelector('.fpc') ? '0' : '1';
     slots.forEach(s => { s.dataset.empty = s.querySelector('.fpc') ? '0' : '1'; });
+    // ⚠️ 保險：把不在拖曳中的碎片的 .lift（半透明）清乾淨。
+    //    放下的瞬間我們會把碎片 appendChild 到別的格子，元素換了父節點，
+    //    瀏覽器就不一定會再發 dragend——只靠 dragend 清的話，
+    //    那一塊會一直是半透明的（就是「第一個放進去的會變淡」那個 bug）。
+    pieces.forEach(p => { if (p !== dragging) p.classList.remove('lift'); });
   }
   function clearMarks() {
     slots.forEach(s => delete s.dataset.s);
@@ -206,6 +211,9 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
       if (sitting && sitting !== piece) tray.appendChild(sitting);
     }
     zone.appendChild(piece);
+    piece.classList.remove('lift');      // 搬完就把拖曳中的半透明拿掉，不等 dragend
+    dragging = null;
+    unhot();
     release();
     clearMarks();
     sync();

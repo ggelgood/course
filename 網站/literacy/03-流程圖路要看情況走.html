@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=4">
-<link rel="stylesheet" href="../assets/literacy.css?v=3">
+<link rel="stylesheet" href="../assets/literacy.css?v=5">
 </head>
 <body>
 
@@ -23,11 +23,12 @@
 
     <div class="today">
       <div class="today__box">
-        <h2>今天要弄懂的三件事</h2>
+        <h2>今天要弄懂的四件事</h2>
         <ul>
           <li><b>菱形</b>代表要做一個「是不是」的判斷</li>
           <li>判斷之後會<b>分成兩條路</b>——是／否</li>
           <li>同一張流程圖，<b>情況不同，走的路就不同</b></li>
+          <li>判斷也可以叫你<b>回去再做一次</b>，還要留一條出得去的路</li>
         </ul>
       </div>
       <div class="today__box">
@@ -189,9 +190,102 @@
   </div>
 </section>
 
-<!-- ── 5. 排排看 ──────────────────────────── -->
+<!-- ── 5. 判斷也可以叫你回去再做一次（迴圈）────────── -->
 <section>
-  <h2 class="h2"><b>5</b>換你排排看：把符號放進有分岔的流程圖</h2>
+  <h2 class="h2"><b>5</b>判斷還會叫你「回去再做一次」</h2>
+  <p>前面兩張圖，判斷都是把你送到<strong>兩條不同的路</strong>，走完就結束了。但判斷還有第二種用法，而且超常用——<strong style="color:#FF6B1A">把你送回上面，再做一次</strong>。</p>
+  <p>想想泡泡麵：你不會等一分鐘就直接開動，你會<strong>掀開來看一下</strong>——沒軟？蓋回去再等。再看一次，還沒軟？再等。直到軟了為止。畫成流程圖長這樣：</p>
+
+  <div class="flow">
+    <div class="flow__node flow__node--start">開始</div>
+    <div class="flow__arrow"></div>
+    <div class="flow__node flow__node--step">加熱水，蓋起來</div>
+    <div class="flow__arrow"></div>
+
+    <div class="loop">
+      <span class="loop__tag">↺ 這一圈會重複做</span>
+      <div class="loop__body">
+        <div class="flow__node flow__node--step">等 1 分鐘</div>
+        <div class="flow__arrow"></div>
+        <div class="flow__node flow__node--decision">麵軟了嗎？</div>
+      </div>
+      <span class="loop__back">答案是「否」→ 回到上面的「等 1 分鐘」，再做一次</span>
+    </div>
+
+    <span class="flow__label">是</span>
+    <div class="flow__arrow"></div>
+    <div class="flow__node flow__node--end">開動！</div>
+  </div>
+
+  <p>看清楚那個菱形<strong style="color:#FF6B1A">兩條路各自去哪裡</strong>：</p>
+  <ul>
+    <li><strong>「否」（還沒軟）</strong>→ 往回走，再等一分鐘、再看一次。</li>
+    <li><strong>「是」（軟了）</strong>→ 往下走，離開這一圈，去開動。</li>
+  </ul>
+  <p>會一直重複的那一段，我們叫它<strong>迴圈</strong>。而<strong style="color:#FF6B1A">決定「要不要再繞一圈」的，就是那個判斷</strong>——它同時也是離開迴圈的唯一出口。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">等了 1 分鐘，掀開來看——麵還是硬的。接下來會發生什麼事？</p>
+    <p class="predict__hint">「麵軟了嗎？」的答案是「否」，順著「否」那條路走走看。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="「開動」是走「是」那條路才會到的地方。麵還沒軟，答案是「否」，不會往下走。">直接開動</button>
+      <button class="pick" data-v="b" data-say="答對了！答案是「否」就回到上面，再等 1 分鐘、再看一次——這就是「重複做」。">回到「等 1 分鐘」，再等一次、再看一次</button>
+      <button class="pick" data-v="c" data-say="流程圖不會自己停掉。菱形的兩條路都有地方去，「否」那條是回到上面，不是結束。">流程圖就停在這裡，什麼都不做</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 畫迴圈最容易出事的地方：出不去</h3>
+    <p>如果那個判斷<strong style="color:#FF6B1A">永遠不會變成「是」</strong>，會怎麼樣？</p>
+    <p>你會<strong>永遠繞在那一圈裡面，出不來</strong>——等一分鐘、看一下、還沒軟、再等一分鐘⋯⋯做到天亮也做不完。所以畫迴圈的時候一定要檢查一件事：<strong style="color:#FF6B1A">這一圈，有沒有辦法離開？</strong></p>
+    <p>以泡麵來說沒問題，因為每繞一圈麵就更軟一點，總有一次會軟。但如果你把判斷寫成「碗變成金子了嗎？」——那就永遠出不去了。</p>
+  </div>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">下面哪一個判斷，放進迴圈裡會讓人<strong>永遠出不來</strong>？</p>
+    <p class="predict__hint">想想看：每繞一圈，這件事有沒有可能離「是」更近一點？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="每寫一題就少一題，總有一次會寫完，所以出得去。">寫一題功課 →「功課寫完了嗎？」</button>
+      <button class="pick" data-v="b" data-say="每走一步就離門更近，總有一次會走到，所以出得去。">往前走一步 →「走到門口了嗎？」</button>
+      <button class="pick" data-v="c" data-say="答對了！<b>坐著不動，明天永遠不會變成今天</b>——這一圈裡面沒有任何事情會讓答案變成「是」，所以永遠出不去。迴圈裡一定要有「讓答案有機會變成是」的步驟。">坐著不動 →「今天變成明天了嗎？」</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <p>再看一個跟電腦有關的例子。還記得第 1 課的<strong>檔案路徑</strong>嗎？找檔案其實就是一個迴圈：</p>
+
+  <div class="flow">
+    <div class="flow__node flow__node--start">要找一個檔案</div>
+    <div class="flow__arrow"></div>
+
+    <div class="loop">
+      <span class="loop__tag">↺ 這一圈會重複做</span>
+      <div class="loop__body">
+        <div class="flow__node flow__node--step">打開一個資料夾看看</div>
+        <div class="flow__arrow"></div>
+        <div class="flow__node flow__node--decision">檔案在裡面嗎？</div>
+      </div>
+      <span class="loop__back">答案是「否」→ 回去打開<strong>下一個</strong>資料夾</span>
+    </div>
+
+    <span class="flow__label">是</span>
+    <div class="flow__arrow"></div>
+    <div class="flow__node flow__node--end">找到了！</div>
+  </div>
+
+  <details class="reveal">
+    <summary>為什麼上面寫的是「打開<b>下一個</b>資料夾」，而不是「再打開一次」？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>因為如果每次都打開<strong>同一個</strong>資料夾，答案就永遠是「否」——你會一直看同一個地方，永遠找不到，也永遠出不去。</p>
+      <p>這正是上面那個坑：<strong style="color:#FF6B1A">迴圈裡面一定要有「會改變情況」的步驟</strong>，答案才有機會變成「是」。泡麵是「麵愈來愈軟」，找檔案是「換一個沒看過的資料夾」。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 6. 排排看 ──────────────────────────── -->
+<section>
+  <h2 class="h2"><b>6</b>換你排排看：把符號放進有分岔的流程圖</h2>
   <p>小華放學回家的規則是：<strong>先洗手，然後想「肚子餓了嗎？」——餓的話先吃點心，不餓就直接寫功課——最後都會去玩玩具</strong>。</p>
   <p>這次的流程圖<strong style="color:#FF6B1A">中間會分成兩條路</strong>，注意「是」和「否」那兩格分別該放什麼：</p>
 
@@ -248,9 +342,9 @@
   </div>
 </section>
 
-<!-- ── 6. 自己畫一張 ───────────────────────── -->
+<!-- ── 7. 自己畫一張 ───────────────────────── -->
 <section>
-  <h2 class="h2"><b>6</b>換你自己畫一張：這次要有判斷</h2>
+  <h2 class="h2"><b>7</b>換你自己畫一張：這次要有判斷</h2>
   <p>想一件<strong>需要先判斷「是不是」，才知道怎麼做</strong>的事——例如要不要多穿外套、要不要吃早餐、電腦當機了怎麼辦，或是你自己想到的情況，用下面的編輯器畫出它的流程圖。</p>
   <p>這台編輯器比上一節多了一顆 <strong style="color:#FF6B1A">➕ 判斷</strong>——而且從菱形拉出去的<strong>前兩條箭頭，會自動幫你標上「是」和「否」</strong>（標反了的話，點那個標籤就能改）。</p>
 
@@ -304,6 +398,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=4"></script>
-<script src="../assets/literacy.js?v=3"></script>
+<script src="../assets/literacy.js?v=5"></script>
 </body>
 </html>

@@ -255,7 +255,72 @@
 
 .fpz__ctl{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-top:1.1rem}
 
-/* ═══ 元件 7：流程圖編輯器（fed）══════════════════════════════
+/* ═══ 元件 7：順序對照（flowvs）════════════════════════════════
+   同樣的步驟，順序對 vs 順序錯，並排放，讓「後果」自己說話。
+
+   窄螢幕會自動疊成上下——這裡可以疊，因為每張卡自己有
+   ✅／❌ 的標題，分開看也知道哪張是錯的。
+   （分岔的 .flow__branch 就不行，那個一定要並排，見下面的 media query）*/
+.flowvs{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));
+  gap:1.1rem; margin:1.6rem 0;
+}
+.flowvs__c{
+  display:flex; flex-direction:column; align-items:center;
+  border:3px solid var(--rule); border-radius:16px; padding:1rem .8rem 1.1rem;
+  background:var(--card);
+}
+.flowvs__c h4{margin:0; font-family:var(--display); font-size:1.02rem; font-weight:600}
+.flowvs__c--ok{border-color:var(--go); background:var(--go-soft)}
+.flowvs__c--bad{border-color:var(--accent); background:var(--accent-soft)}
+.flowvs__out{
+  margin:.9rem 0 0; font-size:.9rem; font-weight:700; line-height:1.5; text-align:center;
+}
+.flowvs__c--ok .flowvs__out{color:#0B7A6D}
+.flowvs__c--bad .flowvs__out{color:#C4460A}
+
+/* ═══ 元件 7b：會重複做的一段（loop）═════════════════════════
+   判斷說「還沒好」的時候，要回到上面再做一次。
+
+   ⚠️ 本來是想在左邊畫一條 [ 形狀的折線當「回去的路」，
+   但那條線的箭頭要剛好指到節點的左緣，而節點多寬取決於字數，
+   換一課、換個字數就對不準。改成「把重複的那一段框起來」＋
+   一句話說明回到哪裡——任何寬度都不會歪，意思也更好懂。
+
+   HTML：
+     <div class="loop">
+       <span class="loop__tag">↺ 這一圈會重複做</span>
+       <div class="loop__body">…要重複做的節點與箭頭…</div>
+       <span class="loop__back">「否」→ 回到上面，再做一次</span>
+     </div>                                                    */
+.loop{
+  position:relative; align-self:stretch;
+  display:flex; flex-direction:column; align-items:center;
+  border:3px dashed var(--accent); border-radius:16px;
+  padding:1.6rem .8rem 1rem; margin:.4rem 0;
+  background:rgba(255,107,26,.055);
+}
+.loop__tag{
+  position:absolute; top:0; left:50%; transform:translate(-50%,-50%);
+  background:var(--accent); color:#fff; font-family:var(--body);
+  font-size:.78rem; font-weight:700; white-space:nowrap;
+  border-radius:999px; padding:.15rem .85rem; box-shadow:var(--shadow-sm);
+}
+.loop__body{display:flex; flex-direction:column; align-items:center}
+.loop__back{
+  margin-top:.95rem; text-align:center; font-family:var(--body);
+  font-size:.82rem; font-weight:700; color:var(--accent);
+  background:var(--accent-soft); border:2px solid var(--accent);
+  border-radius:999px; padding:.22rem .85rem;
+}
+
+/* 縮小版流程圖：塞進對照卡片裡用 */
+.flow--mini{margin:.85rem auto 0; max-width:none}
+.flow--mini .flow__node{font-size:.88rem; padding:.55rem .9rem; min-width:6.5rem}
+.flow--mini .flow__node--decision{padding:1.05rem 1.5rem; min-width:8rem}
+.flow--mini .flow__arrow{height:1.15rem}
+
+/* ═══ 元件 8：流程圖編輯器（fed）══════════════════════════════
    自由擺放版：按鈕加符號 → 拖到任何位置 → 連箭頭 → 改文字。
    取代原本「在紙上畫一張」的作業。見 literacy.js 元件 3。    */
 .fed{
