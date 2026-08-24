@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "講義網站",
+      "name": "course-site",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "網站"],
-      "port": 8765
+      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "網站"],
+      "port": 8766
     }
   ]
 }

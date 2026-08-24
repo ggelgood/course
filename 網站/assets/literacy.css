@@ -109,3 +109,81 @@
 .pchip--folder .pchip__ic{color:var(--b-motion-d)}
 .pchip--file{border-color:var(--go)}
 .pchip__ic{font-size:1.15rem}
+
+/* ═══ 元件 4：流程圖（flow，第 2／3 節用）═══════════════════════
+   純 CSS 畫的靜態流程圖，不用 JS。垂直往下排：
+   開始／結束＝橢圓、步驟＝長方形、判斷＝菱形，中間用箭頭連起來。
+   有分岔時用 .flow__branch 包兩條 .flow__path 並排。            */
+.flow{
+  display:flex; flex-direction:column; align-items:center;
+  margin:1.6rem auto; max-width:460px;
+}
+.flow__node{
+  min-width:8.5rem; max-width:100%; text-align:center;
+  font-family:var(--body); font-weight:700; font-size:1rem;
+  padding:.85rem 1.2rem; color:#fff; box-shadow:var(--shadow-sm);
+}
+.flow__node--start,.flow__node--end{border-radius:999px}
+.flow__node--start{background:var(--go)}
+.flow__node--end{background:var(--ink-soft)}
+.flow__node--step{border-radius:10px; background:var(--b-motion)}
+.flow__node--decision{
+  position:relative; background:none; color:var(--ink);
+  padding:1.5rem 1.3rem; min-width:9.5rem; z-index:0;
+}
+.flow__node--decision::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:var(--b-events); border-radius:10px;
+  transform:scale(.72) rotate(45deg); box-shadow:var(--shadow-sm);
+}
+
+.flow__arrow{
+  width:3px; height:1.7rem; background:var(--ink-soft); position:relative; flex:none;
+}
+.flow__arrow::after{
+  content:""; position:absolute; left:50%; bottom:-1px; transform:translateX(-50%);
+  border:7px solid transparent; border-top-color:var(--ink-soft);
+}
+
+.flow__branch{
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start;
+  gap:1.6rem; margin-top:0;
+}
+.flow__path{display:flex; flex-direction:column; align-items:center}
+.flow__label{
+  font-size:.82rem; font-weight:700; color:var(--accent); background:var(--accent-soft);
+  border-radius:999px; padding:.15rem .7rem; margin-bottom:.25rem;
+}
+
+/* ═══ 元件 5：符號圖鑑（flowkey，介紹符號用）══════════════════
+   小格子並排展示每個符號長什麼樣子＋代表什麼意思。             */
+.flowkey{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));
+  gap:1.1rem; margin:1.5rem 0;
+}
+.flowkey__it{
+  display:flex; flex-direction:column; align-items:center; gap:.55rem; text-align:center;
+}
+.flowkey__shape{transform:scale(.86)}
+.flowkey__name{font-weight:700}
+.flowkey__d{font-size:.85rem; color:var(--ink-soft); line-height:1.4}
+
+/* ═══ 元件 6：流程圖積木（fchip，排序題用）════════════════════
+   沿用 lesson.css 的 .sortbox／.drag，長得像流程圖符號的標籤。 */
+.fchip{
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:10px;
+  padding:.6rem 1rem; font-weight:700; font-family:var(--body); font-size:.98rem;
+  box-shadow:var(--shadow-sm); color:var(--ink);
+}
+.fchip--start,.fchip--end{border-radius:999px}
+.fchip--start{border-color:var(--go)}
+.fchip--end{border-color:var(--ink-soft)}
+.fchip--step{border-color:var(--b-motion)}
+.fchip--decision{border-color:var(--b-events); border-style:dashed}
+.fchip__ic{font-size:1.1rem}
+
+@media (max-width:480px){
+  .flow__node{font-size:.94rem; padding:.75rem 1rem}
+  .flow__branch{gap:1rem}
+}
