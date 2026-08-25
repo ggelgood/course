@@ -136,7 +136,8 @@ document.querySelectorAll('[data-pathmap]').forEach(root => {
        <p class="fpz__how">拖曳，或點一下符號再點一下空格。</p>
        <p class="fpz__how" data-note></p>
        <div class="fpz__tray" data-tray>
-         <div class="fpc fpc--step" data-k="wash">洗手</div>
+         <div class="fpz__p fpc fpc--step" data-k="wash">洗手</div>
+         （碎片一定要有 .fpz__p，JS 認的是它；.fpc / .pchip 只管長相）
          …
        </div>
        <div class="flow">
@@ -166,7 +167,7 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
   const reBtn = root.querySelector('[data-reset]');
   const out   = root.querySelector('.verdict');
   const say   = root.querySelector('[data-note]');
-  const pieces = [...root.querySelectorAll('.fpc')];
+  const pieces = [...root.querySelectorAll('.fpz__p')];
   if (!tray || !slots.length || !chk || !out || !pieces.length) return;
 
   const zones = [tray, ...slots];
@@ -177,8 +178,8 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
 
   /* ── 狀態同步：空盤子／空格子的提示字 ─────────────── */
   function sync() {
-    tray.dataset.empty = tray.querySelector('.fpc') ? '0' : '1';
-    slots.forEach(s => { s.dataset.empty = s.querySelector('.fpc') ? '0' : '1'; });
+    tray.dataset.empty = tray.querySelector('.fpz__p') ? '0' : '1';
+    slots.forEach(s => { s.dataset.empty = s.querySelector('.fpz__p') ? '0' : '1'; });
     // ⚠️ 保險：把不在拖曳中的碎片的 .lift（半透明）清乾淨。
     //    放下的瞬間我們會把碎片 appendChild 到別的格子，元素換了父節點，
     //    瀏覽器就不一定會再發 dragend——只靠 dragend 清的話，
@@ -207,7 +208,7 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
     if (!piece || !zone) return;
     // 格子裡已經有東西 → 那一塊退回盤子（是「交換」不是「蓋掉」）
     if (zone.classList.contains('fpz__slot')) {
-      const sitting = zone.querySelector('.fpc');
+      const sitting = zone.querySelector('.fpz__p');
       if (sitting && sitting !== piece) tray.appendChild(sitting);
     }
     zone.appendChild(piece);
@@ -265,7 +266,7 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
     release();
     out.classList.add('on');
 
-    if (slots.some(s => !s.querySelector('.fpc'))) {
+    if (slots.some(s => !s.querySelector('.fpz__p'))) {
       out.dataset.k = 'n';
       out.innerHTML = root.dataset.msgEmpty ||
         '還有空格沒放喔！每一格都要放一個符號，再按檢查。';
@@ -274,7 +275,7 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
 
     let wrong = 0;
     slots.forEach(s => {
-      const ok = s.querySelector('.fpc').dataset.k === s.dataset.want;
+      const ok = s.querySelector('.fpz__p').dataset.k === s.dataset.want;
       s.dataset.s = ok ? 'hit' : 'miss';
       if (!ok) wrong++;
     });
@@ -298,8 +299,8 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
       const sa = slots.find(s => s.dataset.want === a);
       const sb = slots.find(s => s.dataset.want === b);
       if (sa && sb &&
-          sa.querySelector('.fpc').dataset.k === b &&
-          sb.querySelector('.fpc').dataset.k === a) {
+          sa.querySelector('.fpz__p').dataset.k === b &&
+          sb.querySelector('.fpz__p').dataset.k === a) {
         out.innerHTML = root.dataset.msgSwap;
         return;
       }

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=4">
-<link rel="stylesheet" href="../assets/literacy.css?v=5">
+<link rel="stylesheet" href="../assets/literacy.css?v=8">
 </head>
 <body>
 
@@ -47,13 +47,35 @@
 <!-- ── 1. 資料夾是什麼 ───────────────── -->
 <section>
   <h2 class="h2"><b>1</b>資料夾：箱子裡還有箱子</h2>
-  <p>電腦裡的<strong>資料夾</strong>，就是一個可以裝東西的箱子。跟你房間的箱子不一樣的地方是——<strong style="color:#FF6B1A">箱子裡面還可以再放箱子</strong>，一層疊一層。</p>
+  <p>電腦裡的<strong>資料夾</strong>，就是一個可以裝東西的箱子。跟你房間的箱子不一樣的地方是——<strong style="color:#FF6B1A">箱子裡面還可以再放箱子</strong>，一層裝一層。</p>
+  <p>下面這張圖不是三個並排的東西，而是<strong style="color:#FF6B1A">一個框「框住」下一個框</strong>：藍色的最大，橘色被裝在藍色裡面，綠色的檔案又被裝在橘色裡面。</p>
 
-  <div class="nestbox">
-    <div class="nestbox__lv nestbox__lv--1">📁 本機<small>最大的箱子，裝著所有東西</small></div>
-    <div class="nestbox__lv nestbox__lv--2">📁 文件<small>本機裡的一個箱子</small></div>
-    <div class="nestbox__lv nestbox__lv--3">📄 我的日記.docx<small>箱子裡真正的東西：一個檔案</small></div>
+  <div class="nest">
+    <div class="nest__box nest__box--1">
+      <span class="nest__name">📁 本機</span>
+      <small class="nest__note">最外面的箱子，整台電腦的東西都在這裡面</small>
+
+      <div class="nest__box nest__box--2">
+        <span class="nest__name">📁 文件</span>
+        <small class="nest__note">被裝在「本機」裡面的一個箱子</small>
+
+        <div class="nest__box nest__box--3">
+          <span class="nest__name">📄 我的日記.docx</span>
+          <small class="nest__note">被裝在「文件」裡面的東西——這個不是箱子，是檔案，打不開下一層了</small>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <p>看框就知道：想拿到「我的日記.docx」，你必須<strong style="color:#FF6B1A">先打開本機，再打開文件</strong>，沒辦法一步就跳進去。把這條「走法」寫下來，就是<strong>檔案路徑</strong>：</p>
+
+  <div class="pathbar">
+    <b>本機</b><i>›</i><b>文件</b><i>›</i><b class="pathbar--last">我的日記.docx</b>
+  </div>
+
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">
+    <strong>每往裡面進一層，路徑就多一個名字</strong>——所以路徑有幾個名字，就代表要打開幾層。
+  </p>
 
   <details class="reveal">
     <summary>那要怎麼分「這是箱子」還是「這是東西」？<span class="peek">點我看答案</span></summary>
@@ -171,23 +193,60 @@
 
 <!-- ── 7. 排出正確路徑 ───────────────── -->
 <section>
-  <h2 class="h2"><b>7</b>換你排排看：組出正確的路徑</h2>
-  <p>小華說：「我畫的太陽花，存在桌面的『美術作業』資料夾裡。」把下面三塊拖曳排出正確的路徑：</p>
+  <h2 class="h2"><b>7</b>換你排排看：把路徑的空格填滿</h2>
+  <p>路徑一直都是<strong style="color:#FF6B1A">橫著寫</strong>的：<code>本機 › 文件 › 我的日記.docx</code>。下面留了五個空格，把名字放進去，組出正確的路徑。</p>
+  <p><strong>注意：盤子裡有幾個是用不到的</strong>——它們確實存在電腦裡，但不在這條路上，別被騙了。</p>
 
-  <div class="sortbox"
-       data-answer="123"
-       data-msg-ok="✓ 完全正確！「桌面 › 美術作業 › 太陽花.jpg」——先到桌面，再進美術作業資料夾，才找到這個檔案。"
-       data-msg-near="快好了！再讀一次小華說的話：先到哪裡，再進哪個資料夾，最後才是檔案。"
-       data-msg-swap="順序不對喔！小華是先到「桌面」，才進「美術作業」資料夾，最後找到「太陽花.jpg」——想想看誰先誰後。">
-    <p style="font-weight:700;margin:0 0 .3rem">題目：小華畫的太陽花，存在桌面的「美術作業」資料夾裡。</p>
-    <div class="slots">
-      <div class="drag pchip pchip--file" data-k="3"><span class="pchip__ic">📄</span>太陽花.jpg</div>
-      <div class="drag pchip pchip--folder" data-k="1"><span class="pchip__ic">📁</span>桌面</div>
-      <div class="drag pchip pchip--folder" data-k="2"><span class="pchip__ic">📁</span>美術作業</div>
+  <div class="fpz" data-fpz
+       data-msg-ok="✓ 完全正確！「本機 › 文件 › 四年級 › 自然 › 植物觀察日記.docx」——這就是你剛剛在關卡三走過的那條路。「桌面」「三年級」「社會」都在電腦裡，但不在這條路上。"
+       data-msg-empty="還有空格沒填喔！五個空格都要放一個名字，再按檢查看看。"
+       data-msg-nohat="第一格放錯了——路徑一定從<b>最外面那個箱子</b>開始寫，也就是「本機」。"
+       data-swap="grade4|nature"
+       data-msg-swap="這兩格互換了！想想看哪個箱子裝著哪個：「自然」是被裝在「四年級」<b>裡面</b>的，所以「四年級」要寫在前面。"
+       data-msg-near="再想一次：從最外面的箱子開始，每往裡面進一層就寫一個名字，最後一格才是檔案。">
+    <p class="fpz__q">題目：植物觀察日記存在「文件」裡的「四年級」資料夾，再進去「自然」資料夾裡面。</p>
+    <p class="fpz__how">用拖的，或是<strong>點一下名字、再點一下空格</strong>都可以。放錯了再點它一次就能拿起來換。</p>
+    <p class="fpz__how" data-note></p>
+
+    <div class="fpz__tray" data-tray>
+      <div class="fpz__p pchip pchip--folder" data-k="pc"><span class="pchip__ic">📁</span>本機</div>
+      <div class="fpz__p pchip pchip--folder" data-k="docs"><span class="pchip__ic">📁</span>文件</div>
+      <div class="fpz__p pchip pchip--folder" data-k="grade4"><span class="pchip__ic">📁</span>四年級</div>
+      <div class="fpz__p pchip pchip--folder" data-k="nature"><span class="pchip__ic">📁</span>自然</div>
+      <div class="fpz__p pchip pchip--file"   data-k="diary"><span class="pchip__ic">📄</span>植物觀察日記.docx</div>
+      <div class="fpz__p pchip pchip--folder" data-k="desktop"><span class="pchip__ic">📁</span>桌面</div>
+      <div class="fpz__p pchip pchip--folder" data-k="grade3"><span class="pchip__ic">📁</span>三年級</div>
+      <div class="fpz__p pchip pchip--folder" data-k="social"><span class="pchip__ic">📁</span>社會</div>
     </div>
-    <button class="btn" data-check>檢查看看</button>
+
+    <div class="pathslots">
+      <div class="fpz__slot" data-want="pc" data-n="1"></div>
+      <i class="pathslots__sep">›</i>
+      <div class="fpz__slot" data-want="docs" data-n="2"></div>
+      <i class="pathslots__sep">›</i>
+      <div class="fpz__slot" data-want="grade4" data-n="3"></div>
+      <i class="pathslots__sep">›</i>
+      <div class="fpz__slot" data-want="nature" data-n="4"></div>
+      <i class="pathslots__sep">›</i>
+      <div class="fpz__slot" data-want="diary" data-n="5"></div>
+    </div>
+
+    <div class="fpz__ctl">
+      <button class="pbtn" type="button" data-check>檢查看看</button>
+      <button class="pbtn" type="button" data-reset>🔄 全部倒回盤子</button>
+    </div>
     <p class="verdict"></p>
   </div>
+
+  <details class="reveal">
+    <summary>那三個用不到的，為什麼不在這條路上？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p><strong>桌面</strong>——它跟「文件」是<strong>並排的兩個箱子</strong>，都在本機裡面。這個檔案在「文件」那邊，所以不會經過桌面。</p>
+      <p><strong>三年級</strong>——它在「文件」裡面，跟「四年級」並排。走錯這個箱子，裡面就沒有你要的東西了。</p>
+      <p><strong>社會</strong>——它在「四年級」裡面，跟「自然」並排。這也是最容易走錯的一步。</p>
+      <p>所以路徑真正在講的是：<strong style="color:#FF6B1A">每一層那麼多箱子，我到底該打開哪一個</strong>。</p>
+    </div>
+  </details>
 </section>
 
 <!-- ── 8. 綜合檢核 ──────────────────── -->
@@ -270,6 +329,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=4"></script>
-<script src="../assets/literacy.js?v=5"></script>
+<script src="../assets/literacy.js?v=6"></script>
 </body>
 </html>

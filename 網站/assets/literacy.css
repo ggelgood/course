@@ -78,20 +78,38 @@
 .pathmap--won{border-style:solid; border-color:var(--go)}
 .pathmap--won .pathmap__crumb{background:#0C4A3E}
 
-/* ═══ 元件 2：資料夾巢狀示意（純視覺，第 1 節用）════════════
-   靜態的箱子疊箱子圖，配 <details class="reveal"> 一起用。 */
-.nestbox{
-  display:flex; flex-direction:column; align-items:center; gap:.5rem;
-  margin:1rem auto; max-width:320px;
+/* ═══ 元件 2：資料夾巢狀示意（nest，第 1 節用）════════════════
+   真的把箱子畫在箱子「裡面」——HTML 也是巢狀的，
+   靠父層的 padding 自然縮排，一眼看得出誰包著誰。
+
+   ⚠️ 舊版是三塊由寬到窄、上下並排的色塊，學生看起來像階梯或
+   金字塔，完全看不出「包含」的關係。不要改回去。          */
+.nest{margin:1.4rem 0}
+.nest__box{
+  border:3px solid var(--rule); border-radius:14px;
+  padding:.8rem .85rem; background:var(--card);
 }
-.nestbox__lv{
-  width:100%; border-radius:14px; padding:1rem; text-align:center;
-  font-weight:700; color:#fff; box-shadow:var(--shadow-sm);
+.nest__box .nest__box{margin-top:.7rem}      /* 裡面那一層跟名字隔開 */
+.nest__box--1{border-color:var(--b-motion); background:rgba(76,151,255,.10)}
+.nest__box--2{border-color:var(--b-vars);   background:rgba(255,140,26,.10)}
+.nest__box--3{border-color:var(--go);       background:rgba(18,165,148,.13)}
+.nest__name{display:block; font-weight:700; font-size:1rem}
+.nest__note{
+  display:block; font-size:.8rem; color:var(--ink-soft);
+  margin-top:.15rem; line-height:1.45;
 }
-.nestbox__lv--1{background:var(--b-motion)}
-.nestbox__lv--2{width:80%; background:var(--b-vars)}
-.nestbox__lv--3{width:60%; background:var(--go)}
-.nestbox__lv small{display:block; font-weight:400; font-size:.78rem; margin-top:.2rem; opacity:.9}
+
+/* 路徑條：把巢狀關係翻譯成「本機 › 文件 › 我的日記.docx」。
+   跟藏寶圖的麵包屑同一套配色，學生看到會覺得是同一個東西。 */
+.pathbar{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.3rem;
+  font-family:var(--mono); font-size:.95rem; font-weight:700;
+  background:#2B2119; color:#FBF6EC;
+  border-radius:10px; padding:.65rem .8rem; margin:1rem 0;
+}
+.pathbar b{color:#D8C7A8}
+.pathbar b.pathbar--last{color:#FFBF00}
+.pathbar i{color:#8A7860; font-style:normal}
 
 @media (max-width:520px){
   .pathmap{padding:.9rem .8rem 1.1rem}
@@ -220,23 +238,28 @@
 }
 .fpz__tray.hot{border-color:var(--accent); background:var(--accent-soft)}
 .fpz__tray[data-empty="1"]::after{
-  content:"符號都放到下面去了，按「檢查看看」吧 👇";
+  content:"都放到下面去了，按「檢查看看」吧 👇";
   color:var(--ink-soft); font-size:.9rem; font-weight:600;
 }
+
+/* 碎片的「行為」寫在 .fpz__p，「長相」由各自的形狀 class 決定
+   （流程圖用 .fpc，第 1 課的檔案路徑用 .pchip）——
+   同一套拼圖引擎才能同時拼流程圖和拼路徑。JS 認的就是 .fpz__p。 */
+.fpz__p{cursor:grab; user-select:none; transition:transform .12s, box-shadow .12s}
+.fpz__p:active{cursor:grabbing}
+.fpz__p:focus-visible{outline:3px solid var(--ink); outline-offset:3px}
+.fpz__p.lift{opacity:.35}
+.fpz__p.sel{transform:translateY(-3px); box-shadow:0 0 0 3px var(--ink), var(--shadow-md)}
 
 .fpc{
   display:inline-flex; align-items:center; justify-content:center; text-align:center;
   font-family:var(--body); font-weight:700; font-size:.95rem; line-height:1.3;
-  padding:.8rem 1.1rem; min-width:8rem; cursor:grab; user-select:none;
-  box-shadow:var(--shadow-sm); transition:transform .12s, box-shadow .12s;
+  padding:.8rem 1.1rem; min-width:8rem;
+  box-shadow:var(--shadow-sm);
 }
-.fpc:active{cursor:grabbing}
 .fpc--decision{padding:1.35rem 2.3rem; min-width:10.5rem; box-shadow:none}
-.fpc:focus-visible{outline:3px solid var(--ink); outline-offset:3px}
-.fpc.lift{opacity:.35}
-/* 被「拿在手上」的碎片：菱形的框要畫在墊片上，
+/* 被「拿在手上」的菱形：框要畫在墊片上，
    畫在外框會框出一個看不見的長方形，學生會以為選錯了。 */
-.fpc.sel{transform:translateY(-3px); box-shadow:0 0 0 3px var(--ink), var(--shadow-md)}
 .fpc--decision.sel{box-shadow:none; transform:translateY(-3px)}
 .fpc--decision.sel::before{background:var(--ink)}
 
@@ -254,6 +277,33 @@
 .fpz__slot[data-s="miss"]{border-style:solid; border-color:var(--accent); background:var(--accent-soft)}
 
 .fpz__ctl{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-top:1.1rem}
+
+/* 橫式路徑盤：( ) › ( ) › ( )，第 1 課拼檔案路徑用。
+   路徑一直都是橫著寫的（本機 › 文件 › 日記.docx），
+   所以拼的時候也要橫著拼，不然學生會以為路徑是直的。
+
+   窄螢幕會折行——這裡可以折，因為 › 還在，折了還是照左到右讀，
+   跟一條很長的路徑在文字裡折行是一樣的。 */
+.pathslots{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+  gap:.45rem; padding:1rem .6rem; margin:.3rem 0 0;
+  background:#2B2119; border-radius:12px;
+}
+.pathslots .fpz__slot{
+  min-width:6.4rem; min-height:3.4rem; padding:.25rem;
+  background:rgba(255,255,255,.06); border-color:#6B5B49;
+}
+.pathslots .fpz__slot[data-empty="1"]::after{color:#8A7860}
+.pathslots__sep{
+  font-family:var(--mono); font-size:1.5rem; font-weight:700;
+  color:#FFBF00; font-style:normal; line-height:1;
+}
+/* 檔名可能很長（植物觀察日記.docx），讓它在格子裡折行，
+   不要把整條路徑撐爆 */
+.pathslots .pchip{
+  font-size:.86rem; padding:.45rem .6rem; max-width:100%;
+  white-space:normal; word-break:break-word; text-align:left;
+}
 
 /* ═══ 元件 7：順序對照（flowvs）════════════════════════════════
    同樣的步驟，順序對 vs 順序錯，並排放，讓「後果」自己說話。
