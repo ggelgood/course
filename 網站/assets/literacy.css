@@ -99,6 +99,39 @@
   margin-top:.15rem; line-height:1.45;
 }
 
+/* ═══ 元件 2b：常見檔名圖鑑（filekey，第 1 節的補充）═════════
+   把「名字 ＋ 副檔名」拆開上色，讓學生看出橘色那一小段
+   才是決定「這是什麼檔案、用什麼打開」的關鍵。
+
+   刻意做成跟 .sos（出事了怎麼辦）長得不一樣——
+   這一段是「知道就好」，不是等一下要做的事。            */
+.filekey{
+  position:relative; margin:1.9rem 0; padding:1.6rem 1.1rem 1.2rem;
+  border:3px solid var(--b-motion); border-radius:16px;
+  background:rgba(76,151,255,.07);
+}
+.filekey__tag{
+  position:absolute; top:0; left:1.2rem; transform:translateY(-50%);
+  background:var(--b-motion); color:#fff; font-family:var(--body);
+  font-size:.76rem; font-weight:700; white-space:nowrap;
+  border-radius:999px; padding:.15rem .8rem; box-shadow:var(--shadow-sm);
+}
+.filekey h3{
+  margin:0; font-family:var(--display); font-size:1.12rem; font-weight:600;
+}
+.filekey__grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+  gap:.6rem; margin:.95rem 0 0;
+}
+.fk{
+  display:flex; flex-direction:column; gap:.15rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:11px;
+  padding:.6rem .75rem;
+}
+.fk__name{font-family:var(--mono); font-size:.92rem; font-weight:700; word-break:break-all}
+.fk__ext{color:var(--accent)}
+.fk__d{font-size:.8rem; color:var(--ink-soft); line-height:1.45}
+
 /* 路徑條：把巢狀關係翻譯成「本機 › 文件 › 我的日記.docx」。
    跟藏寶圖的麵包屑同一套配色，學生看到會覺得是同一個東西。 */
 .pathbar{
