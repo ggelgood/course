@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>語音逐字稿工具</title>
+<!--
+  ═══════════════════════════════════════════════════════════
+  語音逐字稿工具 —— 一個通用的小工具，跟課程內容無關，任何人都能用。
+  ───────────────────────────────────────────────────────────
+  ⚠️ 這一頁是「單一檔案」的，樣式和程式都寫在裡面，跟另外兩個
+     小工具（圖片裁剪／圖片壓縮）同一套視覺 token。
+
+  但這個工具**不能**宣稱「沒網路也能用」——這點跟另外兩個不一樣，
+  是誠實的差異，不是疏漏：
+
+    1. 語音辨識本身在瀏覽器裡跑（用 Whisper 模型，透過
+       @huggingface/transformers 這個函式庫，底層是 ONNX Runtime
+       Web），檔案本身不會上傳到任何伺服器。
+    2. 但 AI 模型檔案（上百 MB）第一次使用時要從
+       cdn.jsdelivr.net（函式庫本體）和 huggingface.co（模型權重）
+       下載——如果學校網路擋掉這兩個網域，這個工具就開不了。
+    3. 下載一次之後，瀏覽器會把模型存進 Cache API，
+       之後同一台電腦、同一個瀏覽器不用再下載，離線也能跑。
+
+  這是「處理過程隱私」跟「完全離線」的差別，頁面上有講清楚，
+  不要因為想跟另外兩個工具的文案一致，就把「免網路」也抄過來。
+
+  ⚠️ 這裡不要放講義相關的說明。這一頁只做「語音轉文字」這件事。
+  ═══════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  --ground:#FBF6EC; --ground-2:#F4EBDB; --card:#fff;
+  --ink:#2B2119; --ink-soft:#7A6A59; --rule:#E3D6C0;
+  --accent:#FF6B1A; --accent-soft:#FFE8D9;
+  --go:#12A594; --go-soft:#D6F3EF;
+  --warn:#FFBF00; --warn-soft:#FFF9E6;
+  --bad:#B2270E; --bad-soft:#FBDCD3;
+  --display:"Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:"Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow-sm:0 2px 0 rgba(43,33,25,.10);
+  --shadow-md:0 3px 0 rgba(43,33,25,.12),0 10px 24px -14px rgba(43,33,25,.5);
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{
+  margin:0;font-family:var(--body);color:var(--ink);line-height:1.85;
+  background:var(--ground);
+  background-image:
+    radial-gradient(circle at 15% 5%,rgba(255,107,26,.07),transparent 40%),
+    radial-gradient(rgba(43,33,25,.05) 1px,transparent 1px);
+  background-size:auto,22px 22px;
+}
+.wrap{max-width:56rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 5rem}
+
+header{
+  background:linear-gradient(168deg,#2B2119,#3D2E22 60%,#4A3626);
+  color:var(--ground);padding:2.6rem 0 2.2rem;margin-bottom:2.2rem;
+}
+header h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5vw,3rem);margin:.4rem 0 .5rem;letter-spacing:-.02em}
+header h1 em{font-style:normal;color:var(--warn)}
+header p{margin:0;color:#E6D9C4;max-width:52ch}
+.tag{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.78rem;
+  letter-spacing:.06em;background:var(--accent);color:#fff;
+  padding:.3rem .9rem;border-radius:999px;box-shadow:0 3px 0 #C4460A;
+}
+.backhome{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.8rem;
+  color:#E6D9C4;text-decoration:none;border:2px solid rgba(251,246,236,.3);
+  border-radius:999px;padding:.25rem .9rem;margin-bottom:1rem;
+}
+.backhome:hover{background:rgba(251,246,236,.14);color:#fff}
+
+h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:2.2rem 0 .8rem}
+
+/* ── 提醒框（限制說明，開場就要看到）───────────────────── */
+.note{
+  background:var(--card);border-left:5px solid var(--rule);border-radius:12px;
+  padding:1rem 1.3rem;margin:1.2rem 0;font-size:.92rem;
+}
+.note--safe{border-left-color:var(--go);background:var(--go-soft)}
+.note--warn{border-left-color:var(--warn);background:var(--warn-soft)}
+.note--bad{border-left-color:var(--bad);background:var(--bad-soft)}
+.note h3{font-family:var(--display);font-weight:600;font-size:1rem;margin:0 0 .4rem}
+.note p{margin:.3rem 0}
+.note ul{margin:.4rem 0 0;padding-left:1.3rem}
+.note li{margin:.25rem 0}
+.note b{color:var(--accent)}
+code{background:var(--ground-2);padding:.1rem .4rem;border-radius:5px;font-family:var(--mono);font-size:.9em}
+
+/* ── 設定 ───────────────────────────────────────────────── */
+.settings{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.1rem;
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.3rem 1.4rem;margin:1.4rem 0;box-shadow:var(--shadow-md);
+}
+.field label{display:block;font-family:var(--display);font-weight:600;font-size:.92rem;margin-bottom:.35rem}
+.field small{display:block;color:var(--ink-soft);font-size:.78rem;line-height:1.5;margin-top:.3rem}
+.field select{
+  font:inherit;font-size:.95rem;width:100%;padding:.5rem .7rem;
+  border:2.5px solid var(--rule);border-radius:10px;background:var(--ground);color:var(--ink);
+}
+.field select:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+
+/* ── 拖放區 ─────────────────────────────────────────────── */
+.drop{
+  border:4px dashed var(--rule);border-radius:22px;background:var(--card);
+  padding:2.6rem 1.5rem;text-align:center;cursor:pointer;transition:.18s;
+  background-image:repeating-linear-gradient(45deg,transparent 0 15px,rgba(227,214,192,.2) 15px 30px);
+}
+.drop:hover{border-color:var(--ink)}
+.drop.hot{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.01)}
+.drop.off{opacity:.5;pointer-events:none}
+.drop__ic{font-size:3.2rem;line-height:1;margin-bottom:.6rem}
+.drop b{display:block;font-family:var(--display);font-weight:600;font-size:1.25rem;margin-bottom:.2rem}
+.drop small{color:var(--ink-soft);font-size:.9rem}
+
+/* ── 按鈕 ───────────────────────────────────────────────── */
+.btn{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.95rem;cursor:pointer;
+  padding:.6rem 1.3rem;border-radius:999px;border:none;
+  background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);transition:.14s;
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active:not(:disabled){transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn--go{background:var(--go);box-shadow:0 3px 0 #0B7A6D}
+.btn--ghost{background:transparent;color:var(--ink-soft);box-shadow:none;border:2.5px solid var(--rule)}
+.btn--ghost:hover{border-color:var(--ink);color:var(--ink);transform:none;box-shadow:none}
+.bar{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin:1.2rem 0}
+
+/* ── 進度區 ─────────────────────────────────────────────── */
+.stage{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.3rem 1.4rem;margin:1.4rem 0;box-shadow:var(--shadow-md);display:none;
+}
+.stage.on{display:block}
+.stage__step{display:flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:600;margin:.5rem 0}
+.stage__step .ic{width:1.6rem;text-align:center}
+.stage__step.wait{color:var(--ink-soft)}
+.stage__step.now{color:var(--accent)}
+.stage__step.done{color:var(--go)}
+.pbar{height:.9rem;border-radius:999px;background:var(--ground-2);overflow:hidden;margin:.3rem 0 .1rem;border:2px solid var(--rule)}
+.pbar__in{height:100%;background:var(--accent);width:0%;transition:width .25s}
+.stage__note{font-size:.82rem;color:var(--ink-soft);margin:.15rem 0 0}
+
+/* ── 結果 ───────────────────────────────────────────────── */
+.result{display:none;margin:1.4rem 0}
+.result.on{display:block}
+.result textarea{
+  width:100%;min-height:16rem;resize:vertical;font:inherit;font-size:1rem;line-height:1.9;
+  padding:1rem 1.1rem;border:3px solid var(--ink);border-radius:16px;background:var(--card);color:var(--ink);
+}
+.result textarea:focus{outline:3px solid var(--accent);outline-offset:1px}
+.copied{color:var(--go);font-family:var(--display);font-weight:600;font-size:.88rem}
+
+footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color:var(--ink-soft);font-size:.86rem}
+.hide{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 回首頁</a>
+    <span class="tag">免安裝 · 免上傳 · 首次使用需下載 AI 模型</span>
+    <h1>語音<em>逐字稿工具</em></h1>
+    <p>上傳一段音檔或影片，在<strong>你自己的瀏覽器裡</strong>跑語音辨識，轉成文字。
+    檔案本身<strong>不會上傳到任何伺服器</strong>，但第一次使用需要連網下載 AI 模型，請往下看清楚再用。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="note note--warn">
+    <h3>⚠️ 用之前先知道這幾件事</h3>
+    <ul>
+      <li><b>第一次使用要下載 AI 模型</b>（100～300 MB，視你選的模型大小），需要連上 <code>cdn.jsdelivr.net</code> 和 <code>huggingface.co</code> 這兩個網域。<b>如果學校網路擋掉外部網站，這個工具會打不開</b>，請資訊組協助開放，或換一個沒有擋的網路。</li>
+      <li>下載一次之後，瀏覽器會把模型<b>存起來</b>，之後同一台電腦、同一個瀏覽器再打開這個工具就不用重新下載。清瀏覽器資料、換瀏覽器、換電腦都要重新下載一次。</li>
+      <li><b>辨識過程完全在你的電腦裡跑，不需要網路</b>（模型下載完之後）。電腦效能普通的話，<b>辨識時間可能比錄音本身還長</b>，10 分鐘的音檔可能要等好幾分鐘到十幾分鐘，請耐心等待、不要關掉分頁。</li>
+      <li>設計給<b>10 分鐘以內、以中文為主</b>的音檔／影片。檔案太長，瀏覽器可能會跑很久甚至當掉。</li>
+    </ul>
+  </div>
+
+  <div class="settings">
+    <div class="field">
+      <label for="model">選擇模型</label>
+      <select id="model">
+        <option value="small" selected>準確（small，約 250 MB，中文效果較好，建議優先選這個）</option>
+        <option value="base">快速（base，約 145 MB，電腦比較舊、或想先測試流程再選這個）</option>
+      </select>
+      <small>不確定就選「準確」。真的等太久再回來換「快速」試試看。</small>
+    </div>
+  </div>
+
+  <div class="drop" id="drop" tabindex="0" role="button" aria-label="選擇或拖放音檔或影片">
+    <div class="drop__ic">🎙️</div>
+    <b>把音檔或影片拖到這裡</b>
+    <small>或點一下這個框選檔案 —— 支援常見的 mp3、wav、m4a、mp4、webm 等格式</small>
+    <input type="file" id="file" accept="audio/*,video/*" class="hide">
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="stage__step" id="step-model">
+      <span class="ic">⏳</span><span>下載 AI 模型</span>
+    </div>
+    <div class="pbar"><div class="pbar__in" id="modelbar"></div></div>
+    <p class="stage__note" id="modelnote">還沒開始</p>
+
+    <div class="stage__step" id="step-audio">
+      <span class="ic">⏳</span><span>讀取聲音</span>
+    </div>
+    <p class="stage__note" id="audionote">還沒開始</p>
+
+    <div class="stage__step" id="step-asr">
+      <span class="ic">⏳</span><span>辨識中</span>
+    </div>
+    <p class="stage__note" id="asrnote">還沒開始</p>
+  </div>
+
+  <div class="result" id="result">
+    <h2>逐字稿</h2>
+    <textarea id="out" readonly spellcheck="false"></textarea>
+    <div class="bar">
+      <button class="btn btn--go" id="copy">📋 複製</button>
+      <button class="btn" id="download">⬇ 下載成 .txt</button>
+      <button class="btn btn--ghost" id="again">重新開始</button>
+      <span class="copied hide" id="copied">已複製！</span>
+    </div>
+  </div>
+
+  <div class="note note--bad hide" id="errbox">
+    <h3>⚠️ 發生問題</h3>
+    <p id="errmsg"></p>
+  </div>
+
+  <div class="note note--safe">
+    <p><b>🔒 你的檔案不會離開這台電腦。</b></p>
+    <p>語音辨識全部在瀏覽器裡跑，音檔或影片本身<strong>從頭到尾不會上傳</strong>到任何伺服器——
+    唯一需要連網的，是第一次下載 AI 模型那一步。</p>
+  </div>
+
+  <footer>
+    <p>語音逐字稿工具 · 辨識過程在你的瀏覽器裡執行 · 模型：OpenAI Whisper（透過 <code>@huggingface/transformers</code>）</p>
+  </footer>
+</div>
+
+<script type="module">
+import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3/+esm';
+
+const $ = s => document.querySelector(s);
+const drop = $('#drop'), fileIn = $('#file'), modelSel = $('#model'),
+      stage = $('#stage'), result = $('#result'), errbox = $('#errbox'), errmsg = $('#errmsg');
+
+const stepModel = $('#step-model'), modelBar = $('#modelbar'), modelNote = $('#modelnote');
+const stepAudio = $('#step-audio'), audioNote = $('#audionote');
+const stepAsr   = $('#step-asr'),   asrNote   = $('#asrnote');
+
+let transcriber = null;
+let loadedModel = null;
+
+/* ── 小工具 ──────────────────────────────────────────────── */
+const setStep = (el, state) => { el.classList.remove('wait', 'now', 'done'); el.classList.add(state); };
+const showErr = msg => {
+  errmsg.textContent = msg;
+  errbox.classList.remove('hide');
+  stage.classList.remove('on');
+};
+const clearErr = () => errbox.classList.add('hide');
+
+/* ── 1. 載入模型（有下載進度回報）───────────────────────── */
+async function loadModel(size) {
+  if (transcriber && loadedModel === size) return transcriber;
+
+  setStep(stepModel, 'now');
+  modelNote.textContent = '連線中…（如果卡在這裡很久，通常是網路擋住了 cdn.jsdelivr.net 或 huggingface.co）';
+
+  const modelId = size === 'base'
+    ? 'onnx-community/whisper-base'
+    : 'onnx-community/whisper-small';
+
+  const seen = {};
+  transcriber = await pipeline('automatic-speech-recognition', modelId, {
+    dtype: 'q8',                 // 量化到 8-bit，下載小一點、跑起來也快一點
+    progress_callback: (p) => {
+      if (p.status === 'progress' && p.file) {
+        seen[p.file] = p;
+        const files = Object.values(seen);
+        const loaded = files.reduce((a, f) => a + (f.loaded || 0), 0);
+        const total  = files.reduce((a, f) => a + (f.total || 0), 0);
+        const pct = total ? Math.round(loaded / total * 100) : 0;
+        modelBar.style.width = pct + '%';
+        modelNote.textContent = '下載中… ' + pct + '%（' + (Math.round(loaded / 1024 / 1024)) + ' MB / ' + (Math.round(total / 1024 / 1024)) + ' MB）';
+      } else if (p.status === 'ready' || p.status === 'done') {
+        modelNote.textContent = '模型準備好了。';
+      }
+    },
+  });
+
+  loadedModel = size;
+  modelBar.style.width = '100%';
+  modelNote.textContent = '完成，之後不用重新下載。';
+  setStep(stepModel, 'done');
+  return transcriber;
+}
+
+/* ── 2. 從音檔或影片取出 16kHz 單聲道 PCM ────────────────
+   Whisper 只吃 16kHz 單聲道。AudioContext.decodeAudioData
+   對影片檔一樣有效——它解的是「音軌」，跟容器是不是影片無關，
+   瀏覽器能解碼的格式（mp4/webm 常見編碼）都吃得下，
+   所以不需要另外掛 ffmpeg.wasm 這種更重的工具。               */
+async function extractAudio(file) {
+  setStep(stepAudio, 'now');
+  audioNote.textContent = '解碼聲音資料…';
+
+  const buf = await file.arrayBuffer();
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  let decoded;
+  try {
+    decoded = await ctx.decodeAudioData(buf);
+  } catch (e) {
+    await ctx.close();
+    throw new Error('這個檔案沒辦法讀出聲音——可能是格式太少見，換成常見的 mp3、wav、mp4 試試看。');
+  }
+
+  audioNote.textContent = '重新取樣到 16kHz…';
+  const targetRate = 16000;
+  const offline = new OfflineAudioContext(1, Math.ceil(decoded.duration * targetRate), targetRate);
+  const src = offline.createBufferSource();
+
+  /* 多聲道先混成單聲道，OfflineAudioContext 的聲道數已經是 1，
+     直接接上去它會自動把來源的聲道混下來。 */
+  src.buffer = decoded;
+  src.connect(offline.destination);
+  src.start();
+  const rendered = await offline.startRendering();
+  await ctx.close();
+
+  const seconds = decoded.duration;
+  setStep(stepAudio, 'done');
+  audioNote.textContent = '完成，長度約 ' + Math.round(seconds) + ' 秒。';
+  if (seconds > 12 * 60) {
+    audioNote.textContent += '（比建議的 10 分鐘長不少，辨識可能要等很久）';
+  }
+  return rendered.getChannelData(0);
+}
+
+/* ── 3. 辨識 ─────────────────────────────────────────────── */
+async function runAsr(pcm) {
+  setStep(stepAsr, 'now');
+  const t0 = performance.now();
+  const timer = setInterval(() => {
+    asrNote.textContent = '辨識中… 已經過 ' + Math.round((performance.now() - t0) / 1000) + ' 秒（電腦效能會影響這步要多久，請耐心等）';
+  }, 1000);
+
+  try {
+    const out = await transcriber(pcm, {
+      language: 'chinese',       // 直接指定中文，跳過語言偵測，準一點也快一點
+      task: 'transcribe',
+      chunk_length_s: 30,        // Whisper 一次只吃 30 秒，長音檔要切段
+      stride_length_s: 5,
+    });
+    clearInterval(timer);
+    setStep(stepAsr, 'done');
+    asrNote.textContent = '完成，共花了 ' + Math.round((performance.now() - t0) / 1000) + ' 秒。';
+    return (out && out.text) ? out.text.trim() : '';
+  } catch (e) {
+    clearInterval(timer);
+    throw e;
+  }
+}
+
+/* ── 主流程 ──────────────────────────────────────────────── */
+async function handle(file) {
+  if (!file) return;
+  clearErr();
+  result.classList.remove('on');
+  stage.classList.add('on');
+  [stepModel, stepAudio, stepAsr].forEach(s => setStep(s, 'wait'));
+  modelBar.style.width = '0%';
+  drop.classList.add('off');
+
+  try {
+    const size = modelSel.value;
+    const [asr, pcm] = await Promise.all([
+      loadModel(size),
+      extractAudio(file),
+    ]);
+    const text = await runAsr(pcm);
+    $('#out').value = text || '（沒有辨識出文字，音量太小或幾乎沒有語音內容時會這樣）';
+    result.classList.add('on');
+  } catch (e) {
+    console.error(e);
+    const msg = (e && e.message) || String(e);
+    if (/fetch|network|Failed to load|NetworkError/i.test(msg)) {
+      showErr('模型下載失敗——這個工具需要連上外部網路下載 AI 模型（cdn.jsdelivr.net、huggingface.co）。如果學校網路擋住了外部網站，請聯絡資訊組協助開放，或換一個沒有擋的網路再試一次。');
+    } else {
+      showErr(msg);
+    }
+  } finally {
+    drop.classList.remove('off');
+  }
+}
+
+/* ── 事件 ────────────────────────────────────────────────── */
+drop.addEventListener('click', () => fileIn.click());
+drop.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileIn.click(); }
+});
+fileIn.addEventListener('change', () => { handle(fileIn.files[0]); fileIn.value = ''; });
+
+['dragenter', 'dragover'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('hot'); }));
+['dragleave', 'drop'].forEach(ev =>
+  drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('hot'); }));
+drop.addEventListener('drop', e => {
+  if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) handle(e.dataTransfer.files[0]);
+});
+['dragover', 'drop'].forEach(ev =>
+  document.addEventListener(ev, e => { if (e.target !== drop) e.preventDefault(); }));
+
+$('#copy').addEventListener('click', async () => {
+  const flash = ok => {
+    $('#copied').textContent = ok ? '已複製！' : '複製失敗，請手動選取文字複製';
+    $('#copied').classList.remove('hide');
+    setTimeout(() => $('#copied').classList.add('hide'), 1800);
+  };
+  try {
+    await navigator.clipboard.writeText($('#out').value);
+    flash(true);
+  } catch (e) {
+    /* Clipboard API 被擋的時候（權限、舊瀏覽器⋯）退回選取文字＋execCommand，
+       這個也失敗的話，至少幫使用者把文字選起來，手動 Ctrl+C 還是能複製。 */
+    try {
+      $('#out').select();
+      const ok = document.execCommand('copy');
+      flash(ok);
+    } catch (e2) {
+      $('#out').select();
+      flash(false);
+    }
+  }
+});
+
+$('#download').addEventListener('click', () => {
+  const blob = new Blob([$('#out').value], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = '逐字稿.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+$('#again').addEventListener('click', () => {
+  result.classList.remove('on');
+  stage.classList.remove('on');
+  clearErr();
+  $('#out').value = '';
+});
+</script>
+</body>
+</html>
