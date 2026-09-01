@@ -709,6 +709,29 @@
 .sms__bub{background:#E9EBEE; border-radius:16px 16px 16px 4px; padding:.85rem 1rem; font-size:.95rem; line-height:1.75}
 .sms__code{font-family:var(--mono); font-weight:700; font-size:1.5rem; letter-spacing:.18em; color:var(--accent)}
 .sms__warn{display:block; margin-top:.4rem; color:#C4392B; font-weight:700; font-size:.9rem}
+
+/* ═══ 元件 14：編號條件清單（rulelist，第 4 節用）═════════════
+   「一道題目要合格，三個條件缺一不可」這種要逐條拿去對照的清單。
+
+   ⚠️ 刻意不做成 .steps 的樣子：.steps 有 hover 打勾的預覽，
+      學生看到就會去點。這裡的東西是拿來「對照」的判準，
+      不是「做完打勾」的步驟，長得像會誤導。          */
+.rulelist{list-style:none; counter-reset:rl; margin:1.4rem 0; padding:0}
+.rulelist li{
+  counter-increment:rl; position:relative; margin-bottom:.7rem;
+  padding:.95rem 1.1rem .95rem 3.6rem; font-size:.97rem; line-height:1.8;
+  background:var(--card); border:2.5px solid var(--rule); border-radius:14px;
+  box-shadow:var(--shadow-sm);
+}
+.rulelist li::before{
+  content:counter(rl); position:absolute; left:.95rem; top:.9rem;
+  width:1.9rem; height:1.9rem; border-radius:50%;
+  background:var(--b-sensing-d); color:#fff;
+  font-family:var(--display); font-weight:700; font-size:.95rem;
+  display:grid; place-items:center;
+}
+.rulelist li b{color:var(--ink); font-size:1.02rem}
+
 @media (max-width:480px){
   .flow__node{font-size:.94rem; padding:.75rem 1rem}
   .flow__node--decision{padding:1.2rem 1.6rem; min-width:8.6rem}
