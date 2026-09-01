@@ -476,6 +476,239 @@
   min-height:1.5em;
 }
 
+
+/* ═══ 元件 9：人 vs 機器人比手速（botrace，第 4 節用）═════════
+   左邊學生狂點按鈕，右邊機器人自己往上跳，10 秒後比數字。
+   速度寫在 data-bot（每秒幾次），不用改 JS。
+
+   ⚠️ 兩條跑道一定要並排，不能在手機上疊成上下——
+   「差距」是靠兩個數字同時在眼前變大才有感覺的。      */
+.botrace{
+  border:3px solid var(--ink); border-radius:18px; overflow:hidden;
+  background:var(--card); box-shadow:var(--shadow-md); margin:1.75rem 0;
+}
+.botrace__lanes{display:flex; gap:0; align-items:stretch}
+.botrace__lane{
+  flex:1 1 0; min-width:0; padding:1.1rem .9rem 1.2rem; text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:.35rem;
+}
+.botrace__lane--you{background:var(--accent-soft)}
+.botrace__lane--bot{background:#EAF2F8; border-left:3px solid var(--ink)}
+.botrace__who{font-family:var(--display); font-weight:600; font-size:1.05rem}
+.botrace__num{
+  font-family:var(--display); font-weight:700; font-size:clamp(2.2rem,9vw,3.4rem);
+  line-height:1.05; font-variant-numeric:tabular-nums;
+}
+.botrace__lane--you .botrace__num{color:var(--accent)}
+.botrace__lane--bot .botrace__num{color:var(--b-sensing-d)}
+.botrace__unit{font-size:.82rem; color:var(--ink-soft); font-weight:600; margin-top:-.35rem}
+.botrace__mash{
+  font:inherit; font-family:var(--display); font-weight:600; font-size:1rem;
+  margin-top:.5rem; padding:.75rem 1.3rem; border:none; border-radius:999px;
+  background:var(--accent); color:#fff; cursor:pointer; box-shadow:0 3px 0 #C4460A;
+  user-select:none; -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+}
+.botrace__mash:active:not(:disabled){transform:translateY(2px); box-shadow:0 1px 0 #C4460A}
+.botrace__mash:disabled{background:var(--rule); color:var(--ink-soft); box-shadow:none; cursor:default}
+.botrace__auto{margin-top:.9rem; font-size:.84rem; color:var(--ink-soft); font-weight:600; line-height:1.5}
+.botrace__ctl{
+  display:flex; align-items:center; gap:.7rem; flex-wrap:wrap;
+  padding:.75rem 1rem; background:var(--ground-2); border-top:3px solid var(--ink);
+}
+.botrace__clock{
+  font-family:var(--display); font-weight:600; font-size:.95rem; color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;
+}
+.botrace__say{
+  margin:0; padding:.85rem 1rem; font-size:.95rem; font-weight:600; line-height:1.7;
+  color:var(--ink-soft); background:var(--ground-2); min-height:1.5em;
+}
+.botrace__say.hit{background:var(--go-soft); color:var(--ink)}
+
+/* ═══ 元件 10：驗證碼判讀練習台（cap，第 4 節用）═══════════════
+   每個字元是一個 span，各自隨機轉一點角度、上下錯開、換顏色，
+   再蓋三條斜線當雜訊——真正的圖形驗證碼就是這樣做出來的。
+
+   ⚠️ 字要「一個一個轉」，不是整塊一起轉。整塊轉的話學生一眼
+      就看得出規律，練不到「認出被扭過的字」這件事。
+   ⚠️ 字元集刻意拿掉 0/O、1/l/I（見 literacy.js），
+      易混字在課文裡另外用一格講，不要拿來當練習題坑學生。   */
+.cap{
+  border:3px solid var(--ink); border-radius:18px; overflow:hidden;
+  background:var(--card); box-shadow:var(--shadow-md); margin:1.75rem 0;
+}
+.cap__box{
+  position:relative; overflow:hidden; user-select:none;
+  height:7rem; display:flex; align-items:center; justify-content:center; gap:.15rem;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,191,0,.16), transparent 55%),
+    radial-gradient(circle at 80% 70%, rgba(92,177,214,.16), transparent 55%),
+    #FFFDF6;
+  border-bottom:3px solid var(--ink);
+}
+.cap__ch{
+  display:inline-block; font-family:var(--display); font-weight:700;
+  line-height:1; text-shadow:0 2px 0 rgba(43,33,25,.10);
+}
+/* 雜訊線：畫在字上面，逼學生把字跟線分開來看 */
+.cap__line{
+  position:absolute; left:-10%; width:120%; height:3px; border-radius:3px;
+  background:rgba(43,33,25,.26); pointer-events:none;
+}
+.cap__row{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; padding:.85rem 1rem}
+.cap__in{
+  font-family:var(--mono); font-size:1.25rem; font-weight:700; letter-spacing:.12em;
+  flex:1 1 11rem; min-width:0; padding:.55rem .8rem; color:var(--ink);
+  border:3px solid var(--rule); border-radius:12px; background:var(--ground);
+}
+.cap__in:focus{outline:none; border-color:var(--accent); background:#fff}
+.cap__in:disabled{opacity:.6}
+.cap__say{
+  margin:0; padding:.85rem 1rem; font-size:.95rem; font-weight:600; line-height:1.7;
+  background:var(--ground-2); border-top:2px solid var(--rule); min-height:1.5em;
+  color:var(--ink-soft);
+}
+.cap__say[data-k="y"]{background:var(--go-soft); color:var(--ink); border-top-color:var(--go)}
+.cap__say[data-k="n"]{background:var(--accent-soft); color:var(--ink); border-top-color:var(--accent)}
+.cap__score{margin:0; padding:.5rem 1rem; font-size:.86rem; font-weight:600; color:var(--ground); background:var(--ink)}
+.cap__score b{font-family:var(--display); font-size:1.05rem; color:#FFBF00}
+
+/* 易混字對照：把 0/O、1/l、5/S 放大並排，讓學生自己看出差別 */
+.mixup{display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr)); gap:.8rem; margin:1.3rem 0}
+.mixup__it{
+  background:var(--card); border:2.5px solid var(--rule); border-radius:14px;
+  padding:.9rem .7rem; text-align:center; box-shadow:var(--shadow-sm);
+}
+.mixup__pair{font-family:var(--mono); font-weight:700; font-size:2.2rem; line-height:1.2; letter-spacing:.1em}
+.mixup__pair em{font-style:normal; color:var(--accent)}
+.mixup__d{display:block; color:var(--ink-soft); font-size:.82rem; line-height:1.6; margin-top:.2rem}
+
+/* ═══ 元件 11：圖片驗證碼九宮格（picap，第 4 節用）════════════
+   「選出所有的紅綠燈」的簡化版：九宮格裡挑出指定的圖案。
+   題目（要找什麼、干擾項有哪些）全部寫在 data-* 裡，不用改 JS。
+
+   用 emoji 不用真照片：真照片要另外準備素材、授權也麻煩，
+   這裡要學生體會的是「一眼就認得出來」這件事，emoji 夠了。   */
+.picap{
+  border:3px solid var(--ink); border-radius:18px; overflow:hidden;
+  background:var(--card); box-shadow:var(--shadow-md); margin:1.75rem 0;
+}
+.picap__ask{
+  margin:0; padding:.9rem 1.1rem; background:var(--b-sensing-d); color:#fff;
+  font-family:var(--display); font-weight:600; font-size:1.1rem; line-height:1.5;
+}
+.picap__ask b{color:#FFE08A}
+/* 限寬並置中：不限的話桌機上每格會撐到 300px 以上，
+   一個九宮格就佔掉整個螢幕高度。 */
+.picap__grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:.4rem; padding:.7rem;
+  background:var(--ground-2); max-width:26rem; margin:0 auto;
+}
+.pctile{
+  aspect-ratio:1/1; border:3px solid var(--rule); border-radius:12px; background:#fff;
+  font-size:clamp(1.8rem,8vw,2.6rem); line-height:1; cursor:pointer; padding:0;
+  display:grid; place-items:center; transition:.14s; position:relative;
+}
+.pctile:hover:not(:disabled){border-color:var(--ink); transform:translateY(-2px)}
+.pctile:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
+.pctile.on{border-color:var(--accent); background:var(--accent-soft); transform:scale(.94)}
+/* 選到的格子右上角打一個勾，跟真的圖片驗證碼一樣 */
+.pctile.on::after{
+  content:"✓"; position:absolute; top:-.35rem; right:-.35rem;
+  width:1.6rem; height:1.6rem; border-radius:50%; background:var(--accent); color:#fff;
+  font-size:.9rem; font-family:var(--display); font-weight:700; display:grid; place-items:center;
+  box-shadow:0 2px 0 #C4460A;
+}
+.pctile:disabled{cursor:default}
+/* 檢查後的標記：bad＝選錯了，miss＝漏掉了 */
+.pctile.bad{border-color:#C4392B; background:#FBE3E0}
+.pctile.miss{border-color:var(--go); background:var(--go-soft); border-style:dashed}
+.picap__ctl{display:flex; flex-wrap:wrap; gap:.5rem; padding:0 .7rem .7rem; background:var(--ground-2)}
+.picap__say{
+  margin:0; padding:.85rem 1rem; font-size:.95rem; font-weight:600; line-height:1.7;
+  background:var(--ground-2); border-top:2px solid var(--rule); min-height:1.5em;
+  color:var(--ink-soft);
+}
+.picap__say[data-k="y"]{background:var(--go-soft); color:var(--ink); border-top-color:var(--go)}
+.picap__say[data-k="n"]{background:var(--accent-soft); color:var(--ink); border-top-color:var(--accent)}
+
+/* ═══ 元件 12：驗證碼樣式圖鑑（capkey，第 4 節用）═════════════
+   沿用 .flowkey「小格子並排」的概念，但格子裡放的是
+   各種驗證碼長什麼樣子的示意圖，所以另外開一組。        */
+.capkey{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr)); gap:.9rem; margin:1.4rem 0}
+.capkey__it{
+  background:var(--card); border:2.5px solid var(--rule); border-radius:14px;
+  padding:1rem; box-shadow:var(--shadow-sm); text-align:center;
+}
+.capkey__demo{
+  height:4.4rem; border-radius:10px; background:var(--ground-2); border:2px dashed var(--rule);
+  display:grid; place-items:center; margin-bottom:.6rem; overflow:hidden;
+  font-family:var(--display); font-weight:700; font-size:1.4rem; user-select:none;
+}
+.capkey__demo i{display:inline-block; font-style:normal}
+.capkey__name{display:block; font-family:var(--display); font-weight:600; font-size:1.02rem}
+.capkey__d{display:block; color:var(--ink-soft); font-size:.84rem; line-height:1.6; margin-top:.15rem}
+/* 「我不是機器人」那一格：畫一個沒打勾的空框 */
+.robotbox{
+  display:flex; align-items:center; gap:.5rem; background:#fff;
+  border:2px solid var(--rule); border-radius:8px; padding:.4rem .7rem;
+  font-family:var(--body); font-weight:600; font-size:.86rem;
+}
+.robotbox i{flex:none; width:1.4rem; height:1.4rem; border:2.5px solid var(--ink-soft); border-radius:4px; background:#fff}
+/* 迷你九宮格：圖鑑格子裡的示意圖 */
+.minigrid{display:grid; grid-template-columns:repeat(3,1.05rem); gap:2px}
+.minigrid i{width:1.05rem; height:1.05rem; border:1.5px solid var(--ink-soft); border-radius:3px; background:#fff}
+.minigrid i.on{background:var(--accent); border-color:var(--accent)}
+
+/* ═══ 元件 13：兩種驗證碼對照（twocap，第 4 節用）═════════════
+   這一課最重要的一張圖：同樣叫「驗證碼」，一種是打給網站看的，
+   一種是只有你能看的。左綠右紅，顏色本身就是訊息。
+
+   ⚠️ 只要放得下就一定要並排——並排才看得出是「兩種」，
+      刻意排成上下會被讀成「第一步、第二步」。
+      窄到 15rem 以下才讓 auto-fit 自己折成上下，這時候
+      綠／紅兩個標題列就是唯一的區隔訊號，顏色不要拿掉。 */
+.twocap{display:grid; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); gap:1rem; margin:1.6rem 0}
+.twocap__c{border:3px solid var(--ink); border-radius:18px; overflow:hidden; background:var(--card); box-shadow:var(--shadow-md)}
+.twocap__h{padding:.8rem 1.1rem; color:#fff; font-family:var(--display); font-weight:600; font-size:1.05rem; line-height:1.45}
+.twocap__c--ok .twocap__h{background:var(--go)}
+.twocap__c--no .twocap__h{background:#C4392B}
+.twocap__b{padding:1rem 1.1rem}
+.twocap__b p{margin:0 0 .6rem; font-size:.95rem; line-height:1.75}
+.twocap__b p:last-child{margin-bottom:0}
+.twocap__b ul{margin:.4rem 0 0; padding-left:1.2rem; font-size:.93rem}
+.twocap__b li{margin:.35rem 0}
+.twocap__c--ok .twocap__b b{color:#0B7A6D}
+.twocap__c--no .twocap__b b{color:#C4392B}
+
+/* 一句話重點：整課要學生記住的那一句，做成一張橫幅 */
+.oneline{
+  background:linear-gradient(160deg,#2B2119,#4E3120); color:var(--ground);
+  border-radius:18px; padding:1.5rem 1.6rem; margin:1.8rem 0;
+  box-shadow:var(--shadow-lg); text-align:center;
+}
+.oneline b{display:block; font-family:var(--display); font-weight:700; font-size:clamp(1.25rem,4.6vw,1.75rem); line-height:1.5}
+.oneline b em{font-style:normal; color:#FFBF00}
+.oneline small{display:block; margin-top:.6rem; font-size:.9rem; color:#D9C7AC; line-height:1.7}
+
+/* 詐騙話術卡：把常見的騙法直接印出來，看過一次就有免疫力 */
+.scam{display:grid; gap:.7rem; margin:1.4rem 0}
+.scam__it{
+  background:#FBE3E0; border:2.5px solid #C4392B; border-radius:14px;
+  padding:.9rem 1.1rem .9rem 3.2rem; position:relative; font-size:.96rem; line-height:1.75;
+}
+.scam__it::before{content:"📞"; position:absolute; left:1rem; top:.85rem; font-size:1.3rem}
+.scam__it b{color:#C4392B}
+
+/* 假的手機簡訊：讓學生看到真的簡訊長什麼樣子、上面寫了什麼 */
+.sms{
+  max-width:24rem; margin:1.4rem auto; background:#fff;
+  border:3px solid var(--ink); border-radius:20px; padding:1rem; box-shadow:var(--shadow-md);
+}
+.sms__from{font-size:.82rem; color:var(--ink-soft); font-weight:600; margin:0 0 .5rem; text-align:center}
+.sms__bub{background:#E9EBEE; border-radius:16px 16px 16px 4px; padding:.85rem 1rem; font-size:.95rem; line-height:1.75}
+.sms__code{font-family:var(--mono); font-weight:700; font-size:1.5rem; letter-spacing:.18em; color:var(--accent)}
+.sms__warn{display:block; margin-top:.4rem; color:#C4392B; font-weight:700; font-size:.9rem}
 @media (max-width:480px){
   .flow__node{font-size:.94rem; padding:.75rem 1rem}
   .flow__node--decision{padding:1.2rem 1.6rem; min-width:8.6rem}
@@ -494,4 +727,15 @@
   .fpc--decision{min-width:8.6rem; padding:1.15rem 1.6rem}
 
   .fed__canvas{height:26rem}
+
+  /* ⚠️ 比手速的兩條跑道不能疊成上下——兩個數字要同時在眼前變大，
+     「差距」才有感覺。手機上把字縮小，寧可擠也不要疊。 */
+  .botrace__lane{padding:.9rem .5rem 1rem}
+  .botrace__mash{padding:.7rem .9rem; font-size:.92rem}
+  .botrace__who{font-size:.92rem}
+  .botrace__auto{font-size:.78rem}
+
+  .cap__box{height:6rem}
+  .cap__in{font-size:1.1rem; flex:1 1 100%}
+  .picap__ask{font-size:1rem}
 }

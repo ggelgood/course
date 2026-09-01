@@ -4,6 +4,9 @@
    元件 1：藏寶圖路徑探險台（第 1 課）
    元件 2：流程拼圖 fpz（第 2、3 課）
    元件 3：流程圖編輯器 fed（第 2、3 課）
+   元件 4：人 vs 機器人比手速 botrace（第 4 課）
+   元件 5：驗證碼判讀練習台 cap（第 4 課）
+   元件 6：圖片驗證碼九宮格 picap（第 4 課）
 
    共用的東西（預測題、打勾清單、揭曉…）在 lesson.js，
    引用順序一定是 lesson.js 在前、literacy.js 在後。
@@ -682,6 +685,355 @@ document.querySelectorAll('[data-fed]').forEach(root => {
   }
 
   setMode('move');
+});
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   元件 4：人 vs 機器人比手速（botrace）—— 資訊素養第 4 課
+   ───────────────────────────────────────────────────────────
+   學生拚命點左邊的按鈕，右邊的機器人自己往上跳，時間到比數字。
+   目的只有一個：讓「機器人為什麼要擋」這件事變成身體感覺，
+   而不是老師講的一句話。
+
+   HTML 這樣寫：
+     <div class="botrace" data-botrace data-secs="10" data-bot="1500">
+       <div class="botrace__lanes">
+         <div class="botrace__lane botrace__lane--you">
+           <span class="botrace__who">🧒 你</span>
+           <b class="botrace__num" data-you>0</b>
+           <span class="botrace__unit">次</span>
+           <button class="botrace__mash" type="button" data-mash disabled>用力點我！</button>
+         </div>
+         <div class="botrace__lane botrace__lane--bot">
+           <span class="botrace__who">🤖 機器人</span>
+           <b class="botrace__num" data-botn>0</b>
+           <span class="botrace__unit">次</span>
+           <span class="botrace__auto">它不用手，也不會累</span>
+         </div>
+       </div>
+       <div class="botrace__ctl">
+         <button class="pbtn" type="button" data-act="go">▶ 開始比賽</button>
+         <span class="botrace__clock" data-clock></span>
+       </div>
+       <p class="botrace__say" data-say></p>
+     </div>
+
+   - data-secs：比幾秒（預設 10）
+   - data-bot ：機器人每秒幾次（預設 1500）
+
+   ⚠️ 機器人的數字用「經過的時間 × 速度」算出來，不是每跳一次
+      就加一——用 setInterval 累加的話，分頁被切到背景時瀏覽器
+      會降頻，回來數字就不對了。
+   ═══════════════════════════════════════════════════════════ */
+(() => {
+'use strict';
+
+const nf = n => n.toLocaleString('en-US');
+
+document.querySelectorAll('[data-botrace]').forEach(root => {
+  const youN  = root.querySelector('[data-you]');
+  const botN  = root.querySelector('[data-botn]');
+  const mash  = root.querySelector('[data-mash]');
+  const goBtn = root.querySelector('[data-act="go"]');
+  const clock = root.querySelector('[data-clock]');
+  const say   = root.querySelector('[data-say]');
+  if (!youN || !botN || !mash || !goBtn) return;
+
+  const secs = Math.max(3, +root.dataset.secs || 10);
+  const rate = Math.max(1, +root.dataset.bot  || 1500);
+
+  let running = false, you = 0, t0 = 0, timer = 0;
+
+  function paint(elapsed) {
+    youN.textContent = nf(you);
+    botN.textContent = nf(Math.floor(rate * Math.min(elapsed, secs)));
+    if (clock) clock.textContent = '還有 ' + Math.max(0, secs - elapsed).toFixed(1) + ' 秒';
+  }
+
+  function stop() {
+    running = false;
+    clearInterval(timer);
+    mash.disabled = true;
+    goBtn.disabled = false;
+    goBtn.textContent = '🔄 再比一次';
+    paint(secs);
+    if (clock) clock.textContent = '時間到！';   /* 一定要在 paint 後面，不然會被蓋掉 */
+
+    const bot   = Math.floor(rate * secs);
+    const times = you > 0 ? Math.round(bot / you) : bot;
+    if (say) {
+      say.classList.add('hit');
+      say.innerHTML = you > 0
+        ? '你 ' + secs + ' 秒點了 <b>' + nf(you) + '</b> 次，機器人點了 <b>' + nf(bot) +
+          '</b> 次——它是你的 <b>' + nf(times) + ' 倍</b>。而且它可以這樣一直做，一整個晚上都不會累。'
+        : '你一次都沒點，機器人已經做了 <b>' + nf(bot) + '</b> 次。它不用休息，也不會忘記。';
+    }
+  }
+
+  function start() {
+    you = 0; running = true;
+    t0 = Date.now();
+    mash.disabled = false;
+    goBtn.disabled = true;
+    if (say) { say.classList.remove('hit'); say.textContent = '快點！按鈕在左邊👈'; }
+    paint(0);
+    clearInterval(timer);
+    timer = setInterval(() => {
+      const elapsed = (Date.now() - t0) / 1000;
+      if (elapsed >= secs) { stop(); return; }
+      paint(elapsed);
+    }, 60);
+  }
+
+  mash.addEventListener('click', () => {
+    if (!running) return;
+    you++;
+    paint((Date.now() - t0) / 1000);
+  });
+  goBtn.addEventListener('click', start);
+
+  if (clock) clock.textContent = '比 ' + secs + ' 秒';
+});
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   元件 5：驗證碼判讀練習台（cap）—— 資訊素養第 4 課
+   ───────────────────────────────────────────────────────────
+   隨機產生一張扭曲的驗證碼，學生打進去，按檢查。
+   打錯的時候會告訴他「錯在哪一種地方」，不是只說「錯了」。
+
+   HTML 這樣寫：
+     <div class="cap" data-cap data-len="5">
+       <div class="cap__box" data-code aria-hidden="true"></div>
+       <div class="cap__row">
+         <input class="cap__in" type="text" data-in inputmode="latin"
+                autocomplete="off" autocapitalize="off" spellcheck="false"
+                placeholder="把上面的字打進來">
+         <button class="pbtn" type="button" data-act="check">檢查</button>
+         <button class="pbtn" type="button" data-act="new">🔄 換一張</button>
+       </div>
+       <p class="cap__say" data-say></p>
+       <p class="cap__score">已經打對 <b data-score>0</b> 張</p>
+     </div>
+
+   ⚠️ 字元集拿掉了 0/O、1/l/I —— 這些字連大人都會看錯，
+      拿來當練習題只是在整學生。易混字在課文裡另外開一格講。
+
+   ⚠️ 注音選字的 Enter 不能被當成「打完了」。
+      這是 typing.js 踩過的同一個坑，所以這裡一樣擋
+      compositionstart / compositionend（見 網站/README.md）。
+   ═══════════════════════════════════════════════════════════ */
+(() => {
+'use strict';
+
+/* 不放 0 O o 1 l I —— 看錯不是學生的問題，是出題的問題 */
+const POOL = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+const INKS = ['#2B2119', '#C4460A', '#2E8EB8', '#774DCB', '#0B7A6D'];
+
+const rnd = n => Math.floor(Math.random() * n);
+
+document.querySelectorAll('[data-cap]').forEach(root => {
+  const box   = root.querySelector('[data-code]');
+  const input = root.querySelector('[data-in]');
+  const say   = root.querySelector('[data-say]');
+  const score = root.querySelector('[data-score]');
+  const btnCk = root.querySelector('[data-act="check"]');
+  const btnNw = root.querySelector('[data-act="new"]');
+  if (!box || !input) return;
+
+  const len = Math.min(8, Math.max(3, +root.dataset.len || 5));
+  let code = '', done = 0, composing = false;
+
+  /* focusIn=true 只有按「換一張」時才傳——一進頁面就 focus 的話，
+     瀏覽器會把畫面直接捲到這個元件，前面的課文學生根本沒看到。 */
+  function make(focusIn) {
+    code = '';
+    box.innerHTML = '';
+    for (let i = 0; i < len; i++) {
+      const ch = POOL[rnd(POOL.length)];
+      code += ch;
+      const s = document.createElement('span');
+      s.className = 'cap__ch';
+      s.textContent = ch;
+      s.style.transform =
+        'rotate(' + (rnd(53) - 26) + 'deg) translateY(' + (rnd(19) - 9) + 'px)';
+      s.style.fontSize = (2 + Math.random() * 0.9).toFixed(2) + 'rem';
+      s.style.color = INKS[rnd(INKS.length)];
+      box.appendChild(s);
+    }
+    /* 三條雜訊線蓋在字上面 */
+    for (let i = 0; i < 3; i++) {
+      const l = document.createElement('i');
+      l.className = 'cap__line';
+      l.style.top = (12 + rnd(72)) + '%';
+      l.style.transform = 'rotate(' + (rnd(29) - 14) + 'deg)';
+      box.appendChild(l);
+    }
+    input.value = '';
+    input.disabled = false;
+    if (btnCk) btnCk.disabled = false;
+    if (say) { say.textContent = ''; say.removeAttribute('data-k'); }
+    if (focusIn) input.focus();
+  }
+
+  /* 打錯的時候要說出「是哪一種錯」，學生才知道下次看哪裡 */
+  function why(v) {
+    if (!v) return '還沒打字喔——先看看上面那張圖，把看到的字打進格子裡。';
+    if (v.toLowerCase() === code.toLowerCase())
+      return '很接近了！字全部都對，<b>只有大小寫不一樣</b>。驗證碼是分大小寫的，大寫的字要按著 Shift 打。';
+    if (v.length !== code.length)
+      return '你打了 <b>' + v.length + '</b> 個字，圖上有 <b>' + code.length +
+             '</b> 個。先數一數圖上總共幾個字，再一個一個對。';
+    let i = 0;
+    while (i < v.length && v[i] === code[i]) i++;
+    return '前面 ' + i + ' 個字都對了，<b>第 ' + (i + 1) +
+           ' 個字</b>不一樣——那個字被轉得比較歪，再看仔細一點。看不清楚就按「🔄 換一張」，這不算作弊。';
+  }
+
+  function check() {
+    const v = input.value.trim();
+    if (!say) return;
+    if (v === code) {
+      done++;
+      if (score) score.textContent = done;
+      say.dataset.k = 'y';
+      say.innerHTML = '✓ 完全正確！答案就是 <b>' + code + '</b>。按「🔄 換一張」再來一張。';
+      input.disabled = true;
+      if (btnCk) btnCk.disabled = true;
+    } else {
+      say.dataset.k = 'n';
+      say.innerHTML = why(v);
+    }
+  }
+
+  if (btnCk) btnCk.addEventListener('click', check);
+  if (btnNw) btnNw.addEventListener('click', () => make(true));
+
+  /* 注音選字時按的 Enter 是「選這個字」，不是「我打完了」 */
+  input.addEventListener('compositionstart', () => { composing = true; });
+  input.addEventListener('compositionend',   () => { composing = false; });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !composing && !e.isComposing) { e.preventDefault(); check(); }
+  });
+
+  make(false);
+});
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   元件 6：圖片驗證碼九宮格（picap）—— 資訊素養第 4 課
+   ───────────────────────────────────────────────────────────
+   「請選出所有的紅綠燈」的簡化版。九宮格裡混著要找的圖案和
+   干擾圖案，全部選對才過。按「換一題」會重新洗牌。
+
+   HTML 這樣寫（九個格子由 JS 產生，HTML 裡不用寫）：
+     <div class="picap" data-picap
+          data-target="🚦" data-name="紅綠燈"
+          data-others="🚗,🚲,🌳,🏠,🐱,🚌,🌻,⛄"
+          data-min="2" data-max="4">
+       <p class="picap__ask">請選出所有的 <b>紅綠燈 🚦</b></p>
+       <div class="picap__grid" data-grid></div>
+       <div class="picap__ctl">
+         <button class="pbtn" type="button" data-act="check">檢查</button>
+         <button class="pbtn" type="button" data-act="new">🔄 換一題</button>
+       </div>
+       <p class="picap__say" data-say></p>
+     </div>
+
+   - data-target：要找的圖案     - data-others：干擾圖案（逗號分隔）
+   - data-min / data-max：這一題會出現幾個目標（預設 2～4）
+
+   ⚠️ 目標數量每次都不一樣，不能固定。固定成三個的話學生
+      第二題就開始用「選三個」蒙，根本沒在看圖。
+
+   檢查完會把答案標出來：選錯的紅框（.bad）、漏掉的綠虛線框（.miss）。
+   標完不鎖住格子——這是練習不是考試，學生可以直接改完再按一次。
+   ═══════════════════════════════════════════════════════════ */
+(() => {
+'use strict';
+
+const rnd = n => Math.floor(Math.random() * n);
+
+document.querySelectorAll('[data-picap]').forEach(root => {
+  const grid  = root.querySelector('[data-grid]');
+  const say   = root.querySelector('[data-say]');
+  const btnCk = root.querySelector('[data-act="check"]');
+  const btnNw = root.querySelector('[data-act="new"]');
+  if (!grid) return;
+
+  const target = root.dataset.target || '🚦';
+  const name   = root.dataset.name   || '目標';
+  const others = (root.dataset.others || '🚗,🌳,🏠,🐱').split(',')
+                   .map(s => s.trim()).filter(Boolean);
+  const lo = Math.max(1, +root.dataset.min || 2);
+  const hi = Math.min(8, Math.max(lo, +root.dataset.max || 4));
+
+  function deal() {
+    const want = lo + rnd(hi - lo + 1);
+    const cells = [];
+    for (let i = 0; i < 9; i++) cells.push(i < want ? target : others[rnd(others.length)]);
+    /* 洗牌，不然目標永遠都在前面幾格 */
+    for (let i = cells.length - 1; i > 0; i--) {
+      const j = rnd(i + 1);
+      [cells[i], cells[j]] = [cells[j], cells[i]];
+    }
+
+    grid.innerHTML = '';
+    cells.forEach(em => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pctile';
+      b.textContent = em;
+      b.dataset.em = em;
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', () => {
+        b.classList.toggle('on');
+        b.setAttribute('aria-pressed', b.classList.contains('on') ? 'true' : 'false');
+        b.classList.remove('bad', 'miss');
+      });
+      grid.appendChild(b);
+    });
+
+    if (say) { say.textContent = ''; say.removeAttribute('data-k'); }
+  }
+
+  function check() {
+    const tiles = [...grid.querySelectorAll('.pctile')];
+    let bad = 0, miss = 0, hit = 0;
+
+    tiles.forEach(t => {
+      const isT = t.dataset.em === target;
+      const on  = t.classList.contains('on');
+      t.classList.remove('bad', 'miss');
+      if (on && isT)  hit++;
+      if (on && !isT) { bad++;  t.classList.add('bad'); }
+      if (!on && isT) { miss++; t.classList.add('miss'); }
+    });
+
+    if (!say) return;
+    if (!bad && !miss) {
+      say.dataset.k = 'y';
+      say.innerHTML = '✓ 全對！這一題有 <b>' + hit + '</b> 個' + name +
+        '，你一眼就看出來了。<b>電腦要「看懂」這張圖，難得多。</b>';
+      return;
+    }
+    say.dataset.k = 'n';
+    const bits = [];
+    if (bad)  bits.push('紅框那 <b>' + bad + '</b> 格不是' + name + '，選錯了');
+    if (miss) bits.push('綠色虛線那 <b>' + miss + '</b> 格也是' + name + '，你漏掉了');
+    say.innerHTML = bits.join('；') + '。改一改再按一次檢查——每一題的數量都不一樣，不能用猜的。';
+  }
+
+  if (btnCk) btnCk.addEventListener('click', check);
+  if (btnNw) btnNw.addEventListener('click', deal);
+
+  deal();
 });
 
 })();

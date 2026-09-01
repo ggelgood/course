@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>資訊素養 第 4 課 · 驗證碼：電腦在問「你是人嗎？」</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=4">
+<link rel="stylesheet" href="../assets/literacy.css?v=10">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">資訊素養 第 4 課 · 大約 1 節課</span>
+    <h1>驗證碼：<em>電腦在問「你是人嗎？」</em></h1>
+    <p class="lede">你一定看過那種<strong>歪歪扭扭、很難看清楚的字</strong>，或是「請選出所有的紅綠燈」。它們不是故意整你——網站是在問一個問題：<strong style="color:#FFBF00">現在在打字的，是一個人，還是一台機器？</strong>今天要弄懂它為什麼存在，還有一件更重要的事。</p>
+
+    <div class="today">
+      <div class="today__box">
+        <h2>今天要弄懂的四件事</h2>
+        <ul>
+          <li>驗證碼是在擋<b>機器人</b>，不是在為難你</li>
+          <li>機器人有多快——快到你一定要親眼看一次</li>
+          <li>驗證碼打不對，通常是<b>大小寫</b>和<b>看錯字</b></li>
+          <li><b>手機收到的那種驗證碼，絕對不能給任何人</b></li>
+        </ul>
+      </div>
+      <div class="today__box">
+        <h2>今天的一句話</h2>
+        <p><strong style="color:#FFBF00">驗證碼只能「打進去」，不能「傳出去」。</strong>打進你自己正在用的那個網站，可以；唸給別人聽、傳給別人，絕對不行。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 1. 你一定看過它 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>1</b>你一定看過這個東西</h2>
+  <p>註冊遊戲帳號、幫爸媽搶票、在網站上留言的時候，常常會跳出一格奇怪的東西：一串<strong>被扭來扭去的英文字</strong>，要你照著打；或是一個九宮格，要你<strong>選出所有的紅綠燈</strong>。</p>
+  <p>很多人以為它是在整人。其實網站是在做一件事——<strong style="color:#FF6B1A">確認鍵盤前面坐著的是一個「人」，不是一支自動跑的程式</strong>。這種東西就叫<strong>驗證碼</strong>。</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">網站為什麼要多此一舉，硬要你打那串很難看的字？</p>
+    <p class="predict__hint">想想看：如果不擋，什麼東西會跑進來？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="網站不會因為你多打幾個字就賺到錢，這串字打完就丟掉了，沒有任何用途。">想多賺一點錢</button>
+      <button class="pick" data-v="b" data-say="它確實會拖慢你幾秒鐘，但那是副作用，不是目的——網站其實很希望你快點用完。">故意讓你慢一點，網站才不會塞車</button>
+      <button class="pick" data-v="c" data-say="答對了！網站怕的不是你，是<b>自動跑的程式</b>。這種程式一秒鐘可以送出好幾千次，人做不到——所以只要出一題「人很容易、程式很難」的題目，就能把它們擋在外面。">要擋掉自動跑的程式（機器人）</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 這裡說的「機器人」不是那種會走路的</h3>
+    <p>不是有手有腳的機器人，是<strong>一段自己會跑的程式</strong>。有人把它寫好、按下去，它就會自己一直填表單、一直送出、一直試——不用睡覺，也不會不耐煩。英文叫 bot，中文常常就叫它「機器人」。</p>
+  </div>
+</section>
+
+<!-- ── 2. 機器人有多快 ──────────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>機器人到底有多快？親自比一次</h2>
+  <p>光說「很快」沒有感覺。下面這台機器：<strong style="color:#FF6B1A">左邊是你，用力點那顆橘色按鈕；右邊是機器人，它自己跑。</strong>比 10 秒，看看最後兩個數字差多少。</p>
+
+  <div class="botrace" data-botrace data-secs="10" data-bot="1500">
+    <div class="botrace__lanes">
+      <div class="botrace__lane botrace__lane--you">
+        <span class="botrace__who">🧒 你</span>
+        <b class="botrace__num" data-you>0</b>
+        <span class="botrace__unit">次</span>
+        <button class="botrace__mash" type="button" data-mash disabled>用力點我！</button>
+      </div>
+      <div class="botrace__lane botrace__lane--bot">
+        <span class="botrace__who">🤖 機器人</span>
+        <b class="botrace__num" data-botn>0</b>
+        <span class="botrace__unit">次</span>
+        <span class="botrace__auto">它不用手，<br>也不會累</span>
+      </div>
+    </div>
+    <div class="botrace__ctl">
+      <button class="pbtn" type="button" data-act="go">▶ 開始比賽</button>
+      <span class="botrace__clock" data-clock></span>
+    </div>
+    <p class="botrace__say" data-say></p>
+  </div>
+
+  <p>差距大到有點荒謬對吧。而且這還只有 10 秒——機器人可以<strong>整個晚上都這樣做</strong>。所以如果沒有人擋著，會發生這些事：</p>
+  <ul>
+    <li><strong>搶票、搶限量商品</strong>——你手還沒碰到滑鼠，票已經被機器人買光了。</li>
+    <li><strong>猜密碼</strong>——一個一個試你的密碼，一秒試幾千組，慢慢總會試到。</li>
+    <li><strong>灌垃圾留言</strong>——一個晚上在留言板貼幾萬則廣告。</li>
+    <li><strong>大量申請假帳號</strong>——一次辦幾萬個帳號，拿去騙人、拿去洗票選。</li>
+  </ul>
+  <p>驗證碼就是站在門口的那一關：<strong style="color:#FF6B1A">出一題「人覺得很簡單、程式覺得很難」的題目</strong>，人五秒鐘過關，程式卡在門外。</p>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">下面哪一種題目，最適合拿來當驗證碼？</p>
+    <p class="predict__hint">關鍵不是「難」，是「對人簡單、對程式難」。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="這題對程式來說最簡單了——電腦算數學比你快幾百萬倍，你反而還要想一下。方向剛好相反。">「請計算 8394 × 271」</button>
+      <button class="pick" data-v="b" data-say="答對了！照片裡哪些有紅綠燈，你一眼就看完了；但要讓程式「看懂」一張照片裡有什麼，是非常難的事。<b>對人簡單、對程式難</b>，這就是驗證碼要的題目。">「請選出照片裡有紅綠燈的格子」</button>
+      <button class="pick" data-v="c" data-say="這題對人跟對程式都一樣簡單，擋不住任何東西——機器人也會打字，而且打得比你快。">「請輸入你的名字」</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 3. 驗證碼的幾種樣子 ──────────────────── -->
+<section>
+  <h2 class="h2"><b>3</b>驗證碼長什麼樣子？認識四種</h2>
+  <p>驗證碼不是只有一種長相，但它們問的都是同一件事。看看你認得幾種：</p>
+
+  <div class="capkey">
+    <div class="capkey__it">
+      <div class="capkey__demo">
+        <span>
+          <i style="transform:rotate(-17deg);color:#C4460A">K</i><i style="transform:rotate(11deg)">7</i><i style="transform:rotate(-6deg);color:#2E8EB8">m</i><i style="transform:rotate(21deg)">Q</i><i style="transform:rotate(-13deg);color:#774DCB">4</i>
+        </span>
+      </div>
+      <b class="capkey__name">扭來扭去的字</b>
+      <small class="capkey__d">最老、最常見的一種。字被轉歪、上下錯開、還畫線蓋住，就是要讓程式認不出來</small>
+    </div>
+    <div class="capkey__it">
+      <div class="capkey__demo">
+        <span class="minigrid"><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i class="on"></i></span>
+      </div>
+      <b class="capkey__name">選出所有的◯◯</b>
+      <small class="capkey__d">給你九張照片，選出有紅綠燈、有腳踏車、有樓梯的那幾張</small>
+    </div>
+    <div class="capkey__it">
+      <div class="capkey__demo">
+        <span class="robotbox"><i></i>我不是機器人</span>
+      </div>
+      <b class="capkey__name">「我不是機器人」打勾</b>
+      <small class="capkey__d">看起來只是打個勾。其實它偷偷在看的是<strong>你的滑鼠怎麼移動過來的</strong></small>
+    </div>
+    <div class="capkey__it">
+      <div class="capkey__demo">3 ＋ 5 ＝ ?</div>
+      <b class="capkey__name">簡單的小問題</b>
+      <small class="capkey__d">「3 加 5 等於多少」「今天星期幾」。擋不了厲害的程式，但擋得掉最偷懶的那種</small>
+    </div>
+  </div>
+
+  <details class="reveal">
+    <summary>只是打一個勾，網站怎麼知道我不是機器人？<span class="peek">點我看答案</span></summary>
+    <div class="reveal__in">
+      <p>它看的<strong>不是那個勾</strong>，是你<strong style="color:#FF6B1A">打勾的過程</strong>。</p>
+      <p>人去點一個框框的時候，滑鼠是歪歪扭扭移過去的，中間還會停一下、抖一下，按下去的時間也每次都不一樣。程式不是——它會直接、精準、瞬間點在正中央，每一次都一模一樣。</p>
+      <p>所以那個框其實在問：<strong>「剛剛移過來的那隻手，像人的手嗎？」</strong>如果它看不出來，才會再跳一題九宮格給你做。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ── 4. 換你打打看 ────────────────────────── -->
+<section>
+  <h2 class="h2"><b>4</b>換你打打看：把驗證碼打對</h2>
+  <p>下面這台是真的——每按一次「換一張」都會產生一張新的驗證碼，做法跟真的網站一樣：<strong style="color:#FF6B1A">每個字各自轉一個角度、上下錯開、換顏色，再畫幾條線蓋上去</strong>。</p>
+  <p>把你看到的字打進格子裡，按「檢查」。打不對的時候它會告訴你<strong>錯在哪一種地方</strong>，不是只說「錯了」。</p>
+
+  <div class="cap" data-cap data-len="5">
+    <div class="cap__box" data-code aria-hidden="true"></div>
+    <div class="cap__row">
+      <input class="cap__in" type="text" data-in inputmode="latin"
+             autocomplete="off" autocapitalize="off" spellcheck="false"
+             placeholder="把上面的字打進來">
+      <button class="pbtn" type="button" data-act="check">檢查</button>
+      <button class="pbtn" type="button" data-act="new">🔄 換一張</button>
+    </div>
+    <p class="cap__say" data-say></p>
+    <p class="cap__score">已經打對 <b data-score>0</b> 張</p>
+  </div>
+
+  <p>打不對通常不是你笨，是<strong style="color:#FF6B1A">下面這三件事其中一件</strong>：</p>
+
+  <h3>① 大寫和小寫，是不一樣的字</h3>
+  <p>驗證碼幾乎都<strong>分大小寫</strong>。<code>k</code> 和 <code>K</code> 在它眼裡是兩個完全不同的字，打錯就是不過。看到大寫的字，記得<strong>按著 Shift 再打</strong>。</p>
+
+  <h3>② 有幾組字，長得真的很像</h3>
+  <p>這幾組連大人都會看錯，被轉歪之後更慘：</p>
+
+  <div class="mixup">
+    <div class="mixup__it">
+      <div class="mixup__pair"><em>0</em> O o</div>
+      <small class="mixup__d">數字零／大寫 O／小寫 o</small>
+    </div>
+    <div class="mixup__it">
+      <div class="mixup__pair"><em>1</em> l I</div>
+      <small class="mixup__d">數字一／小寫 L／大寫 i</small>
+    </div>
+    <div class="mixup__it">
+      <div class="mixup__pair"><em>5</em> S s</div>
+      <small class="mixup__d">數字五／大寫 S／小寫 s</small>
+    </div>
+    <div class="mixup__it">
+      <div class="mixup__pair"><em>2</em> Z z</div>
+      <small class="mixup__d">數字二／大寫 Z／小寫 z</small>
+    </div>
+  </div>
+
+  <p><small style="color:var(--ink-soft)">上面那台練習機<strong>刻意沒有放這幾個字</strong>——它們該被拿來認識，不該被拿來坑你。真正的網站沒那麼客氣，遇到看不出來的，直接換一張比較快。</small></p>
+
+  <h3>③ 真的看不清楚，就換一張</h3>
+  <p>每一個有驗證碼的網站，旁邊一定有一顆<strong>「換一張」或 🔄 的按鈕</strong>。看不清楚就按它，<strong style="color:#FF6B1A">換到你看得懂的那一張為止</strong>。這不是作弊，也不是放棄——網站本來就準備了無限多張給你換。</p>
+
+  <div class="predict" data-ans="a">
+    <p class="predict__q">小安打了三次驗證碼都說錯，但他很確定字沒看錯。最可能是什麼問題？</p>
+    <p class="predict__hint">字沒看錯，那還有什麼會不一樣？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="答對了！這是最常見的原因——<b>大小寫沒對上</b>。圖上是大寫的字，他用小寫打進去，字雖然「一樣」，對網站來說卻是不同的字。">大寫的字他用小寫打進去了</button>
+      <button class="pick" data-v="b" data-say="網速跟驗證碼對不對沒有關係。真的太久沒打完的話，網站會直接叫你重換一張，不會說你打錯。">網路太慢，所以送不出去</button>
+      <button class="pick" data-v="c" data-say="驗證碼不會因為你打錯就把你的帳號鎖住，它只會再給你一張新的。真的會鎖帳號的是「密碼」連續打錯。">他的帳號已經被鎖住了</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 5. 選出所有的◯◯ ─────────────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>「選出所有的◯◯」為什麼難得倒機器人</h2>
+  <p>這一種驗證碼你一定做過。下面是簡化版：<strong style="color:#FF6B1A">把九宮格裡所有的目標圖案都選起來，一個都不能漏、也不能多選</strong>，然後按檢查。</p>
+
+  <div class="picap" data-picap
+       data-target="🚦" data-name="紅綠燈"
+       data-others="🚗,🚲,🌳,🏠,🐱,🚌,🌻,⛄,🐶"
+       data-min="2" data-max="4">
+    <p class="picap__ask">請選出所有的 <b>紅綠燈 🚦</b></p>
+    <div class="picap__grid" data-grid></div>
+    <div class="picap__ctl">
+      <button class="pbtn" type="button" data-act="check">檢查</button>
+      <button class="pbtn" type="button" data-act="new">🔄 換一題</button>
+    </div>
+    <p class="picap__say" data-say></p>
+  </div>
+
+  <p>你花了幾秒？大概兩三秒吧，而且你根本沒有「想」，是<strong>一眼就看到了</strong>。</p>
+  <p>但同一件事對程式來說非常難。程式看到的不是「一個紅綠燈」，是<strong style="color:#FF6B1A">好幾萬個小點點，每個點只有一個顏色</strong>。要從那一堆點點裡認出「這一團是紅綠燈」，比算一百萬題數學還難。</p>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">為什麼真正的網站用<strong>真實照片</strong>，不用像上面這樣清清楚楚的圖案？</p>
+    <p class="predict__hint">照片跟乾淨的小圖案，差在哪裡？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="照片檔案比較大、載入比較慢，網站其實不想用它——會用是因為別的理由。">因為照片比較漂亮，網站想好看一點</button>
+      <button class="pick" data-v="b" data-say="題目多寡不是重點。真正的差別在「同一個東西在照片裡有幾百種樣子」。">因為照片比較多，題目出不完</button>
+      <button class="pick" data-v="c" data-say="答對了！照片裡的紅綠燈可能<b>被樹擋住一半、天很暗、角度歪掉、只露出一角</b>——你還是一眼認得出來，程式卻整個亂掉。乾淨的小圖案每次都長一樣，程式反而容易記起來。">因為照片裡的東西被擋住、變暗、歪掉，人還是認得，程式就認不出來了</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 一個要老實說的事實：機器人愈來愈聰明了</h3>
+    <p>這幾年 AI 進步很快，<strong>有些驗證碼它已經解得比人還準</strong>。所以現在的網站不再只靠一張圖，還會同時看你的滑鼠怎麼動、看你在這一頁待了多久。</p>
+    <p>這也代表一件事：<strong style="color:#FF6B1A">保護你的帳號，不能只靠驗證碼。</strong>真正重要的那一關，在下一段。</p>
+  </div>
+</section>
+
+<!-- ── 6. 另一種驗證碼（重點）───────────────── -->
+<section class="keysec">
+  <h2 class="h2"><b>6</b>⚠️ 另一種驗證碼：手機收到的那六個數字</h2>
+  <p>中文裡有兩個東西都叫「驗證碼」，但它們<strong style="color:#FF6B1A">完全不是同一件事</strong>。前面五段講的那種，是網站在確認「你是不是人」。接下來這種，是網站在確認<strong>「你是不是本人」</strong>——差一個字，差很多。</p>
+  <p>它長這樣，用簡訊或 email 寄到你（或爸媽）的手機上：</p>
+
+  <div class="sms">
+    <p class="sms__from">簡訊 · 剛剛</p>
+    <div class="sms__bub">
+      您的驗證碼是 <span class="sms__code">493 812</span><br>
+      10 分鐘內有效。
+      <b class="sms__warn">⚠️ 請勿將驗證碼提供給任何人。</b>
+    </div>
+  </div>
+
+  <p>看到最後那一行了嗎？<strong style="color:#FF6B1A">每一封這種簡訊都會寫這句話</strong>。它不是客套話，是這整堂課最重要的一句提醒。</p>
+  <p>因為這六個數字不是「一道題目」，它是<strong>一把鑰匙</strong>——一把只能用一次、十分鐘後就壞掉，但在那十分鐘裡<strong style="color:#FF6B1A">誰拿到它，誰就能進去你的帳號</strong>的鑰匙。</p>
+
+  <div class="twocap">
+    <div class="twocap__c twocap__c--ok">
+      <div class="twocap__h">✅ 網站畫面上的驗證碼</div>
+      <div class="twocap__b">
+        <p>那串歪歪扭扭的字、九宮格、我不是機器人。</p>
+        <p>它在問：<b>你是人嗎？</b></p>
+        <ul>
+          <li>就在你眼前的畫面上</li>
+          <li>照著打進去就好</li>
+          <li>被旁邊同學看到也沒關係</li>
+        </ul>
+      </div>
+    </div>
+    <div class="twocap__c twocap__c--no">
+      <div class="twocap__h">🚫 手機／email 收到的驗證碼</div>
+      <div class="twocap__b">
+        <p>簡訊裡那六個數字。</p>
+        <p>它在問：<b>你是本人嗎？</b></p>
+        <ul>
+          <li>只有你的手機收得到</li>
+          <li><b>只能打進你自己正在用的那個網站</b></li>
+          <li><b>不能唸給任何人聽，不能傳給任何人</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="oneline">
+    <b>驗證碼只能「<em>打進去</em>」，<br>不能「<em>傳出去</em>」。</b>
+    <small>打進你自己正在操作的那個網站的格子裡＝可以。<br>用嘴巴唸、用訊息傳、拍照給別人＝絕對不行，一次都不行。</small>
+  </div>
+
+  <h3>騙子最常用的四句話</h3>
+  <p>壞人要進你的帳號，卡在最後一關就是那六個數字——<strong>他有你的帳號和密碼，但簡訊寄到你的手機，不是他的</strong>。所以他只剩一招：<strong style="color:#FF6B1A">想辦法讓你自己說出來</strong>。他們會這樣講：</p>
+
+  <div class="scam">
+    <div class="scam__it">「不好意思，我<b>不小心用你的手機號碼</b>註冊了，你會收到一封簡訊，可以把裡面的數字告訴我嗎？」</div>
+    <div class="scam__it">「我是<b>客服</b>，你的訂單有問題，為了確認你的身分，請把剛剛收到的驗證碼<b>唸給我核對</b>。」</div>
+    <div class="scam__it">「恭喜<b>中獎</b>！要領獎品的話，把手機收到的驗證碼傳過來就好。」</div>
+    <div class="scam__it">「我是你同學啦，手機掉了借你的帳號登入一下，<b>驗證碼截圖傳我</b>。」</div>
+  </div>
+
+  <p>四句話講法不一樣，但要的東西一模一樣。所以你只要記住一條規則就夠了——</p>
+
+  <div class="sos" style="background:#FBE3E0;border-color:#C4392B">
+    <h3>🚨 只要有人跟你要驗證碼，不用判斷他是誰，答案都是「不給」</h3>
+    <p>不管他說自己是客服、警察、老師、遊戲代儲、賣家、你的同學，甚至聽起來像你認識的人——<strong style="color:#C4392B">真正的網站、真正的客服，永遠不會跟你要驗證碼</strong>，因為他們自己就能查。</p>
+    <p>會開口要的，<strong>百分之百是騙子</strong>。這一條不用想，直接照做：<strong style="color:#C4392B">不給、不回、掛掉，然後馬上告訴爸媽或老師。</strong></p>
+    <p>如果已經給出去了——<strong>不要怕被罵，越快說越救得回來</strong>。第一件事是告訴大人，馬上去改密碼。台灣的反詐騙專線是 <strong>165</strong>。</p>
+  </div>
+
+  <div class="predict" data-ans="b">
+    <p class="predict__q">有人傳訊息說：「我不小心用你的號碼註冊，把簡訊裡的驗證碼給我好嗎？」你要怎麼做？</p>
+    <p class="predict__hint">先問自己：他拿到那六個數字之後，可以做什麼？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="打回去問，你聽到的還是同一個人講的同一套話，只會被說服得更快。而且真的用你號碼註冊的人，根本不需要問你——網站又不會把驗證碼寄給他。">打電話回去問他是不是真的</button>
+      <button class="pick" data-v="b" data-say="答對了！<b>不用判斷他是誰</b>，因為只要開口要驗證碼，就已經是答案了。不回、不給，然後去告訴大人——這一步比什麼都重要。">不給、不回，直接去告訴爸媽或老師</button>
+      <button class="pick" data-v="c" data-say="少給一碼一樣完蛋——他只要問「是不是最後一碼漏了？」你多半會補上去。<b>驗證碼沒有「給一半」這種事</b>，一個數字都不能給。">給他前五碼，最後一碼不給</button>
+    </div>
+    <p class="said"></p>
+  </div>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">下面哪一種情況，把驗證碼<strong>打進去</strong>是沒問題的？</p>
+    <p class="predict__hint">回到那句話：打進去，還是傳出去？</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="這是「傳出去」，不是「打進去」。用什麼軟體傳都一樣，一旦離開你的手機，鑰匙就在別人手上了。">用 LINE 把驗證碼傳給自稱客服的人</button>
+      <button class="pick" data-v="b" data-say="你沒有在登入任何東西，卻收到驗證碼——這代表<b>有人正在試著登入你的帳號</b>。這時候要做的是去改密碼、告訴大人，絕對不是把它打到任何地方。">你沒有在登入，但突然收到驗證碼，先隨便找個地方打打看</button>
+      <button class="pick" data-v="c" data-say="答對了！<b>是你自己按下「登入」，網站才把碼寄來的</b>，你只是把它填回同一個網站的格子裡——這就是「打進去」，完全正常。">你自己正在登入，網站的格子跳出來要你填，你把它打進去</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 7. 動手做 ────────────────────────────── -->
+<section>
+  <h2 class="h2"><b>7</b>換你做做看</h2>
+  <p>這一課沒有作品要交，但有五件事要真的做過一次。前面兩件在這一頁上做，後面三件要開口講。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 5</span>
+    </div>
+    <ol class="steps">
+      <li>回到第 4 段的練習台，<strong>連續打對 3 張驗證碼</strong>（打對一張它會幫你數）</li>
+      <li>回到第 5 段的九宮格，<strong>連續兩題全對</strong>——注意每題的數量都不一樣，不能用猜的</li>
+      <li>跟旁邊的同學說出：<strong>哪一種驗證碼可以打進去、哪一種絕對不能給別人</strong></li>
+      <li>兩個人一組演一次：一個人講「我不小心用你的號碼註冊了⋯⋯」，另一個人要<strong>把拒絕的話說出口</strong>，然後角色互換</li>
+      <li>回家問爸媽：有沒有收過寫著「請勿提供給任何人」的簡訊？<strong>把今天學的告訴他們</strong></li>
+    </ol>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 卡住了？先看這裡</h3>
+    <ul>
+      <li><strong>練習台一直說我錯</strong>——先看它給的那句話：說「只有大小寫不一樣」就是 Shift 沒按；說「第幾個字不一樣」就回去盯那一個字看。真的看不出來，按 <strong>🔄 換一張</strong>。</li>
+      <li><strong>九宮格說我漏掉</strong>——被標成<strong>綠色虛線</strong>的那幾格就是漏掉的。每一題的數量都不一樣，要一格一格看完再按檢查。</li>
+      <li><strong>比手速那台按不動</strong>——要先按下面的 <strong>▶ 開始比賽</strong>，那顆橘色按鈕才會醒過來。</li>
+      <li><strong>那句拒絕的話說不出口</strong>——先背這一句就好：<strong>「我不能給你驗證碼，我要問我爸媽。」</strong>說完就掛掉，不用解釋，也不用客氣。</li>
+      <li><strong>已經把驗證碼給出去了，很害怕</strong>——<strong style="color:#C4392B">馬上告訴大人，這是唯一該做的第一件事</strong>。不會被罵得比較慘，只會救回來得比較快。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>資訊素養 · 第 4 課 · 驗證碼：電腦在問「你是人嗎？」</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=4"></script>
+<script src="../assets/literacy.js?v=7"></script>
+</body>
+</html>
