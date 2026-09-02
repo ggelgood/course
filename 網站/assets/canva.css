@@ -1,0 +1,81 @@
+/* ──────────────────────────────────────────────
+   Canva 系列專用樣式
+   ──────────────────────────────────────────────
+   排版骨架、.shot / .dobox / .sos / .predict 都吃 lesson.css，
+   這裡只放 Canva 系列自己多出來的東西。
+   課程頁 head 的載入順序：
+     <link rel="stylesheet" href="../assets/lesson.css?v=4">
+     <link rel="stylesheet" href="../assets/canva.css?v=1">
+   ────────────────────────────────────────────── */
+
+
+/* ── 元件 1：帶步驟編號的操作截圖 ────────────────────
+   Canva 課全是「跟著做」，學生常會問「老師現在第幾步？」，
+   所以每張截圖左上角掛一個編號徽章，口頭喊號碼就對得起來。
+   用法：
+     <figure class="shot shot--done shot--step" data-step="7">
+       <img src="../media/canva/7.webp" alt="…" loading="lazy">
+       <figcaption>說明文字</figcaption>
+     </figure>
+   把 data-step 拿掉就是一般截圖。                        */
+
+.shot--step{position:relative}
+.shot--step::before{
+  content:"第 " attr(data-step) " 步";
+  position:absolute; top:-.85rem; left:1.1rem;
+  font-family:var(--display); font-weight:600; font-size:.78rem;
+  letter-spacing:.06em; white-space:nowrap;
+  background:var(--accent); color:#fff;
+  padding:.28rem .85rem; border-radius:999px;
+  box-shadow:0 2px 0 #C4460A;
+}
+
+/* 這一步是老師示範的重點，換成綠色徽章 */
+.shot--step.shot--key::before{
+  background:var(--go); box-shadow:0 2px 0 #0B7C6F;
+}
+
+
+/* ── 元件 2：Canva 介面名詞小卡 ──────────────────────
+   「功能區」「編輯區」這種位置名詞，第一次出現時用它定調，
+   後面就能直接用名詞講，不必每次重新描述位置。          */
+
+.uiname{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:.9rem; margin:1.5rem 0;
+}
+.uiname__it{
+  background:var(--card); border:2px solid var(--rule);
+  border-radius:14px; padding:1rem 1.1rem;
+  box-shadow:var(--shadow-sm);
+}
+.uiname__it b{
+  display:block; font-family:var(--display); font-size:1.05rem;
+  color:var(--accent); margin-bottom:.35rem;
+}
+.uiname__it small{
+  display:block; font-size:.86rem; color:var(--ink-soft); line-height:1.75;
+}
+.uiname__it small strong{color:var(--ink)}
+
+
+/* ── 元件 3：搜尋關鍵字示範 ─────────────────────────
+   教學生「怎麼想搜尋詞」，把想的過程排成一列。          */
+
+.kwrow{
+  display:flex; flex-wrap:wrap; align-items:center; gap:.55rem;
+  margin:1.2rem 0; font-size:.95rem;
+}
+.kwrow__t{
+  background:var(--ground-2); border:2px solid var(--rule);
+  border-radius:999px; padding:.35rem .9rem; font-weight:500;
+}
+.kwrow__t--out{
+  background:var(--accent-soft); border-color:var(--accent);
+  color:var(--accent); font-weight:700;
+}
+.kwrow__ar{color:var(--ink-soft); font-weight:700}
+
+@media (max-width:520px){
+  .shot--step::before{left:.6rem; font-size:.72rem}
+}
