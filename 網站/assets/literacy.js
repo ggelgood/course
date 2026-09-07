@@ -63,6 +63,11 @@ document.querySelectorAll('[data-pathmap]').forEach(root => {
 
   let stack = [tree];
 
+  /* 進出資料夾會把整片格子重建掉，本來是瞬間換。給它一個方向，
+     「往裡面走 / 往上退」就看得出來——而這正是這一課要教的事。
+     刻意只有 180ms：一節課會點十幾二十次，再慢就變成阻礙。   */
+  let dir = 0;                       // 1 = 往裡面鑽，-1 = 往上一層，0 = 不動畫
+
   function render() {
     crumb.innerHTML = stack.map((n, i) =>
       '<span class="pathmap__seg' + (i === stack.length - 1 ? ' pathmap__seg--now' : '') + '">' +
@@ -85,12 +90,20 @@ document.querySelectorAll('[data-pathmap]').forEach(root => {
 
     if (upBtn) upBtn.disabled = stack.length <= 1;
     root.classList.remove('pathmap--won');
+
+    if (dir) {
+      grid.classList.remove('pm-in-fwd', 'pm-in-back');
+      void grid.offsetWidth;                 // 強制回流，動畫才會重跑
+      grid.classList.add(dir > 0 ? 'pm-in-fwd' : 'pm-in-back');
+      dir = 0;
+    }
   }
 
   function onPick(node) {
     if (isFolder(node)) {
       stack.push(node);
       if (msg) msg.textContent = '';
+      dir = 1;
       render();
       return;
     }
@@ -105,7 +118,7 @@ document.querySelectorAll('[data-pathmap]').forEach(root => {
   }
 
   if (upBtn) upBtn.addEventListener('click', () => {
-    if (stack.length > 1) { stack.pop(); if (msg) msg.textContent = ''; render(); }
+    if (stack.length > 1) { stack.pop(); if (msg) msg.textContent = ''; dir = -1; render(); }
   });
   if (reBtn) reBtn.addEventListener('click', () => {
     stack = [tree]; if (msg) msg.textContent = ''; render();
@@ -207,20 +220,49 @@ document.querySelectorAll('[data-fpz]').forEach(root => {
     p.classList.add('sel');
     tell('拿起「' + p.textContent.trim() + '」了，接著點一個空格把它放下去。');
   }
+  /* FLIP：碎片換父節點是瞬移，補一段「從舊位置飛過去」。
+     只動 transform，不影響版面。                              */
+  function flip(els, first) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    els.forEach((el, i) => {
+      const last = el.getBoundingClientRect();
+      const dx = first[i].left - last.left;
+      const dy = first[i].top  - last.top;
+      if (!dx && !dy) return;
+      el.classList.add('flying');
+      el.animate(
+        [{transform: 'translate(' + dx + 'px,' + dy + 'px)'}, {transform: 'none'}],
+        {duration: 200, easing: 'cubic-bezier(.2,.8,.3,1)'}
+      ).onfinish = () => el.classList.remove('flying');
+    });
+  }
+
   function put(piece, zone) {
     if (!piece || !zone) return;
-    // 格子裡已經有東西 → 那一塊退回盤子（是「交換」不是「蓋掉」）
+    // 先把「拿起來」的視覺狀態拿掉再量位置——.sel 有 translateY(-3px)，
+    // 算進起點的話飛完會多跳 3px。
+    piece.classList.remove('sel', 'lift');
+
+    // 拖曳放下時「不」讓 piece 飛：指標已經交代過位移了，再飛一次
+    // 會變成「你明明拖到這裡，它卻從盤子重新飛過來」。
+    // 但被擠掉的那一塊在兩種操作下都沒有任何手勢可解釋，一定要飛。
+    const movers = dragging === piece ? [] : [piece];
+    let sitting = null;
     if (zone.classList.contains('fpz__slot')) {
-      const sitting = zone.querySelector('.fpz__p');
-      if (sitting && sitting !== piece) tray.appendChild(sitting);
+      sitting = zone.querySelector('.fpz__p');
+      if (sitting && sitting !== piece) movers.push(sitting); else sitting = null;
     }
+    const first = movers.map(el => el.getBoundingClientRect());
+
+    // 格子裡已經有東西 → 那一塊退回盤子（是「交換」不是「蓋掉」）
+    if (sitting) tray.appendChild(sitting);
     zone.appendChild(piece);
-    piece.classList.remove('lift');      // 搬完就把拖曳中的半透明拿掉，不等 dragend
     dragging = null;
     unhot();
     release();
     clearMarks();
     sync();
+    flip(movers, first);
     tell(zone === tray ? '倒回盤子了。' : '放好了。放錯還可以再點它一次拿起來換。');
   }
 

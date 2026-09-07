@@ -108,7 +108,7 @@ h1{
   margin:1.2rem 0 .6rem;letter-spacing:-.02em;
 }
 h1 em{font-style:normal;color:#FFBF00;display:block}
-.lede{font-size:clamp(1.1rem,2.4vw,1.4rem);color:#E6D9C4;margin:0;max-width:36ch;font-weight:500}
+.lede{font-size:clamp(1.1rem,2.4vw,1.4rem);color:#E6D9C4;margin:0;font-weight:500}
 
 .today{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.25rem;margin-top:2.5rem;align-items:start}
 .today__box{background:rgba(251,246,236,.07);border:2px solid rgba(251,246,236,.16);border-radius:16px;padding:1.25rem 1.35rem;backdrop-filter:blur(6px)}
@@ -204,7 +204,7 @@ section{margin:4rem 0;scroll-margin-top:2rem}
 .h2{display:flex;align-items:center;gap:.9rem;font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,3.4vw,2rem);margin:0 0 1.2rem;letter-spacing:-.01em}
 .h2 b{flex:none;width:2.1em;height:2.1em;display:grid;place-items:center;background:var(--ink);color:var(--ground);border-radius:14px;font-size:.62em;font-weight:700;box-shadow:0 3px 0 rgba(43,33,25,.35)}
 h3{font-family:var(--display);font-weight:600;font-size:1.2rem;margin:2rem 0 .4rem}
-p{margin:.9rem 0;max-width:52ch}
+p{margin:.9rem 0}
 strong{color:var(--accent);font-weight:700}
 
 /* 整節特別重要時，加在 <section> 上 */
@@ -247,7 +247,9 @@ strong{color:var(--accent);font-weight:700}
 .reveal[open]>summary::before{content:"✓";background:var(--go);box-shadow:0 2px 0 #0B7A6D}
 .reveal .peek{margin-left:auto;font-size:.8rem;color:var(--ink-soft);font-weight:600;letter-spacing:.06em}
 .reveal[open] .peek{opacity:0}
-.reveal__in{padding:.4rem 1.3rem 1.3rem;animation:drop .3s cubic-bezier(.2,.8,.3,1)}
+/* 內層不再自己淡入 —— 高度由 lesson.js 動畫接手（見那裡的說明）。
+   兩個一起動會有黏滯感，所以這裡只留 padding。               */
+.reveal__in{padding:.4rem 1.3rem 1.3rem}
 @keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
 /* ═══ 互動 2：步驟打勾 ════════════════════════════════════
@@ -256,8 +258,13 @@ strong{color:var(--accent);font-weight:700}
 .dobox__head{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;background:var(--ink);color:var(--ground);padding:.8rem 1.2rem}
 .dobox__head b{font-family:var(--display);font-weight:600;font-size:1.15rem}
 .dobox__tip{font-size:.86rem;color:#F2E3C8;font-weight:500}
-.dobox__count{margin-left:auto;font-family:var(--display);font-weight:600;font-size:.95rem;background:rgba(251,246,236,.18);padding:.22rem .85rem;border-radius:999px;transition:.25s}
-.dobox__count.done{background:var(--go);color:#fff}
+/* transition 只給顏色 —— 全部打完時的 pop 是 animation，
+   兩者都碰 transform 的話會互相打架。                        */
+.dobox__count{margin-left:auto;font-family:var(--display);font-weight:600;font-size:.95rem;background:rgba(251,246,236,.18);padding:.22rem .85rem;border-radius:999px;transition:background-color .25s,color .25s}
+/* 每一課唯一的「你做完了」時刻，值得一下彈跳。中間每次打勾的
+   數字跳動刻意不加動畫 —— 那個一節課會看好幾十次。          */
+.dobox__count.done{background:var(--go);color:#fff;animation:doboxDone .26s cubic-bezier(.2,.9,.3,1)}
+@keyframes doboxDone{40%{transform:scale(1.09)}to{transform:scale(1)}}
 .dobox .steps{margin:0;padding:1rem}
 .dobox .steps li{box-shadow:none}
 /* 沒有外框的變體（用於試試看卡片） */
@@ -351,7 +358,6 @@ strong{color:var(--accent);font-weight:700}
 .challenge{background:linear-gradient(160deg,#12A594,#0B7A6D);color:#fff;border-radius:20px;padding:1.9rem;margin:2rem 0;box-shadow:var(--shadow-lg)}
 .challenge .h2{color:#fff;margin-bottom:.8rem}
 .challenge .h2 b{background:#FBF6EC;color:#0B7A6D}
-.challenge p{max-width:46ch}
 .challenge .reveal{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.1)}
 .challenge .reveal>summary{background:rgba(255,255,255,.16);color:#fff}
 .challenge .reveal>summary:hover,.challenge .reveal[open]>summary{background:rgba(255,255,255,.24)}
@@ -389,7 +395,7 @@ footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;colo
 .shot--gif .shot__kind{background:var(--b-looks)}
 .shot--key .shot__kind{background:var(--accent);box-shadow:0 2px 0 #C4460A}   /* 標成「最重要」 */
 .shot__what{display:block;font-weight:700;font-size:1.05rem;margin:.9rem 0 .3rem}
-.shot__how{font-size:.85rem;color:var(--ink-soft);margin:0 auto;max-width:44ch;line-height:1.7}
+.shot__how{font-size:.85rem;color:var(--ink-soft);margin:0 auto;max-width:32em;line-height:1.7}
 .shot__box{margin-top:1.1rem;aspect-ratio:16/9;max-height:19rem;margin-inline:auto;width:100%;border-radius:11px;background:var(--ground-2);border:2px solid var(--rule);display:grid;place-items:center;font-size:2.6rem;opacity:.55}
 .shot--wide .shot__box{aspect-ratio:16/10}
 .shot--tall .shot__box{aspect-ratio:4/3}
@@ -410,7 +416,7 @@ footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;colo
 }
 .shot--done img{margin-top:0}
 .shot figcaption{
-  margin:.85rem auto 0;max-width:46ch;
+  margin:.85rem auto 0;max-width:34em;
   font-size:.88rem;color:var(--ink-soft);line-height:1.7;
 }
 .shot figcaption b,.shot figcaption strong{color:var(--accent)}
@@ -432,7 +438,7 @@ footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;colo
 .pypeek .f{color:#7FC7FF}   /* 函式名 */
 .pypeek .n{color:#FFC46B}   /* 數字 */
 .pypeek .k{color:#FF8C5A}   /* 關鍵字 */
-.pypeek__note{color:#CBBBA4;font-size:.9rem;margin:0;line-height:1.85;max-width:48ch}
+.pypeek__note{color:#CBBBA4;font-size:.9rem;margin:0;line-height:1.85;max-width:34em}
 .pypeek__note strong{color:#FFBF00}
 .pypeek__note+.pypeek__note{margin-top:.7rem}
 
@@ -579,4 +585,15 @@ footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;colo
 .costume__name{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:.4rem 0 1rem}
 .costume__name b{color:var(--b-looks-d);font-size:1.3rem}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ═══ 有人把動畫關掉時 ═══════════════════════════════════════
+   是「快到看不出來」，不是「關掉」。整個砍成 none 會讓
+   transitionend / animationend 永遠不觸發，靠那個收尾的
+   狀態機（例如拼圖飛行結束才拿掉 class）會直接卡住。
+   寫法與 home.css 對齊。                                      */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+}

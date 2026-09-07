@@ -44,6 +44,12 @@
   display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
   gap:.6rem; margin:0 0 .9rem;
 }
+/* 進出資料夾的方向感（class 由 literacy.js 掛上）。
+   只有進場、沒有離場——離場會替每一次點擊加上延遲。       */
+@keyframes pmInFwd {from{opacity:0; transform:translateX(12px)}}
+@keyframes pmInBack{from{opacity:0; transform:translateX(-12px)}}
+.pathmap__grid.pm-in-fwd {animation:pmInFwd  .18s cubic-bezier(.2,.8,.3,1)}
+.pathmap__grid.pm-in-back{animation:pmInBack .18s cubic-bezier(.2,.8,.3,1)}
 .pmtile{
   display:flex; flex-direction:column; align-items:center; gap:.35rem;
   background:var(--card); border:2px solid var(--rule); border-radius:12px;
@@ -283,6 +289,9 @@
 .fpz__p:focus-visible{outline:3px solid var(--ink); outline-offset:3px}
 .fpz__p.lift{opacity:.35}
 .fpz__p.sel{transform:translateY(-3px); box-shadow:0 0 0 3px var(--ink), var(--shadow-md)}
+/* FLIP 飛行中：疊在其他碎片上面，並把 transform 的 transition 讓開，
+   免得跟動畫互搶同一個屬性。class 由 literacy.js 的 flip() 掛上。 */
+.fpz__p.flying{position:relative; z-index:3; transition:box-shadow .12s}
 
 .fpc{
   display:inline-flex; align-items:center; justify-content:center; text-align:center;

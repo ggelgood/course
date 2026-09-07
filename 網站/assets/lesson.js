@@ -20,6 +20,52 @@ if (rail) {
   draw();
 }
 
+/* ── 點擊揭曉：把「高度瞬間跳開」補成過渡 ────────────────────
+   原本只有內層 .reveal__in 淡入，外框高度是瞬間跳的，
+   底下整段內容會被硬推走，學生的閱讀位置會掉。
+
+   ⚠️ 不要改用 CSS 的 ::details-content + block-size 過渡。
+      在 Chromium 148 實測過：block-size 0 → auto 完全不會內插，
+      補 interpolate-size:allow-keywords 或 calc-size(auto, size)
+      都一樣直接跳；只有 content-visibility 的 discrete 過渡會生效，
+      結果是「先停 250ms 再瞬間彈開」，比不做動畫還糟。
+      （首頁 home.css 就是踩到這個。）所以這裡自己量高度來做。 */
+document.querySelectorAll('details.reveal').forEach(d => {
+  const sum = d.querySelector('summary');
+  if (!sum) return;
+  let anim = null;
+
+  sum.addEventListener('click', e => {
+    // 使用者把動畫關掉了 → 不攔，交還瀏覽器原生的開合
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    e.preventDefault();
+
+    // 先量再取消：動畫途中再點一次，要從「現在看到的高度」重新瞄準
+    const from    = d.getBoundingClientRect().height;
+    if (anim) anim.cancel();
+    const opening = !d.open;
+
+    if (opening) d.open = true;            // 先展開才量得到終點
+    const to = opening
+      ? d.getBoundingClientRect().height
+      // 收合後 = 標題列 + 上下框線（box-sizing 是 border-box，
+      // offsetHeight - clientHeight 就是框線厚度）
+      : sum.offsetHeight + (d.offsetHeight - d.clientHeight);
+
+    const a = d.animate(
+      [{height: from + 'px'}, {height: to + 'px'}],
+      {duration: 340, easing: 'cubic-bezier(.32,.72,0,1)', fill: 'forwards'}
+    );
+    anim = a;
+    a.onfinish = () => {
+      // 這兩件事必須同一個同步區塊做完，中間讓瀏覽器畫一次就會閃
+      if (!opening) d.open = false;        // 收合等動畫跑完才真的關
+      a.cancel();                          // 放掉 forwards，高度還給 CSS
+      if (anim === a) anim = null;
+    };
+  });
+});
+
 /* ── 打勾清單（步驟 + 試試看卡片共用）──────────────────────
    HTML：<div class="dobox"> 標題列含 .dobox__count
           裡面放 .steps li 或 .play                          */

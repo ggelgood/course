@@ -147,13 +147,14 @@ body.home{background-image:none;background:var(--ground)}
 .unit__chev{flex:none;display:inline-flex;color:var(--ink-soft);transition:transform .28s cubic-bezier(.32,.72,0,1)}
 .unit[open] .unit__chev{transform:rotate(180deg)}
 
-/* 收合／展開的高度過渡（Chrome/Edge；其他瀏覽器直接跳，功能相同）*/
-.unit::details-content{
-  block-size:0;overflow:hidden;
-  transition:block-size .34s cubic-bezier(.32,.72,0,1), content-visibility .34s;
-  transition-behavior:allow-discrete;
-}
-.unit[open]::details-content{block-size:auto}
+/* ⚠️ 這裡本來有一段 ::details-content 的高度過渡，已經拿掉。
+   實測（Chromium 148）：block-size 0 → auto 根本不會內插，
+   補 interpolate-size:allow-keywords 或 calc-size(auto, size)
+   都一樣；真正生效的只有 content-visibility 的 discrete 過渡，
+   於是變成「按下去先停 250ms，再瞬間彈開」——比不做還糟。
+   現在是直接展開，下面那排課的 rise 交錯進場照常跑。
+   若要真的做高度動畫，用 lesson.js 裡 details.reveal 那個量高度
+   的寫法（Web Animations API），不要再試 CSS。               */
 
 /* ── 課程清單 ─────────────────────────────────────────────── */
 .ls{list-style:none;margin:0;padding:0 0 .9rem 4.15rem;display:flex;flex-direction:column;gap:.1rem}
@@ -226,14 +227,14 @@ body.home{background-image:none;background:var(--ground)}
 @keyframes rise{from{opacity:0;translate:0 .5rem}to{opacity:1;translate:0 0}}
 
 /* ── 準備中的課程：內容區的樣子 ───────────────────────────── */
-.soon{max-width:44ch}
+.soon{max-width:32em}
 .soon p{color:var(--ink-soft);font-size:.92rem}
 .soon ul{margin:.8rem 0 0;padding-left:1.3rem;color:var(--ink-soft);font-size:.9rem}
 .soon li{margin:.45rem 0}
 .soon strong{color:var(--ink)}
 
 /* ── 給老師 ───────────────────────────────────────────────── */
-.teacher{max-width:52ch}
+.teacher{max-width:38em}
 .teacher h2{font-family:var(--display);font-weight:700;font-size:1.5rem;margin:0 0 1rem}
 .teacher h3{font-family:var(--display);font-weight:600;font-size:1.02rem;margin:1.6rem 0 .5rem}
 .teacher p{color:var(--ink-soft);font-size:.92rem;margin:.5rem 0}
