@@ -154,3 +154,34 @@
 @media (max-width:560px){
   .gridpair__ar{transform:rotate(90deg)}
 }
+
+
+/* ── 元件 6：開場區的成果預覽 ───────────────────────
+   放在 .stage-open 裡面、.lede 後面，讓學生一開始
+   就看到「今天要做出什麼」。深底配淺色作品最好看。
+   用法：
+     <figure class="goal">
+       <b class="goal__lb">今天要做出這個</b>
+       <img src="…" alt="…" width="1600" height="900">
+       <figcaption>一句話說明</figcaption>
+     </figure>
+   ⚠️ 這張圖在第一屏，不要加 loading="lazy"。         */
+
+.goal{margin:2.4rem 0 0; text-align:center}
+
+.goal__lb{
+  display:inline-flex; align-items:center;
+  font-family:var(--display); font-weight:600;
+  font-size:.85rem; letter-spacing:.1em; color:#FFBF00;
+  border:2px solid rgba(255,191,0,.38); border-radius:999px;
+  padding:.3rem 1rem; margin-bottom:1rem;
+}
+.goal img{
+  display:block; width:100%; max-width:46rem; height:auto; margin-inline:auto;
+  border-radius:16px; border:3px solid rgba(251,246,236,.22);
+  box-shadow:0 20px 44px -20px rgba(0,0,0,.8);
+}
+.goal figcaption{
+  margin:.95rem auto 0; max-width:34em;
+  font-size:.92rem; line-height:1.75; color:#C9B99F;
+}
