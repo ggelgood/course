@@ -79,3 +79,78 @@
 @media (max-width:520px){
   .shot--step::before{left:.6rem; font-size:.72rem}
 }
+
+
+/* ── 元件 4：九宮格思考法示意圖 ─────────────────────
+   講大谷翔平那一段用它。中間那格是「目標」，
+   周圍八格是「為了達成目標要做的事」。
+   用法：
+     <div class="mandal">
+       <div class="mandal__c">體格</div>
+       …
+       <div class="mandal__c mandal__c--core">目標</div>
+       …
+     </div>
+   九個格子照「由左而右、由上而下」的順序寫，
+   第五個（正中間）加 --core。                          */
+
+.mandal{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:.45rem;
+  max-width:26rem; margin:1.6rem auto;
+}
+.mandal__c{
+  aspect-ratio:1; display:grid; place-items:center; text-align:center;
+  padding:.4rem; border-radius:11px;
+  background:var(--card); border:2px solid var(--rule);
+  font-size:.8rem; font-weight:500; line-height:1.45;
+  box-shadow:var(--shadow-sm);
+}
+.mandal__c--core{
+  background:var(--accent); border-color:var(--accent); color:#fff;
+  font-family:var(--display); font-weight:700; font-size:.92rem;
+  box-shadow:0 2px 0 #C4460A;
+}
+.mandal__c--seed{
+  background:var(--accent-soft); border-color:var(--accent); color:var(--accent);
+  font-weight:700;
+}
+
+
+/* ── 元件 5：兩個九宮格的接力關係 ───────────────────
+   這一課的骨架：左邊的九宮格靠「顏色」長出來，
+   右邊的九宮格靠左邊右上角那一格長出來。
+   中間的箭頭就是那條接力線。                          */
+
+.gridpair{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+  gap:1.1rem; margin:1.7rem 0;
+}
+.gridpair__side{flex:0 1 16rem; text-align:center}
+.gridpair__g{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:.32rem;
+}
+.gridpair__c{
+  aspect-ratio:1; display:grid; place-items:center; text-align:center;
+  padding:.25rem; border-radius:8px;
+  background:var(--ground-2); border:2px solid var(--rule);
+  font-size:.7rem; line-height:1.35; color:var(--ink-soft);
+}
+.gridpair__c--theme{
+  background:#FFD9E5; border-color:#EE9BB8; color:#A63A5E; font-weight:700;
+}
+.gridpair__c--key{
+  background:var(--accent-soft); border-color:var(--accent);
+  color:var(--accent); font-weight:700;
+}
+.gridpair__lb{
+  display:block; margin-top:.6rem;
+  font-family:var(--display); font-weight:600; font-size:.86rem; color:var(--ink-soft);
+}
+.gridpair__ar{
+  font-size:1.9rem; line-height:1; color:var(--accent); font-weight:700;
+  flex:0 0 auto;
+}
+
+@media (max-width:560px){
+  .gridpair__ar{transform:rotate(90deg)}
+}
