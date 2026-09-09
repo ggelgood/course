@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "course-site",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "網站"],
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "網站", "-l", "8766", "--no-clipboard"],
       "port": 8766
     }
   ]

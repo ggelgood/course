@@ -771,3 +771,371 @@
   .cap__in{font-size:1.1rem; flex:1 1 100%}
   .picap__ask{font-size:1rem}
 }
+
+
+/* ═══ 元件 7：截圖紅框標示（mark）═════════════════════════════
+   「這一顆按鈕在哪裡」用講的永遠講不清楚，要直接圈在圖上。
+   紅框不燒進圖檔，改成疊一層 SVG——原圖保持乾淨，
+   換圖的時候只要改座標，不用重新後製一次。
+
+   HTML 這樣寫（viewBox 一定要填「原圖的 pixel 尺寸」）：
+     <figure class="shot shot--done shot--step mark" data-step="1">
+       <div class="mark__stage">
+         <img src="…" alt="…" loading="lazy">
+         <svg class="mark__ov" viewBox="0 0 1600 1112" preserveAspectRatio="none" aria-hidden="true">
+           <rect class="mark__box" x="405" y="95" width="125" height="145" rx="26"/>
+           <text class="mark__tag" x="467" y="300">設定</text>
+         </svg>
+       </div>
+       <figcaption>…</figcaption>
+     </figure>
+
+   可用的形狀：.mark__box（方框）.mark__ring（圓圈）
+               .mark__arrow（箭頭）.mark__tag（紅字標籤）
+   ⚠️ preserveAspectRatio="none" 是刻意的：SVG 被拉成跟圖片一模一樣
+      的大小，座標才會對得準。因為長寬比相同，不會變形。          */
+
+.mark__stage{position:relative; display:block; line-height:0; border-radius:11px}
+.mark__stage img{display:block; width:100%; height:auto; border-radius:11px; border:2px solid var(--rule); margin:0}
+.mark__ov{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
+
+.mark__box,.mark__ring{
+  fill:none; stroke:#E5342A; stroke-width:7; stroke-linejoin:round;
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.9));
+  animation:markpulse 2.2s ease-in-out infinite;
+}
+.mark__box--soft,.mark__ring--soft{stroke:#12A594; animation:none}
+.mark__still{animation:none}
+.mark__box--dash,.mark__ring--dash{stroke-dasharray:22 14; animation:none}
+
+.mark__arrow{
+  fill:none; stroke:#E5342A; stroke-width:7; stroke-linecap:round;
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.9));
+}
+.mark__head{fill:#E5342A; filter:drop-shadow(0 0 6px rgba(255,255,255,.9))}
+
+.mark__tag{
+  fill:#E5342A; font-family:var(--body); font-weight:900; font-size:40px;
+  text-anchor:middle; paint-order:stroke fill;
+  stroke:#fff; stroke-width:9; stroke-linejoin:round;
+}
+.mark__tag--sm{font-size:32px; stroke-width:8}
+.mark__tag--l{text-anchor:start}
+.mark__tag--r{text-anchor:end}
+.mark__tag--go{fill:#0E8578}
+
+@keyframes markpulse{
+  0%,100%{opacity:1}
+  50%    {opacity:.45}
+}
+
+/* ═══ 元件 8：構圖線切換台（guide）════════════════════════════
+   構圖法最怕的教法是「先給答案」——線一畫上去，
+   學生只會看線，不會看照片。所以線預設是藏起來的：
+   先自己看一遍，覺得主角在哪裡，再按按鈕對答案。
+
+   HTML 這樣寫：
+     <figure class="guide" data-guide>
+       <div class="guide__stage">
+         <img src="…" alt="…" loading="lazy">
+         <svg class="guide__ov" viewBox="0 0 1600 1200" preserveAspectRatio="none" aria-hidden="true">
+           <path class="guide__line" d="M533 0V1200"/>
+           <circle class="guide__dot" cx="1067" cy="800" r="34"/>
+         </svg>
+       </div>
+       <button class="guide__btn" type="button" data-act="toggle"></button>
+       <figcaption class="guide__cap">…</figcaption>
+     </figure>
+
+   形狀：.guide__line（紅線）.guide__dot（交會點圓圈）
+        .guide__ring（圈住主角）.guide__zone（半透明區塊）      */
+
+.guide{
+  margin:1.5rem 0; padding:1rem; background:var(--card);
+  border:2.5px solid var(--rule); border-radius:16px; box-shadow:var(--shadow-sm);
+}
+.guide__stage{position:relative; display:block; line-height:0; border-radius:11px}
+.guide__stage img{display:block; width:100%; height:auto; border-radius:11px; border:2px solid var(--rule); margin:0}
+.guide__ov{
+  position:absolute; inset:0; width:100%; height:100%; pointer-events:none;
+  opacity:0; transition:opacity .28s ease;
+}
+.guide[data-on="1"] .guide__ov{opacity:1}
+
+.guide__line{
+  fill:none; stroke:#E5342A; stroke-width:5;
+  filter:drop-shadow(0 0 5px rgba(0,0,0,.45));
+}
+.guide__line--thin{stroke-width:3.5; opacity:.75}
+.guide__line--go{stroke:#19E3CB}
+.guide__dot{
+  fill:rgba(229,52,42,.28); stroke:#E5342A; stroke-width:6;
+  filter:drop-shadow(0 0 5px rgba(0,0,0,.45));
+}
+.guide__ring{
+  fill:none; stroke:#E5342A; stroke-width:7;
+  filter:drop-shadow(0 0 5px rgba(0,0,0,.45));
+}
+.guide__zone{fill:rgba(229,52,42,.18); stroke:none}
+
+.guide__btn{
+  font:inherit; font-weight:800; font-size:.94rem; cursor:pointer;
+  margin-top:.9rem; padding:.6rem 1.15rem; border-radius:999px;
+  border:2.5px solid var(--ink); background:var(--ground); color:var(--ink);
+  box-shadow:var(--shadow-sm); transition:.16s;
+}
+.guide__btn:hover{transform:translateY(-2px)}
+.guide[data-on="1"] .guide__btn{background:var(--ink); color:var(--ground)}
+.guide__cap{
+  margin:.8rem auto 0; max-width:34em; text-align:center;
+  font-size:.88rem; color:var(--ink-soft); line-height:1.7;
+}
+.guide__cap b,.guide__cap strong{color:var(--accent)}
+
+/* ═══ 元件 9：三分法交會點練習（thirds）══════════════════════
+   「主角放在交會處」講一百次不如自己點一次。
+   四個交會點做成按鈕，點錯不會扣分，只會告訴你為什麼不對。
+
+   HTML 這樣寫：
+     <div class="thirds" data-thirds data-ans="br">
+       <p class="thirds__q">…</p>
+       <div class="thirds__stage">
+         <img src="…" alt="…" loading="lazy">
+         <span class="thirds__grid" aria-hidden="true"></span>
+         <button class="thirds__hit" type="button" data-v="tl" data-say="…"></button>
+       </div>
+       <p class="thirds__say"></p>
+     </div>                                                       */
+
+.thirds{
+  margin:1.5rem 0; padding:1.1rem; background:#FBF1DA;
+  border:2px dashed var(--accent); border-radius:16px; box-shadow:var(--shadow-sm);
+}
+.thirds__q{margin:0 0 .85rem; font-weight:700; font-size:1rem}
+.thirds__stage{position:relative; display:block; line-height:0; border-radius:11px}
+.thirds__stage img{display:block; width:100%; height:auto; border-radius:11px; border:2px solid var(--rule); margin:0}
+
+.thirds__grid{
+  position:absolute; inset:0; pointer-events:none; border-radius:11px;
+  background:
+    linear-gradient(to right,  transparent calc(33.333% - 1.5px), rgba(255,255,255,.85) calc(33.333% - 1.5px) calc(33.333% + 1.5px), transparent calc(33.333% + 1.5px)),
+    linear-gradient(to right,  transparent calc(66.666% - 1.5px), rgba(255,255,255,.85) calc(66.666% - 1.5px) calc(66.666% + 1.5px), transparent calc(66.666% + 1.5px)),
+    linear-gradient(to bottom, transparent calc(33.333% - 1.5px), rgba(255,255,255,.85) calc(33.333% - 1.5px) calc(33.333% + 1.5px), transparent calc(33.333% + 1.5px)),
+    linear-gradient(to bottom, transparent calc(66.666% - 1.5px), rgba(255,255,255,.85) calc(66.666% - 1.5px) calc(66.666% + 1.5px), transparent calc(66.666% + 1.5px));
+  filter:drop-shadow(0 0 2px rgba(0,0,0,.5));
+}
+
+.thirds__hit{
+  position:absolute; width:13%; aspect-ratio:1; transform:translate(-50%,-50%);
+  border-radius:50%; cursor:pointer; padding:0;
+  border:4px solid #fff; background:rgba(43,33,25,.32);
+  box-shadow:0 0 0 2px rgba(43,33,25,.55), 0 3px 10px rgba(0,0,0,.35);
+  transition:.16s;
+}
+.thirds__hit:hover:not(:disabled){transform:translate(-50%,-50%) scale(1.15); background:rgba(255,107,26,.6)}
+.thirds__hit:disabled{cursor:default}
+.thirds__hit[data-v="tl"]{left:33.333%; top:33.333%}
+.thirds__hit[data-v="tr"]{left:66.666%; top:33.333%}
+.thirds__hit[data-v="bl"]{left:33.333%; top:66.666%}
+.thirds__hit[data-v="br"]{left:66.666%; top:66.666%}
+.thirds__hit[data-s="hit"]{background:rgba(18,165,148,.82); border-color:#fff; box-shadow:0 0 0 3px #0E8578, 0 0 22px rgba(18,165,148,.9)}
+.thirds__hit[data-s="miss"]{background:rgba(43,33,25,.12); opacity:.4}
+
+.thirds__say{
+  margin:.9rem 0 0; min-height:1.2em; font-size:.93rem; line-height:1.8;
+  padding:0 .2rem;
+}
+.thirds__say[data-k="y"]{color:#0E8578; font-weight:600}
+.thirds__say[data-k="n"]{color:#B3441C}
+.thirds__say b{color:var(--accent)}
+
+/* ═══ 元件 10：拉正練習台（level）════════════════════════════
+   水平歪掉是全班最常犯、也最容易修的毛病。
+   給一張刻意拍歪的照片，拉滑桿把它轉回來——
+   轉正的那一刻畫面會「卡住」的感覺，比任何說明都有用。
+
+   HTML 這樣寫：
+     <div class="level" data-level data-tilt="-6.5">
+       <div class="level__stage">
+         <img src="…" alt="…" loading="lazy">
+         <span class="level__ruler" aria-hidden="true"></span>
+       </div>
+       <div class="level__ctl">
+         <input class="level__slider" type="range" min="-12" max="12" step="0.5" value="0" data-slider>
+         <b class="level__deg" data-deg>0.0°</b>
+         <button class="pbtn" type="button" data-act="reset">🔄 重來</button>
+       </div>
+       <p class="level__say" data-say></p>
+     </div>                                                       */
+
+.level{
+  margin:1.5rem 0; padding:1.1rem; background:var(--card);
+  border:2.5px solid var(--rule); border-radius:16px; box-shadow:var(--shadow-sm);
+}
+.level__stage{
+  position:relative; overflow:hidden; border-radius:11px;
+  border:2px solid var(--rule); background:#241C15; aspect-ratio:4/3;
+}
+.level__stage img{
+  position:absolute; left:50%; top:50%; width:140%; height:auto; margin:0; border:0; border-radius:0;
+  transform-origin:center center;
+  transform:translate(-50%,-50%) rotate(var(--deg,0deg));
+}
+.level__ruler{
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(to bottom, transparent calc(50% - 1.5px), rgba(255,255,255,.9) calc(50% - 1.5px) calc(50% + 1.5px), transparent calc(50% + 1.5px)),
+    linear-gradient(to right,  transparent calc(50% - 1.5px), rgba(255,255,255,.55) calc(50% - 1.5px) calc(50% + 1.5px), transparent calc(50% + 1.5px));
+  filter:drop-shadow(0 0 2px rgba(0,0,0,.6));
+}
+.level[data-ok="1"] .level__ruler{
+  background:
+    linear-gradient(to bottom, transparent calc(50% - 2px), #19E3CB calc(50% - 2px) calc(50% + 2px), transparent calc(50% + 2px)),
+    linear-gradient(to right,  transparent calc(50% - 1.5px), rgba(25,227,203,.6) calc(50% - 1.5px) calc(50% + 1.5px), transparent calc(50% + 1.5px));
+}
+.level__ctl{display:flex; align-items:center; gap:.8rem; margin-top:.9rem; flex-wrap:wrap}
+.level__slider{flex:1 1 12rem; min-width:9rem; accent-color:var(--accent); height:1.6rem; cursor:pointer}
+.level__deg{
+  font-family:var(--mono); font-size:1.05rem; font-weight:700;
+  min-width:4.4rem; text-align:center;
+  background:var(--ground-2); border-radius:8px; padding:.25rem .5rem;
+}
+.level[data-ok="1"] .level__deg{background:var(--go-soft); color:#0E8578}
+.level__say{
+  margin:.85rem 0 0; min-height:1.2em; font-size:.93rem; line-height:1.8; font-weight:600;
+}
+.level__say[data-k="y"]{color:#0E8578}
+.level__say[data-k="n"]{color:var(--ink-soft); font-weight:400}
+
+/* ═══ 元件 11：六種構圖速查卡（cmpkey）═══════════════════════
+   六種構圖一次講完，學生一定記不住。給一張速查卡讓他
+   拍的時候可以回來翻——每一張只有「名字＋一句話」。        */
+
+.cmpkey{display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); margin:1.4rem 0}
+.cmpkey__it{
+  background:var(--card); border:2.5px solid var(--rule); border-radius:14px;
+  padding:.9rem 1rem; box-shadow:var(--shadow-sm);
+  display:grid; grid-template-columns:auto 1fr; gap:.2rem .75rem; align-items:start;
+}
+.cmpkey__ic{
+  grid-row:1/3; width:3.1rem; height:3.1rem; border-radius:10px;
+  border:2px solid var(--ink); background:var(--ground-2);
+  display:grid; place-items:center;
+}
+.cmpkey__ic svg{display:block}
+.cmpkey__n{font-weight:900; font-size:1rem; align-self:end}
+.cmpkey__d{font-size:.85rem; color:var(--ink-soft); line-height:1.65}
+.cmpkey__d b{color:var(--accent)}
+
+/* ═══ 兩張圖並排對照（vs2）══════════════════════════════════
+   「開之前 / 開之後」「歪的 / 正的」——並排看差異最清楚，
+   拆成上下兩張就沒有比較的感覺了，手機上也要保持並排。  */
+
+.vs2{display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin:1.5rem 0}
+.vs2__c{
+  background:var(--card); border:2.5px solid var(--rule); border-radius:14px;
+  padding:.6rem; box-shadow:var(--shadow-sm); overflow:hidden; margin:0;
+}
+.vs2__c--no{border-color:#C4392B; background:#FBE3E0}
+.vs2__c--ok{border-color:var(--go); background:var(--go-soft)}
+.vs2__h{font-weight:800; font-size:.9rem; text-align:center; padding:.25rem 0 .5rem}
+.vs2__c--no .vs2__h{color:#A8321F}
+.vs2__c--ok .vs2__h{color:#0E8578}
+.vs2 img{display:block; width:100%; height:auto; border-radius:9px; border:2px solid var(--rule); margin:0}
+.vs2 .mark__stage{border-radius:9px}
+.vs2 .mark__stage img{border-radius:9px}
+.vs2 figcaption,.vs2__d{
+  margin:.5rem .15rem 0; font-size:.8rem; color:var(--ink-soft); line-height:1.6; text-align:center;
+}
+.vs2 figcaption b,.vs2__d b{color:var(--accent)}
+
+
+/* ═══ 元件 12：iPad 開關練習台（swch）═══════════════════════
+   截圖只能拍到「還沒打開」的樣子，拍不到「推的那一下」。
+   與其硬找一張已打開的截圖，不如做一顆真的可以點的開關——
+   學生先在網頁上推一次，等一下在 iPad 上手就知道要做什麼。
+
+   顏色刻意用 iOS 的原色（關 #E9E9EA、開 #34C759），
+   這樣學生在 iPad 上看到綠色才認得出「這就是打開了」。
+
+   HTML 這樣寫：
+     <div class="swch" data-swch>
+       <p class="swch__head">…</p>
+       <ul class="swch__list">
+         <li class="swch__it">
+           <span class="swch__n">格線</span>
+           <button class="swch__t" type="button" role="switch"
+                   aria-checked="false" aria-label="格線"><i></i></button>
+         </li>
+       </ul>
+       <p class="swch__say" data-say></p>
+     </div>                                                       */
+
+.swch{
+  margin:1.5rem 0; padding:1.1rem 1.2rem 1.2rem;
+  background:#F2F2F7;                    /* iOS 設定畫面的底色 */
+  border:2.5px solid var(--rule); border-radius:16px; box-shadow:var(--shadow-sm);
+}
+.swch__head{margin:0 0 .9rem; font-size:.93rem; line-height:1.75}
+.swch__head b{color:var(--accent)}
+
+.swch__list{list-style:none; margin:0; padding:0; background:#fff; border-radius:12px; overflow:hidden}
+.swch__it{
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  padding:.85rem 1.1rem; font-size:1.02rem;
+}
+.swch__it + .swch__it{border-top:1.5px solid #E5E5EA}
+.swch__n{font-weight:500; color:#000}
+
+/* iOS 開關本體 —— 尺寸放大一點，小朋友才好點 */
+.swch__t{
+  flex:none; width:4rem; height:2.35rem; padding:0; cursor:pointer;
+  border:0; border-radius:999px; background:#E9E9EA;
+  position:relative; transition:background .22s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.swch__t i{
+  position:absolute; top:.19rem; left:.19rem;
+  width:1.97rem; height:1.97rem; border-radius:50%;
+  background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.28);
+  transition:transform .22s cubic-bezier(.3,1.4,.6,1);
+}
+.swch__t[aria-checked="true"]{background:#34C759}
+.swch__t[aria-checked="true"] i{transform:translateX(1.65rem)}
+.swch__t:focus-visible{outline:3px solid var(--accent); outline-offset:3px}
+
+.swch__say{
+  margin:.9rem 0 0; min-height:1.3em; font-size:.93rem; line-height:1.8; font-weight:600;
+}
+.swch__say[data-k="y"]{color:#0E8578}
+.swch__say[data-k="n"]{color:var(--ink-soft); font-weight:400}
+.swch__say b{color:var(--accent)}
+
+@media (max-width:480px){
+  .swch{padding:.9rem}
+  .swch__it{padding:.75rem .85rem; font-size:.96rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .swch__t,.swch__t i{transition:none}
+}
+
+@media (max-width:480px){
+  .mark__tag{font-size:52px; stroke-width:11}
+  .mark__tag--sm{font-size:44px; stroke-width:10}
+  .mark__box,.mark__ring{stroke-width:9}
+  .guide__line{stroke-width:7}
+  .guide__dot{stroke-width:8}
+  .thirds__hit{width:17%; border-width:3px}
+  .level__ctl{gap:.5rem}
+  .level__deg{font-size:.95rem; min-width:3.8rem}
+  .vs2{gap:.5rem}
+  .vs2__c{padding:.4rem}
+  .vs2__h{font-size:.78rem}
+  .vs2 figcaption,.vs2__d{font-size:.72rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .mark__box,.mark__ring{animation:none}
+  .guide__ov{transition:none}
+}

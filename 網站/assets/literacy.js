@@ -7,6 +7,11 @@
    元件 4：人 vs 機器人比手速 botrace（第 4 課）
    元件 5：驗證碼判讀練習台 cap（第 4 課）
    元件 6：圖片驗證碼九宮格 picap（第 4 課）
+   元件 8：構圖線切換台 guide（第 5 課）
+   元件 9：三分法交會點練習 thirds（第 5 課）
+   元件 10：拉正練習台 level（第 5 課）
+   元件 11：iPad 開關練習台 swch（第 5 課）
+   （元件 7 mark 是純 CSS 的截圖紅框，沒有 JS）
 
    共用的東西（預測題、打勾清單、揭曉…）在 lesson.js，
    引用順序一定是 lesson.js 在前、literacy.js 在後。
@@ -1076,6 +1081,231 @@ document.querySelectorAll('[data-picap]').forEach(root => {
   if (btnNw) btnNw.addEventListener('click', deal);
 
   deal();
+});
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   元件 8：構圖線切換台（guide）—— 資訊素養第 5 課
+   ───────────────────────────────────────────────────────────
+   一張範例照片 ＋ 一層藏起來的紅線。按鈕按下去線才出現。
+
+   為什麼要藏起來：線先畫上去，學生的眼睛只會跟著線走，
+   照片本身反而沒看。順序一定要是「先自己看 → 再對答案」。
+
+   HTML 這樣寫：
+     <figure class="guide" data-guide data-label="三分法的線">
+       <div class="guide__stage">
+         <img src="…" alt="…" loading="lazy">
+         <svg class="guide__ov" viewBox="0 0 1600 1200"
+              preserveAspectRatio="none" aria-hidden="true">
+           <path class="guide__line" d="M533 0V1200"/>
+           <circle class="guide__dot" cx="1067" cy="800" r="34"/>
+         </svg>
+       </div>
+       <button class="guide__btn" type="button" data-act="toggle"></button>
+       <figcaption class="guide__cap">…</figcaption>
+     </figure>
+
+   data-label 是按鈕上要出現的名字，沒填就用「構圖線」。
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+
+document.querySelectorAll('[data-guide]').forEach(root => {
+  const btn = root.querySelector('[data-act="toggle"]');
+  if (!btn) return;
+  const label = root.dataset.label || '構圖線';
+
+  function paint(){
+    const on = root.dataset.on === '1';
+    btn.textContent = (on ? '🙈 收起' : '👁 顯示') + label;
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', () => {
+    root.dataset.on = root.dataset.on === '1' ? '0' : '1';
+    paint();
+  });
+
+  root.dataset.on = '0';
+  paint();
+});
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   元件 9：三分法交會點練習（thirds）—— 資訊素養第 5 課
+   ───────────────────────────────────────────────────────────
+   照片上疊九宮格，四個交會點做成按鈕。學生點他覺得
+   主角該站的那個點，點錯只會解釋為什麼不對，不扣分。
+
+   HTML 這樣寫：
+     <div class="thirds" data-thirds data-ans="br">
+       <p class="thirds__q">主角要放哪一個點？</p>
+       <div class="thirds__stage">
+         <img src="…" alt="…" loading="lazy">
+         <span class="thirds__grid" aria-hidden="true"></span>
+         <button class="thirds__hit" type="button" data-v="tl"
+                 data-say="左上是天空，主角放這裡會浮在半空中。"
+                 aria-label="左上交會點"></button>
+         …（tr / bl / br 共四顆）
+       </div>
+       <p class="thirds__say"></p>
+     </div>
+
+   data-ans 填 tl / tr / bl / br 其中一個。
+   答對答錯都停下來——這是「想一次」的題目，不是可以亂點的遊戲。
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+
+document.querySelectorAll('[data-thirds]').forEach(root => {
+  const ans  = root.dataset.ans;
+  const hits = [...root.querySelectorAll('.thirds__hit')];
+  const say  = root.querySelector('.thirds__say');
+  if (!ans || !hits.length) return;
+
+  hits.forEach(h => h.addEventListener('click', () => {
+    const ok = h.dataset.v === ans;
+    hits.forEach(o => {
+      o.disabled = true;
+      o.dataset.s = o.dataset.v === ans ? 'hit' : (o === h ? 'miss' : '');
+    });
+    if (!say) return;
+    say.dataset.k = ok ? 'y' : 'n';
+    say.innerHTML = (ok ? '✅ ' : '再看一次 → ') + (h.dataset.say || '');
+  }));
+});
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   元件 10：拉正練習台（level）—— 資訊素養第 5 課
+   ───────────────────────────────────────────────────────────
+   一張刻意歪掉的照片，拉滑桿把它轉回水平。
+   誤差在 1 度以內就算過關，中間那條白線會變成綠色。
+
+   為什麼要做成滑桿而不是按鈕：歪 1 度和歪 6 度，用看的
+   分不出來，用拉的才會知道「差一點點就是不一樣」。
+
+   HTML 這樣寫：
+     <div class="level" data-level data-tilt="-6">
+       <div class="level__stage">
+         <img src="…" alt="…" loading="lazy">
+         <span class="level__ruler" aria-hidden="true"></span>
+       </div>
+       <div class="level__ctl">
+         <input class="level__slider" type="range" min="-12" max="12"
+                step="0.5" value="0" data-slider aria-label="轉正角度">
+         <b class="level__deg" data-deg>0.0°</b>
+         <button class="pbtn" type="button" data-act="reset">🔄 重來</button>
+       </div>
+       <p class="level__say" data-say></p>
+     </div>
+
+   data-tilt 是照片「原本歪掉」的角度（度）。學生要把滑桿
+   拉到 -data-tilt 才會轉正。
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+
+const TOL = 1;   // 誤差容許值（度）——比這個小，肉眼已經看不出來了
+
+document.querySelectorAll('[data-level]').forEach(root => {
+  const img    = root.querySelector('img');
+  const slider = root.querySelector('[data-slider]');
+  const degEl  = root.querySelector('[data-deg]');
+  const say    = root.querySelector('[data-say]');
+  const reset  = root.querySelector('[data-act="reset"]');
+  if (!img || !slider) return;
+
+  const tilt = parseFloat(root.dataset.tilt || '-6');
+  let best = Infinity;
+
+  function paint(){
+    const fix  = parseFloat(slider.value);
+    const left = tilt + fix;                 // 現在還歪幾度
+    const off  = Math.abs(left);
+    img.style.setProperty('--deg', left.toFixed(2) + 'deg');
+    if (degEl) degEl.textContent = (fix > 0 ? '+' : '') + fix.toFixed(1) + '°';
+
+    const ok = off <= TOL;
+    root.dataset.ok = ok ? '1' : '0';
+    if (off < best) best = off;
+
+    if (!say) return;
+    if (ok) {
+      say.dataset.k = 'y';
+      say.innerHTML = '✅ 正了！剩下 <b>' + off.toFixed(1) +
+        '°</b>。真的在拍的時候，你不用拉滑桿——<b>相機裡的格線就是這條線</b>，' +
+        '把地平線或牆邊對齊它就好。';
+    } else {
+      say.dataset.k = 'n';
+      say.innerHTML = '還歪 <b>' + off.toFixed(1) + '°</b>。' +
+        (off > 4 ? '把中間那條白線，對齊照片裡的地面或牆壁。'
+                 : '快好了，剩一點點——一次動半格試試看。');
+    }
+  }
+
+  slider.addEventListener('input', paint);
+  if (reset) reset.addEventListener('click', () => { slider.value = 0; paint(); });
+
+  paint();
+});
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   元件 11：iPad 開關練習台（swch）—— 資訊素養第 5 課
+   ───────────────────────────────────────────────────────────
+   一排假的 iOS 開關，點下去會滑到右邊變綠。
+   目的不是好玩，是讓學生在動 iPad 之前先知道
+   「打開」長什麼樣子——推開＝綠色，這件事看一次就記住了。
+
+   HTML 這樣寫：
+     <div class="swch" data-swch
+          data-all="✅ 兩個都變綠色了！iPad 上也要推成這樣。">
+       <p class="swch__head">…</p>
+       <ul class="swch__list">
+         <li class="swch__it">
+           <span class="swch__n">格線</span>
+           <button class="swch__t" type="button" role="switch"
+                   aria-checked="false" aria-label="格線"
+                   data-on="格線打開了——相機畫面上會出現九宮格。"
+                   data-off="格線又關掉了，畫面上的九宮格會不見。"><i></i></button>
+         </li>
+         …
+       </ul>
+       <p class="swch__say" data-say></p>
+     </div>
+
+   data-all：全部推開時要說的那句話（選填）。
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+
+document.querySelectorAll('[data-swch]').forEach(root => {
+  const sws = [...root.querySelectorAll('.swch__t')];
+  const say = root.querySelector('[data-say]');
+  if (!sws.length) return;
+
+  const allMsg = root.dataset.all || '';
+
+  function tell(html, ok){
+    if (!say) return;
+    say.dataset.k = ok ? 'y' : 'n';
+    say.innerHTML = html;
+  }
+
+  sws.forEach(sw => sw.addEventListener('click', () => {
+    const on = sw.getAttribute('aria-checked') !== 'true';
+    sw.setAttribute('aria-checked', on ? 'true' : 'false');
+
+    const allOn = sws.every(s => s.getAttribute('aria-checked') === 'true');
+    if (allOn && allMsg) { tell(allMsg, true); return; }
+    tell((on ? sw.dataset.on : sw.dataset.off) || '', on);
+  }));
 });
 
 })();
