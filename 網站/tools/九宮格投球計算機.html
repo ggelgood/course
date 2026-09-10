@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>九宮格投球計算機</title>
+<!--
+  ═══════════════════════════════════════════════════════════
+  九宮格投球計算機 —— 三人一組的投球算式比賽用的裁判機。
+  ───────────────────────────────────────────────────────────
+  ⚠️ 這一頁是「單一檔案、不依賴任何外部檔案」的，樣式和程式都寫在裡面。
+     跟 tools/ 底下其他工具一樣，可以單獨丟到隨身碟或寄給別人。
+     完全不上網也能跑，成績只存在這台電腦的瀏覽器裡。
+
+  ── 比賽規則（程式就是照這個寫的）─────────────────────────
+    · 一組三人，三塊實體九宮格投球板：板一數字、板二數字、板三符號
+    · 第一位投板一兩球、第二位投板二兩球、第三位投板三三球，共 7 球
+    · 投歪沒中的球要重投，直到中為止（所以程式沒有「未命中」這個狀態）
+    · 7 顆球全部要用進算式：4 個數字 + 3 個符號，剛好排成
+        數 符 數 符 數 符 數
+    · 只能重排順序，不能加括號、不能把兩個數字黏成多位數
+    · 照一般四則運算算（先乘除、後加減）
+    · 進到計算畫面就開始倒數 2 分鐘，時間到還沒送出 = 0 分，一樣入榜
+    · 排列過程「不顯示分數」，按下送出才揭曉
+
+  ── 要改板子內容看這裡 ─────────────────────────────────────
+     往下找 `const BOARDS`，就在 <script> 的最前面，
+     九個格子照左上到右下的順序填，改完存檔重新整理就好。
+  ═══════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  --ground:#FBF6EC; --ground-2:#F4EBDB; --card:#fff;
+  --ink:#2B2119; --ink-soft:#7A6A59; --rule:#E3D6C0;
+  --accent:#FF6B1A; --accent-soft:#FFE8D9;
+  --go:#12A594; --go-soft:#D6F3EF;
+  --warn:#FFBF00; --warn-soft:#FFF9E6;
+  --display:"Fredoka","Noto Sans TC","微軟正黑體",sans-serif;
+  --body:"Noto Sans TC","微軟正黑體","PingFang TC",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --shadow-sm:0 2px 0 rgba(43,33,25,.10);
+  --shadow-md:0 3px 0 rgba(43,33,25,.12),0 10px 24px -14px rgba(43,33,25,.5);
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{
+  margin:0;font-family:var(--body);color:var(--ink);line-height:1.85;
+  background:var(--ground);
+  background-image:
+    radial-gradient(circle at 15% 5%,rgba(255,107,26,.07),transparent 40%),
+    radial-gradient(rgba(43,33,25,.05) 1px,transparent 1px);
+  background-size:auto,22px 22px;
+}
+.wrap{max-width:60rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 5rem}
+
+header{
+  background:linear-gradient(168deg,#2B2119,#3D2E22 60%,#4A3626);
+  color:var(--ground);padding:2.6rem 0 2.2rem;margin-bottom:2.2rem;
+}
+header h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5vw,3rem);margin:.4rem 0 .5rem;letter-spacing:-.02em}
+header h1 em{font-style:normal;color:var(--warn)}
+header p{margin:0;color:#E6D9C4;max-width:48ch}
+.tag{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.78rem;
+  letter-spacing:.12em;background:var(--accent);color:#fff;
+  padding:.3rem .9rem;border-radius:999px;box-shadow:0 3px 0 #C4460A;
+}
+.backhome{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:.8rem;
+  color:#E6D9C4;text-decoration:none;border:2px solid rgba(251,246,236,.3);
+  border-radius:999px;padding:.25rem .9rem;margin-bottom:1rem;
+}
+.backhome:hover{background:rgba(251,246,236,.14);color:#fff}
+
+h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:2.2rem 0 .8rem}
+h2 small{font-family:var(--body);font-weight:400;font-size:.78rem;color:var(--ink-soft);margin-left:.5rem}
+
+/* ── 通用按鈕 ───────────────────────────────────────────── */
+.bar{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin:1.6rem 0 1rem}
+.btn{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.95rem;cursor:pointer;
+  padding:.6rem 1.3rem;border-radius:999px;border:none;
+  background:var(--ink);color:var(--ground);box-shadow:0 3px 0 rgba(43,33,25,.4);transition:.14s;
+}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 0 rgba(43,33,25,.4)}
+.btn:active:not(:disabled){transform:translateY(1px);box-shadow:0 2px 0 rgba(43,33,25,.4)}
+.btn:disabled{opacity:.35;cursor:default}
+.btn--go{background:var(--go);box-shadow:0 3px 0 #0B7A6D}
+.btn--go:hover:not(:disabled){box-shadow:0 5px 0 #0B7A6D}
+.btn--big{font-size:1.15rem;padding:.85rem 2.2rem}
+.btn--ghost{background:transparent;color:var(--ink-soft);box-shadow:none;border:2.5px solid var(--rule)}
+.btn--ghost:hover:not(:disabled){border-color:var(--ink);color:var(--ink);transform:none;box-shadow:none}
+.tally{margin-left:auto;font-family:var(--display);font-weight:600;color:var(--ink-soft);font-size:.92rem}
+
+/* ── 組名 ───────────────────────────────────────────────── */
+.team{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;
+  background:var(--card);border:3px solid var(--ink);border-radius:16px;
+  padding:.9rem 1.2rem;box-shadow:var(--shadow-md);margin-bottom:1.6rem;
+}
+.team label{font-family:var(--display);font-weight:600;font-size:.95rem;white-space:nowrap}
+.team input{
+  font:inherit;font-size:1rem;flex:1;min-width:9rem;padding:.45rem .7rem;
+  border:2.5px solid var(--rule);border-radius:10px;background:var(--ground);color:var(--ink);
+}
+.team input:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.team small{color:var(--ink-soft);font-size:.8rem}
+
+/* ── 三塊板 ─────────────────────────────────────────────── */
+.boards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.2rem}
+.board{
+  background:var(--card);border:3px solid var(--rule);border-radius:20px;
+  padding:1rem 1.1rem 1.1rem;box-shadow:var(--shadow-sm);transition:.16s;
+}
+.board--full{border-color:var(--go);background:var(--go-soft)}
+.board__head{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.7rem}
+.board__n{
+  font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.08em;
+  background:var(--ink);color:var(--ground);padding:.15rem .6rem;border-radius:999px;
+}
+.board--full .board__n{background:var(--go)}
+.board__t{font-family:var(--display);font-weight:600;font-size:1rem}
+.board__q{margin-left:auto;font-size:.82rem;color:var(--ink-soft);font-family:var(--mono)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.cell{
+  position:relative;aspect-ratio:1;font:inherit;cursor:pointer;
+  font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,5vw,1.9rem);
+  background:var(--ground);color:var(--ink);
+  border:3px solid var(--rule);border-radius:12px;
+  display:grid;place-items:center;transition:.12s;
+}
+.cell:hover:not(:disabled){border-color:var(--ink);background:var(--ground-2);transform:translateY(-2px)}
+.cell:active:not(:disabled){transform:translateY(1px)}
+.cell:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.cell--hit{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.cell:disabled{opacity:.4;cursor:default}
+.cell--hit:disabled{opacity:1}
+.cell__x{
+  position:absolute;top:-.4rem;right:-.4rem;
+  font-family:var(--display);font-weight:700;font-size:.72rem;
+  background:var(--accent);color:#fff;border-radius:999px;
+  min-width:1.35rem;height:1.35rem;display:grid;place-items:center;
+  box-shadow:0 2px 0 #C4460A;
+}
+
+.picked{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem;min-height:2.4rem;align-items:center}
+.picked__hint{font-size:.82rem;color:var(--ink-soft)}
+.chip{
+  font:inherit;font-family:var(--display);font-weight:700;font-size:1.05rem;cursor:pointer;
+  background:var(--ink);color:var(--ground);border:none;border-radius:10px;
+  padding:.15rem .75rem;box-shadow:0 2px 0 rgba(43,33,25,.4);
+}
+.chip:hover{background:var(--accent);box-shadow:0 2px 0 #C4460A}
+.chip::after{content:" ✕";font-size:.7rem;opacity:.7}
+
+/* ── 計時器 ─────────────────────────────────────────────── */
+.timer{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1rem 1.2rem;box-shadow:var(--shadow-md);margin-bottom:1.4rem;
+}
+.timer__row{display:flex;align-items:baseline;gap:.7rem}
+.timer__t{font-family:var(--display);font-weight:700;font-size:2.6rem;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.timer__lb{font-family:var(--display);font-weight:600;font-size:.9rem;color:var(--ink-soft)}
+.timer__team{margin-left:auto;font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--ink-soft)}
+.timer__track{height:.8rem;background:var(--ground-2);border-radius:999px;margin-top:.7rem;overflow:hidden}
+.timer__fill{height:100%;background:var(--go);border-radius:999px;transition:width .1s linear}
+.timer--warn .timer__t{color:var(--accent)}
+.timer--warn .timer__fill{background:var(--accent)}
+.timer--warn{animation:pulse .9s ease-in-out infinite}
+@keyframes pulse{0%,100%{border-color:var(--ink)}50%{border-color:var(--accent)}}
+
+/* ── 算式列 ─────────────────────────────────────────────── */
+.expr{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.4rem;
+  background:var(--card);border:3px dashed var(--rule);border-radius:20px;
+  padding:1.3rem .9rem;margin-bottom:1.2rem;min-height:6.5rem;
+}
+.slot{
+  font:inherit;font-family:var(--display);font-weight:700;cursor:pointer;
+  width:3.6rem;height:3.6rem;border-radius:12px;display:grid;place-items:center;
+  font-size:1.8rem;transition:.12s;
+}
+.slot--num{background:var(--ground);border:3px dashed var(--rule);color:var(--ink)}
+.slot--op{background:var(--ground);border:3px dashed var(--rule);color:var(--ink-soft);width:3rem}
+.slot--empty{color:transparent}
+.slot--empty::after{content:"?";color:var(--rule);font-size:1.4rem}
+.slot--filled.slot--num{background:var(--ink);color:var(--ground);border-style:solid;border-color:var(--ink)}
+.slot--filled.slot--op{background:var(--accent);color:#fff;border-style:solid;border-color:var(--accent)}
+.slot--filled:hover{transform:translateY(-2px)}
+.slot:disabled{cursor:default;transform:none}
+
+.hand{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-bottom:.4rem;
+}
+.hand__group{
+  display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;
+  background:var(--ground-2);border-radius:16px;padding:.6rem .8rem;
+}
+.hand__lb{font-family:var(--display);font-weight:600;font-size:.8rem;color:var(--ink-soft);margin-right:.2rem}
+.card{
+  font:inherit;font-family:var(--display);font-weight:700;font-size:1.6rem;cursor:pointer;
+  width:3.2rem;height:3.2rem;border-radius:12px;display:grid;place-items:center;
+  background:var(--card);color:var(--ink);border:3px solid var(--ink);
+  box-shadow:0 3px 0 var(--ink);transition:.12s;
+}
+.card--op{color:var(--accent);border-color:var(--accent);box-shadow:0 3px 0 var(--accent)}
+.card:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 6px 0 var(--ink)}
+.card--op:hover:not(:disabled){box-shadow:0 6px 0 var(--accent)}
+.card:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.card:disabled{opacity:.2;cursor:default;transform:none;box-shadow:none}
+
+/* ── 結果 ───────────────────────────────────────────────── */
+.result{
+  background:var(--card);border:3px solid var(--go);border-radius:22px;
+  padding:1.8rem 1.5rem;box-shadow:var(--shadow-md);text-align:center;
+}
+.result--zero{border-color:var(--accent);background:var(--accent-soft)}
+.result__lb{font-family:var(--display);font-weight:600;font-size:.85rem;letter-spacing:.1em;color:var(--ink-soft)}
+.result__expr{font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,5vw,2rem);margin:.5rem 0 .3rem;word-break:break-word}
+.result__score{font-family:var(--display);font-weight:700;font-size:clamp(3rem,12vw,5rem);line-height:1.05;color:var(--go);letter-spacing:-.03em}
+.result--zero .result__score{color:var(--accent)}
+.result__sub{font-size:.9rem;color:var(--ink-soft);margin:.2rem 0 0}
+.result__best{
+  display:inline-block;margin-top:.8rem;font-family:var(--display);font-weight:700;font-size:.9rem;
+  background:var(--warn);color:var(--ink);padding:.25rem 1rem;border-radius:999px;box-shadow:0 3px 0 #C79600;
+}
+
+/* ── 排行榜 ─────────────────────────────────────────────── */
+.rank{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--card);
+  border:3px solid var(--rule);border-radius:16px;overflow:hidden}
+.rank th,.rank td{text-align:left;padding:.55rem .8rem;border-bottom:1px solid rgba(43,33,25,.1)}
+.rank th{font-family:var(--display);font-weight:600;font-size:.8rem;color:var(--ink-soft);background:var(--ground-2)}
+.rank tr:last-child td{border-bottom:0}
+.rank__n{font-family:var(--display);font-weight:700;width:2.6rem;color:var(--ink-soft)}
+.rank tr:nth-child(1) .rank__n{color:var(--accent);font-size:1.15rem}
+.rank__team{font-weight:700}
+.rank__expr{font-family:var(--mono);font-size:.86rem;color:var(--ink-soft)}
+.rank__sc{font-family:var(--display);font-weight:700;font-size:1.1rem;text-align:right;white-space:nowrap}
+.rank__t{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-align:right;white-space:nowrap}
+.rank--zero .rank__sc{color:var(--accent);opacity:.7}
+.empty{color:var(--ink-soft);font-size:.9rem;background:var(--card);border:3px dashed var(--rule);
+  border-radius:16px;padding:1.4rem;text-align:center}
+
+.note{
+  background:var(--card);border-left:5px solid var(--rule);border-radius:12px;
+  padding:.9rem 1.2rem;margin:1.2rem 0;font-size:.92rem;
+}
+.note--warn{border-left-color:var(--warn);background:var(--warn-soft)}
+.note--safe{border-left-color:var(--go);background:var(--go-soft)}
+.note p{margin:.3rem 0}
+.note b{color:var(--accent)}
+.note ol,.note ul{margin:.4rem 0;padding-left:1.4rem}
+.note li{margin:.2rem 0}
+code{background:var(--ground-2);padding:.1rem .4rem;border-radius:5px;font-family:var(--mono);font-size:.9em}
+footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color:var(--ink-soft);font-size:.86rem}
+.hide{display:none}
+
+@media(max-width:560px){
+  html{font-size:16px}
+  .slot{width:3rem;height:3rem;font-size:1.5rem}
+  .slot--op{width:2.6rem}
+  .card{width:2.9rem;height:2.9rem;font-size:1.4rem}
+  .rank__expr{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 回首頁</a>
+    <span class="tag">免安裝 · 免上傳 · 免網路</span>
+    <h1>九宮格<em>投球計算機</em></h1>
+    <p>三人一組、七顆球，把投中的四個數字和三個符號排成算式，比誰的答案大。
+    這一頁負責<strong>計時、驗算、記分</strong>，成績只存在這台電腦裡。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ══════ 階段一：登記投中的格子 ══════ -->
+<section id="stagePick">
+
+  <div class="team">
+    <label for="teamName">這一組叫什麼</label>
+    <input type="text" id="teamName" placeholder="例如：第三組、閃電隊" maxlength="12">
+    <small>留白的話會自動取名</small>
+  </div>
+
+  <div class="boards" id="boards"></div>
+
+  <div class="bar">
+    <button class="btn btn--go btn--big" id="btnStart" disabled>進入計算 · 開始倒數</button>
+    <button class="btn btn--ghost" id="btnClearPick">全部重選</button>
+    <span class="tally" id="pickTally">還要登記 7 顆球</span>
+  </div>
+
+  <div class="note note--warn">
+    <p><b>按下去就開始倒數了。</b>先確認三塊板上的格子都點對、選手也站到位了再按。</p>
+  </div>
+
+</section>
+
+<!-- ══════ 階段二：排算式（倒數中） ══════ -->
+<section id="stagePlay" class="hide">
+
+  <div class="timer" id="timer">
+    <div class="timer__row">
+      <span class="timer__t" id="timeText">2:00</span>
+      <span class="timer__lb">剩下的時間</span>
+      <span class="timer__team" id="playTeam"></span>
+    </div>
+    <div class="timer__track"><div class="timer__fill" id="timeFill" style="width:100%"></div></div>
+  </div>
+
+  <div class="expr" id="expr"></div>
+
+  <div class="hand" id="hand"></div>
+
+  <div class="bar">
+    <button class="btn btn--go btn--big" id="btnSubmit" disabled>送出答案</button>
+    <button class="btn btn--ghost" id="btnReset">清空重排</button>
+    <span class="tally" id="playHint">點下面的牌，把算式填滿</span>
+  </div>
+
+  <div class="note">
+    <p>點<strong>下面的牌</strong>放進算式，點<strong>算式上的牌</strong>可以收回來。
+    數字只能放數字的位置、符號只能放符號的位置。<b>送出之前不會顯示分數</b>。</p>
+  </div>
+
+</section>
+
+<!-- ══════ 階段三：公布分數 ══════ -->
+<section id="stageDone" class="hide">
+  <div class="result" id="result"></div>
+  <div class="bar">
+    <button class="btn btn--go btn--big" id="btnNext">下一組</button>
+  </div>
+</section>
+
+<!-- ══════ 排行榜 ══════ -->
+<h2>🏆 排行榜 <small>只存在這台電腦的瀏覽器裡，換電腦或清快取就會不見</small></h2>
+<div id="rankWrap"></div>
+<div class="bar">
+  <button class="btn btn--ghost" id="btnClearRank">清除所有紀錄</button>
+</div>
+
+<!-- ══════ 規則 ══════ -->
+<h2>📋 比賽規則</h2>
+<div class="note note--safe">
+  <ol>
+    <li>一組三個人。<strong>第一位</strong>投數字板一（兩球）、<strong>第二位</strong>投數字板二（兩球）、<strong>第三位</strong>投符號板（三球）。</li>
+    <li>投歪沒中格子的那一球<strong>要重投</strong>，直到投中為止。</li>
+    <li>七顆球<strong>全部都要用</strong>：四個數字配三個符號，剛好排成「數 符 數 符 數 符 數」。</li>
+    <li>只能<strong>換順序</strong>。不能加括號，也不能把兩個數字黏成兩位數。</li>
+    <li>照一般的四則運算算：<strong>先乘除、後加減</strong>。</li>
+    <li>進到計算畫面就開始倒數 <strong>2 分鐘</strong>，時間到還沒送出就是 <strong>0 分</strong>，一樣記進排行榜。</li>
+  </ol>
+  <p style="margin-top:.6rem">例：投到 <code>7 9 4 8</code> 和 <code>+ − ×</code>，可以排成
+  <code>8 × 9 − 4 + 7</code> ＝ <strong>75</strong>。</p>
+</div>
+
+<footer>
+  <p>這一頁不會把任何東西傳出去，成績用瀏覽器的 localStorage 存在這台電腦上。</p>
+</footer>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   ① 三塊板子的內容 —— 要改就改這裡
+   九個格子照「左上 → 右下」的順序填。
+   kind:'num' 是數字板、kind:'op' 是符號板；quota 是那個人要投幾球。
+   ═══════════════════════════════════════════════════════════ */
+const BOARDS = [
+  { title:'數字板一', who:'第一位', kind:'num', quota:2,
+    cells:['1','2','3','4','5','6','7','8','9'] },
+  { title:'數字板二', who:'第二位', kind:'num', quota:2,
+    cells:['1','2','3','4','5','6','7','8','9'] },
+  { title:'符號板',   who:'第三位', kind:'op',  quota:3,
+    cells:['+','−','×','÷','+','−','×','÷','+'] },
+];
+
+const LIMIT_SEC = 120;              // 倒數秒數
+const STORE_KEY = 'pitch9_rank_v1'; // localStorage 的鍵
+const KEEP = 60;                    // 排行榜最多留幾筆
+
+/* ═══════════════════════════════════════════════════════════
+   ② 分數用「分數」算，不用小數，才不會有浮點誤差
+   ═══════════════════════════════════════════════════════════ */
+function gcd(a,b){ while(b){ [a,b]=[b,a%b]; } return a||1; }
+function R(n,d){
+  d = (d===undefined) ? 1 : d;
+  if(d===0) return null;                 // 除以 0
+  if(d<0){ n=-n; d=-d; }
+  const g = gcd(Math.abs(n),Math.abs(d));
+  return { n:n/g, d:d/g };
+}
+function rAdd(a,b){ return R(a.n*b.d + b.n*a.d, a.d*b.d); }
+function rSub(a,b){ return R(a.n*b.d - b.n*a.d, a.d*b.d); }
+function rMul(a,b){ return R(a.n*b.n, a.d*b.d); }
+function rDiv(a,b){ return b.n===0 ? null : R(a.n*b.d, a.d*b.n); }
+function rCmp(a,b){ return a.n*b.d - b.n*a.d; }          // >0 表示 a 比較大
+function rText(r){
+  if(!r) return '—';
+  if(r.d===1) return String(r.n);
+  const dec = r.n/r.d;
+  return r.n+'/'+r.d+'（≈'+(Math.round(dec*100)/100)+'）';
+}
+
+/* 照四則運算算 [數,符,數,符,數,符,數]；不能算就回 null */
+function evaluate(tokens){
+  // 第一遍：把 × ÷ 先算掉
+  let nums = [R(Number(tokens[0]))];
+  let ops  = [];
+  for(let i=1;i<tokens.length;i+=2){
+    const op = tokens[i], next = R(Number(tokens[i+1]));
+    if(op==='×'){ nums[nums.length-1] = rMul(nums[nums.length-1], next); }
+    else if(op==='÷'){
+      const q = rDiv(nums[nums.length-1], next);
+      if(!q) return null;                // 不能除以 0
+      nums[nums.length-1] = q;
+    }
+    else { ops.push(op); nums.push(next); }
+  }
+  // 第二遍：剩下的 + −
+  let acc = nums[0];
+  for(let i=0;i<ops.length;i++){
+    acc = ops[i]==='+' ? rAdd(acc,nums[i+1]) : rSub(acc,nums[i+1]);
+  }
+  return acc;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ③ 狀態
+   ═══════════════════════════════════════════════════════════ */
+const picks = BOARDS.map(()=>[]);   // 每塊板投中的格子 index
+let hand = [];                      // 這一輪的七張牌
+let placed = [];                    // 算式七個位子，放牌的 id 或 null
+let deadline = 0, ticker = null, locked = false, teamLabel = '';
+
+const SLOT_KIND = ['num','op','num','op','num','op','num'];
+
+const $ = id => document.getElementById(id);
+
+/* ═══════════════════════════════════════════════════════════
+   ④ 階段一：三塊板
+   ═══════════════════════════════════════════════════════════ */
+function renderBoards(){
+  $('boards').innerHTML = BOARDS.map((b,bi)=>{
+    const used = picks[bi].length;
+    const full = used >= b.quota;
+    const cells = b.cells.map((c,ci)=>{
+      const hits = picks[bi].filter(x=>x===ci).length;
+      return '<button class="cell'+(hits?' cell--hit':'')+'" data-b="'+bi+'" data-c="'+ci+'"'
+        + (full?' disabled':'')
+        + ' aria-label="'+b.title+' '+c+(hits?'，已登記 '+hits+' 次':'')+'">'
+        + c + (hits>1?'<span class="cell__x">×'+hits+'</span>':'') + '</button>';
+    }).join('');
+    const chips = picks[bi].length
+      ? picks[bi].map((ci,k)=>'<button class="chip" data-del="'+bi+'" data-k="'+k+'">'+b.cells[ci]+'</button>').join('')
+      : '<span class="picked__hint">還沒登記，點上面的格子</span>';
+    return '<div class="board'+(full?' board--full':'')+'">'
+      + '<div class="board__head"><span class="board__n">'+b.who+'</span>'
+      + '<span class="board__t">'+b.title+'</span>'
+      + '<span class="board__q">'+used+' / '+b.quota+'</span></div>'
+      + '<div class="grid">'+cells+'</div>'
+      + '<div class="picked">'+chips+'</div></div>';
+  }).join('');
+
+  const total = picks.reduce((s,p)=>s+p.length,0);
+  const need  = BOARDS.reduce((s,b)=>s+b.quota,0);
+  const ready = total===need;
+  $('btnStart').disabled = !ready;
+  $('pickTally').textContent = ready ? '七顆球都登記好了' : '還要登記 '+(need-total)+' 顆球';
+}
+
+$('boards').addEventListener('click', e=>{
+  const cell = e.target.closest('.cell');
+  if(cell){
+    const bi = +cell.dataset.b, ci = +cell.dataset.c;
+    if(picks[bi].length < BOARDS[bi].quota){ picks[bi].push(ci); renderBoards(); }
+    return;
+  }
+  const chip = e.target.closest('.chip');
+  if(chip){
+    picks[+chip.dataset.del].splice(+chip.dataset.k, 1);
+    renderBoards();
+  }
+});
+
+$('btnClearPick').addEventListener('click', ()=>{
+  picks.forEach(p=>p.length=0);
+  renderBoards();
+});
+
+/* ═══════════════════════════════════════════════════════════
+   ⑤ 階段二：排算式 + 倒數
+   ═══════════════════════════════════════════════════════════ */
+$('btnStart').addEventListener('click', ()=>{
+  // 把投中的格子攤成七張牌
+  hand = [];
+  BOARDS.forEach((b,bi)=>{
+    picks[bi].forEach(ci=>{
+      hand.push({ id:hand.length, kind:b.kind, val:b.cells[ci] });
+    });
+  });
+  placed = SLOT_KIND.map(()=>null);
+  locked = false;
+
+  const typed = $('teamName').value.trim();
+  teamLabel = typed || ('第 '+(loadRank().length+1)+' 組');
+
+  $('playTeam').textContent = teamLabel;
+  $('stagePick').classList.add('hide');
+  $('stageDone').classList.add('hide');
+  $('stagePlay').classList.remove('hide');
+  renderPlay();
+  startTimer();
+  window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+function renderPlay(){
+  $('expr').innerHTML = SLOT_KIND.map((k,si)=>{
+    const id = placed[si];
+    const card = id===null ? null : hand[id];
+    return '<button class="slot slot--'+k+' '+(card?'slot--filled':'slot--empty')+'"'
+      + ' data-s="'+si+'"'+(locked?' disabled':'')
+      + ' aria-label="'+(card?'第 '+(si+1)+' 格是 '+card.val+'，點一下收回':'第 '+(si+1)+' 格還是空的')+'">'
+      + (card?card.val:'') + '</button>';
+  }).join('');
+
+  const group = kind => hand.filter(c=>c.kind===kind).map(c=>{
+    const used = placed.indexOf(c.id) !== -1;
+    return '<button class="card'+(kind==='op'?' card--op':'')+'" data-h="'+c.id+'"'
+      + (used||locked?' disabled':'')+'>'+c.val+'</button>';
+  }).join('');
+  $('hand').innerHTML =
+      '<div class="hand__group"><span class="hand__lb">數字</span>'+group('num')+'</div>'
+    + '<div class="hand__group"><span class="hand__lb">符號</span>'+group('op')+'</div>';
+
+  const full = placed.every(x=>x!==null);
+  $('btnSubmit').disabled = !full || locked;
+  $('playHint').textContent = locked ? '時間到' :
+    (full ? '排好了，確定就送出' : '還有 '+placed.filter(x=>x===null).length+' 格沒填');
+}
+
+$('expr').addEventListener('click', e=>{
+  const s = e.target.closest('.slot');
+  if(!s || locked) return;
+  placed[+s.dataset.s] = null;
+  renderPlay();
+});
+
+$('hand').addEventListener('click', e=>{
+  const c = e.target.closest('.card');
+  if(!c || locked) return;
+  const card = hand[+c.dataset.h];
+  if(placed.indexOf(card.id) !== -1) return;
+  const at = SLOT_KIND.findIndex((k,i)=> k===card.kind && placed[i]===null);
+  if(at === -1) return;
+  placed[at] = card.id;
+  renderPlay();
+});
+
+$('btnReset').addEventListener('click', ()=>{
+  if(locked) return;
+  placed = SLOT_KIND.map(()=>null);
+  renderPlay();
+});
+
+function startTimer(){
+  deadline = Date.now() + LIMIT_SEC*1000;
+  clearInterval(ticker);
+  ticker = setInterval(tick, 100);
+  tick();
+}
+function tick(){
+  const left = Math.max(0, deadline - Date.now());
+  const sec  = Math.ceil(left/1000);
+  $('timeText').textContent = Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');
+  $('timeFill').style.width = (left/(LIMIT_SEC*1000)*100)+'%';
+  $('timer').classList.toggle('timer--warn', left<=10000);
+  if(left<=0) timeUp();
+}
+function stopTimer(){ clearInterval(ticker); ticker=null; }
+function usedSec(){ return Math.min(LIMIT_SEC, Math.round(LIMIT_SEC - (deadline-Date.now())/1000)); }
+
+function timeUp(){
+  stopTimer();
+  locked = true;
+  renderPlay();
+  finish(null, '時間到，沒有送出', LIMIT_SEC);
+}
+
+$('btnSubmit').addEventListener('click', ()=>{
+  if(locked) return;
+  const tokens = placed.map(id=>hand[id].val);
+  const score  = evaluate(tokens);
+  if(!score){
+    // 只有「除以 0」會走到這裡，不罰時間，讓他們改
+    $('playHint').textContent = '這樣不能算（不能除以 0），換個排法';
+    return;
+  }
+  const t = usedSec();
+  stopTimer();
+  locked = true;
+  renderPlay();
+  finish(score, tokens.join(' '), t);
+});
+
+/* ═══════════════════════════════════════════════════════════
+   ⑥ 階段三：公布 + 入榜
+   ═══════════════════════════════════════════════════════════ */
+function finish(score, exprText, sec){
+  const zero = !score;
+  const rows = loadRank();
+  const prevBest = rows.length ? rows[0] : null;
+  const isBest = !zero && (!prevBest || rCmp(score, prevBest.score) > 0);
+
+  saveRank({
+    team: teamLabel,
+    expr: exprText,
+    score: score || R(0),
+    zero: zero,
+    sec: sec,
+    at: Date.now()
+  });
+
+  $('result').className = 'result' + (zero?' result--zero':'');
+  $('result').innerHTML =
+      '<div class="result__lb">'+teamLabel+'</div>'
+    + '<div class="result__expr">'+ (zero ? '⏰ 時間到' : exprText + ' =') +'</div>'
+    + '<div class="result__score">'+ (zero ? '0' : rText(score)) +'</div>'
+    + '<p class="result__sub">'+ (zero
+        ? '時間到還沒送出，這一輪記 0 分'
+        : '用了 '+Math.floor(sec/60)+' 分 '+(sec%60)+' 秒') +'</p>'
+    + (isBest ? '<div class="result__best">🎉 目前最高分！</div>' : '');
+
+  $('stagePlay').classList.add('hide');
+  $('stageDone').classList.remove('hide');
+  renderRank();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+$('btnNext').addEventListener('click', ()=>{
+  picks.forEach(p=>p.length=0);
+  $('teamName').value = '';
+  $('stageDone').classList.add('hide');
+  $('stagePick').classList.remove('hide');
+  renderBoards();
+  window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+/* ═══════════════════════════════════════════════════════════
+   ⑦ 排行榜
+   ═══════════════════════════════════════════════════════════ */
+/* 排行榜以「記憶體這一份」為準，localStorage 只是拿來跨場次留著。
+   有些情況存不進去（無痕視窗、瀏覽器擋了本機儲存⋯⋯），
+   那就只是重新整理後會不見，當場的比賽照樣跑得動。 */
+let rankCache = null;
+let storageOK = true;
+
+function loadRank(){
+  if(rankCache) return rankCache;
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    const rows = raw ? JSON.parse(raw) : [];
+    rankCache = Array.isArray(rows) ? rows : [];
+  }catch(e){ storageOK = false; rankCache = []; }
+  return rankCache;
+}
+function saveRank(row){
+  const rows = loadRank().slice();
+  rows.push(row);
+  // 分數高的在前；同分的話用時短的在前
+  rows.sort((a,b)=>{
+    const d = rCmp(b.score, a.score);
+    return d !== 0 ? d : a.sec - b.sec;
+  });
+  rankCache = rows.slice(0,KEEP);
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(rankCache)); }
+  catch(e){ storageOK = false; }
+}
+function renderRank(){
+  const rows = loadRank();
+  const warn = storageOK ? '' :
+    '<div class="note note--warn" style="margin:0 0 .9rem"><p>⚠️ 這台電腦（或這個視窗）<b>不能儲存紀錄</b>，'
+    + '排行榜只留到重新整理為止。比賽照樣可以跑，但成績記得先抄下來。</p></div>';
+  if(!rows.length){
+    $('rankWrap').innerHTML = warn + '<div class="empty">還沒有任何紀錄。跑完第一組就會出現在這裡。</div>';
+    return;
+  }
+  $('rankWrap').innerHTML = warn + '<table class="rank">'
+    + '<tr><th>名次</th><th>組別</th><th>算式</th><th style="text-align:right">分數</th><th style="text-align:right">用時</th></tr>'
+    + rows.map((r,i)=>
+        '<tr class="'+(r.zero?'rank--zero':'')+'">'
+      + '<td class="rank__n">'+(i+1)+'</td>'
+      + '<td class="rank__team">'+esc(r.team)+'</td>'
+      + '<td class="rank__expr">'+(r.zero?'（時間到）':esc(r.expr))+'</td>'
+      + '<td class="rank__sc">'+(r.zero?'0':rText(r.score))+'</td>'
+      + '<td class="rank__t">'+Math.floor(r.sec/60)+':'+String(r.sec%60).padStart(2,'0')+'</td>'
+      + '</tr>').join('')
+    + '</table>';
+}
+function esc(s){
+  return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+$('btnClearRank').addEventListener('click', ()=>{
+  if(!loadRank().length) return;
+  if(!confirm('把排行榜上所有紀錄都刪掉？刪了救不回來。')) return;
+  rankCache = [];
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){ storageOK = false; }
+  renderRank();
+});
+
+/* 開場 */
+renderBoards();
+renderRank();
+</script>
+</body>
+</html>
