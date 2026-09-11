@@ -970,8 +970,9 @@ document.querySelectorAll('.fnkeys').forEach(box => {
   const say  = box.querySelector('.kbd__say');
   const keys = kbd ? [...kbd.querySelectorAll('.kk[data-k]')] : [];
 
-  const show = hit => {
-    tabs.forEach(t  => t.setAttribute('aria-pressed', t.dataset.hit === hit ? 'true' : 'false'));
+  const show = tab => {
+    const hit = tab.dataset.hit;
+    tabs.forEach(t  => t.setAttribute('aria-pressed', t === tab ? 'true' : 'false'));
     panes.forEach(p => p.classList.toggle('on', p.dataset.for === hit));
 
     if (!kbd) return;
@@ -983,11 +984,15 @@ document.querySelectorAll('.fnkeys').forEach(box => {
     const want = hit.split(/\s+/);
     keys.forEach(k => k.classList.toggle('kk--hit', want.includes(k.dataset.k)));
 
-    /* 手機上鍵盤是橫向捲的，被點名的鍵可能在畫面外 —— 捲過去給他看 */
+    /* 手機上鍵盤是橫向捲的，被點名的鍵可能在畫面外 —— 捲過去給他看。
+       組合鍵（Shift ＋ 1）優先對準「另外那一顆」：Shift、Ctrl 學生本來就找得到，
+       真正會迷路的是搭配的那顆。 */
     const wrap = box.querySelector('.kbdwrap');
-    const first = keys.find(k => want.includes(k.dataset.k));
-    if (wrap && first && wrap.scrollWidth > wrap.clientWidth) {
-      const kr = first.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+    const MOD = ['shift', 'ctrl', 'alt'];
+    const lit = keys.filter(k => want.includes(k.dataset.k));
+    const aim = lit.find(k => !MOD.includes(k.dataset.k)) || lit[0];
+    if (wrap && aim && wrap.scrollWidth > wrap.clientWidth) {
+      const kr = aim.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
       wrap.scrollLeft += (kr.left - wr.left) - (wr.width - kr.width) / 2;
     }
 
@@ -996,20 +1001,22 @@ document.querySelectorAll('.fnkeys').forEach(box => {
     if (say) {
       const n = keys.filter(k => want.includes(k.dataset.k)).length;
       say.classList.add('on');
-      say.innerHTML = '<b>看鍵盤</b>橘色那' +
-        (n > 1 ? '<strong>' + n + '</strong>顆就是它，' : '一顆就是它，') +
-        '在自己的鍵盤上也找一次。';
+      /* 組合鍵那種「要按哪兩顆」說不清楚，就讓按鈕自己帶 data-say 講 */
+      say.innerHTML = tab.dataset.say
+        ? '<b>怎麼按</b>' + tab.dataset.say
+        : '<b>看鍵盤</b>橘色那' + (n > 1 ? '<strong>' + n + '</strong>顆' : '一顆') +
+          '就是它，在自己的鍵盤上也找一次。';
     }
   };
 
-  tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.hit)));
+  tabs.forEach(t => t.addEventListener('click', () => show(t)));
 
   /* 學生自己去點鍵盤上的鍵時，把導覽的高亮讓開，免得兩種顏色打架 */
   if (kbd) kbd.querySelectorAll('.kk[data-say]').forEach(k =>
     k.addEventListener('click', () =>
       kbd.querySelectorAll('.kk--hit').forEach(o => o.classList.remove('kk--hit'))));
 
-  show(tabs[0].dataset.hit);          // 一進來就先亮第一顆，畫面不會空著
+  show(tabs[0]);                      // 一進來就先亮第一顆，畫面不會空著
 });
 
 })();

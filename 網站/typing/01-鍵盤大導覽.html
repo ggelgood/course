@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/typing.css?v=13">
+<link rel="stylesheet" href="../assets/typing.css?v=14">
 </head>
 <body>
 
@@ -216,7 +216,7 @@
           <div class="kzone kzone--main" data-z="main">
             <div class="krow">
               <b class="kk">`</b>
-              <b class="kk">1</b><b class="kk">2</b><b class="kk">3</b><b class="kk">4</b><b class="kk">5</b>
+              <b class="kk" data-k="n1">1</b><b class="kk" data-k="n2">2</b><b class="kk">3</b><b class="kk">4</b><b class="kk" data-k="n5">5</b>
               <b class="kk">6</b><b class="kk">7</b><b class="kk">8</b><b class="kk">9</b><b class="kk">0</b>
               <b class="kk">-</b><b class="kk">=</b>
               <button class="kk kk--star kk--txt" style="--w:2" data-k="back" data-name="Backspace" data-say="刪掉游標<strong>左邊</strong>的字。">⌫ Backspace</button>
@@ -238,7 +238,7 @@
               <button class="kk kk--star" style="--w:2.25" data-k="shift" data-name="Shift" data-say="①按住它再按別的鍵，會打出那顆鍵<strong>上面那個</strong>符號。②打英文會變<strong>大寫</strong>。③按一下會<strong>切換中文／英文</strong>。">⇧ Shift</button>
               <b class="kk">Z</b><b class="kk">X</b><b class="kk">C</b><b class="kk">V</b><b class="kk">B</b>
               <b class="kk">N</b><b class="kk">M</b>
-              <b class="kk">,</b><b class="kk">.</b><b class="kk">/</b>
+              <b class="kk" data-k="comma">,</b><b class="kk" data-k="period">.</b><b class="kk" data-k="slash">/</b>
               <b class="kk" style="--w:2.75" data-k="shift">⇧ Shift</b>
             </div>
             <div class="krow">
@@ -383,19 +383,7 @@
     <div class="kbdbox" data-copy="main"></div>
   </div>
 
-  <div class="sos">
-    <h3>⚠️ 兩件很容易搞錯的事</h3>
-    <ul>
-      <li><strong>組合鍵要「按住」</strong>：按住 Shift <strong>不要放</strong> → 再按另一顆 →
-        兩顆一起放開。先按一下 Shift 就放開，再按另一顆，是<strong>沒有用</strong>的。
-        Ctrl 和 Alt 也一樣。</li>
-      <li><strong>Shift 按一下（不配別的鍵）會換輸入法</strong>：
-        本來在打注音，突然變成打英文，多半就是不小心按到它。
-        <strong>再按一下就換回來。</strong></li>
-    </ul>
-  </div>
-
-  <h3>順便看一下：鍵盤上印了兩層符號</h3>
+  <h3>鍵盤上還印了第二層符號</h3>
 
   <p>低頭看數字那一排。每一顆鍵上面其實印了<strong>兩個東西</strong>：
   下面是數字，上面還多一個<strong>符號</strong>。</p>
@@ -418,34 +406,157 @@
   </div>
 
   <p>規則很簡單：<strong>直接按</strong>，出來的是<strong>下面</strong>那個；
-  想打<strong>上面</strong>那個，就得<strong>再加一顆鍵</strong>幫忙 ——
-  剛剛在功能鍵那裡才學過是哪一顆。</p>
+  想打<strong>上面</strong>那個，就得<strong>再加一顆鍵</strong>幫忙。</p>
 
   <p>但是<strong>再找找看</strong>：你寫作文天天在用的中文標點
   <strong>「，」</strong>和<strong>「。」</strong>，印在哪一顆鍵上？
   上面那三顆最像的（逗號、句號、斜線），印的是 <b>&lt;</b>、<b>&gt;</b>、<b>?</b>，
-  都不是中文標點。</p>
+  <strong>整個鍵盤都找不到中文標點。</strong></p>
 
-  <p><strong>整個鍵盤都找不到中文標點 —— 那它們到底要怎麼打出來？</strong>
-  下面就來試一次。</p>
+  <h3>所以特殊符號有兩種打法</h3>
+
+  <p>一種給<strong>鍵上有印</strong>的符號，一種給<strong>鍵上沒印</strong>的中文標點：</p>
+
+  <div class="vs">
+    <div class="vs__c vs__c--a">
+      <h4>① Shift ＋ 鍵</h4>
+      <p>打出<strong>鍵上面印的</strong>那個符號。</p>
+      <p>Shift ＋ <span class="vs__key">1</span> → <strong>!</strong><br>
+      Shift ＋ <span class="vs__key">2</span> → <strong>@</strong><br>
+      Shift ＋ <span class="vs__key">5</span> → <strong>%</strong><br>
+      Shift ＋ <span class="vs__key">/</span> → <strong>?</strong></p>
+      <p><strong>看得到，就打得出來。</strong>鍵上有印的符號都用這種。</p>
+    </div>
+    <div class="vs__c vs__c--b">
+      <h4>② Ctrl ＋ 鍵</h4>
+      <p>打出<strong>中文的標點</strong>。</p>
+      <p>Ctrl ＋ <span class="vs__key">,</span> → <strong>，</strong><br>
+      Ctrl ＋ <span class="vs__key">.</span> → <strong>。</strong></p>
+      <p>鍵盤上<strong>根本沒印</strong>中文標點，所以只能用這種。</p>
+    </div>
+  </div>
+
+  <p>判斷方法很簡單：<strong>先看鍵盤上有沒有印</strong>。
+  印在鍵上面的用 <strong>Shift</strong>，鍵盤上找不到的中文標點用 <strong>Ctrl</strong>。</p>
+
+  <h3>這幾顆鍵到底在哪裡？</h3>
+
+  <p>知道方法還不夠 —— 很多人卡在<strong>找不到那顆鍵</strong>。
+  <strong>點下面的符號，鍵盤上會把要按的兩顆一起亮起來</strong>，
+  等一下練習就照著按。</p>
+
+  <div class="fnkeys fnkeys--sym">
+    <div class="fnkeys__tabs">
+      <button class="fnkey" data-hit="shift n1"     data-say="按住 <strong>Shift</strong>，再按數字 <strong>1</strong>。">!</button>
+      <button class="fnkey" data-hit="shift n2"     data-say="按住 <strong>Shift</strong>，再按數字 <strong>2</strong>。">@</button>
+      <button class="fnkey" data-hit="shift n5"     data-say="按住 <strong>Shift</strong>，再按數字 <strong>5</strong>。">%</button>
+      <button class="fnkey" data-hit="shift slash"  data-say="按住 <strong>Shift</strong>，再按右下角的 <strong>/</strong>。">?</button>
+      <button class="fnkey" data-hit="ctrl comma"   data-say="按住 <strong>Ctrl</strong>，再按<strong>逗號</strong>鍵。">，</button>
+      <button class="fnkey" data-hit="ctrl period"  data-say="按住 <strong>Ctrl</strong>，再按<strong>句號</strong>鍵。">。</button>
+    </div>
+
+    <div class="fnkeys__panes">
+      <div class="fnpane" data-for="shift n1">
+        <h4>驚嘆號 <span class="fnpane__big">!</span></h4>
+        <p><b>怎麼打：</b>按住 <span class="vs__key">Shift</span> 不放 → 按數字
+        <span class="vs__key">1</span> → 一起放開。</p>
+        <p><b>為什麼：</b>它<strong>印在 1 的上面</strong>，是第二層的符號。</p>
+      </div>
+
+      <div class="fnpane" data-for="shift n2">
+        <h4>小老鼠 <span class="fnpane__big">@</span></h4>
+        <p><b>怎麼打：</b>按住 <span class="vs__key">Shift</span> 不放 → 按數字
+        <span class="vs__key">2</span> → 一起放開。</p>
+        <p><b>用在哪：</b>電子郵件地址中間那一個就是它，
+        例如 <strong>abc@mail.com</strong>。</p>
+      </div>
+
+      <div class="fnpane" data-for="shift n5">
+        <h4>百分比 <span class="fnpane__big">%</span></h4>
+        <p><b>怎麼打：</b>按住 <span class="vs__key">Shift</span> 不放 → 按數字
+        <span class="vs__key">5</span> → 一起放開。</p>
+        <p><b>用在哪：</b>數學課的百分比，例如 <strong>75%</strong>。</p>
+      </div>
+
+      <div class="fnpane" data-for="shift slash">
+        <h4>問號 <span class="fnpane__big">?</span></h4>
+        <p><b>怎麼打：</b>按住 <span class="vs__key">Shift</span> 不放 → 按
+        <span class="vs__key">/</span>（在右下角，Shift 的左邊）→ 一起放開。</p>
+        <p><b>小心：</b>不按 Shift 直接按，只會打出 <strong>/</strong>。</p>
+      </div>
+
+      <div class="fnpane" data-for="ctrl comma">
+        <h4>中文逗號 <span class="fnpane__big">，</span></h4>
+        <p><b>怎麼打：</b>按住 <span class="vs__key">Ctrl</span> 不放 → 按
+        <span class="vs__key">,</span>（在 M 的右邊）→ 一起放開。</p>
+        <p><b>為什麼不是 Shift：</b>鍵盤上<strong>根本沒印</strong>中文逗號，
+        Shift 打出來的是 <strong>&lt;</strong>。</p>
+      </div>
+
+      <div class="fnpane" data-for="ctrl period">
+        <h4>中文句號 <span class="fnpane__big">。</span></h4>
+        <p><b>怎麼打：</b>按住 <span class="vs__key">Ctrl</span> 不放 → 按
+        <span class="vs__key">.</span>（逗號的右邊）→ 一起放開。</p>
+        <p><b>認一下：</b>中文句號是<strong>一個小圈圈</strong>，
+        英文句號是<strong>一個小點</strong>，不一樣。</p>
+      </div>
+    </div>
+
+    <div class="kbdbox" data-copy="main"></div>
+  </div>
+
+  <div class="sos">
+    <h3>⚠️ 打不出來？四個最常見的原因</h3>
+    <ul>
+      <li><strong>組合鍵要「按住」</strong>：按住 Shift <strong>不要放</strong> → 再按另一顆 →
+        兩顆一起放開。先按一下 Shift 就放開，再按另一顆，是<strong>沒有用</strong>的。
+        Ctrl 也一樣。</li>
+      <li><strong>Shift 按一下（不配別的鍵）會換輸入法</strong>：
+        本來在打注音，突然變成打英文，多半就是不小心按到它。
+        <strong>再按一下就換回來。</strong></li>
+      <li><strong>打出 ㄅㄆㄇ 而不是符號</strong>：那是注音組字中，
+        打完<strong>按一下空白鍵或 Enter</strong> 就會變成符號。</li>
+      <li><strong>中文標點打成英文的</strong>：打出來是細細的
+        <span class="k">,</span> <span class="k">.</span> 就是按錯了，
+        要用 <strong>Ctrl ＋ ,</strong> 和 <strong>Ctrl ＋ .</strong>。</li>
+    </ul>
+  </div>
 
   <h3>換你試試看：把這些符號打出來</h3>
 
   <p>下面每一格都要你<strong>真的打一次</strong>。
-  前兩個是<strong>鍵盤上印得出來</strong>的符號，
-  後兩個是<strong>中文的標點</strong>，鍵盤上沒有印，要用另一種方法才打得出來。</p>
+  前四個是<strong>鍵盤上印得出來</strong>的符號，用 <strong>Shift</strong>；
+  後兩個是<strong>中文的標點</strong>，鍵盤上沒有印，要用 <strong>Ctrl</strong>。
+  <small>忘記鍵在哪，回到上面那張鍵盤點一下。</small></p>
 
-  <div class="symtest" data-done="🎉 全部答對！你剛剛用了<b>兩種不同的方法</b> —— 往下看就知道差在哪。">
+  <div class="symtest" data-done="🎉 六格全對！Shift 和 Ctrl 你都分得清楚了。">
     <p class="predict__hint" style="margin:0">
       在右邊的白框裡，打出左邊那個符號。
       <strong>打對了會出現 ✓</strong>，並告訴你答案是哪幾顆鍵。
+      前四格中文英文的符號都算對，因為它們是在練 Shift，不是在練標點。
     </p>
 
     <div class="symgrid">
       <label class="sym" data-want="!" data-key="Shift ＋ 1"
-             data-miss="這個符號<b>印在數字鍵的上面</b>，要<b>按住 Shift</b> 再按那顆鍵。">
+             data-miss="這個符號<b>印在數字 1 的上面</b>，要<b>按住 Shift</b> 再按那顆鍵。">
         <span class="sym__want">!</span>
         <input type="text" maxlength="4" aria-label="打出驚嘆號">
+        <span class="sym__mark"></span>
+        <p class="sym__say"></p>
+      </label>
+
+      <label class="sym" data-want="@" data-key="Shift ＋ 2"
+             data-miss="小老鼠<b>印在數字 2 的上面</b>，要<b>按住 Shift</b> 再按 2。只按 2 會出現數字。">
+        <span class="sym__want">@</span>
+        <input type="text" maxlength="4" aria-label="打出小老鼠符號">
+        <span class="sym__mark"></span>
+        <p class="sym__say"></p>
+      </label>
+
+      <label class="sym" data-want="%" data-key="Shift ＋ 5"
+             data-miss="百分比<b>印在數字 5 的上面</b>，要<b>按住 Shift</b> 再按 5。只按 5 會出現數字。">
+        <span class="sym__want">%</span>
+        <input type="text" maxlength="4" aria-label="打出百分比符號">
         <span class="sym__mark"></span>
         <p class="sym__say"></p>
       </label>
@@ -476,45 +587,6 @@
     </div>
 
     <p class="symtest__score"></p>
-  </div>
-
-  <h3>特殊符號有兩種打法</h3>
-
-  <p>剛剛那四格，其實你用了<strong>兩種不同的方法</strong>。
-  還記得前面說 <strong>Ctrl 一定要配別的鍵一起按</strong>嗎？
-  這就是它的第一個用法。</p>
-
-  <div class="vs">
-    <div class="vs__c vs__c--a">
-      <h4>① Shift ＋ 鍵</h4>
-      <p>打出<strong>鍵上面印的</strong>那個符號。</p>
-      <p>Shift ＋ <span class="vs__key">1</span> → <strong>!</strong><br>
-      Shift ＋ <span class="vs__key">/</span> → <strong>?</strong></p>
-      <p><strong>看得到，就打得出來。</strong>鍵上有印的符號都用這種。</p>
-    </div>
-    <div class="vs__c vs__c--b">
-      <h4>② Ctrl ＋ 鍵</h4>
-      <p>打出<strong>中文的標點</strong>。</p>
-      <p>Ctrl ＋ <span class="vs__key">,</span> → <strong>，</strong><br>
-      Ctrl ＋ <span class="vs__key">.</span> → <strong>。</strong></p>
-      <p>鍵盤上<strong>根本沒印</strong>中文標點，所以只能用這種。</p>
-    </div>
-  </div>
-
-  <p>所以判斷方法很簡單：<strong>先看鍵盤上有沒有印</strong>。
-  印在鍵上面的用 <strong>Shift</strong>，鍵盤上找不到的中文標點用 <strong>Ctrl</strong>。</p>
-
-  <div class="sos">
-    <h3>⚠️ 打不出來？先看是哪一種情況</h3>
-    <ul>
-      <li><strong>打出 ㄅㄆㄇ 而不是符號</strong>：那是注音組字中，
-        打完<strong>按一下空白鍵或 Enter</strong> 就會變成符號。</li>
-      <li><strong>中文標點那兩格一直是 ✗</strong>：你打出來的可能是<strong>英文</strong>的
-        <span class="k">,</span> <span class="k">.</span>。改用 <strong>Ctrl ＋ ,</strong>
-        和 <strong>Ctrl ＋ .</strong> 再試一次。</li>
-      <li><strong>驚嘆號和問號</strong>這兩格中文英文都算對，
-        因為它們是在練 Shift，不是在練標點。</li>
-    </ul>
   </div>
 
   <div class="predict" data-ans="c">
@@ -1042,6 +1114,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=5"></script>
-<script src="../assets/typing.js?v=13"></script>
+<script src="../assets/typing.js?v=14"></script>
 </body>
 </html>

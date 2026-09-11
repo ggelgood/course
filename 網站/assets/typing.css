@@ -1037,6 +1037,18 @@ kbd,.k{
 }
 .fnpane small{display:block;margin-top:.3rem;font-size:.86rem;opacity:.78}
 
+/* 符號版：按鈕上只有一個符號，字要大到一眼看得出是哪一個 */
+.fnkeys--sym .fnkey{
+  min-width:3.4rem;font-size:1.35rem;line-height:1;
+  padding:.45rem .9rem;font-family:var(--body);
+}
+.fnpane__big{
+  display:inline-grid;place-items:center;
+  width:1.9rem;height:1.9rem;margin-left:.15rem;
+  border-radius:8px;background:var(--accent);color:#fff;
+  font-family:var(--body);font-size:1.15rem;line-height:1;
+}
+
 /* 被導覽點名的那顆鍵：比 .kk.on（自己點鍵）再張揚一點，
    因為學生的眼睛要從上面的說明一路找到鍵盤上的位置。 */
 .kk--hit{
