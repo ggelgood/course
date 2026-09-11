@@ -945,4 +945,71 @@ document.querySelectorAll('.tally').forEach(box => {
   draw();
 });
 
+/* ── 元件 N：打字區功能鍵導覽 ───────────────────────────────
+   HTML：<div class="fnkeys">
+           <div class="fnkeys__tabs">
+             <button class="fnkey" data-hit="ctrl alt">Ctrl 和 Alt</button>
+           </div>
+           <div class="fnkeys__panes">
+             <div class="fnpane" data-for="ctrl alt">…</div>
+           </div>
+           <div class="kbdbox" data-copy="main"></div>
+         </div>
+
+   data-hit 是一串（空白分隔）鍵代號，對應鍵盤上的 .kk[data-k]。
+   Shift、Ctrl、Alt 左右各有一顆，所以是「全部符合的都點亮」。
+
+   ⚠️ 這一段一定要在檔案最上面那個「複製鍵盤圖」的 IIFE 之後才跑，
+      不然 .kbdbox[data-copy] 還是空的，querySelectorAll 會抓不到鍵。*/
+document.querySelectorAll('.fnkeys').forEach(box => {
+  const tabs  = [...box.querySelectorAll('.fnkey')];
+  const panes = [...box.querySelectorAll('.fnpane')];
+  const kbd   = box.querySelector('.kbd');
+  if (!tabs.length) return;
+
+  const say  = box.querySelector('.kbd__say');
+  const keys = kbd ? [...kbd.querySelectorAll('.kk[data-k]')] : [];
+
+  const show = hit => {
+    tabs.forEach(t  => t.setAttribute('aria-pressed', t.dataset.hit === hit ? 'true' : 'false'));
+    panes.forEach(p => p.classList.toggle('on', p.dataset.for === hit));
+
+    if (!kbd) return;
+    /* 導覽時固定看打字區，其他區暗下去，眼睛才不會被拉走 */
+    kbd.dataset.zone = 'main';
+    box.querySelectorAll('.ktab').forEach(t =>
+      t.setAttribute('aria-pressed', t.dataset.go === 'main' ? 'true' : 'false'));
+
+    const want = hit.split(/\s+/);
+    keys.forEach(k => k.classList.toggle('kk--hit', want.includes(k.dataset.k)));
+
+    /* 手機上鍵盤是橫向捲的，被點名的鍵可能在畫面外 —— 捲過去給他看 */
+    const wrap = box.querySelector('.kbdwrap');
+    const first = keys.find(k => want.includes(k.dataset.k));
+    if (wrap && first && wrap.scrollWidth > wrap.clientWidth) {
+      const kr = first.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+      wrap.scrollLeft += (kr.left - wr.left) - (wr.width - kr.width) / 2;
+    }
+
+    /* 說明列讓給導覽用，同時把學生自己點鍵留下的高亮清掉 */
+    kbd.querySelectorAll('.kk.on').forEach(k => k.classList.remove('on'));
+    if (say) {
+      const n = keys.filter(k => want.includes(k.dataset.k)).length;
+      say.classList.add('on');
+      say.innerHTML = '<b>看鍵盤</b>橘色那' +
+        (n > 1 ? '<strong>' + n + '</strong>顆就是它，' : '一顆就是它，') +
+        '在自己的鍵盤上也找一次。';
+    }
+  };
+
+  tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.hit)));
+
+  /* 學生自己去點鍵盤上的鍵時，把導覽的高亮讓開，免得兩種顏色打架 */
+  if (kbd) kbd.querySelectorAll('.kk[data-say]').forEach(k =>
+    k.addEventListener('click', () =>
+      kbd.querySelectorAll('.kk--hit').forEach(o => o.classList.remove('kk--hit'))));
+
+  show(tabs[0].dataset.hit);          // 一進來就先亮第一顆，畫面不會空著
+});
+
 })();

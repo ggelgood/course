@@ -975,3 +975,102 @@ kbd,.k{
 @media (prefers-reduced-motion:reduce){
   .tally__bar i{transition:none}
 }
+
+/* ═══ 元件：時間軸的小圖 ════════════════════════════════════
+   每一格配一張圖，小學生看得到「機器長什麼樣」才有演化的感覺。
+   ⚠️ 圖還沒補齊時，<img onerror> 會把整個 .tline__pic 拿掉，
+      版面自動收合，不會留下破圖的方框。                      */
+.tline__pic{
+  margin:.6rem 0 .2rem;
+  border:3px solid var(--rule);border-radius:14px;
+  overflow:hidden;background:var(--ground-2);
+  max-width:22rem;
+}
+.tline__pic img{display:block;width:100%;height:auto}
+
+/* ═══ 元件：打字區功能鍵導覽 ════════════════════════════════
+   HTML：<div class="fnkeys">
+           <div class="fnkeys__tabs"><button class="fnkey" data-hit="shift">…</button></div>
+           <div class="fnkeys__panes"><div class="fnpane" data-for="shift">…</div></div>
+           <div class="kbdbox" data-copy="main"></div>
+         </div>
+
+   點上面的名字 → 說明換一張 → 底下那張鍵盤把對應的鍵點亮。
+   「介紹哪顆鍵，就看得到它在哪裡」，說明跟鍵盤不能分家。   */
+.fnkeys{
+  background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:1.3rem 1.4rem 1.5rem;margin:1.6rem 0;box-shadow:var(--shadow-md);
+}
+/* 這張鍵盤被框的內距擠掉約 56px，沿用外面的 --u 會剛好凸出去、
+   在框裡長出一條橫捲軸。縮一號讓它整台塞得進來。 */
+.fnkeys .kbd{--u:clamp(18px,3vw,36px)}
+.fnkeys .kbd__tabs{margin-top:1rem}
+
+.fnkeys__tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1rem}
+.fnkey{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.92rem;
+  cursor:pointer;padding:.5rem 1.05rem;border-radius:999px;
+  border:2.5px solid var(--rule);background:var(--ground);color:var(--ink-soft);
+  box-shadow:var(--shadow-sm);transition:.15s;
+}
+.fnkey:hover{border-color:var(--accent);color:var(--ink)}
+.fnkey[aria-pressed="true"]{
+  background:var(--accent);border-color:var(--accent);color:#fff;
+  transform:translateY(-1px);
+}
+
+/* 說明面板：同一時間只顯示一張，高度自己撐 */
+.fnpane{display:none}
+.fnpane.on{display:block;animation:fnfade .22s ease-out}
+@keyframes fnfade{from{opacity:0;transform:translateY(.35rem)}to{opacity:1;transform:none}}
+.fnpane h4{
+  font-family:var(--display);font-weight:600;font-size:1.15rem;
+  margin:0 0 .5rem;color:var(--accent);
+}
+.fnpane p{margin:.45rem 0;font-size:.96rem;max-width:none}
+.fnpane p>b:first-child{
+  font-family:var(--display);font-weight:600;color:var(--ink-soft);
+  margin-right:.15rem;
+}
+.fnpane small{display:block;margin-top:.3rem;font-size:.86rem;opacity:.78}
+
+/* 被導覽點名的那顆鍵：比 .kk.on（自己點鍵）再張揚一點，
+   因為學生的眼睛要從上面的說明一路找到鍵盤上的位置。 */
+.kk--hit{
+  background:var(--accent)!important;color:#fff!important;
+  box-shadow:0 .07em 0 #C4460A,0 0 0 .09em #FFBF00!important;
+  animation:kkpop .3s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes kkpop{from{transform:scale(.82)}to{transform:none}}
+
+/* ═══ 元件：一鍵兩符號的示意排 ══════════════════════════════
+   給「鍵盤上印了兩層符號」那一段用。真的把鍵面畫出來，
+   學生才會低頭去對照自己的鍵盤。                            */
+.dualkeys{
+  display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;
+  justify-content:center;margin:1.3rem 0;
+  padding:1rem .9rem;border-radius:16px;
+  background:linear-gradient(160deg,#3D2E22,#2B2119);
+  box-shadow:var(--shadow-md);
+}
+.dualkey{
+  width:2.9rem;height:3rem;flex:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem;
+  background:#FBF6EC;color:#2B2119;border-radius:6px;
+  box-shadow:0 3px 0 #BCA98C;
+  font-family:var(--body);line-height:1;
+}
+.dualkey i{font-style:normal;font-weight:700;font-size:1.05rem;color:var(--accent)}
+.dualkey b{font-weight:700;font-size:1.05rem}
+.dualkeys__gap{width:1.4rem;flex:none}
+
+@media (max-width:520px){
+  .dualkey{width:2.35rem;height:2.5rem}
+  .dualkey i,.dualkey b{font-size:.9rem}
+  .dualkeys__gap{width:100%;height:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .fnpane.on{animation:none}
+  .kk--hit{animation:none}
+}
