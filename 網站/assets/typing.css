@@ -984,9 +984,12 @@ kbd,.k{
   margin:.6rem 0 .2rem;
   border:3px solid var(--rule);border-radius:14px;
   overflow:hidden;background:var(--ground-2);
-  max-width:22rem;
+  width:max-content;max-width:min(22rem,100%);
 }
-.tline__pic img{display:block;width:100%;height:auto}
+/* ⚠️ 不要寫 width:100%：倉頡那張只有 300px 寬，撐滿框會糊掉。
+   讓小圖保持原尺寸，大圖才縮到 22rem。 */
+.tline__pic img{display:block;width:auto;max-width:100%;height:auto}
+.tline__it small{display:block;margin-top:.35rem;font-size:.85rem;opacity:.75}
 
 /* ═══ 元件：打字區功能鍵導覽 ════════════════════════════════
    HTML：<div class="fnkeys">
