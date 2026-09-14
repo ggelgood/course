@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=2">
+<link rel="stylesheet" href="../assets/arduino.css?v=4">
 </head>
 <body>
 
@@ -87,7 +87,7 @@
 
   <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">⚠️ <strong>不同模組的線色可能不一樣</strong>，紅／黑／黃是最常見的配色，但真正準的方法是<strong>看模組上印的 G、V、S</strong>，不是死背顏色。</p>
 
-  <p>剛剛如果你<strong>插歪一格</strong>，畫面會跳出紅色警告——那個狀況就是<strong>短路</strong>：電源（V）直接接到接地（G），中間<strong>沒有經過任何零件</strong>。電流會突然暴衝，板子或零件可能會發燙、冒煙、燒壞。</p>
+  <p>剛剛如果你<strong>插歪一格</strong>，畫面會跳出紅色警告——那個狀況就是<strong>短路</strong>：電源（V）直接接到接地（G），中間<strong>沒有經過任何零件</strong>。電流會突然暴衝。用 USB 供電的時候，<strong>板子和電腦通常會自己切斷電源保護</strong>，看起來像是「板子突然沒電」——但接點會發燙，而且換成外接電源供電時，就真的可能燒壞零件。</p>
 
   <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
     <h3>⚠️ 最容易短路的三個狀況</h3>
@@ -158,6 +158,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=5"></script>
-<script src="../assets/arduino.js?v=2"></script>
+<script src="../assets/arduino.js?v=4"></script>
 </body>
 </html>

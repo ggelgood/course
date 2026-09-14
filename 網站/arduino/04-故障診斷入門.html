@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=2">
+<link rel="stylesheet" href="../assets/arduino.css?v=4">
 </head>
 <body>
 
@@ -19,12 +19,12 @@
     <a class="backhome" href="../index.html">← 課程總覽</a>
     <span class="tag">Arduino 第 4 課 · 大約 1 節課</span>
     <h1>故障診斷<em>入門</em></h1>
-    <p class="lede">前三課都是「照著做就會成功」。今天反過來——<strong style="color:#FFBF00">先看清楚接錯線會發生什麼事</strong>，再學一套排查順序，讓你下次卡住不用每次都舉手等老師。</p>
+    <p class="lede">前三課都是「照著做就會成功」。今天反過來——<strong style="color:#FFBF00">先看清楚接錯線會發生什麼事</strong>（在畫面上模擬，不用燒壞零件），再學一套排查順序，讓你下次卡住不用每次都舉手等老師。</p>
 
     <div class="today">
       <div class="today__box">
         <h2>今天要看到什麼</h2>
-        <p><strong style="color:#FFBF00">老師會示範</strong>接反、短路實際發生的樣子——這段<strong>只看不做</strong>，你不用也不可以自己嘗試。</p>
+        <p>在畫面上<strong style="color:#FFBF00">模擬四種接法通電的結果</strong>——接對、接反、短路、插歪一格，板子的反應各是什麼。<strong>不用真的燒壞任何零件</strong>。</p>
       </div>
       <div class="today__box">
         <h2>今天要學會的事</h2>
@@ -43,7 +43,7 @@
 <!-- ── 1. 安全規則 ──────────────────── -->
 <section>
   <h2 class="h2"><b>1</b>先講清楚三條安全規則</h2>
-  <p>電路不是玩具，接錯線<strong style="color:#FF6B1A">真的會燒壞零件、發燙、冒煙</strong>。這學期接下來每一課都要守住這三條：</p>
+  <p>電路不是玩具。接錯線<strong style="color:#FF6B1A">輕則零件完全不動，重則發燙、燒壞</strong>——而且你事先不會知道會是哪一種。這學期接下來每一課都要守住這三條：</p>
 
   <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
     <h3>⚠️ 三條安全規則</h3>
@@ -55,33 +55,34 @@
   </div>
 </section>
 
-<!-- ── 2. 老師示範 ──────────────────── -->
+<!-- ── 2. 先看一次接錯的後果（模擬） ── -->
 <section>
-  <h2 class="h2"><b>2</b>親眼看一次：接錯線會怎樣</h2>
-  <p><strong style="color:#FF6B1A">接下來這段是老師示範，全班一起看，不是你自己動手做的部分。</strong></p>
+  <h2 class="h2"><b>2</b>先看一次：接錯線通電會怎樣</h2>
+  <p>真的把零件燒掉一顆當教材太可惜，所以改成在畫面上模擬。<strong style="color:#FF6B1A">四種接法每一種都按過一次</strong>，重點不是「會不會壞」，而是<strong>每一種錯，板子給你的反應長得不一樣</strong>——看懂反應，就知道該查哪裡。</p>
+
+  <div class="zapsim" data-zapsim></div>
 
   <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
-    <h3>💡 老師會示範兩件事</h3>
+    <h3>💡 四種接法，記住這兩個差別就好</h3>
     <ul>
-      <li><strong>正負極接反</strong>：把一顆要犧牲的 LED 模組故意接反，看實際會發生什麼。</li>
-      <li><strong>短路</strong>：把電源線和接地線直接接在一起，中間不經過任何零件。</li>
+      <li><strong>電源燈還亮著，只有模組沒反應</strong> —— 板子本身是好的，問題在模組那一端（接反、腳位不對）。</li>
+      <li><strong>電源燈熄掉或一直閃</strong> —— <strong style="color:#FF6B1A">V 和 G 碰在一起了</strong>（直接相碰，或整組插歪一格）。這時候要<strong>馬上拔掉 USB</strong>。</li>
     </ul>
   </div>
 
-  <figure class="shot shot--gif shot--key shot--wide">
-    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
-    <b class="shot__what">老師示範接反、短路的實際後果</b>
-    <p class="shot__how">錄下示範過程：接反的瞬間（可能發燙、冒一點煙或燒出痕跡）、短路的瞬間。全程只有老師的手在操作。約 10 秒。<b>這段影像本身就是最好的安全教材</b>，讓學生看過一次，警覺感會是真的。檔名 <code>ard-04-1-接錯示範.gif</code>。</p>
-    <div class="shot__box">🎞️</div>
-  </figure>
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ 為什麼多半不會冒煙？因為有東西在幫你擋</h3>
+    <p>短路的時候，<strong>電腦的 USB 埠和板子上的保護元件會自己切斷電源</strong>，所以你通常看到的是「板子突然沒電」，不是冒煙。<strong style="color:#FF6B1A">那是保護機制在救場，不是沒事。</strong></p>
+    <p>如果哪天改用<strong>外接電源</strong>（例如 9V 電池盒）來供電，就沒有電腦幫你擋了——同樣一個短路，那時候線材和零件是真的會燒壞的。所以規則不變：<strong>先接好、檢查過，才通電</strong>。</p>
+  </div>
 
   <div class="predict" data-ans="c">
-    <p class="predict__q">看完示範，如果你自己接線的時候不確定 V 和 G 有沒有接反，該怎麼辦？</p>
-    <p class="predict__hint">想想今天學的三條安全規則。</p>
+    <p class="predict__q">你自己接線的時候，不確定 V 和 G 有沒有接反，該怎麼辦？</p>
+    <p class="predict__hint">想想剛剛那三條安全規則。</p>
     <div class="picks">
-      <button class="pick" data-v="a" data-say="先通電看看會不會有反應，是最危險的做法——萬一真的接反，通電那一刻零件可能就壞了，沒有「先試試看」這個安全選項。">先通電試試看，壞了再說</button>
-      <button class="pick" data-v="b" data-say="不確定的時候更不應該自己亂猜線色，猜錯風險一樣高。">憑線的顏色猜一猜，應該不會錯</button>
-      <button class="pick" data-v="c" data-say="答對了！不確定的時候，通電前先舉手讓老師確認一次，這是最安全的做法，也是今天安全規則的精神——先確認過，才通電。">在還沒通電之前，先舉手請老師檢查</button>
+      <button class="pick" data-v="a" data-say="「先通電看看」是最危險的做法。剛剛模擬裡 LED 模組接反只是不亮，但有晶片的模組接反是會燒掉的——而你事先不會知道手上這個是哪一種。">先通電試試看，壞了再說</button>
+      <button class="pick" data-v="b" data-say="不確定的時候更不能猜線色。不同模組的線色本來就可能不一樣，猜錯的機率很高。">憑線的顏色猜一猜，應該不會錯</button>
+      <button class="pick" data-v="c" data-say="答對了！不確定就在通電前先舉手讓老師確認，這是最安全的做法，也是安全規則的精神——先確認過，才通電。">在還沒通電之前，先舉手請老師檢查</button>
     </div>
     <p class="said"></p>
   </div>
@@ -153,5 +154,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=5"></script>
+<script src="../assets/arduino.js?v=4"></script>
 </body>
 </html>

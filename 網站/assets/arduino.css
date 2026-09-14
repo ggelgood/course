@@ -99,6 +99,107 @@
   margin:.5rem 0 0; text-align:center; font-size:.76rem; color:var(--ink-soft); opacity:.9;
 }
 
+/* ═══ 元件 4：接錯線通電的後果（zapsim）════════════════════
+   狀態靠 .zapsim 上的 data-* 與 .is-live 切換，JS 只負責換
+   接線與文字，動畫全部寫在這裡。                            */
+.zapsim{
+  max-width:680px; margin:1.4rem auto; padding:1rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:16px;
+  box-shadow:var(--shadow-sm);
+}
+.zapsim__pick{display:flex; gap:.4rem; justify-content:center; flex-wrap:wrap; margin:0 0 .8rem}
+.zstab{
+  font-family:var(--body); font-size:.82rem; font-weight:700; cursor:pointer;
+  padding:.4rem .75rem; border-radius:999px; color:var(--ink-soft);
+  background:var(--ground-2); border:2px solid var(--rule);
+  transition:transform .12s, background .15s, color .15s;
+}
+.zstab:hover{transform:translateY(-2px)}
+.zstab.is-on{background:var(--ink); border-color:var(--ink); color:#FBF6EC}
+
+.zapsim__stage{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.zapsim__svg{display:block; width:100%; height:auto; border-radius:12px}
+@media (max-width:620px){ .zapsim__svg{min-width:560px} }
+
+/* 電腦、板子、模組 */
+.zs-mac{fill:#2B3038}
+.zs-screen{fill:#0E3B4D}
+.zs-pcb{fill:#0E3B4D; stroke:#0A2B38; stroke-width:2}
+.zs-silk{fill:#BBD7E2; font-family:var(--mono); font-size:12px; opacity:.8}
+.zs-rowlab{fill:#FBF6EC; font-family:var(--mono); font-weight:700; font-size:16px}
+.zs-strip{stroke:rgba(0,0,0,.35); stroke-width:1}
+.zs-mod{fill:#17422F; stroke:#0D2C1F; stroke-width:2}
+.zs-modname{fill:#9FC7B3; font-family:var(--body); font-size:12px}
+.zs-port{stroke:rgba(0,0,0,.4); stroke-width:1}
+.zs-wire{fill:none; stroke-width:5; stroke-linecap:round}
+.zs-air{stroke-dasharray:1 9; stroke-linecap:round}   /* 懸空沒插到的那條 */
+.zs-air-end{fill:#FF3B21}
+.zs-usb{fill:none; stroke:#8A8A8A; stroke-width:6; stroke-linecap:round}
+
+/* 沒通電：燈是暗的、線上沒有電流 */
+.zs-onled{fill:#1E3A2F; stroke:#0A2B38; stroke-width:1.5}
+.zs-led{fill:#3A3A3A; stroke:#0D2C1F; stroke-width:2}
+.zs-flow{stroke:#FFD36B; stroke-width:4; stroke-dasharray:6 12; opacity:0}
+.zs-hot, .zs-warn{opacity:0}
+.zs-hot-glow{fill:rgba(255,59,33,.35)}
+.zs-hot-core{fill:#FF3B21}
+.zs-warn rect{fill:#B2270E}
+.zs-warn text{fill:#fff; font-family:var(--body); font-size:14px; font-weight:700}
+
+/* ── 通電後 ── */
+.zapsim.is-live .zs-flow{opacity:1; animation:zsflow .7s linear infinite}
+@keyframes zsflow{to{stroke-dashoffset:-36}}
+
+/* 電源燈：正常亮綠；短路時閃兩下就熄 */
+.zapsim.is-live[data-power="on"] .zs-onled{fill:#2BD98A; stroke:#12A594}
+.zapsim.is-live[data-power="trip"] .zs-onled{animation:zstrip 1.6s ease-out forwards}
+@keyframes zstrip{
+  0%{fill:#2BD98A} 18%{fill:#2BD98A} 19%{fill:#1E3A2F} 34%{fill:#1E3A2F}
+  35%{fill:#2BD98A} 52%{fill:#2BD98A} 53%{fill:#1E3A2F} 100%{fill:#1E3A2F}
+}
+/* 短路時 USB 的電流也停掉，跟真實一樣是「被切斷」 */
+.zapsim.is-live[data-power="trip"] .zs-flow{animation:zsflow .7s linear infinite, zscut 1.6s ease-out forwards}
+@keyframes zscut{0%,50%{opacity:1} 60%,100%{opacity:0}}
+
+/* 模組的 LED：接對才閃 */
+.zapsim.is-live[data-led="blink"] .zs-led{fill:#FF5A4E; stroke:#B2270E; animation:zsblink 1s steps(1,end) infinite}
+@keyframes zsblink{0%,50%{opacity:1} 50.01%,100%{opacity:.18}}
+
+/* 發熱點與電腦警告 */
+.zapsim.is-live[data-hot="1"] .zs-hot{opacity:1; animation:zshot .9s ease-in-out infinite}
+@keyframes zshot{0%,100%{transform:scale(.8)} 50%{transform:scale(1.15)}}
+.zs-hot{transform-box:fill-box; transform-origin:center}
+.zapsim.is-live[data-power="trip"] .zs-warn{animation:zspop .4s .9s ease-out forwards}
+@keyframes zspop{from{opacity:0; transform:translateY(-6px)} to{opacity:1; transform:translateY(0)}}
+
+/* ── 結果說明 ── */
+.zapsim__out{margin:.9rem 0 0}
+.zapsim__idle{margin:0; text-align:center; font-size:.88rem; color:var(--ink-soft); font-weight:600}
+.zapsim__line{
+  margin:0 0 .5rem; padding:.55rem .8rem; border-radius:10px;
+  background:var(--ground-2); font-size:.88rem; line-height:1.75;
+}
+.zapsim__line b{
+  display:inline-block; margin-right:.5rem; padding:.1rem .5rem; border-radius:6px;
+  background:var(--ink); color:#FBF6EC; font-size:.76rem; font-weight:700;
+}
+.zapsim__line--do{background:var(--accent-soft)}
+.zapsim__line--do b{background:var(--accent)}
+
+@media (prefers-reduced-motion:reduce){
+  .zapsim.is-live .zs-flow,
+  .zapsim.is-live[data-led="blink"] .zs-led,
+  .zapsim.is-live[data-hot="1"] .zs-hot{animation:none}
+  .zapsim.is-live[data-power="trip"] .zs-onled{animation:none; fill:#1E3A2F}
+  .zapsim.is-live[data-power="trip"] .zs-warn{animation:none; opacity:1}
+}
+
+/* ═══ 元件 3：程式碼揭曉區的語言徽章 ════════════════════════
+   lesson.css 的 .pypeek 是給 Scratch／Python 課用的，徽章寫死
+   "Python"。這門課貼的是 Arduino 的 C++，加上 .pypeek--ino
+   就換成 Arduino 的字樣與配色。                              */
+.pypeek--ino>summary::before{content:"Arduino"; background:#00979D}
+
 /* ═══ 元件 2：擴展板插槽示意（純視覺，靜態圖）══════════════
    一排標好 V/G/S 的插槽圖，講解時用，不用互動。            */
 .shieldrow{
