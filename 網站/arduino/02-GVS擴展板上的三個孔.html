@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=6">
 </head>
 <body>
 
@@ -46,17 +46,18 @@
   <p>這學期你會接十幾種不同的零件——按鈕、旋鈕、蜂鳴器、馬達⋯⋯長得完全不一樣，但<strong style="color:#FF6B1A">接線的邏輯都一樣：三條線，各自負責一件事</strong>。</p>
 
   <div class="shieldrow">
-    <div class="shieldrow__slot"><b class="--v">V</b><small>電源</small></div>
     <div class="shieldrow__slot"><b class="--g">G</b><small>接地</small></div>
+    <div class="shieldrow__slot"><b class="--v">V</b><small>電源</small></div>
     <div class="shieldrow__slot"><b class="--s">S</b><small>訊號</small></div>
   </div>
+  <p style="text-align:center;font-size:.82rem;color:var(--ink-soft);margin:.2rem 0 0">板子上就是照這個順序印的：<b>G 在上、V 在中、S 在下</b></p>
 
   <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
     <h3>💡 GVS 是什麼</h3>
     <ul>
-      <li><strong style="color:#E5484D">V（電源）</strong>：給零件「電」，讓它有力氣工作。通常是紅色線。</li>
-      <li><strong>G（接地）</strong>：電要能「流回去」才會一直有電流通過，這條線就是回程的路。通常是黑色線。</li>
-      <li><strong style="color:#B58900">S（訊號）</strong>：零件跟板子之間「說話」用的線——零件把偵測到的東西告訴板子，或板子叫零件做什麼動作，都靠這條。通常是黃色或白色線。</li>
+      <li><strong style="color:#E5484D">V（電源）</strong>：給零件「電」，讓它有力氣工作。模組上印的是 <code>VCC</code>。</li>
+      <li><strong>G（接地）</strong>：電要能「流回去」才會一直有電流通過，這條線就是回程的路。模組上印的是 <code>GND</code>。</li>
+      <li><strong style="color:#B58900">S（訊號）</strong>：零件跟板子之間「說話」用的線——零件把偵測到的東西告訴板子，或板子叫零件做什麼動作，都靠這條。模組上印的是 <code>SIG</code>。</li>
     </ul>
   </div>
 
@@ -68,14 +69,20 @@
   <h2 class="h2"><b>2</b>擴展板上的插槽長什麼樣</h2>
   <p>看你的擴展板，會看到一整排一整排的插槽，<strong>每一排都印著 V、G、S 三個字母</strong>。模組的接頭要對齊字母插上去——<strong style="color:#FF6B1A">V 對 V、G 對 G、S 對 S</strong>，不能插歪一格。</p>
 
-  <figure class="shot shot--key">
-    <span class="shot__kind">📷 截圖 · 最重要</span>
-    <b class="shot__what">擴展板插槽的 V／G／S 標示特寫</b>
-    <p class="shot__how">近拍擴展板上任一排插槽，清楚看到印著的 V、G、S 三個字母，用顏色標註對應電源／接地／訊號。檔名 <code>ard-02-1-擴展板插槽標示.png</code>。</p>
-    <div class="shot__box">🖼️</div>
+  <figure class="shot shot--done shot--key">
+    <img src="../media/Arduino/ard-02-1-擴展板插槽標示.webp" alt="擴展板數位腳位區特寫，看得到 G、V、S 三個字母與黑、紅、白三排排針" loading="lazy">
+    <figcaption>每一組針的左邊都印著 <b>G、V、S</b>，而且三排的塑膠座還用顏色分好了：<b>黑＝G</b>、<b style="color:#C0392B">紅＝V</b>、<b>白＝S</b>。下面那排數字（8、9、10、11…）就是<b>腳位號碼</b>，等一下程式裡要寫的就是它。</figcaption>
   </figure>
 
-  <p>大部分模組會有一個<strong>三孔的接頭（一個小插座）</strong>，裡面三條線已經固定好順序，你只要用<strong>杜邦線</strong>把模組的三孔跟擴展板對應的三孔連起來就好。</p>
+  <p>模組那一端也是三支針，但上面印的<strong style="color:#FF6B1A">不是 G、V、S，而是 <code>GND</code>、<code>VCC</code>、<code>SIG</code></strong>——換個寫法而已，意思完全一樣：</p>
+
+  <div class="cheatgrid">
+    <div class="cheat"><b style="font-family:var(--mono);font-size:1.05rem">GND ＝ G</b><small>接地。GND 是 ground（地）的縮寫。</small></div>
+    <div class="cheat"><b style="font-family:var(--mono);font-size:1.05rem">VCC ＝ V</b><small>電源。模組上很少寫 V，幾乎都寫 VCC。</small></div>
+    <div class="cheat"><b style="font-family:var(--mono);font-size:1.05rem">SIG ＝ S</b><small>訊號。SIG 是 signal（訊號）的縮寫。</small></div>
+  </div>
+
+  <p>三條線已經固定在同一個接頭裡，你要做的是<strong>把接頭整個對準擴展板的三排插上去</strong>，讓 GND 對到 G、VCC 對到 V、SIG 對到 S。</p>
 </section>
 
 <!-- ── 3. 整組插對＋插錯的後果 ──────── -->
@@ -85,7 +92,7 @@
 
   <div class="plugsim" data-plugsim data-rows="G,V,S" data-pins="2,3,4,5,6,7,8"></div>
 
-  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">⚠️ <strong>不同模組的線色可能不一樣</strong>，紅／黑／黃是最常見的配色，但真正準的方法是<strong>看模組上印的 G、V、S</strong>，不是死背顏色。</p>
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">⚠️ <strong>線的顏色靠不住</strong>——上面畫的是最常見的配色，但<strong style="color:#FF6B1A">我們教室這套線是灰／紅／橘</strong>，別班的可能又不一樣。真正準的方法只有一個：<strong>看模組上印的 GND／VCC／SIG，對到板子上的 G／V／S</strong>。</p>
 
   <p>剛剛如果你<strong>插歪一格</strong>，畫面會跳出紅色警告——那個狀況就是<strong>短路</strong>：電源（V）直接接到接地（G），中間<strong>沒有經過任何零件</strong>。電流會突然暴衝。用 USB 供電的時候，<strong>板子和電腦通常會自己切斷電源保護</strong>，看起來像是「板子突然沒電」——但接點會發燙，而且換成外接電源供電時，就真的可能燒壞零件。</p>
 
@@ -123,17 +130,16 @@
     </div>
     <ol class="steps">
       <li>先<strong>拔掉 USB 線</strong>，確定板子沒有通電</li>
-      <li>拿一個模組（老師會給），找到它接頭上的 V、G、S（或看模組上印的字）</li>
+      <li>拿一個模組（老師會給），找到它針腳旁邊印的 <code>GND</code>、<code>VCC</code>、<code>SIG</code></li>
       <li>用杜邦線把模組接到擴展板<strong>任何一排</strong>插槽，記得對齊字母</li>
       <li>接好之後<strong>舉手給老師檢查一次</strong>，確認沒有插歪，再插 USB</li>
     </ol>
   </div>
 
-  <figure class="shot shot--gif">
-    <span class="shot__kind">🎬 GIF 動畫</span>
-    <b class="shot__what">杜邦線接好的樣子</b>
-    <p class="shot__how">拍手把模組的三孔接頭對齊擴展板插槽、慢慢插上去的過程。約 5 秒。檔名 <code>ard-02-2-接線示範.gif</code>。</p>
-    <div class="shot__box">🎞️</div>
+  <figure class="shot shot--done">
+    <video src="../media/Arduino/ard-02-2-接線示範.mp4" poster="../media/Arduino/ard-02-2-接線示範-封面.jpg"
+           controls loop muted playsinline preload="none"></video>
+    <figcaption>接線的完整過程（按 ▶ 播放）。注意看接頭是<b>整個一起插下去</b>的，不是一條一條接。</figcaption>
   </figure>
 </section>
 
@@ -158,6 +164,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=5"></script>
-<script src="../assets/arduino.js?v=4"></script>
+<script src="../assets/arduino.js?v=6"></script>
 </body>
 </html>

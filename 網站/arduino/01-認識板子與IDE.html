@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=6">
 </head>
 <body>
 
@@ -53,11 +53,9 @@
     </ul>
   </div>
 
-  <figure class="shot">
-    <span class="shot__kind">📷 截圖</span>
-    <b class="shot__what">UNO 疊上擴展板的樣子</b>
-    <p class="shot__how">拍整組板子（UNO＋Sensor Shield 疊好），標出「這是 UNO」「這是擴展板」兩個箭頭。檔名 <code>ard-01-1-板子外觀.png</code>。</p>
-    <div class="shot__box">🖼️</div>
+  <figure class="shot shot--done">
+    <img src="../media/Arduino/ard-01-1-板子外觀.webp" alt="Arduino UNO 疊上 Sensor Shield 擴展板的樣子" loading="lazy">
+    <figcaption>你桌上的就是這一組。<b>上面那塊</b>插滿彩色排針的是<b>擴展板</b>，<b>下面那塊</b>（看得到銀色 USB 接頭那個）才是 <b>UNO</b>。兩塊之間的針腳要對齊插緊，不能歪一邊。</figcaption>
   </figure>
 
   <p>先不用管擴展板上那些插槽——<strong>下一課</strong>才會正式教怎麼看。今天只要記得：<strong>兩塊板子疊在一起，中間的針腳要對齊插緊，不能歪一邊</strong>。</p>
@@ -82,11 +80,15 @@
     </ol>
   </div>
 
-  <figure class="shot shot--gif shot--key">
-    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
-    <b class="shot__what">從桌面圖示打開 IDE 到看見主畫面</b>
-    <p class="shot__how">桌面上的 Arduino IDE 圖示 → 連點兩下 → 等待載入 → 出現主畫面。約 6 秒。檔名 <code>ard-01-2-打開IDE.gif</code>。</p>
-    <div class="shot__box">🎞️</div>
+  <figure class="shot shot--done shot--key">
+    <video src="../media/Arduino/ard-01-2-打開IDE.mp4" poster="../media/Arduino/ard-01-2-打開IDE-封面.jpg"
+           controls loop muted playsinline preload="none"></video>
+    <figcaption>打開之後的主畫面（按 ▶ 播放）。<b>中間一大塊白色的</b>是等一下放程式碼的地方，<b>下面那塊黑色的</b>是「輸出」區。第一次打開會等比較久，<b>不要一直點</b>。</figcaption>
+  </figure>
+
+  <figure class="shot shot--done">
+    <img src="../media/Arduino/ard-01-4-4接線與選埠.webp" alt="教室電腦桌面上打開 Arduino IDE，板子用藍色 USB 線接在桌上" loading="lazy">
+    <figcaption>教室電腦打開 IDE 之後就是長這樣：<b>中間一大塊白色的</b>就是等一下要放程式碼的地方。桌上那塊板子等到第 4 節才接。</figcaption>
   </figure>
 
   <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
@@ -110,20 +112,18 @@
       <small>一個圓圈裡有箭頭的按鈕，按下去程式就會送進板子裡。</small>
     </div>
     <div class="cheat">
-      <b style="font-family:var(--display);font-size:1.05rem">下面黑色小視窗</b>
-      <small>上傳成功或失敗，訊息會出現在這裡。<strong>以後排查問題常常要看這裡</strong>，先認識它長什麼樣子。</small>
+      <b style="font-family:var(--display);font-size:1.05rem">下面的黑色輸出區</b>
+      <small>標題寫著<strong>「輸出」</strong>的那一塊黑色區域。按了上傳之後，成功或失敗的訊息都出現在這裡，失敗的話會有<strong style="color:#FF6B1A">紅色的字</strong>。<strong>以後排查問題常常要看這裡</strong>。</small>
     </div>
     <div class="cheat">
-      <b style="font-family:var(--display);font-size:1.05rem">工具／板子、埠</b>
-      <small>要告訴 IDE「我接的是哪一塊板子、哪一個連接埠」，選錯了程式就送不進去。</small>
+      <b style="font-family:var(--display);font-size:1.05rem">「選擇開發板」下拉選單</b>
+      <small>上排左邊那個長長的框。要告訴 IDE「我接的是哪一塊板子、插在哪個孔」，<strong>就是點這裡</strong>，選錯了程式就送不進去。</small>
     </div>
   </div>
 
-  <figure class="shot">
-    <span class="shot__kind">📷 截圖</span>
-    <b class="shot__what">IDE 介面標註圖</b>
-    <p class="shot__how">截 IDE 完整畫面，用箭頭標出「程式碼區」「上傳按鈕」「黑色訊息視窗」「板子與埠選單」四個地方。檔名 <code>ard-01-3-IDE介面標註.png</code>。</p>
-    <div class="shot__box">🖼️</div>
+  <figure class="shot shot--done">
+    <img src="../media/Arduino/ard-01-3-IDE介面標註.png" alt="Arduino IDE 2.3.10 的主畫面" loading="lazy">
+    <figcaption>由左至右：<b>✓</b> 是檢查程式有沒有寫錯、<b>→</b> 才是<b>上傳</b>；右邊那個寫著「<b>選擇開發板</b>」的框就是等一下要選板子的地方。畫面右下角現在寫著「未選取開發板」——因為還沒接線。</figcaption>
   </figure>
 </section>
 
@@ -132,6 +132,21 @@
   <h2 class="h2"><b>4</b>把板子接上電腦，讓 IDE 找到它</h2>
   <p>軟體打開了，但它現在還<strong style="color:#FF6B1A">不知道你的板子在哪裡</strong>。上傳之前一定要先做兩件事：<strong>把線接上</strong>，然後<strong>告訴 IDE「我接的是哪一塊板子、插在哪個孔」</strong>。這一步沒做好，等一下按上傳一定會失敗。</p>
 
+  <div class="shotrow">
+    <figure>
+      <img src="../media/Arduino/ard-01-4-1接線與選埠.webp" alt="藍色 USB 傳輸線與接上線的板子" loading="lazy">
+      <figcaption>① 這條藍色的線，<b>方形接頭</b>接板子</figcaption>
+    </figure>
+    <figure>
+      <img src="../media/Arduino/ard-01-4-2接線與選埠.webp" alt="USB 線另一頭插進電腦主機前面的插孔" loading="lazy">
+      <figcaption>② <b>扁的那頭</b>插進主機前面的 USB 孔</figcaption>
+    </figure>
+    <figure>
+      <img src="../media/Arduino/ard-01-4-3接線與選埠.webp" alt="板子接上 USB 之後，靠近接頭的紅色電源燈亮起來" loading="lazy">
+      <figcaption>③ 接頭旁邊的<b style="color:#E5484D">紅色小燈亮起來</b>＝有電了</figcaption>
+    </figure>
+  </div>
+
   <div class="dobox">
     <div class="dobox__head">
       <b>✋ 動手做</b>
@@ -139,32 +154,30 @@
       <span class="dobox__count"><i>0</i> / 4</span>
     </div>
     <ol class="steps">
-      <li>用 <strong>USB 傳輸線</strong>把板子接到電腦，板子上會有<strong>綠色電源燈亮起來</strong>（燈亮＝有電，代表線至少有通電）</li>
-      <li>回到 IDE，點<strong>「工具」→「板子」</strong>，選 <strong>Arduino UNO</strong></li>
-      <li>點<strong>「工具」→「埠」</strong>，選有出現的那一個（通常只有一個，名字像 <code>COM3</code>）</li>
-      <li>確認 IDE <strong>右下角</strong>或視窗上方有顯示你剛剛選的板子和埠——有顯示，才算連上了</li>
+      <li>用 <strong>USB 傳輸線</strong>把板子接到電腦，板子上靠近接頭的地方會有一顆<strong style="color:#E5484D">紅色的電源燈亮起來</strong>（燈亮＝有電，代表線至少有通電）</li>
+      <li>回到 IDE，點上排那個寫著<strong>「選擇開發板」</strong>的下拉選單</li>
+      <li>選<strong>「Arduino UNO」</strong>那一個（下面會跟著 <code>COM3</code> 之類的編號）。清單裡可能還有一個寫<strong>「未知」</strong>的，<strong style="color:#FF6B1A">不要選那個</strong></li>
+      <li>選好之後，那個框會變成顯示 <strong>Arduino UNO</strong>，右下角的「未選取開發板」也會不見——<strong>這樣才算連上了</strong></li>
     </ol>
   </div>
 
-  <figure class="shot">
-    <span class="shot__kind">📷 截圖</span>
-    <b class="shot__what">接上線之後，「工具」→「埠」有選項可以選的樣子</b>
-    <p class="shot__how">左半邊拍 USB 線接上板子、電源燈亮著；右半邊截「工具 → 埠」展開、看得到 COM 選項的畫面，兩張並排。檔名 <code>ard-01-4-接線與選埠.png</code>。</p>
-    <div class="shot__box">🖼️</div>
+  <figure class="shot shot--done shot--key">
+    <img src="../media/Arduino/ard-01-4-接線與選埠.png" alt="Arduino IDE 的選擇開發板下拉選單，展開後出現 Arduino UNO COM3 與未知 COM1" loading="lazy">
+    <figcaption>點開之後就是這樣。<b>選上面那個「Arduino UNO」</b>——下面寫「未知」的那個不是你的板子。<b>如果整個清單裡連一個 Arduino UNO 都沒有</b>，代表電腦根本沒看到板子，往下看那個 USB 線的坑。</figcaption>
   </figure>
 
   <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
     <h3>⚠️ USB 傳輸線的一個大坑</h3>
-    <p>有些 USB 線<strong>只能充電，不能傳資料</strong>（常見於手機的隨附充電線）。用這種線，板子的<strong>電源燈會亮</strong>，但 IDE 的「埠」還是<strong style="color:#FF6B1A">完全找不到板子</strong>——燈亮不代表連得上。遇到這個狀況，<strong style="color:#FF6B1A">先換一條線試試看</strong>，這是最常見的原因之一，不是你操作錯。</p>
+    <p>有些 USB 線<strong>只能充電，不能傳資料</strong>（常見於手機的隨附充電線）。用這種線，板子的<strong>紅色電源燈還是會亮</strong>，但下拉選單裡<strong style="color:#FF6B1A">就是找不到 Arduino UNO</strong>——燈亮不代表連得上。遇到這個狀況，<strong style="color:#FF6B1A">先換一條線試試看</strong>，這是最常見的原因之一，不是你操作錯。</p>
   </div>
 
   <div class="predict" data-ans="c">
-    <p class="predict__q">如果「工具」→「埠」裡面完全沒有任何選項可以選，最可能的原因是什麼？</p>
+    <p class="predict__q">如果「選擇開發板」點開之後，裡面完全找不到 Arduino UNO，最可能的原因是什麼？</p>
     <p class="predict__hint">想想板子要「被電腦看到」需要什麼。</p>
     <div class="picks">
       <button class="pick" data-v="a" data-say="這個階段你連程式都還沒打開，更沒有機會打錯字，跟埠找不到沒有關係。">程式碼裡打錯字了</button>
-      <button class="pick" data-v="b" data-say="板子種類選錯，通常還是會出現一個埠的選項可以選，只是選了之後上傳會失敗；完全沒有選項通常是更早一步的問題。">板子型號選錯了</button>
-      <button class="pick" data-v="c" data-say="答對了！IDE 要先「看到」板子接上電腦，才會列出埠可以選。最常見的原因是 USB 線只能充電不能傳資料，或者線根本沒插緊。">USB 線沒接好，或用了只能充電的線</button>
+      <button class="pick" data-v="b" data-say="板子種類選錯，通常還是找得到選項可以點，只是選了之後上傳會失敗；完全找不到通常是更早一步的問題。">板子型號選錯了</button>
+      <button class="pick" data-v="c" data-say="答對了！IDE 要先「看到」板子接上電腦，清單裡才會出現 Arduino UNO。最常見的原因是 USB 線只能充電不能傳資料，或者線根本沒插緊。">USB 線沒接好，或用了只能充電的線</button>
     </div>
     <p class="said"></p>
   </div>
@@ -185,17 +198,16 @@
       <li>點選單裡的<strong>「檔案」→「範例」→「01.Basics」→「Blink」</strong></li>
       <li>跳出一個新視窗，裡面已經有寫好的程式碼——<strong>不用看懂，也不要改</strong></li>
       <li>新視窗的<strong>板子和埠要再確認一次</strong>（新視窗有時候會跑掉，跟上一步選的對不對得起來）</li>
-      <li>按<strong>上傳按鈕</strong>（圓圈箭頭），等下面黑色視窗跑完</li>
+      <li>按<strong>上傳按鈕</strong>（第二個圓圈裡的<strong>→</strong>），等下面黑色輸出區跑完</li>
     </ol>
   </div>
 
   <p>成功的話，板子上會有一顆小燈（通常標著 <strong>L</strong>）<strong>自己一直閃</strong>——不用接任何東西，這顆燈是板子本身內建的。</p>
 
-  <figure class="shot shot--gif shot--key shot--wide">
-    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
-    <b class="shot__what">開啟 Blink 範例到上傳成功、內建燈開始閃的完整過程</b>
-    <p class="shot__how">從選單開啟範例 → 確認板子和埠 → 按上傳 → 黑色視窗跑完顯示成功 → 板子上 L 燈開始閃。約 10 秒。檔名 <code>ard-01-5-上傳Blink成功.gif</code>。</p>
-    <div class="shot__box">🎞️</div>
+  <figure class="shot shot--done shot--key">
+    <video src="../media/Arduino/ard-01-5-上傳Blink成功.mp4" poster="../media/Arduino/ard-01-5-上傳Blink成功-封面.jpg"
+           controls loop muted playsinline preload="none"></video>
+    <figcaption>從開啟範例到上傳成功的完整過程（按 ▶ 播放）。右上角小畫面是<b>板子本人</b>——上傳完成之後，看那顆<b>小燈開始一亮一暗</b>。成功的時候，下面黑色輸出區會寫「<b>Sketch 使用 924 位元組…</b>」這種訊息，<b>沒有紅字</b>就是成功了。</figcaption>
   </figure>
 </section>
 
@@ -205,8 +217,8 @@
   <div class="sos">
     <h3>⚠️ 今天最常見的三個狀況</h3>
     <ul>
-      <li><strong>埠選單是空的</strong> —— 換一條 USB 線試試看，很多線只能充電。</li>
-      <li><strong>上傳按下去，黑色視窗跳出紅字</strong> —— 先看「板子」和「埠」有沒有選對，這是今天最常見的紅字原因。</li>
+      <li><strong>下拉選單裡找不到 Arduino UNO</strong> —— 換一條 USB 線試試看，很多線只能充電。</li>
+      <li><strong>上傳按下去，黑色輸出區跳出紅字</strong> —— 先看上排的下拉選單是不是顯示 <strong>Arduino UNO</strong>，這是今天最常見的紅字原因。</li>
       <li><strong>板子上很多顆燈亮著，但 L 燈沒有閃</strong> —— 板子有通電是好事（代表有電源），但要看清楚哪一顆才是標 <strong>L</strong> 的那顆，其他燈本來就會一直亮，不是閃的那顆。</li>
       <li>都試過還是不行，舉手找老師，<strong>不要一直重複按上傳</strong>。</li>
     </ul>

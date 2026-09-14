@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=6">
 </head>
 <body>
 
@@ -46,12 +46,18 @@
   <p>模組上除了 LED 本體，還<strong style="color:#FF6B1A">已經內建了一顆電阻</strong>——這顆電阻的工作是「擋住」一部分電流，不然 LED 會因為電流太大而燒壞。因為是模組化的設計，你<strong>不用自己另外接電阻</strong>，這也是這學期不用麵包板的原因之一。</p>
 
   <div class="shieldrow">
-    <div class="shieldrow__slot"><b class="--v">V</b><small>電源</small></div>
     <div class="shieldrow__slot"><b class="--g">G</b><small>接地</small></div>
+    <div class="shieldrow__slot"><b class="--v">V</b><small>電源</small></div>
     <div class="shieldrow__slot"><b class="--s">S</b><small>訊號</small></div>
   </div>
+  <p style="text-align:center;font-size:.82rem;color:var(--ink-soft);margin:.2rem 0 0">板子上就是照這個順序印的：<b>G 在上、V 在中、S 在下</b></p>
 
-  <p>接法跟上一課練習的一樣：V 對 V、G 對 G、S 對 S。<strong>S（訊號）這條線，等一下程式碼裡會用「接在哪個腳位」來稱呼它</strong>——例如接在標號 7 的插槽，程式裡就會寫「腳位 7」。</p>
+    <figure class="shot shot--done">
+    <img src="../media/Arduino/ard-03-1-LED模組接線.webp" alt="LED 燈模組特寫，看得到板子上印的 LED燈字樣與 GND、VCC、SIG 三支針腳" loading="lazy">
+    <figcaption>這就是今天的主角，板子上直接印著「<b>LED燈</b>」。右邊三支針旁邊印的是 <b>GND／VCC／SIG</b>，就是上一課的 G／V／S。旁邊那兩顆小小的黑色方塊，其中一顆就是<b>已經幫你裝好的電阻</b>。</figcaption>
+  </figure>
+
+  <p>接法跟上一課練習的一樣：<strong>VCC 對 V、GND 對 G、SIG 對 S</strong>。<strong>SIG（訊號）這條線，等一下程式碼裡會用「接在哪個腳位」來稱呼它</strong>——例如接在標號 7 的那一組，程式裡就會寫「腳位 7」。</p>
 </section>
 
 <!-- ── 2. 接線 ──────────────────────── -->
@@ -71,11 +77,10 @@
     </ol>
   </div>
 
-  <figure class="shot shot--gif">
-    <span class="shot__kind">🎬 GIF 動畫</span>
-    <b class="shot__what">LED 模組接線過程</b>
-    <p class="shot__how">拍把 LED 模組用三條線接到擴展板某個標號插槽的過程，鏡頭帶到插槽上的數字。約 6 秒。檔名 <code>ard-03-1-LED模組接線.gif</code>。</p>
-    <div class="shot__box">🎞️</div>
+  <figure class="shot shot--done">
+    <video src="../media/Arduino/ard-03-1-LED模組接線.mp4" poster="../media/Arduino/ard-03-1-LED模組接線-封面.jpg"
+           controls loop muted playsinline preload="none"></video>
+    <figcaption>從拿線、對準模組的 GND／VCC／SIG，到接上擴展板的完整過程（按 ▶ 播放）。<b>記住你插的是第幾腳</b>，等一下程式裡要寫。</figcaption>
   </figure>
 </section>
 
@@ -151,11 +156,10 @@
     </ol>
   </div>
 
-  <figure class="shot shot--gif shot--key shot--wide">
-    <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
-    <b class="shot__what">改腳位號碼、改 delay，兩次上傳前後對比</b>
-    <p class="shot__how">錄一段：改完腳位號碼上傳、LED 開始閃 → 再改小 delay 數字上傳、閃爍變快。約 10 秒，讓學生看到「改程式碼真的會改變板子上發生的事」。檔名 <code>ard-03-2-改程式上傳對比.gif</code>。</p>
-    <div class="shot__box">🎞️</div>
+  <figure class="shot shot--done shot--key">
+    <video src="../media/Arduino/ard-03-2-改程式上傳對比.mp4" poster="../media/Arduino/ard-03-2-改程式上傳對比-封面.jpg"
+           controls loop muted playsinline preload="none"></video>
+    <figcaption>老師示範的完整過程（按 ▶ 播放）。注意看程式碼：三個 <code>LED_BUILTIN</code> 都被換成了 <b>7</b>，兩個 <code>delay</code> 也從 1000 改成 <b>200</b>。右邊小畫面就是<b>你等一下要接的那顆 LED 模組</b>——改完上傳，它閃的速度就跟著變了。</figcaption>
   </figure>
 </section>
 
@@ -167,7 +171,7 @@
     <ul>
       <li><strong>板子內建的燈在閃，外接的 LED 沒反應</strong> —— 表示程式還在控制內建那顆燈，<strong>有 <code>LED_BUILTIN</code> 沒換到</strong>。用「編輯 → 尋找」搜 <code>LED_BUILTIN</code>，確認一個都不剩。</li>
       <li><strong>LED 完全不亮</strong> —— 先檢查接線的 V／G／S 有沒有插對插槽，再檢查腳位號碼跟你接的插槽是不是同一個數字。</li>
-      <li><strong>上傳按下去，黑色視窗跳紅字</strong> —— 通常是改程式碼的時候不小心刪到不該刪的符號（例如分號 <code>;</code>），對照原本的範例檢查有沒有多刪或少刪。</li>
+      <li><strong>上傳按下去，黑色輸出區跳紅字</strong> —— 通常是改程式碼的時候不小心刪到不該刪的符號（例如分號 <code>;</code>），對照原本的範例檢查有沒有多刪或少刪。</li>
     </ul>
   </div>
 </section>

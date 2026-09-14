@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=4">
+<link rel="stylesheet" href="../assets/arduino.css?v=6">
 </head>
 <body>
 
@@ -100,7 +100,7 @@
     </div>
     <div class="cheat">
       <b style="font-family:var(--display);font-size:1.05rem;color:var(--accent)">第二層：上傳</b>
-      <small>下面黑色視窗有沒有跳紅字？板子和埠有沒有選對？程式碼有沒有不小心刪到符號？</small>
+      <small>下面黑色輸出區有沒有跳紅字？上排的下拉選單有沒有顯示 Arduino UNO？程式碼有沒有不小心刪到符號？</small>
     </div>
   </div>
 
@@ -123,11 +123,11 @@
   </div>
 
   <div class="predict" data-ans="b">
-    <p class="predict__q">小華按了上傳，下面黑色視窗跳出一大串紅字，板子上內建電源燈是亮的。最可能是哪一層的問題？</p>
+    <p class="predict__q">小華按了上傳，下面黑色輸出區跳出一大串紅字，板子上的電源燈是亮的。最可能是哪一層的問題？</p>
     <p class="predict__hint">電源燈亮，代表硬體這關已經過了。</p>
     <div class="picks">
       <button class="pick" data-v="a" data-say="電源燈已經亮了，代表板子有通電、USB 也接上了，硬體這層基本上沒問題，問題應該在更上面一層。">硬體層——USB 線可能沒接好</button>
-      <button class="pick" data-v="b" data-say="答對了！電源燈亮代表硬體 OK，紅字通常代表板子／埠選錯，或程式碼裡有打字上的小錯誤（例如漏打分號），這是上傳層要查的範圍。">上傳層——檢查板子／埠有沒有選對，或程式碼是不是有打字錯誤</button>
+      <button class="pick" data-v="b" data-say="答對了！電源燈亮代表硬體 OK，紅字通常代表開發板選錯，或程式碼裡有打字上的小錯誤（例如漏打分號），這是上傳層要查的範圍。">上傳層——檢查開發板有沒有選對，或程式碼是不是有打字錯誤</button>
       <button class="pick" data-v="c" data-say="接線對不對是硬體層的事，而且電源燈已經亮了，代表最基本的接線和供電是通的，現在的紅字訊息比較指向程式或環境設定的問題。">接線的 V／G／S 一定插錯了</button>
     </div>
     <p class="said"></p>
@@ -141,7 +141,7 @@
     <h3>⚠️ 兩層排查順序（這學期會一直用）</h3>
     <ul>
       <li><strong>第一層・硬體</strong>：板子有燈亮嗎？接線的 V／G／S 對了嗎？腳位號碼跟程式碼一致嗎？</li>
-      <li><strong>第二層・上傳</strong>：黑色視窗有紅字嗎？板子和埠選對了嗎？</li>
+      <li><strong>第二層・上傳</strong>：黑色輸出區有紅字嗎？下拉選單顯示的是 Arduino UNO 嗎？</li>
       <li>兩層都查過還是不行，才舉手找老師——<strong>先講你查過哪些，老師比較幫得上忙</strong>。</li>
     </ul>
   </div>
@@ -154,6 +154,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=5"></script>
-<script src="../assets/arduino.js?v=4"></script>
+<script src="../assets/arduino.js?v=6"></script>
 </body>
 </html>

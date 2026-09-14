@@ -39,8 +39,14 @@ document.querySelectorAll('[data-plugsim]').forEach(root => {
   const NC   = PINS.length;
   const LAST = ROWS.length - 1;
 
-  const COLOR = { G:'#26282B', V:'#C0392B', S:'#E0A800' };
-  const FULL  = { G:'G（黑線・接地）', V:'V（紅線・電源）', S:'S（黃線・訊號）' };
+  /* 板子三排塑膠座的顏色（照實際的擴展板：黑／紅／白）*/
+  const BOARD = { G:'#26282B', V:'#C0392B', S:'#EFEDE6' };
+  /* 線的顏色（教室這套是灰／紅／橘）。刻意跟板子不同色——
+     線色本來就會換，講義要學生看字不是看顏色。            */
+  const WIRE  = { G:'#9AA0A6', V:'#C0392B', S:'#E8842A' };
+  /* 模組那端印的是 GND／VCC／SIG，不是 G／V／S */
+  const MODLAB = { G:'GND', V:'VCC', S:'SIG' };
+  const FULL  = { G:'G（接地）', V:'V（電源）', S:'S（訊號）' };
 
   const colX   = i => COL0 + i * P;
   const stripW = NC * P;
@@ -57,7 +63,7 @@ document.querySelectorAll('[data-plugsim]').forEach(root => {
   ROWS.forEach((r, i) => {
     const y = TOP + i * P;
     board += '<rect class="ps-strip" x="' + (COL0 - P / 2) + '" y="' + (y - 17) +
-             '" width="' + stripW + '" height="34" rx="4" fill="' + (COLOR[r] || '#555') + '"/>';
+             '" width="' + stripW + '" height="34" rx="4" fill="' + (BOARD[r] || '#555') + '"/>';
     board += '<text class="ps-rowlab" x="' + (COL0 - P / 2 - 14) + '" y="' + (y + 7) +
              '" text-anchor="end">' + r + '</text>';
     for (let c = 0; c < NC; c++) {
@@ -74,16 +80,16 @@ document.querySelectorAll('[data-plugsim]').forEach(root => {
   let plug = '<rect class="ps-shell" x="-19" y="-25" width="38" height="' + (2 * P + 50) + '" rx="7"/>';
   ROWS.forEach((r, k) => {
     plug += '<rect class="ps-slot" x="-10" y="' + (k * P - 10) + '" width="20" height="20" rx="3" fill="' +
-            (COLOR[r] || '#555') + '"/>';
+            (WIRE[r] || '#555') + '"/>';
   });
   ROWS.forEach((r, k) => {                       // 三條線從接頭側面出去接到模組
     const y = k * P, my = 14 + k * 22;
     plug += '<path class="ps-wire" d="M19 ' + y + ' C 50 ' + y + ', 58 ' + my + ', 88 ' + my +
-            '" stroke="' + (COLOR[r] || '#555') + '"/>';
+            '" stroke="' + (WIRE[r] || '#555') + '"/>';
   });
   plug += '<rect class="ps-mod" x="88" y="-8" width="116" height="96" rx="9"/>';
   ROWS.forEach((r, k) => {
-    plug += '<text class="ps-modlab" x="98" y="' + (19 + k * 22) + '">' + r + '</text>';
+    plug += '<text class="ps-modlab" x="98" y="' + (19 + k * 22) + '">' + MODLAB[r] + '</text>';
   });
   plug += '<circle class="ps-led" cx="176" cy="24" r="8"/>' +
           '<text class="ps-modname" x="128" y="74">模組</text>' +
@@ -304,13 +310,14 @@ document.querySelectorAll('[data-plugsim]').forEach(root => {
    ═══════════════════════════════════════════════════════════ */
 document.querySelectorAll('[data-zapsim]').forEach(root => {
 
-  const COLOR = { G:'#26282B', V:'#C0392B', S:'#E0A800' };
+  const BOARD = { G:'#26282B', V:'#C0392B', S:'#EFEDE6' };
+  const WIRE  = { G:'#9AA0A6', V:'#C0392B', S:'#E8842A' };
   const MY = { G:135, V:160, S:185 };          // 模組那端三個接點的 y
   const BY = { G:150, V:180, S:210 };          // 板子那端三排的 y
 
   /* 一條從模組接點彎到板子某一排的線 */
   const wire = (from, toY, extra) =>
-    '<path class="zs-wire' + (extra || '') + '" stroke="' + COLOR[from] + '"' +
+    '<path class="zs-wire' + (extra || '') + '" stroke="' + WIRE[from] + '"' +
     ' d="M520 ' + MY[from] + ' C 486 ' + MY[from] + ', 452 ' + toY + ', 420 ' + toY + '"/>';
 
   /* 四種接法：線怎麼連、通電後板子與模組什麼反應、要學生看懂什麼 */
@@ -336,8 +343,8 @@ document.querySelectorAll('[data-zapsim]').forEach(root => {
     short: {
       tab:'⚡ V 和 G 直接相碰',
       wires: wire('G', BY.G) + wire('V', BY.V) + wire('S', BY.S) +
-             '<path class="zs-wire zs-jump" stroke="#C0392B" d="M420 ' + BY.V + ' C 448 ' + BY.V + ', 452 168, 468 165"/>' +
-             '<path class="zs-wire zs-jump" stroke="#26282B" d="M420 ' + BY.G + ' C 448 ' + BY.G + ', 452 162, 468 165"/>',
+             '<path class="zs-wire zs-jump" stroke="' + WIRE.V + '" d="M420 ' + BY.V + ' C 448 ' + BY.V + ', 452 168, 468 165"/>' +
+             '<path class="zs-wire zs-jump" stroke="' + WIRE.G + '" d="M420 ' + BY.G + ' C 448 ' + BY.G + ', 452 162, 468 165"/>',
       hot:[468,165], power:'trip', led:'off',
       sign:'<strong>板子的電源燈突然熄掉，或一直閃</strong>；電腦可能跳出「USB 裝置電力過載」；碰在一起的接點會發燙。',
       why:'電流中間沒有任何零件擋一下，會瞬間衝到最大。' +
@@ -348,7 +355,7 @@ document.querySelectorAll('[data-zapsim]').forEach(root => {
     },
     off: {
       tab:'↕️ 整組插歪一格',
-      wires: '<path class="zs-wire zs-air" stroke="' + COLOR.G + '" d="M520 ' + MY.G + ' C 490 ' + MY.G + ', 462 128, 446 124"/>' +
+      wires: '<path class="zs-wire zs-air" stroke="' + WIRE.G + '" d="M520 ' + MY.G + ' C 490 ' + MY.G + ', 462 128, 446 124"/>' +
              '<circle class="zs-air-end" cx="446" cy="124" r="5"/>' +
              wire('V', BY.G) + wire('S', BY.V),
       hot:[420,150], power:'trip', led:'off',
@@ -363,7 +370,7 @@ document.querySelectorAll('[data-zapsim]').forEach(root => {
   /* ── 舞台：電腦 → USB 線 → UNO → 模組 ── */
   let rows = '';
   ['G','V','S'].forEach(r => {
-    rows += '<rect class="zs-strip" x="300" y="' + (BY[r] - 11) + '" width="120" height="22" rx="4" fill="' + COLOR[r] + '"/>' +
+    rows += '<rect class="zs-strip" x="300" y="' + (BY[r] - 11) + '" width="120" height="22" rx="4" fill="' + BOARD[r] + '"/>' +
             '<text class="zs-rowlab" x="292" y="' + (BY[r] + 6) + '" text-anchor="end">' + r + '</text>';
   });
 
@@ -401,7 +408,7 @@ document.querySelectorAll('[data-zapsim]').forEach(root => {
       '<rect class="zs-mod" x="520" y="110" width="112" height="92" rx="9"/>' +
       '<circle class="zs-led" data-led cx="576" cy="150" r="14"/>' +
       '<text class="zs-modname" x="576" y="190" text-anchor="middle">LED 模組</text>' +
-      ['G','V','S'].map(r => '<rect class="zs-port" x="514" y="' + (MY[r] - 7) + '" width="12" height="14" rx="2" fill="' + COLOR[r] + '"/>').join('') +
+      ['G','V','S'].map(r => '<rect class="zs-port" x="514" y="' + (MY[r] - 7) + '" width="12" height="14" rx="2" fill="' + WIRE[r] + '"/>').join('') +
     '</svg></div>' +
     '<div class="zapsim__bar">' +
       '<button type="button" class="psbtn psbtn--go" data-go>🔌 插上 USB 通電</button>' +
