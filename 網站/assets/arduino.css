@@ -6,41 +6,98 @@
    課才有的元件。引用順序：lesson.css 在前、arduino.css 在後。
    ═══════════════════════════════════════════════════════════ */
 
-/* ═══ 元件 1：GVS 插槽配對（gvsmatch）══════════════════════ */
-.gvsmatch{
-  max-width:480px; margin:1.2rem auto; padding:1.2rem;
+/* ═══ 元件 1：擴展板插入模擬（plugsim）══════════════════════
+   SVG 畫的擴展板＋三芯接頭，整組拖進去。
+   版面與座標寫在 arduino.js 裡（SVG 由 JS 產生），這裡只管外觀。
+   ═══════════════════════════════════════════════════════════ */
+.plugsim{
+  max-width:660px; margin:1.4rem auto; padding:1rem;
   background:var(--card); border:2px solid var(--rule); border-radius:16px;
-  box-shadow:var(--shadow-sm); text-align:center;
+  box-shadow:var(--shadow-sm);
 }
-.gvsmatch__wires{display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; margin:0 0 1.4rem}
-.gwire{
-  --wc:#999;
-  display:flex; flex-direction:column; align-items:center; gap:.25rem;
-  min-width:88px; padding:.6rem .7rem; border-radius:12px; cursor:pointer;
-  font-family:var(--body); font-weight:700; font-size:.92rem; color:#fff;
-  background:var(--wc); border:3px solid transparent; box-shadow:var(--shadow-sm);
-  transition:transform .12s;
+.plugsim__task{
+  margin:0 0 .6rem; text-align:center; font-size:.9rem; font-weight:700;
+  color:var(--ink-soft);
 }
-.gwire small{font-weight:400; font-size:.76rem; opacity:.92}
-.gwire:hover{transform:translateY(-2px)}
-.gwire--pick{border-color:var(--ink); box-shadow:0 0 0 3px rgba(43,33,25,.25)}
-.gwire--ok{opacity:.55; cursor:default; transform:none}
-.gwire--ok::after{content:" ✓"}
+.plugsim__task b{color:var(--accent)}
 
-.gvsmatch__slots{display:flex; justify-content:center; gap:.9rem; margin:0 0 1rem}
-.gslot{
-  width:64px; height:64px; border-radius:14px; cursor:pointer;
-  font-family:var(--mono); font-weight:700; font-size:1.4rem;
-  background:#2B2119; color:#FBF6EC; border:3px solid #4E3120;
-  transition:background .15s, transform .12s;
+/* 手機上板子會太小，改成讓這一塊可以左右滑（只有 SVG 這層會滑，
+   下面的按鈕跟訊息留在原地）                                    */
+.plugsim__stage{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.plugsim__svg{
+  display:block; width:100%; height:auto; border-radius:12px;
+  -webkit-user-select:none; user-select:none;
 }
-.gslot:hover{transform:translateY(-2px)}
-.gslot--ok{background:var(--go); border-color:var(--go); cursor:default}
-.gslot--bad{background:#B2270E; border-color:#B2270E; animation:gshake .35s}
-@keyframes gshake{
-  0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)}
+@media (max-width:620px){
+  .plugsim__svg{min-width:560px}          /* 再窄就橫向捲，字才看得清楚 */
 }
-.gvsmatch__msg{min-height:1.5em; font-size:.9rem; font-weight:600; color:var(--ink-soft); margin:0}
+
+/* ── 板子本體 ── */
+.ps-pcb{fill:#0E3B4D; stroke:#0A2B38; stroke-width:2}
+.ps-pcb-edge{fill:none; stroke:rgba(255,255,255,.10); stroke-width:2}
+.ps-silk{fill:#BBD7E2; font-family:var(--mono); font-size:13px; opacity:.75}
+.ps-rowlab{fill:#FBF6EC; font-family:var(--mono); font-weight:700; font-size:19px}
+.ps-num{fill:#BBD7E2; font-family:var(--mono); font-size:14px}
+.ps-strip{stroke:rgba(0,0,0,.35); stroke-width:1}
+.ps-hole{fill:#101216; stroke:rgba(255,255,255,.16); stroke-width:1}
+.ps-pin{fill:#C9A227}
+
+/* ── 接頭與模組 ── */
+/* touch-action 只下在接頭上：按在接頭上是拖曳，按在板子上還能捲頁 */
+.ps-plug{cursor:grab; touch-action:none}
+.ps-plug:active{cursor:grabbing}
+.plugsim.is-placed .ps-plug{cursor:default}
+.ps-shell{fill:#24262B; stroke:#4B525B; stroke-width:2}
+.ps-slot{stroke:rgba(0,0,0,.45); stroke-width:1}
+.ps-wire{fill:none; stroke-width:5; stroke-linecap:round}
+.ps-mod{fill:#17422F; stroke:#0D2C1F; stroke-width:2}
+.ps-modlab{fill:#D9EDE1; font-family:var(--mono); font-size:13px; font-weight:700}
+.ps-modname{fill:#9FC7B3; font-family:var(--body); font-size:12px}
+.ps-led{fill:#E5484D; stroke:#7C1D1D; stroke-width:1.5}
+
+/* 鍵盤 focus 時看得出來選到接頭 */
+.ps-plug:focus{outline:none}
+.ps-plug:focus-visible .ps-shell{stroke:#FFBF00; stroke-width:3.5}
+
+/* 插對了：接腳亮綠 */
+.ps-ok .ps-shell{stroke:#12A594; stroke-width:3}
+.ps-glow{fill:none; stroke:#12A594; stroke-width:3; opacity:0}
+.ps-ok .ps-glow{opacity:1}
+
+/* 插錯了：整個接頭抖一下 */
+.ps-shake{animation:psshake .4s}
+@keyframes psshake{
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-7px)}
+  50%{transform:translateX(7px)}   80%{transform:translateX(-4px)}
+}
+/* 短路：碰在一起的那兩格閃紅 */
+.ps-zap{animation:pszap .9s ease-out}
+@keyframes pszap{
+  0%,100%{opacity:0} 15%{opacity:1} 45%{opacity:.25} 70%{opacity:1}
+}
+.ps-zapbox{fill:none; stroke:#FF3B21; stroke-width:3.5; opacity:0}
+
+/* ── 控制列與訊息 ── */
+.plugsim__bar{display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; margin:.8rem 0 0}
+.psbtn{
+  font-family:var(--body); font-size:.86rem; font-weight:700; cursor:pointer;
+  padding:.45rem .9rem; border-radius:999px; color:var(--ink);
+  background:var(--ground-2); border:2px solid var(--rule);
+  transition:transform .12s, background .15s;
+}
+.psbtn:hover{transform:translateY(-2px); background:#fff}
+.psbtn--go{background:var(--accent); border-color:var(--accent); color:#fff}
+
+.plugsim__msg{
+  min-height:3.4em; margin:.7rem 0 0; padding:0 .3rem;
+  font-size:.88rem; line-height:1.7; font-weight:600; text-align:center;
+  color:var(--ink-soft);
+}
+.plugsim__msg.--ok{color:#0B7F72}
+.plugsim__msg.--bad{color:#B2270E}
+.plugsim__hint{
+  margin:.5rem 0 0; text-align:center; font-size:.76rem; color:var(--ink-soft); opacity:.9;
+}
 
 /* ═══ 元件 2：擴展板插槽示意（純視覺，靜態圖）══════════════
    一排標好 V/G/S 的插槽圖，講解時用，不用互動。            */
@@ -62,6 +119,6 @@
 .shieldrow__slot small{color:#D8C7A8; font-size:.72rem}
 
 @media (max-width:520px){
-  .gvsmatch{padding:.9rem}
-  .gslot{width:54px; height:54px; font-size:1.2rem}
+  .plugsim{padding:.7rem}
+  .plugsim__msg{font-size:.84rem}
 }

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=1">
+<link rel="stylesheet" href="../assets/arduino.css?v=2">
 </head>
 <body>
 
@@ -78,38 +78,23 @@
   <p>大部分模組會有一個<strong>三孔的接頭（一個小插座）</strong>，裡面三條線已經固定好順序，你只要用<strong>杜邦線</strong>把模組的三孔跟擴展板對應的三孔連起來就好。</p>
 </section>
 
-<!-- ── 3. 練習配對 ──────────────────── -->
+<!-- ── 3. 整組插對＋插錯的後果 ──────── -->
 <section>
-  <h2 class="h2"><b>3</b>練習：三條線各自接到哪裡</h2>
-  <p>先點一條線，再點你覺得它該接的插槽。配對之前想清楚：<strong>這條線的顏色在剛剛學過的表格裡代表什麼</strong>。</p>
+  <h2 class="h2"><b>3</b>練習：把接頭整組插對</h2>
+  <p>模組的三條線<strong>固定在同一個接頭裡，順序換不掉</strong>；擴展板上的一排也是固定的 G、V、S。所以真正要判斷的不是「紅線該放哪一格」，而是<strong style="color:#FF6B1A">整組要插在第幾腳、方向有沒有轉反、有沒有插歪一格</strong>。</p>
 
-  <div class="gvsmatch" data-gvsmatch>
-    <div class="gvsmatch__wires" data-wires>
-      <button class="gwire" data-id="v" data-color="#E5484D">紅色線<small>？</small></button>
-      <button class="gwire" data-id="g" data-color="#2B2119">黑色線<small>？</small></button>
-      <button class="gwire" data-id="s" data-color="#CC9900">黃色線<small>？</small></button>
-    </div>
-    <div class="gvsmatch__slots" data-slots>
-      <button class="gslot" data-id="s">S</button>
-      <button class="gslot" data-id="v">V</button>
-      <button class="gslot" data-id="g">G</button>
-    </div>
-    <p class="gvsmatch__msg" data-msg></p>
-  </div>
+  <div class="plugsim" data-plugsim data-rows="G,V,S" data-pins="2,3,4,5,6,7,8"></div>
 
-  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">⚠️ <strong>不同模組的線色可能不一樣</strong>，這裡的紅／黑／黃是最常見的配色，但真正準的方法是<strong>看模組上印的字或看接頭形狀</strong>，不是死背顏色。</p>
-</section>
+  <p style="text-align:center;font-size:.9rem;color:var(--ink-soft)">⚠️ <strong>不同模組的線色可能不一樣</strong>，紅／黑／黃是最常見的配色，但真正準的方法是<strong>看模組上印的 G、V、S</strong>，不是死背顏色。</p>
 
-<!-- ── 4. 短路是什麼 ─────────────────── -->
-<section>
-  <h2 class="h2"><b>4</b>什麼情況會短路</h2>
-  <p><strong>短路</strong>：電源（V）直接接到接地（G），中間<strong>沒有經過任何零件</strong>。電流會突然暴衝，板子或零件可能會發燙、冒煙、燒壞。</p>
+  <p>剛剛如果你<strong>插歪一格</strong>，畫面會跳出紅色警告——那個狀況就是<strong>短路</strong>：電源（V）直接接到接地（G），中間<strong>沒有經過任何零件</strong>。電流會突然暴衝，板子或零件可能會發燙、冒煙、燒壞。</p>
 
   <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
-    <h3>⚠️ 最容易短路的兩個狀況</h3>
+    <h3>⚠️ 最容易短路的三個狀況</h3>
     <ul>
+      <li><strong>整組插歪一格</strong>——最常見的一種，模組的 V 剛好落到板子的 G 那一排，兩個直接碰在一起。</li>
       <li><strong>兩條杜邦線的金屬頭互相碰到</strong>——尤其是還沒插進插槽、線就放在桌上通電的時候。</li>
-      <li><strong>模組插反或插錯位置</strong>，讓 V 跟 G 連在一起。</li>
+      <li><strong>接頭轉 180° 插反</strong>——雖然 V 還是對到 V 不會短路，但訊號線接到接地，零件不會動，訊號腳也可能被燒掉。</li>
     </ul>
     <p>下一課開始<strong>正式接線之前，養成習慣：先把所有線接好、檢查過一次，才插 USB 通電</strong>——這個順序能避開大部分短路的機會。</p>
   </div>
@@ -126,9 +111,9 @@
   </div>
 </section>
 
-<!-- ── 5. 動手做 ────────────────────── -->
+<!-- ── 4. 動手做 ────────────────────── -->
 <section>
-  <h2 class="h2"><b>5</b>換你在板子上做</h2>
+  <h2 class="h2"><b>4</b>換你在板子上做</h2>
 
   <div class="dobox">
     <div class="dobox__head">
@@ -152,14 +137,15 @@
   </figure>
 </section>
 
-<!-- ── 6. 卡住了 ─────────────────────── -->
+<!-- ── 5. 卡住了 ─────────────────────── -->
 <section>
-  <h2 class="h2"><b>6</b>卡住了？先看這裡</h2>
+  <h2 class="h2"><b>5</b>卡住了？先看這裡</h2>
   <div class="sos">
     <h3>⚠️ 今天最常見的狀況</h3>
     <ul>
       <li><strong>接頭插不進去</strong> —— 檢查方向有沒有對，不要用力硬插，通常是方向反了。</li>
       <li><strong>忘記哪條線是哪個</strong> —— 看模組上有沒有印字，沒有的話問老師這個模組的說明。</li>
+      <li><strong>插歪一格沒發現</strong> —— 蹲下來讓視線跟板子同高，看三支腳有沒有各自對到一排，這個角度最看得出來。</li>
       <li><strong>不確定插對了沒</strong> —— 這就是為什麼今天要先舉手給老師檢查，再通電。</li>
     </ul>
   </div>
@@ -172,6 +158,6 @@
 </main>
 
 <script src="../assets/lesson.js?v=5"></script>
-<script src="../assets/arduino.js?v=1"></script>
+<script src="../assets/arduino.js?v=2"></script>
 </body>
 </html>

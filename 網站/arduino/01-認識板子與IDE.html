@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/lesson.css?v=8">
-<link rel="stylesheet" href="../assets/arduino.css?v=1">
+<link rel="stylesheet" href="../assets/arduino.css?v=2">
 </head>
 <body>
 
@@ -63,10 +63,11 @@
   <p>先不用管擴展板上那些插槽——<strong>下一課</strong>才會正式教怎麼看。今天只要記得：<strong>兩塊板子疊在一起，中間的針腳要對齊插緊，不能歪一邊</strong>。</p>
 </section>
 
-<!-- ── 2. 安裝 IDE ──────────────────── -->
+<!-- ── 2. 打開 IDE ─────────────────── -->
 <section>
-  <h2 class="h2"><b>2</b>安裝 Arduino IDE</h2>
+  <h2 class="h2"><b>2</b>打開桌面上的 Arduino IDE</h2>
   <p><strong>IDE</strong> 是你等一下要用來寫程式、把程式送進板子裡的軟體，全名是「整合開發環境」，不用背這個詞，知道它是「寫程式用的軟體」就好。</p>
+  <p>這台電腦<strong style="color:#FFBF00">已經幫你裝好了</strong>，今天不用下載、不用安裝，直接在桌面上找到它打開就好。</p>
 
   <div class="dobox">
     <div class="dobox__head">
@@ -75,22 +76,22 @@
       <span class="dobox__count"><i>0</i> / 3</span>
     </div>
     <ol class="steps">
-      <li>照老師指示的位置下載並安裝 <strong>Arduino IDE</strong></li>
-      <li>安裝好之後打開它，畫面應該會有一大塊<strong>空白區域</strong>（等一下要放程式碼）</li>
-      <li>用 <strong>USB 傳輸線</strong>把板子接到電腦</li>
+      <li>在<strong>桌面</strong>上找到 <strong>Arduino IDE</strong> 的圖示（藍綠色、像一個橫躺的 8）</li>
+      <li><strong>連點兩下</strong>打開它——第一次打開會等比較久，<strong>不要一直點</strong>，點太多次會開出好幾個視窗</li>
+      <li>打開後畫面中間應該有一大塊<strong>空白區域</strong>（等一下要放程式碼）</li>
     </ol>
   </div>
 
   <figure class="shot shot--gif shot--key">
     <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
-    <b class="shot__what">安裝 IDE 到打開軟體的完整流程</b>
-    <p class="shot__how">從下載頁面 → 安裝過程 → 第一次打開 IDE 看到的畫面。約 8 秒。檔名 <code>ard-01-2-IDE安裝流程.gif</code>。</p>
+    <b class="shot__what">從桌面圖示打開 IDE 到看見主畫面</b>
+    <p class="shot__how">桌面上的 Arduino IDE 圖示 → 連點兩下 → 等待載入 → 出現主畫面。約 6 秒。檔名 <code>ard-01-2-打開IDE.gif</code>。</p>
     <div class="shot__box">🎞️</div>
   </figure>
 
-  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
-    <h3>⚠️ USB 傳輸線的一個大坑</h3>
-    <p>有些 USB 線<strong>只能充電，不能傳資料</strong>（常見於手機的隨附充電線）。如果等一下 IDE 完全找不到板子，<strong style="color:#FF6B1A">先換一條線試試看</strong>，這是最常見的原因之一，不是你操作錯。</p>
+  <div class="sos" style="background:var(--go-soft);border-color:var(--go)">
+    <h3>💡 找不到圖示？</h3>
+    <p>桌面上沒看到的話，按左下角的<strong>開始鍵</strong>，直接打 <code>arduino</code> 幾個字母，搜尋結果第一個通常就是。還是找不到就舉手，不要自己去網路上下載。</p>
   </div>
 </section>
 
@@ -126,22 +127,64 @@
   </figure>
 </section>
 
-<!-- ── 4. 上傳第一支程式 ─────────────── -->
+<!-- ── 4. 接上板子、建立連線 ─────────── -->
 <section>
-  <h2 class="h2"><b>4</b>上傳一支現成的程式，什麼都不改</h2>
-  <p>Arduino IDE 內建一支範例程式叫 <strong>Blink</strong>（閃爍），會讓板子上<strong>一顆內建的小燈</strong>一直閃。今天的任務只有：<strong style="color:#FF6B1A">打開它、選對板子和埠、按上傳，不改任何一個字</strong>。</p>
+  <h2 class="h2"><b>4</b>把板子接上電腦，讓 IDE 找到它</h2>
+  <p>軟體打開了，但它現在還<strong style="color:#FF6B1A">不知道你的板子在哪裡</strong>。上傳之前一定要先做兩件事：<strong>把線接上</strong>，然後<strong>告訴 IDE「我接的是哪一塊板子、插在哪個孔」</strong>。這一步沒做好，等一下按上傳一定會失敗。</p>
 
   <div class="dobox">
     <div class="dobox__head">
       <b>✋ 動手做</b>
       <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
-      <span class="dobox__count"><i>0</i> / 5</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
+    </div>
+    <ol class="steps">
+      <li>用 <strong>USB 傳輸線</strong>把板子接到電腦，板子上會有<strong>綠色電源燈亮起來</strong>（燈亮＝有電，代表線至少有通電）</li>
+      <li>回到 IDE，點<strong>「工具」→「板子」</strong>，選 <strong>Arduino UNO</strong></li>
+      <li>點<strong>「工具」→「埠」</strong>，選有出現的那一個（通常只有一個，名字像 <code>COM3</code>）</li>
+      <li>確認 IDE <strong>右下角</strong>或視窗上方有顯示你剛剛選的板子和埠——有顯示，才算連上了</li>
+    </ol>
+  </div>
+
+  <figure class="shot">
+    <span class="shot__kind">📷 截圖</span>
+    <b class="shot__what">接上線之後，「工具」→「埠」有選項可以選的樣子</b>
+    <p class="shot__how">左半邊拍 USB 線接上板子、電源燈亮著；右半邊截「工具 → 埠」展開、看得到 COM 選項的畫面，兩張並排。檔名 <code>ard-01-4-接線與選埠.png</code>。</p>
+    <div class="shot__box">🖼️</div>
+  </figure>
+
+  <div class="sos" style="background:var(--accent-soft);border-color:var(--accent)">
+    <h3>⚠️ USB 傳輸線的一個大坑</h3>
+    <p>有些 USB 線<strong>只能充電，不能傳資料</strong>（常見於手機的隨附充電線）。用這種線，板子的<strong>電源燈會亮</strong>，但 IDE 的「埠」還是<strong style="color:#FF6B1A">完全找不到板子</strong>——燈亮不代表連得上。遇到這個狀況，<strong style="color:#FF6B1A">先換一條線試試看</strong>，這是最常見的原因之一，不是你操作錯。</p>
+  </div>
+
+  <div class="predict" data-ans="c">
+    <p class="predict__q">如果「工具」→「埠」裡面完全沒有任何選項可以選，最可能的原因是什麼？</p>
+    <p class="predict__hint">想想板子要「被電腦看到」需要什麼。</p>
+    <div class="picks">
+      <button class="pick" data-v="a" data-say="這個階段你連程式都還沒打開，更沒有機會打錯字，跟埠找不到沒有關係。">程式碼裡打錯字了</button>
+      <button class="pick" data-v="b" data-say="板子種類選錯，通常還是會出現一個埠的選項可以選，只是選了之後上傳會失敗；完全沒有選項通常是更早一步的問題。">板子型號選錯了</button>
+      <button class="pick" data-v="c" data-say="答對了！IDE 要先「看到」板子接上電腦，才會列出埠可以選。最常見的原因是 USB 線只能充電不能傳資料，或者線根本沒插緊。">USB 線沒接好，或用了只能充電的線</button>
+    </div>
+    <p class="said"></p>
+  </div>
+</section>
+
+<!-- ── 5. 上傳第一支程式 ─────────────── -->
+<section>
+  <h2 class="h2"><b>5</b>上傳一支現成的程式，什麼都不改</h2>
+  <p>連線確認好了，才輪到上傳。Arduino IDE 內建一支範例程式叫 <strong>Blink</strong>（閃爍），會讓板子上<strong>一顆內建的小燈</strong>一直閃。今天的任務只有：<strong style="color:#FF6B1A">打開它、按上傳，不改任何一個字</strong>。</p>
+
+  <div class="dobox">
+    <div class="dobox__head">
+      <b>✋ 動手做</b>
+      <span class="dobox__tip">做完一步，就點一下下面的格子打勾 👇</span>
+      <span class="dobox__count"><i>0</i> / 4</span>
     </div>
     <ol class="steps">
       <li>點選單裡的<strong>「檔案」→「範例」→「01.Basics」→「Blink」</strong></li>
       <li>跳出一個新視窗，裡面已經有寫好的程式碼——<strong>不用看懂，也不要改</strong></li>
-      <li>點<strong>「工具」</strong>，確認板子選的是 <strong>Arduino UNO</strong></li>
-      <li>點<strong>「工具」→「埠」</strong>，選有出現的那個選項（通常只有一個）</li>
+      <li>新視窗的<strong>板子和埠要再確認一次</strong>（新視窗有時候會跑掉，跟上一步選的對不對得起來）</li>
       <li>按<strong>上傳按鈕</strong>（圓圈箭頭），等下面黑色視窗跑完</li>
     </ol>
   </div>
@@ -151,25 +194,14 @@
   <figure class="shot shot--gif shot--key shot--wide">
     <span class="shot__kind">🎬 GIF 動畫 · 最重要</span>
     <b class="shot__what">開啟 Blink 範例到上傳成功、內建燈開始閃的完整過程</b>
-    <p class="shot__how">從選單開啟範例 → 選板子和埠 → 按上傳 → 黑色視窗跑完顯示成功 → 板子上 L 燈開始閃。約 10 秒。檔名 <code>ard-01-4-上傳Blink成功.gif</code>。</p>
+    <p class="shot__how">從選單開啟範例 → 確認板子和埠 → 按上傳 → 黑色視窗跑完顯示成功 → 板子上 L 燈開始閃。約 10 秒。檔名 <code>ard-01-5-上傳Blink成功.gif</code>。</p>
     <div class="shot__box">🎞️</div>
   </figure>
-
-  <div class="predict" data-ans="c">
-    <p class="predict__q">如果上傳的時候，「工具」→「埠」裡面完全沒有任何選項可以選，最可能的原因是什麼？</p>
-    <p class="predict__hint">想想板子要「被電腦看到」需要什麼。</p>
-    <div class="picks">
-      <button class="pick" data-v="a" data-say="程式碼是範例內建的，這個階段還沒有機會打錯字，跟埠找不到沒有關係。">程式碼裡打錯字了</button>
-      <button class="pick" data-v="b" data-say="板子種類選錯，通常還是會出現一個埠的選項可以選，只是選了之後上傳會失敗；完全沒有選項通常是更早一步的問題。">板子型號選錯了</button>
-      <button class="pick" data-v="c" data-say="答對了！IDE 要先「看到」板子接上電腦，才會列出埠可以選。最常見的原因是 USB 線只能充電不能傳資料，或者線根本沒插緊。">USB 線沒接好，或用了只能充電的線</button>
-    </div>
-    <p class="said"></p>
-  </div>
 </section>
 
-<!-- ── 5. 卡住了 ─────────────────────── -->
+<!-- ── 6. 卡住了 ─────────────────────── -->
 <section>
-  <h2 class="h2"><b>5</b>卡住了？先看這裡</h2>
+  <h2 class="h2"><b>6</b>卡住了？先看這裡</h2>
   <div class="sos">
     <h3>⚠️ 今天最常見的三個狀況</h3>
     <ul>
