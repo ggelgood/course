@@ -597,3 +597,66 @@ footer{border-top:3px solid var(--rule);margin-top:4rem;padding-top:1.75rem;colo
     transition-duration:.001ms!important;
   }
 }
+
+/* ═══ 課末：回首頁按鈕 ═══════════════════════════════════
+   每一課的 footer 都放一顆，上完課一鍵回課程總覽          */
+footer .endhome{
+  display:flex;align-items:center;justify-content:center;gap:.55rem;
+  width:100%;max-width:26rem;margin:0 auto 1.6rem;
+  font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.02em;
+  color:#fff;text-decoration:none;background:var(--accent);
+  border:none;border-radius:999px;padding:.85rem 1.6rem;
+  box-shadow:0 4px 0 #C4460A, var(--shadow-md);
+  transition:transform .16s, box-shadow .16s, background .16s;
+}
+footer .endhome:hover{
+  background:#FF7F38;transform:translateY(-2px);
+  box-shadow:0 6px 0 #C4460A, var(--shadow-lg);
+}
+footer .endhome:active{transform:translateY(3px);box-shadow:0 1px 0 #C4460A}
+footer .endhome:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+footer .endhome .ar{font-size:1.15em;line-height:1}
+@media (max-width:480px){
+  footer .endhome{max-width:100%;font-size:1rem}
+}
+@media (prefers-reduced-motion:reduce){
+  footer .endhome{transition:none}
+  footer .endhome:hover,footer .endhome:active{transform:none}
+}
+
+/* ═══ 課末：上一課／下一課 ═══════════════════════════════════
+   跟回首頁排在同一列。.endhome 原本是「唯一置中方塊」的寫法
+   （width:100%; margin:0 auto），現在要跟左右兩顆棋子並排，
+   下面用比 footer .endhome 多一層 .footnav 的選擇器覆蓋掉它。 */
+footer .footnav{
+  display:flex; flex-wrap:wrap; align-items:stretch; justify-content:center;
+  gap:.7rem; margin:0 0 1.6rem;
+}
+footer .footnav .endhome{width:auto; max-width:none; margin:0; flex:0 1 auto}
+
+footer .footstep{
+  display:flex; align-items:center; gap:.6rem; flex:0 1 auto; max-width:15rem;
+  font-family:var(--display); font-weight:700; color:var(--ink); text-decoration:none;
+  background:var(--card); border:2.5px solid var(--rule); border-radius:999px;
+  padding:.75rem 1.3rem; box-shadow:var(--shadow-sm);
+  transition:transform .16s, border-color .16s, box-shadow .16s;
+}
+footer .footstep:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px)}
+footer .footstep:active{transform:translateY(1px)}
+footer .footstep:focus-visible{outline:3px solid var(--ink); outline-offset:3px}
+footer .footstep .ar{font-size:1.2em; line-height:1; flex:none}
+footer .footstep__t{display:flex; flex-direction:column; line-height:1.3; min-width:0}
+footer .footstep__t small{font-weight:400; font-size:.72rem; color:var(--ink-soft)}
+footer .footstep__t b{font-size:.92rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+footer .footstep--next{text-align:right}
+footer .footstep--next .footstep__t{align-items:flex-end}
+
+@media (max-width:480px){
+  footer .footstep{max-width:none; flex:1 1 100%; justify-content:center}
+  footer .footstep--next .footstep__t{align-items:center}
+  footer .footstep__t b{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  footer .footstep{transition:none}
+  footer .footstep:hover,footer .footstep:active{transform:none}
+}
