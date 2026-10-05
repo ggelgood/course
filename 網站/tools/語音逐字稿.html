@@ -110,6 +110,8 @@ code{background:var(--ground-2);padding:.1rem .4rem;border-radius:5px;font-famil
   border:2.5px solid var(--rule);border-radius:10px;background:var(--ground);color:var(--ink);
 }
 .field select:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.field .check{display:flex;align-items:center;gap:.5rem;font-family:var(--body);font-weight:400;font-size:.92rem;margin:.1rem 0 .35rem;cursor:pointer}
+.field .check input{width:1.1rem;height:1.1rem;accent-color:var(--accent);cursor:pointer;flex:0 0 auto}
 
 /* ── 拖放區 ─────────────────────────────────────────────── */
 .drop{
@@ -218,6 +220,7 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
     <h1>語音<em>逐字稿工具</em></h1>
     <p>上傳一段音檔或影片，在<strong>你自己的瀏覽器裡</strong>跑語音辨識，轉成文字。
     影片還會<strong>附上時間軸、直接掛字幕給你對照</strong>，可以下載成 <code>.srt</code>／<code>.vtt</code> 字幕檔。
+    中文輸出會自動<strong>轉成繁體（台灣用語）</strong>。
     檔案本身<strong>不會上傳到任何伺服器</strong>，但第一次使用需要連網下載 AI 模型，請往下看清楚再用。</p>
   </div>
 </header>
@@ -231,6 +234,7 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
       <li>下載一次之後，瀏覽器會把模型<b>存起來</b>，之後同一台電腦、同一個瀏覽器再打開這個工具就不用重新下載。清瀏覽器資料、換瀏覽器、換電腦都要重新下載一次。</li>
       <li><b>辨識過程完全在你的電腦裡跑，不需要網路</b>（模型下載完之後）。電腦效能普通的話，<b>辨識時間可能比錄音本身還長</b>，10 分鐘的音檔可能要等好幾分鐘到十幾分鐘，請耐心等待、不要關掉分頁。</li>
       <li>設計給<b>10 分鐘以內、以中文為主</b>的音檔／影片。檔案太長，瀏覽器可能會跑很久甚至當掉。</li>
+      <li><b>AI 碰到沒有人聲的片段會自己掰</b>——靜音、純音樂、片尾這種地方，Whisper 會吐出重複幾十次的鬼打牆（「絕對絕對絕對⋯」），或憑空生出「字幕:某某某」這類署名。<b>這是模型的通病，不是你的檔案有問題</b>（它的訓練資料大量來自 YouTube 字幕檔，字幕檔結尾常掛字幕者署名，模型就把這個習慣學走了）。上面的「清掉雜訊段落與重複鬼打牆」就是在處理這件事，預設開著。</li>
     </ul>
   </div>
 
@@ -242,6 +246,12 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
         <option value="base">快速（base，約 145 MB，電腦比較舊、或想先測試流程再選這個）</option>
       </select>
       <small>不確定就選「準確」。真的等太久再回來換「快速」試試看。</small>
+    </div>
+    <div class="field">
+      <label>輸出處理</label>
+      <label class="check"><input type="checkbox" id="opt-tw" checked><span>轉成繁體（台灣用語）</span></label>
+      <label class="check"><input type="checkbox" id="opt-clean" checked><span>清掉雜訊段落與重複鬼打牆</span></label>
+      <small>兩個都建議開著。想看模型原始輸出再關掉。</small>
     </div>
   </div>
 
@@ -310,6 +320,13 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
   </footer>
 </div>
 
+<!-- 簡繁對照表。刻意拆成外部檔案，不跟這一頁的「單一檔案」慣例一致——
+     它是 260KB 的「產生出來的資料」（來源 OpenCC，Apache-2.0），
+     塞進 HTML 會讓這個檔案沒辦法看也沒辦法 diff。
+     它是同目錄的靜態檔，不是 CDN，所以離線一樣能用。
+     要更新請跑 工具腳本/build-簡繁字表.ps1 -->
+<script src="assets/簡繁字表.js"></script>
+
 <script type="module">
 import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3/+esm';
 
@@ -373,6 +390,150 @@ const showErr = msg => {
   stage.classList.remove('on');
 };
 const clearErr = () => errbox.classList.add('hide');
+
+/* ── 簡繁轉換 ────────────────────────────────────────────────
+   Whisper 的中文輸出偏簡體——我們只能指定 language: 'chinese'，
+   這個標籤不分簡繁，所以要自己收尾。對照表來自 OpenCC
+   （見 assets/簡繁字表.js，Apache-2.0）。
+
+   兩階段，跟 OpenCC 的 s2twp 同一套：
+     第 1 階段 简体 → 傳統繁體（「麪條」）
+     第 2 階段 繁體 → 台灣用語（「麵條」、内存→記憶體）
+
+   每一階段都「長詞優先，比不到才逐字」。只逐字一定會在一對多的
+   字上出錯：「头发」逐字會變成「頭發」，只有詞表知道是「頭髮」。 */
+function buildConverter(data) {
+  if (!data || !data.sc) return null;
+  const parse = txt => {
+    const m = new Map();
+    for (const line of (txt || '').split('\n')) {
+      const i = line.indexOf('\t');
+      if (i > 0) m.set(line.slice(0, i), line.slice(i + 1));
+    }
+    return m;
+  };
+  const sc = parse(data.sc), sp = parse(data.sp), tc = parse(data.tc), tp = parse(data.tp);
+
+  const stage = (text, phrases, chars, maxLen) => {
+    const cp = Array.from(text);   // 用 code point 切，surrogate pair 不會被拆壞
+    let out = '', i = 0;
+    while (i < cp.length) {
+      let hit = null, len = 0;
+      for (let n = Math.min(maxLen, cp.length - i); n >= 2; n--) {
+        const v = phrases.get(cp.slice(i, i + n).join(''));
+        if (v !== undefined) { hit = v; len = n; break; }
+      }
+      if (hit !== null) { out += hit; i += len; continue; }
+      out += chars.has(cp[i]) ? chars.get(cp[i]) : cp[i];
+      i++;
+    }
+    return out;
+  };
+
+  return text => stage(stage(text, sp, sc, data.spMax || 12), tp, tc, data.tpMax || 10);
+}
+const toTraditional = buildConverter(window.OPENCC_TW);
+
+/* ── 幻覺與鬼打牆清理 ────────────────────────────────────────
+   Whisper 碰到「沒有語音可辨識」的片段（靜音、純音樂、片尾）會自己
+   掰，有兩種典型產物：
+
+   1. 重複迴圈：同一小段吐幾十次（绝对绝对绝对…）。實測
+      no_repeat_ngram_size 和 repetition_penalty 都救不了，因為重複是
+      「跨 chunk」的——30 秒靜音被切成 30 個 chunk，每個 chunk 各自
+      獨立幻覺一次，單次生成內的 n-gram 限制根本看不到它。
+      （實測：現行設定 92 字／30 條；ngram:6 → 89 字／30 條；
+        penalty:1.2 → 31 字／15 條。都還是垃圾。）
+      所以只能在後處理折疊。
+
+   2. 字幕署名樣板：「字幕:XXX」這一類。Whisper 的訓練資料大量來自
+      YouTube 字幕檔，字幕檔結尾常掛字幕者署名，模型把這個 pattern
+      背了下來，沒聲音可辨識的時候就去接它。
+
+   清理刻意保守：只砍「整句都是樣板」的段落，不做子字串比對，
+   不然真實內容裡剛好講到「字幕」就會被誤殺。 */
+
+// 連續重複折疊。兩字以上的單元重複 3 次以上 → 留一次；
+// 單字重複 4 次以上 → 留一次（「好好好」這種正常說法不碰）。
+const collapseRepeats = s => (s || '')
+  .replace(/(.{2,12}?)\1{2,}/gu, '$1')
+  .replace(/(.)\1{3,}/gu, '$1');
+
+const HALLUCINATION_PATTERNS = [
+  /^[（(\[【「]*\s*字幕\s*[:：by]*\s*[^。！？]{0,24}[）)\]】」]*\s*$/i,
+  /^[（(\[【「]*\s*(本|中文)?字幕(組|组)?\s*(由|係由|製作|制作|提供|翻譯|翻译|校對|校对)\s*[^。！？]{0,24}[）)\]】」]*\s*$/,
+  /^\s*請?不吝\s*(點贊|点赞|點讚)[^。]{0,30}$/,
+  /^[^。]{0,8}(訂閱|订阅)[^。]{0,4}(轉發|转发)[^。]{0,30}$/,
+];
+const isHallucination = s => {
+  const t = (s || '').trim();
+  if (!t) return true;
+  return HALLUCINATION_PATTERNS.some(re => re.test(t));
+};
+
+/* ── 靜音閘門 ────────────────────────────────────────────────
+   治根的一招：幻覺幾乎都發生在沒有人聲的區間，所以直接去量那段
+   音訊的音量，夠安靜就整句丟掉。PCM 本來就在手上，不用額外成本。
+
+   門檻刻意要求「絕對很小」和「相對很小」兩個條件同時成立才砍，
+   這是為了不誤殺小聲的課堂發言：
+     只看絕對值 → 整支都錄得很小聲的影片會被整段清空；
+     只看相對值 → 很乾淨的錄音裡正常的輕聲細語會被當成雜訊。
+   兩個都要才砍，所以是保守的那一端。 */
+const SILENCE_ABS  = 0.004;    // 約 -48 dBFS
+const SILENCE_REL  = 0.03;     // 低於這支影片人聲水準的 3%（約 -30 dB）
+/* 硬底線：約 -74 dBFS，幾乎就是數位靜音。
+   需要這條是因為「兩個條件都要成立」有個洞——整支都是靜音時，
+   ref（人聲水準）本身就是 0，相對條件永遠不可能成立，結果整檔
+   的幻覺全部留下來（實測踩過）。
+   但這個洞不能靠放寬相對條件來補，否則「整支都錄得很小聲」的
+   影片會被清空。真實麥克風錄音一秒的 RMS 不可能低到這個程度，
+   只有數位靜音（剪掉的段落、沒接到音源）才會，所以用絕對硬底線
+   把這兩種情況分開。 */
+const SILENCE_HARD = 0.0002;
+
+function segmentRms(pcm, start, end) {
+  if (!pcm || !pcm.length) return null;
+  const a = Math.max(0, Math.floor(start * 16000));
+  const b = Math.min(pcm.length, Math.ceil(end * 16000));
+  if (b <= a) return null;
+  let sum = 0;
+  for (let i = a; i < b; i++) sum += pcm[i] * pcm[i];
+  return Math.sqrt(sum / (b - a));
+}
+
+function dropSilentSegments(segs, pcm) {
+  if (!pcm || !pcm.length || !segs.length) return segs;
+  const rms = segs.map(s => segmentRms(pcm, s.start, s.end));
+  const sorted = rms.filter(v => v !== null).slice().sort((a, b) => a - b);
+  if (!sorted.length) return segs;
+  // 用第 90 百分位當「這支影片的人聲水準」，比用最大值穩（一聲咳嗽不會歪掉）
+  const ref = sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * 0.9))];
+  return segs.filter((s, i) => {
+    const v = rms[i];
+    if (v === null) return true;
+    if (v < SILENCE_HARD) return false;                      // 等同數位靜音，直接砍
+    return !(v < SILENCE_ABS && v < ref * SILENCE_REL);      // 其餘要兩個條件都成立才砍
+  });
+}
+
+/* 收尾：組段 → 去靜音 → 折重複 → 砍樣板 → 簡轉繁。
+   純文字也從同一份 segments 組回去，這樣「純文字」「逐句」
+   「字幕檔」三個出口不會互相矛盾（之前純文字用的是模型原始
+   輸出，字幕用的是 chunks，清理過後兩邊就會不一致）。 */
+function finishSegments(chunks, duration, pcm, opts) {
+  let segs = buildSegments(chunks, duration);
+  const before = segs.length;
+  if (opts.clean) {
+    segs = dropSilentSegments(segs, pcm);
+    segs = segs.map(s => ({ start: s.start, end: s.end, text: collapseRepeats(s.text).trim() }));
+    segs = segs.filter(s => !isHallucination(s.text));
+  }
+  if (opts.tw && toTraditional) {
+    segs = segs.map(s => ({ start: s.start, end: s.end, text: toTraditional(s.text) }));
+  }
+  return { segs, removed: before - segs.length };
+}
 
 /* ── 1. 載入模型（有下載進度回報）───────────────────────── */
 async function loadModel(size) {
@@ -627,18 +788,47 @@ async function handle(file) {
       extractAudio(file),
     ]);
     const out = await runAsr(audio.pcm);
+    const opts = { clean: $('#opt-clean').checked, tw: $('#opt-tw').checked };
+    const fin = finishSegments(out.chunks, audio.seconds, audio.pcm, opts);
+    segments = fin.segs;
 
-    $('#out').value = out.text || '（沒有辨識出文字，音量太小或幾乎沒有語音內容時會這樣）';
-    segments = buildSegments(out.chunks, audio.seconds);
+    /* 純文字一句一行。這比擠成一整塊好讀，而且跟逐句、字幕檔
+       同源，不會出現「純文字裡有鬼打牆、字幕裡沒有」這種矛盾。 */
+    let plain;
+    if (segments.length) {
+      plain = segments.map(s => s.text).join('\n');
+    } else {
+      // 沒拿到時間軸（很短的音檔偶爾會這樣），就直接處理整段文字
+      let t = out.text || '';
+      if (opts.clean) { t = collapseRepeats(t); if (isHallucination(t)) t = ''; }
+      if (opts.tw && toTraditional) t = toTraditional(t);
+      plain = t.trim();
+    }
+    $('#out').value = plain || '（沒有辨識出文字 —— 音量太小、或整段幾乎沒有語音內容時會這樣）';
     renderSegs(segments);
 
     const hasSeg = segments.length > 0;
     $('#dl-srt').disabled = !hasSeg;
     $('#dl-vtt').disabled = !hasSeg;
     tabSeg.disabled = !hasSeg;
-    segNote.textContent = hasSeg
-      ? '共 ' + segments.length + ' 句。.srt 可以直接丟進剪輯軟體或 YouTube 上字幕；.vtt 給網頁播放器用。時間軸是 AI 估的，上字幕前自己再看一遍。'
-      : '這次沒有拿到時間軸，只能用純文字（很短的音檔偶爾會這樣）。';
+
+    const notes = [];
+    if (hasSeg) {
+      notes.push('共 ' + segments.length + ' 句');
+      if (fin.removed > 0) notes.push('清掉 ' + fin.removed + ' 段雜訊或重複鬼打牆');
+      notes.push('.srt 可以直接丟進剪輯軟體或 YouTube 上字幕；.vtt 給網頁播放器用');
+      notes.push('時間軸是 AI 估的，上字幕前自己再看一遍');
+    } else {
+      /* 不要在這裡講「是靜音」——段落可能是被靜音閘門砍的，也可能是被
+         幻覺樣板砍的（純音樂其實很大聲），講錯原因會誤導 */
+      notes.push(fin.removed > 0
+        ? '辨識出來的 ' + fin.removed + ' 段都被判定成雜訊或幻覺，整段沒有可用內容'
+        : '這次沒有拿到時間軸，只能用純文字（很短的音檔偶爾會這樣）');
+    }
+    if (opts.tw && !toTraditional) {
+      notes.push('⚠️ 簡繁對照表沒載入（assets/簡繁字表.js 不見了？），這次沒有轉繁體');
+    }
+    segNote.textContent = notes.join('。') + '。';
     if (hasSeg) attachSubtitles(segments);
     showTab('text');
     result.classList.add('on');
