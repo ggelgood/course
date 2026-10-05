@@ -26,7 +26,13 @@
   這是「處理過程隱私」跟「完全離線」的差別，頁面上有講清楚，
   不要因為想跟另外兩個工具的文案一致，就把「免網路」也抄過來。
 
-  ⚠️ 這裡不要放講義相關的說明。這一頁只做「語音轉文字」這件事。
+  ⚠️ 這裡不要放講義相關的說明。這一頁只做「語音／影片轉文字 ＋ 字幕」這件事。
+
+  影片的部分跟純音檔差在「要能驗證字幕對不對」，所以多了三樣東西：
+  辨識時開 return_timestamps 拿句子級時間軸、把結果組成 VTT 掛回
+  <video> 的字幕軌、逐句清單點了會 seek。字幕檔（.srt／.vtt）也是從
+  同一份 segments 產出來的，格式只差毫秒的分隔符號（逗號 vs 點）。
+  不需要 ffmpeg.wasm——取音軌用 decodeAudioData 就夠了（見下面註解）。
   ═══════════════════════════════════════════════════════════
 -->
 <style>
@@ -157,6 +163,48 @@ code{background:var(--ground-2);padding:.1rem .4rem;border-radius:5px;font-famil
 .result textarea:focus{outline:3px solid var(--accent);outline-offset:1px}
 .copied{color:var(--go);font-family:var(--display);font-weight:600;font-size:.88rem}
 
+/* ── 影片／音檔預覽 ─────────────────────────────────────────
+   影片的價值在「字幕跟畫面對得上」，所以辨識完要能當場驗證：
+   影片直接掛 VTT 字幕軌，逐句清單點了會跳播。            */
+.preview{
+  display:none;background:var(--card);border:3px solid var(--ink);border-radius:18px;
+  padding:.9rem;margin:1.4rem 0;box-shadow:var(--shadow-md);
+}
+.preview.on{display:block}
+.preview video{width:100%;max-height:26rem;border-radius:12px;background:#000;display:block}
+.preview audio{width:100%;display:block}
+.preview__note{font-size:.8rem;color:var(--ink-soft);line-height:1.6;margin:.6rem .2rem 0}
+
+/* ── 純文字／逐句切換 ───────────────────────────────────── */
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 .8rem}
+.tab{
+  font:inherit;font-family:var(--display);font-weight:600;font-size:.88rem;cursor:pointer;
+  padding:.4rem 1rem;border-radius:999px;border:2.5px solid var(--rule);
+  background:var(--card);color:var(--ink-soft);transition:.14s;
+}
+.tab:hover:not(:disabled){border-color:var(--ink);color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.tab:disabled{opacity:.4;cursor:default}
+
+/* ── 逐句時間軸 ─────────────────────────────────────────── */
+.segs{
+  display:none;max-height:26rem;overflow:auto;
+  border:3px solid var(--ink);border-radius:16px;background:var(--card);padding:.5rem;
+}
+.segs.on{display:block}
+.seg{
+  display:flex;gap:.8rem;align-items:flex-start;width:100%;text-align:left;
+  font:inherit;font-size:1rem;cursor:pointer;background:transparent;border:none;
+  border-radius:10px;padding:.5rem .6rem;color:var(--ink);line-height:1.75;
+}
+.seg:hover{background:var(--ground-2)}
+.seg.now{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.seg__t{
+  flex:0 0 auto;font-family:var(--mono);font-size:.78rem;color:var(--ink-soft);
+  background:var(--ground-2);border-radius:6px;padding:.1rem .4rem;margin-top:.25rem;
+}
+.seg.now .seg__t{color:var(--bad);background:#fff}
+
 footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color:var(--ink-soft);font-size:.86rem}
 .hide{display:none}
 </style>
@@ -169,6 +217,7 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
     <span class="tag">免安裝 · 免上傳 · 首次使用需下載 AI 模型</span>
     <h1>語音<em>逐字稿工具</em></h1>
     <p>上傳一段音檔或影片，在<strong>你自己的瀏覽器裡</strong>跑語音辨識，轉成文字。
+    影片還會<strong>附上時間軸、直接掛字幕給你對照</strong>，可以下載成 <code>.srt</code>／<code>.vtt</code> 字幕檔。
     檔案本身<strong>不會上傳到任何伺服器</strong>，但第一次使用需要連網下載 AI 模型，請往下看清楚再用。</p>
   </div>
 </header>
@@ -221,15 +270,28 @@ footer{border-top:3px solid var(--rule);margin-top:3rem;padding-top:1.4rem;color
     <p class="stage__note" id="asrnote">還沒開始</p>
   </div>
 
+  <div class="preview" id="preview">
+    <div id="previewHost"></div>
+    <p class="preview__note" id="previewNote"></p>
+  </div>
+
   <div class="result" id="result">
     <h2>逐字稿</h2>
+    <div class="tabs" role="tablist" aria-label="逐字稿顯示方式">
+      <button class="tab" type="button" id="tab-text" role="tab" aria-selected="true" aria-controls="out">純文字</button>
+      <button class="tab" type="button" id="tab-seg" role="tab" aria-selected="false" aria-controls="segs">逐句（含時間，點了會跳播）</button>
+    </div>
     <textarea id="out" readonly spellcheck="false"></textarea>
+    <div class="segs" id="segs"></div>
     <div class="bar">
-      <button class="btn btn--go" id="copy">📋 複製</button>
-      <button class="btn" id="download">⬇ 下載成 .txt</button>
+      <button class="btn btn--go" id="copy">📋 複製純文字</button>
+      <button class="btn" id="download">⬇ 下載 .txt</button>
+      <button class="btn" id="dl-srt" disabled>🎬 下載字幕 .srt</button>
+      <button class="btn" id="dl-vtt" disabled>🌐 下載字幕 .vtt</button>
       <button class="btn btn--ghost" id="again">重新開始</button>
       <span class="copied hide" id="copied">已複製！</span>
     </div>
+    <p class="stage__note" id="segnote"></p>
   </div>
 
   <div class="note note--bad hide" id="errbox">
@@ -259,11 +321,52 @@ const stepModel = $('#step-model'), modelBar = $('#modelbar'), modelNote = $('#m
 const stepAudio = $('#step-audio'), audioNote = $('#audionote');
 const stepAsr   = $('#step-asr'),   asrNote   = $('#asrnote');
 
+const preview = $('#preview'), previewHost = $('#previewHost'), previewNote = $('#previewNote');
+const segsBox = $('#segs'), segNote = $('#segnote');
+const tabText = $('#tab-text'), tabSeg = $('#tab-seg');
+
 let transcriber = null;
 let loadedModel = null;
+let segments = [];          // [{ start, end, text }]
+let baseName = '逐字稿';    // 下載檔名跟著原始檔名走，一次轉好幾支影片才分得出來
+let previewUrl = null, trackUrl = null, player = null, lastSegIdx = -1;
 
 /* ── 小工具 ──────────────────────────────────────────────── */
 const setStep = (el, state) => { el.classList.remove('wait', 'now', 'done'); el.classList.add(state); };
+
+/* 字幕檔的時間格式：.srt 用逗號、.vtt 用點，其他一模一樣 */
+const stamp = (sec, msSep) => {
+  const t = Math.max(0, sec || 0);
+  const p = (n, w) => String(n).padStart(w || 2, '0');
+  return p(Math.floor(t / 3600)) + ':' + p(Math.floor(t % 3600 / 60)) + ':' + p(Math.floor(t % 60))
+       + msSep + p(Math.floor((t % 1) * 1000), 3);
+};
+/* 畫面上給人看的時間，不用到毫秒 */
+const clock = sec => {
+  const t = Math.max(0, Math.floor(sec || 0));
+  const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), s = t % 60;
+  const p = n => String(n).padStart(2, '0');
+  return h ? h + ':' + p(m) + ':' + p(s) : m + ':' + p(s);
+};
+
+const toSrt = segs => segs.map((s, i) =>
+  (i + 1) + '\n' + stamp(s.start, ',') + ' --> ' + stamp(s.end, ',') + '\n' + s.text + '\n').join('\n');
+
+const toVtt = segs => 'WEBVTT\n\n' + segs.map((s, i) =>
+  (i + 1) + '\n' + stamp(s.start, '.') + ' --> ' + stamp(s.end, '.') + '\n' + s.text + '\n').join('\n');
+
+/* 影片要分開判斷，因為錯誤訊息跟預覽元素都不一樣。
+   有些瀏覽器拖進來的 file.type 是空的，所以副檔名也要看。 */
+const isVideoFile = file =>
+  (file.type || '').startsWith('video/') || /\.(mp4|webm|mov|m4v|ogv|mkv)$/i.test(file.name || '');
+
+const saveFile = (text, name, mime) => {
+  const url = URL.createObjectURL(new Blob([text], { type: mime + ';charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
 const showErr = msg => {
   errmsg.textContent = msg;
   errbox.classList.remove('hide');
@@ -323,7 +426,11 @@ async function extractAudio(file) {
     decoded = await ctx.decodeAudioData(buf);
   } catch (e) {
     await ctx.close();
-    throw new Error('這個檔案沒辦法讀出聲音——可能是格式太少見，換成常見的 mp3、wav、mp4 試試看。');
+    /* 螢幕錄影很常整支沒有音軌，這時候講「格式太少見」會害老師一直換檔案，
+       所以影片要給不一樣的提示：先去上面的預覽確認有沒有聲音。 */
+    throw new Error(isVideoFile(file)
+      ? '這支影片讀不出聲音——最常見的原因是錄影的時候「沒有錄到聲音」（螢幕錄影特別容易這樣）。先用上面的預覽播一下確認有沒有聲音；如果確定有聲音，就是編碼太少見，轉成 mp4 再試一次。'
+      : '這個檔案沒辦法讀出聲音——可能是格式太少見，換成常見的 mp3、wav、m4a 試試看。');
   }
 
   audioNote.textContent = '重新取樣到 16kHz…';
@@ -345,7 +452,8 @@ async function extractAudio(file) {
   if (seconds > 12 * 60) {
     audioNote.textContent += '（比建議的 10 分鐘長不少，辨識可能要等很久）';
   }
-  return rendered.getChannelData(0);
+  /* 回傳總長度，是因為 Whisper 最後一句常常沒有結束時間，要拿它來補 */
+  return { pcm: rendered.getChannelData(0), seconds };
 }
 
 /* ── 3. 辨識 ─────────────────────────────────────────────── */
@@ -362,15 +470,139 @@ async function runAsr(pcm) {
       task: 'transcribe',
       chunk_length_s: 30,        // Whisper 一次只吃 30 秒，長音檔要切段
       stride_length_s: 5,
+      return_timestamps: true,   // 要句子級時間軸，才能產字幕檔
     });
     clearInterval(timer);
     setStep(stepAsr, 'done');
     asrNote.textContent = '完成，共花了 ' + Math.round((performance.now() - t0) / 1000) + ' 秒。';
-    return (out && out.text) ? out.text.trim() : '';
+    return {
+      text: (out && out.text) ? out.text.trim() : '',
+      chunks: (out && out.chunks) || [],
+    };
   } catch (e) {
     clearInterval(timer);
     throw e;
   }
+}
+
+/* ── 4. 把 Whisper 的 chunks 整成可以寫成字幕的段落 ──────────
+   transformers.js 回來的 chunk 可能缺結束時間（最後一段尤其常見），
+   也可能是空白句。缺的結束時間用下一句的開始補，最後一句用音檔總長。 */
+function buildSegments(chunks, duration) {
+  const segs = [];
+  (chunks || []).forEach(c => {
+    const text = (c && c.text || '').trim();
+    if (!text) return;
+    const ts = c.timestamp || [];
+    const start = typeof ts[0] === 'number' ? ts[0]
+                : (segs.length ? segs[segs.length - 1].end : 0);
+    segs.push({ start, end: typeof ts[1] === 'number' ? ts[1] : null, text });
+  });
+
+  for (let i = 0; i < segs.length; i++) {
+    const s = segs[i];
+    if (s.end != null && s.end > s.start) continue;
+    const nextStart = i + 1 < segs.length ? segs[i + 1].start : null;
+    if (nextStart != null && nextStart > s.start) s.end = nextStart;
+    else if (duration && duration > s.start) s.end = duration;
+    else s.end = s.start + 2;
+  }
+  return segs;
+}
+
+/* ── 5. 影片／音檔預覽 ───────────────────────────────────── */
+function teardownPreview() {
+  if (player) { player.pause(); player.removeAttribute('src'); player.load(); }
+  previewHost.innerHTML = '';
+  player = null;
+  preview.classList.remove('on');
+  if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+  if (trackUrl)   { URL.revokeObjectURL(trackUrl);   trackUrl = null; }
+  lastSegIdx = -1;
+}
+
+function setupPreview(file) {
+  teardownPreview();
+  const isVideo = isVideoFile(file);
+  previewUrl = URL.createObjectURL(file);
+  player = document.createElement(isVideo ? 'video' : 'audio');
+  player.controls = true;
+  player.preload = 'metadata';
+  player.src = previewUrl;
+  previewHost.appendChild(player);
+  previewNote.textContent = isVideo
+    ? '辨識完成後字幕會自己掛上去（播放器的字幕按鈕可以開關）；點下面「逐句」裡的任何一句，影片就會跳到那一秒。'
+    : '辨識完成後，點下面「逐句」裡的任何一句，就會跳到音檔的那一秒。';
+  preview.classList.add('on');
+  player.addEventListener('timeupdate', highlightNow);
+}
+
+/* 影片才掛字幕軌——音檔沒有畫面，掛了也看不到 */
+function attachSubtitles(segs) {
+  if (!player || player.tagName !== 'VIDEO' || !segs.length) return;
+  trackUrl = URL.createObjectURL(new Blob([toVtt(segs)], { type: 'text/vtt' }));
+  const track = document.createElement('track');
+  track.kind = 'subtitles';
+  track.label = '中文逐字稿';
+  track.srclang = 'zh-Hant';
+  track.src = trackUrl;
+  track.default = true;
+  player.appendChild(track);
+  /* default 在部分瀏覽器不會真的打開，load 之後再明確設一次 */
+  const show = () => { if (track.track) track.track.mode = 'showing'; };
+  track.addEventListener('load', show);
+  requestAnimationFrame(show);
+}
+
+/* ── 6. 逐句清單 ────────────────────────────────────────── */
+function renderSegs(segs) {
+  segsBox.innerHTML = '';
+  segs.forEach(s => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'seg';
+    const t = document.createElement('span');
+    t.className = 'seg__t';
+    t.textContent = clock(s.start);
+    const p = document.createElement('span');
+    p.textContent = s.text;
+    b.append(t, p);
+    b.addEventListener('click', () => {
+      if (!player) return;
+      player.currentTime = s.start + 0.01;
+      player.play().catch(() => {});   // 自動播放被擋就算了，時間還是跳到了
+    });
+    segsBox.appendChild(b);
+  });
+}
+
+function highlightNow() {
+  if (!player || !segments.length) return;
+  const t = player.currentTime;
+  let idx = -1;
+  for (let i = 0; i < segments.length; i++) {
+    if (t >= segments[i].start && t < segments[i].end) { idx = i; break; }
+  }
+  if (idx === lastSegIdx) return;          // 只在換句時動，不然會一直跟使用者搶捲軸
+  lastSegIdx = idx;
+  segsBox.querySelectorAll('.seg.now').forEach(el => el.classList.remove('now'));
+  const el = idx >= 0 ? segsBox.children[idx] : null;
+  if (!el) return;
+  el.classList.add('now');
+  if (segsBox.classList.contains('on')) {
+    segsBox.scrollTo({
+      top: el.offsetTop - segsBox.clientHeight / 2 + el.clientHeight / 2,
+      behavior: 'smooth',
+    });
+  }
+}
+
+function showTab(which) {
+  const isText = which === 'text';
+  tabText.setAttribute('aria-selected', String(isText));
+  tabSeg.setAttribute('aria-selected', String(!isText));
+  $('#out').classList.toggle('hide', !isText);
+  segsBox.classList.toggle('on', !isText);
 }
 
 /* ── 主流程 ──────────────────────────────────────────────── */
@@ -382,15 +614,33 @@ async function handle(file) {
   [stepModel, stepAudio, stepAsr].forEach(s => setStep(s, 'wait'));
   modelBar.style.width = '0%';
   drop.classList.add('off');
+  segments = [];
+  segsBox.innerHTML = '';
+  segNote.textContent = '';
+  baseName = (file.name || '逐字稿').replace(/\.[^.]+$/, '') || '逐字稿';
+  setupPreview(file);   // 先讓人看到影片，等辨識的時候不會乾等一片空白
 
   try {
     const size = modelSel.value;
-    const [asr, pcm] = await Promise.all([
+    const [asr, audio] = await Promise.all([
       loadModel(size),
       extractAudio(file),
     ]);
-    const text = await runAsr(pcm);
-    $('#out').value = text || '（沒有辨識出文字，音量太小或幾乎沒有語音內容時會這樣）';
+    const out = await runAsr(audio.pcm);
+
+    $('#out').value = out.text || '（沒有辨識出文字，音量太小或幾乎沒有語音內容時會這樣）';
+    segments = buildSegments(out.chunks, audio.seconds);
+    renderSegs(segments);
+
+    const hasSeg = segments.length > 0;
+    $('#dl-srt').disabled = !hasSeg;
+    $('#dl-vtt').disabled = !hasSeg;
+    tabSeg.disabled = !hasSeg;
+    segNote.textContent = hasSeg
+      ? '共 ' + segments.length + ' 句。.srt 可以直接丟進剪輯軟體或 YouTube 上字幕；.vtt 給網頁播放器用。時間軸是 AI 估的，上字幕前自己再看一遍。'
+      : '這次沒有拿到時間軸，只能用純文字（很短的音檔偶爾會這樣）。';
+    if (hasSeg) attachSubtitles(segments);
+    showTab('text');
     result.classList.add('on');
   } catch (e) {
     console.error(e);
@@ -433,7 +683,9 @@ $('#copy').addEventListener('click', async () => {
     flash(true);
   } catch (e) {
     /* Clipboard API 被擋的時候（權限、舊瀏覽器⋯）退回選取文字＋execCommand，
-       這個也失敗的話，至少幫使用者把文字選起來，手動 Ctrl+C 還是能複製。 */
+       這個也失敗的話，至少幫使用者把文字選起來，手動 Ctrl+C 還是能複製。
+       但隱藏的 textarea 選不起來，所以先切回「純文字」分頁。 */
+    showTab('text');
     try {
       $('#out').select();
       const ok = document.execCommand('copy');
@@ -446,19 +698,29 @@ $('#copy').addEventListener('click', async () => {
 });
 
 $('#download').addEventListener('click', () => {
-  const blob = new Blob([$('#out').value], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = '逐字稿.txt';
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  saveFile($('#out').value, baseName + '-逐字稿.txt', 'text/plain');
 });
+$('#dl-srt').addEventListener('click', () => {
+  if (segments.length) saveFile(toSrt(segments), baseName + '.srt', 'text/plain');
+});
+$('#dl-vtt').addEventListener('click', () => {
+  if (segments.length) saveFile(toVtt(segments), baseName + '.vtt', 'text/vtt');
+});
+
+tabText.addEventListener('click', () => showTab('text'));
+tabSeg.addEventListener('click', () => { showTab('seg'); lastSegIdx = -1; highlightNow(); });
 
 $('#again').addEventListener('click', () => {
   result.classList.remove('on');
   stage.classList.remove('on');
   clearErr();
   $('#out').value = '';
+  $('#out').classList.remove('hide');
+  segments = [];
+  segsBox.innerHTML = '';
+  segsBox.classList.remove('on');
+  segNote.textContent = '';
+  teardownPreview();
 });
 </script>
 </body>
