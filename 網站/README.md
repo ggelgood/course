@@ -660,3 +660,71 @@ Scratch 17 課總共留了 **50 個素材位置：39 個 GIF ＋ 11 張截圖**�
 1. **排序題的答案有沒有外洩**（正確順序出現在題目上方了嗎）
 2. **有沒有偷跑到後面的課**（教了地圖上屬於後面課次的東西）
 3. **跨課指涉對不對**（「下一課」「上禮拜」「第 N 課」有沒有寫錯）
+
+---
+
+## AI 生圖提示詞收藏（`prompts/`）
+
+`prompts/AI生圖提示詞收藏.html` 不是一堂課，是**素材收藏頁**。
+它只吃 `lesson.css` ＋ `prompts.css` ／ `lesson.js` ＋ `prompts.js`，
+跟 17 課完全無關——**不要把這一頁的東西搬進 `lesson.*`**。
+
+首頁的入口在側欄最底下那一組（`#course-prompt`），跟「小工具」放在一起。
+
+### ⚠️ 內容是別人的，出處不能拿掉
+
+這一頁收的提示詞與成果圖來自 Threads 帳號 `@levelsio.ai`，著作權屬原作者。
+出處寫在**三個地方**，改版時三個都要留著：
+
+1. 頁面上方的 `.credit` 條（第 1 節「先說出處」）
+2. 每一張卡片下方的 `.psrc`「看原貼文 ↗」連結
+3. 頁尾 `<footer>`
+
+**每張卡片都一定要有 `.psrc` 連到那一篇原貼文**，不是只連到帳號首頁。
+
+### 新增一張提示詞卡
+
+把 `.pgrid` 裡那段註解的骨架複製出來，貼在 `.pgrid` 裡面：
+
+```html
+<article class="pcard" data-tags="仰拍 復古">
+  <div class="pcard__head">
+    <h3 class="pcard__t">風格名稱</h3>
+    <span class="pcard__tag">標籤</span>
+  </div>
+  <figure class="pcard__shot">
+    <img src="../media/prompts/風格名稱.webp" width="1200" height="1200"
+         alt="描述這張圖的內容" loading="lazy" decoding="async">
+    <figcaption>這張圖的重點在哪</figcaption>
+  </figure>
+  <div class="pcard__body">
+    <p class="pcard__lb"><b>提示詞</b><span>補充說明</span></p>
+    <pre class="pcard__pre">提示詞原文，整段照抄，不要改字</pre>
+  </div>
+  <div class="pcard__foot">
+    <button class="pcopy" type="button">複製提示詞</button>
+    <a class="psrc" href="原貼文網址" target="_blank" rel="noopener">看原貼文 ↗</a>
+  </div>
+</article>
+```
+
+幾個要注意的點：
+
+- **`data-tags` 用空白隔開**，上方的篩選鈕是 `prompts.js` 從所有卡片的
+  `data-tags` 自動生出來的——**新增卡片不用回去改 JS，也不用手寫按鈕**。
+  只有一種標籤時整條篩選列會自己隱藏。
+- **`<pre>` 裡的提示詞要照抄原文**，不要順手改字。學生照著複製卻生不出那張圖，
+  通常就是中間被改過。裡面的 `<` `>` `&` 要寫成 `&lt;` `&gt;` `&amp;`。
+- **`<pre>` 的縮排會跟著被複製走。** 提示詞要**貼齊左邊**寫，
+  不要跟著 HTML 的縮排一起內縮，不然複製出來每一行前面都有空白。
+- **`img` 的 `width` / `height` 一定要寫**（原圖的像素尺寸），
+  不寫的話圖載入時整個版面會跳一下。
+- 圖片放 `media/prompts/`，**先用 `tools/圖片壓縮.html` 壓過**再放進來。
+- 卡片放進去之後，`.pempty` 那塊佔位說明會被 `prompts.js` 自動隱藏，
+  **不用手動刪掉**——哪天卡片全部移除，它又會自己出現。
+
+### 沒有 JS 也要能用
+
+`prompts.js` 跟 `home.js` 一樣是「加分用」的：JS 沒載到的時候，
+提示詞照樣看得到、可以自己框起來複製，原貼文連結也還是普通連結。
+**做新功能時不要破壞這件事**（例如不要改成用 JS 才把提示詞填進 `<pre>`）。

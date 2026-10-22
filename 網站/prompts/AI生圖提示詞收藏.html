@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 生圖提示詞收藏</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=9">
+<link rel="stylesheet" href="../assets/prompts.css?v=1">
+</head>
+<body>
+
+<div class="railtop"><i id="rail"></i></div>
+
+<header class="stage-open">
+  <div class="wrap">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <span class="tag">素材收藏 · 不是一堂課</span>
+    <h1>AI 生圖<em>提示詞收藏</em></h1>
+    <p class="lede">這裡收的是別人寫好、而且<strong style="color:#FFBF00">真的生得出那張圖</strong>的提示詞。每一張卡片都有三個東西：<strong style="color:#FFBF00">成果圖</strong>（先看做得出什麼）、<strong style="color:#FFBF00">提示詞原文</strong>（可以整段複製）、<strong style="color:#FFBF00">原貼文連結</strong>（想看更多就點過去）。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="spine">
+  <div class="spine__line"><i class="spine__fill"></i></div>
+</div>
+
+<!-- ── 出處：這一頁的內容是別人的，放在最上面 ───────────── -->
+<section>
+  <h2 class="h2"><b>1</b>先說出處</h2>
+
+  <div class="credit">
+    <span class="credit__tag">內容出處</span>
+    <p>本頁收錄的提示詞與成果圖，整理自 Threads 帳號
+      <a href="https://www.threads.com/@levelsio.ai" target="_blank" rel="noopener">@levelsio.ai</a>。
+      著作權屬於原作者，這裡只做教學用的整理與引用；每一張卡片下方都附<strong>原貼文連結</strong>，
+      要看完整內容請點回原貼文。原作者若希望撤下，請告知，我會立刻移除。</p>
+  </div>
+
+  <p>順便學一件事：把別人的東西放到自己的網頁上，<strong style="color:#FF6B1A">一定要寫清楚是誰做的、從哪裡來的</strong>——這不是客氣，是規矩。你以後做報告、做簡報，只要用到網路上找到的圖或文字，都要像上面那個框一樣，把<strong>作者</strong>和<strong>原始網址</strong>一起寫出來。</p>
+
+  <p>反過來想也一樣：你辛苦寫出來的提示詞被別人拿去用、卻說是自己想的，你也會不開心。</p>
+</section>
+
+<!-- ── 提示詞卡片 ──────────────────────────────────────── -->
+<section>
+  <h2 class="h2"><b>2</b>提示詞</h2>
+
+  <p>點「<strong>複製提示詞</strong>」就能整段帶走，貼到會生圖的 AI 裡（ChatGPT、Gemini、Copilot⋯⋯）就可以試。
+    同一組提示詞<strong>每次生出來的圖都不會一樣</strong>，跟卡片上的成果圖有出入是正常的。</p>
+
+  <!-- 風格篩選鈕由 prompts.js 自動生成，這個 div 保持空的 -->
+  <div class="pfilter"></div>
+
+  <div class="pgrid">
+
+    <!-- ╔══════════════════════════════════════════════════╗
+         ║  新增一張卡就複製下面這一段，換掉裡面的內容。     ║
+         ║  完整說明在 網站/README.md 的「AI 生圖提示詞收藏」 ║
+         ║                                                  ║
+         ║  <article class="pcard" data-tags="風格A 風格B">  ║
+         ║    <div class="pcard__head">                     ║
+         ║      <h3 class="pcard__t">風格名稱</h3>           ║
+         ║      <span class="pcard__tag">標籤</span>         ║
+         ║    </div>                                        ║
+         ║    <figure class="pcard__shot">                  ║
+         ║      <img src="../media/prompts/xx.webp"         ║
+         ║           width="1200" height="1200"             ║
+         ║           alt="描述這張圖的內容" loading="lazy"   ║
+         ║           decoding="async">                      ║
+         ║      <figcaption>這張圖的重點在哪</figcaption>    ║
+         ║    </figure>                                     ║
+         ║    <div class="pcard__body">                     ║
+         ║      <p class="pcard__lb">                       ║
+         ║        <b>提示詞</b><span>補充說明</span></p>     ║
+         ║      <pre class="pcard__pre">提示詞原文</pre>     ║
+         ║    </div>                                        ║
+         ║    <div class="pcard__foot">                     ║
+         ║      <button class="pcopy" type="button">        ║
+         ║        複製提示詞</button>                        ║
+         ║      <a class="psrc" href="原貼文網址"            ║
+         ║         target="_blank" rel="noopener">          ║
+         ║        看原貼文 ↗</a>                             ║
+         ║    </div>                                        ║
+         ║  </article>                                      ║
+         ╚══════════════════════════════════════════════════╝ -->
+
+    <div class="pempty">
+      <b>這一頁的卡片還沒放進來</b>
+      <p>版面、複製按鈕、出處標示都已經做好了，等提示詞與成果圖補上就會顯示在這裡。</p>
+      <p>補內容的方法寫在 <code>網站/README.md</code>。</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="sos">
+  <h3>⚠️ 生出來的圖跟範例差很多？先看這裡</h3>
+  <ul>
+    <li><strong>整段都要貼。</strong>提示詞是一整組條件，只貼前面一兩句，後面的構圖、光線、顏色全部會變成 AI 自己決定。</li>
+    <li><strong>看看提示詞裡有沒有要你換掉的字。</strong>很多提示詞會留「〔放你的照片〕」「〔換成你的名字〕」這種空位，沒換掉 AI 就照字面畫。</li>
+    <li><strong>要上傳照片的提示詞，照片要先傳上去再貼提示詞。</strong>順序顛倒的話，AI 看不到照片，只能憑空畫一個人。</li>
+    <li><strong>每次都不一樣是正常的。</strong>同一段提示詞生十次會有十個樣子，不是你做錯了。不滿意就再生一次。</li>
+    <li><strong>不要拿同學的臉去生圖。</strong>要用人臉就用自己的，而且生出來的圖不要上傳到公開的地方。</li>
+  </ul>
+</div>
+
+<footer>
+  <p>AI 生圖提示詞收藏 · 內容出自 Threads
+    <a href="https://www.threads.com/@levelsio.ai" target="_blank" rel="noopener">@levelsio.ai</a>，
+    著作權屬原作者</p>
+</footer>
+
+</main>
+
+<script src="../assets/lesson.js?v=5"></script>
+<script src="../assets/prompts.js?v=1"></script>
+</body>
+</html>
