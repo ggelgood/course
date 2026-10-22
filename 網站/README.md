@@ -665,9 +665,15 @@ Scratch 17 課總共留了 **50 個素材位置：39 個 GIF ＋ 11 張截圖**�
 
 ## AI 生圖提示詞收藏（`prompts/`）
 
-`prompts/AI生圖提示詞收藏.html` 不是一堂課，是**素材收藏頁**。
-它只吃 `lesson.css` ＋ `prompts.css` ／ `lesson.js` ＋ `prompts.js`，
-跟 17 課完全無關——**不要把這一頁的東西搬進 `lesson.*`**。
+`prompts/AI生圖提示詞收藏.html` **不是一堂課，是作品牆**：一張成果圖配一段
+可以整段複製的提示詞，沒有分節、沒有編號、沒有講解、沒有進度脊椎。
+加東西的時候請維持這個調性——**要寫教學就另外開一課**，不要寫回這一頁。
+
+它只吃 `lesson.css` ＋ `prompts.css` 和 `prompts.js`（連 `lesson.js` 都不用，
+因為這頁沒有揭曉、打勾、脊椎那些元件）。**不要把這一頁的東西搬進 `lesson.*`**。
+
+版面比課頁寬：`<main class="wrap wrap--wide">`（76rem，課頁是 60rem），
+卡片用 `auto-fill` 自動排，螢幕夠寬就多排幾欄。
 
 首頁的入口在側欄最底下那一組（`#course-prompt`），跟「小工具」放在一起。
 
@@ -676,8 +682,8 @@ Scratch 17 課總共留了 **50 個素材位置：39 個 GIF ＋ 11 張截圖**�
 這一頁收的提示詞與成果圖來自 Threads 帳號 `@levelsio.ai`，著作權屬原作者。
 出處寫在**三個地方**，改版時三個都要留著：
 
-1. 頁面上方的 `.credit` 條（第 1 節「先說出處」）
-2. 每一張卡片下方的 `.psrc`「看原貼文 ↗」連結
+1. 開場標題正下方的 `.pcredit` 那一行（第一眼就看得到，不是頁尾小字）
+2. 每一張卡片下方的 `.psrc`「原貼文 ↗」連結
 3. 頁尾 `<footer>`
 
 **每張卡片都一定要有 `.psrc` 連到那一篇原貼文**，不是只連到帳號首頁。
@@ -688,37 +694,35 @@ Scratch 17 課總共留了 **50 個素材位置：39 個 GIF ＋ 11 張截圖**�
 
 ```html
 <article class="pcard" data-tags="仰拍 復古">
-  <div class="pcard__head">
-    <h3 class="pcard__t">風格名稱</h3>
-    <span class="pcard__tag">標籤</span>
-  </div>
   <figure class="pcard__shot">
     <img src="../media/prompts/風格名稱.webp" width="1200" height="1200"
          alt="描述這張圖的內容" loading="lazy" decoding="async">
-    <figcaption>這張圖的重點在哪</figcaption>
   </figure>
   <div class="pcard__body">
-    <p class="pcard__lb"><b>提示詞</b><span>補充說明</span></p>
+    <h2 class="pcard__t">風格名稱</h2>
     <pre class="pcard__pre">提示詞原文，整段照抄，不要改字</pre>
   </div>
   <div class="pcard__foot">
     <button class="pcopy" type="button">複製提示詞</button>
-    <a class="psrc" href="原貼文網址" target="_blank" rel="noopener">看原貼文 ↗</a>
+    <a class="psrc" href="原貼文網址" target="_blank" rel="noopener">原貼文 ↗</a>
   </div>
 </article>
 ```
 
 幾個要注意的點：
 
+- **卡片裡不要加說明文字。**想補一句「這張的重點在光線」就忍住——
+  這一頁的價值是「看圖、複製、馬上試」，多一段字就多一層要讀的東西。
+  真的要講，寫在 `.pcard__t` 的風格名稱裡（例如「Y2K 仰拍（要先上傳自己的照片）」）。
 - **`data-tags` 用空白隔開**，上方的篩選鈕是 `prompts.js` 從所有卡片的
   `data-tags` 自動生出來的——**新增卡片不用回去改 JS，也不用手寫按鈕**。
-  只有一種標籤時整條篩選列會自己隱藏。
+  卡片不到兩種標籤時整條篩選列會自己隱藏。
 - **`<pre>` 裡的提示詞要照抄原文**，不要順手改字。學生照著複製卻生不出那張圖，
   通常就是中間被改過。裡面的 `<` `>` `&` 要寫成 `&lt;` `&gt;` `&amp;`。
 - **`<pre>` 的縮排會跟著被複製走。** 提示詞要**貼齊左邊**寫，
   不要跟著 HTML 的縮排一起內縮，不然複製出來每一行前面都有空白。
 - **`img` 的 `width` / `height` 一定要寫**（原圖的像素尺寸），
-  不寫的話圖載入時整個版面會跳一下。
+  不寫的話圖載入時整面牆會跳一下。
 - 圖片放 `media/prompts/`，**先用 `tools/圖片壓縮.html` 壓過**再放進來。
 - 卡片放進去之後，`.pempty` 那塊佔位說明會被 `prompts.js` 自動隱藏，
   **不用手動刪掉**——哪天卡片全部移除，它又會自己出現。
