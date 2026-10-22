@@ -1139,3 +1139,125 @@
   .mark__box,.mark__ring{animation:none}
   .guide__ov{transition:none}
 }
+
+/* ═══ 元件 15：節奏時間軸（rhythm，第 6 課用）═══════════════════
+   這一課不是「教功能→動手做」，是體驗→討論，節奏跟前面幾課
+   完全不一樣，所以開頭要讓老師一眼看懂 40 分鐘怎麼切。
+
+   HTML 這樣寫：
+     <div class="rhythm">
+       <div class="rhythm__it"><b class="rhythm__m">6</b><span class="rhythm__t">開場與約定</span></div>
+       …
+     </div>                                                       */
+.rhythm{
+  display:flex; flex-wrap:wrap; gap:0; margin:1.6rem 0;
+  border:3px solid var(--ink); border-radius:18px; overflow:hidden;
+  box-shadow:var(--shadow-md);
+}
+.rhythm__it{
+  flex:1 1 7rem; min-width:7rem; text-align:center;
+  padding:1rem .6rem; background:var(--card);
+  border-right:2px solid var(--rule);
+  display:flex; flex-direction:column; align-items:center; gap:.3rem;
+}
+.rhythm__it:last-child{border-right:none}
+.rhythm__m{
+  font-family:var(--display); font-weight:700; font-size:1.5rem; color:var(--accent);
+  line-height:1;
+}
+.rhythm__m::after{content:"分"; font-size:.72rem; font-weight:600; margin-left:.1rem; color:var(--ink-soft)}
+.rhythm__t{font-size:.84rem; font-weight:700; line-height:1.4}
+.rhythm__it--demo{background:var(--accent-soft)}
+.rhythm__it--talk{background:var(--go-soft)}
+@media (max-width:560px){
+  .rhythm__it{flex:1 1 30%; border-bottom:2px solid var(--rule)}
+}
+
+/* ═══ 元件 16：教師引導語卡（saybox，第 6 課用）═══════════════
+   這一課的核心產出：老師可以直接照著念出口的逐字稿。
+   刻意做成「有人在說話」的樣子（左上角一顆嘴型標籤＋
+   斜體引號內文），跟 .sos（給老師看的提醒、不是台詞）分開，
+   老師一眼就能分辨「這一段要念出來」還是「這一段是給我自己看的」。
+
+   HTML 這樣寫：
+     <div class="saybox">
+       <b class="saybox__who">🗣 老師可以這樣說</b>
+       <p>「……」</p>
+     </div>                                                       */
+.saybox{
+  position:relative; margin:1.5rem 0; padding:1.5rem 1.4rem 1.3rem;
+  background:#FBF6EC; border:3px solid var(--ink); border-radius:4px 18px 18px 18px;
+  box-shadow:var(--shadow-md);
+}
+.saybox::before{
+  content:""; position:absolute; left:-3px; top:-14px;
+  width:0; height:0; border-style:solid;
+  border-width:0 0 16px 22px; border-color:transparent transparent var(--ink) transparent;
+}
+.saybox::after{
+  content:""; position:absolute; left:0; top:-10px;
+  width:0; height:0; border-style:solid;
+  border-width:0 0 13px 19px; border-color:transparent transparent #FBF6EC transparent;
+}
+.saybox__who{
+  display:inline-block; margin:0 0 .6rem; font-family:var(--body);
+  font-weight:800; font-size:.86rem; letter-spacing:.02em;
+  background:var(--ink); color:#FFF6E4; border-radius:999px; padding:.22rem .85rem;
+}
+.saybox p{
+  margin:0; font-size:1.02rem; line-height:1.95; font-style:italic; color:var(--ink);
+}
+.saybox p + p{margin-top:.7rem}
+.saybox p::before{content:"「"; font-style:normal}
+.saybox p::after{content:"」"; font-style:normal}
+.saybox small{display:block; margin-top:.8rem; font-style:normal; font-size:.82rem; color:var(--ink-soft); line-height:1.6}
+
+/* ═══ 元件 17：開放式討論題（qset，第 6 課用）══════════════════
+   跟 .predict 刻意不一樣：.predict 有標準答案、按下去會揭曉；
+   這裡沒有「對答案」這件事，所以不做成按鈕選項，
+   只給題目＋提醒老師「別接受什麼樣的答案」。                  */
+.qset{display:grid; gap:1rem; margin:1.6rem 0}
+.qcard{
+  background:var(--card); border:3px solid var(--b-sensing-d); border-radius:16px;
+  padding:1.1rem 1.3rem; box-shadow:var(--shadow-sm); position:relative;
+}
+.qcard__q{
+  margin:0; font-family:var(--display); font-weight:600; font-size:1.08rem;
+  line-height:1.6; color:var(--ink);
+}
+.qcard__q::before{content:"Q "; color:var(--b-sensing-d); font-weight:800}
+.qcard__note{
+  margin:.65rem 0 0; font-size:.88rem; line-height:1.75; color:var(--ink-soft);
+  padding-left:1.1rem; border-left:3px solid var(--rule);
+}
+.qcard__note b{color:var(--accent)}
+
+/* ═══ 元件 18：人生摘要卡（lifecard，第 6 課用）════════════════
+   示範用，不是真實擷取結果——格式照著官方網站「追思館」
+   一段式敘述的寫法（出生地／家庭條件／教育／職業／死因），
+   方便老師在備課或沒有網路時，也能跑完整個比較活動。
+
+   HTML 這樣寫：
+     <div class="lifecard" data-tier="hi">
+       <span class="lifecard__flag">🇯🇵</span>
+       <p>出生在……</p>
+     </div>                                                       */
+.lifecard{
+  position:relative; background:var(--card); border:2.5px solid var(--rule);
+  border-radius:14px; padding:1rem 1.1rem 1rem 3.6rem; box-shadow:var(--shadow-sm);
+  font-size:.96rem; line-height:1.85;
+}
+.lifecard__flag{
+  position:absolute; left:.85rem; top:1rem; font-size:1.6rem; line-height:1;
+}
+.lifecard[data-tier="hi"]{border-color:var(--go); background:var(--go-soft)}
+.lifecard[data-tier="mid"]{border-color:var(--b-motion); background:rgba(76,151,255,.08)}
+.lifecard[data-tier="low"]{border-color:var(--accent); background:var(--accent-soft)}
+.lifecard__grid{display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); margin:1.4rem 0}
+
+@media (max-width:480px){
+  .saybox{padding:1.2rem 1.1rem 1.1rem}
+  .saybox p{font-size:.98rem}
+  .qcard{padding:.95rem 1.05rem}
+  .lifecard{padding:.9rem 1rem 1rem 3.3rem}
+}
