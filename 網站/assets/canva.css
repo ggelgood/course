@@ -185,3 +185,159 @@
   margin:.95rem auto 0; max-width:34em;
   font-size:.92rem; line-height:1.75; color:#C9B99F;
 }
+
+
+/* ── 元件 7：圖層堆疊示意圖 ─────────────────────────
+   講「圖層」概念用它。排版刻意做成跟 Canva 圖層清單
+   同一個樣子（最上面＝最前面），學生看完示意圖再看
+   真的介面，不用重新建立心智模型。
+   用法：
+     <div class="ztack">
+       <b class="ztack__cap ztack__cap--f">↑ 越上面＝越前面</b>
+       <div class="ztack__l ztack__l--lock"><span class="ztack__e">🏰</span>城堡<i>🔒 鎖定</i></div>
+       <div class="ztack__l"><span class="ztack__e">🎃</span>南瓜</div>
+       <b class="ztack__cap ztack__cap--b">↓ 越下面＝越後面</b>
+     </div>                                              */
+
+.ztack{max-width:30rem; margin:1.7rem auto}
+.ztack__cap{
+  display:block; text-align:center;
+  font-family:var(--display); font-weight:600; font-size:.8rem;
+  letter-spacing:.03em; color:var(--ink-soft);
+}
+.ztack__cap--f{margin-bottom:.65rem}
+.ztack__cap--b{margin-top:.65rem}
+.ztack__l{
+  display:flex; align-items:center; gap:.7rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:12px;
+  padding:.55rem .85rem; margin-bottom:.4rem;
+  box-shadow:var(--shadow-sm);
+  font-size:.9rem; font-weight:500;
+}
+.ztack__e{font-size:1.2rem; line-height:1}
+.ztack__l i{
+  margin-left:auto; font-style:normal;
+  font-size:.76rem; color:var(--ink-soft); font-weight:500;
+}
+.ztack__l--lock{
+  background:var(--accent-soft); border-color:var(--accent);
+  color:var(--accent); font-weight:700;
+}
+.ztack__l--lock i{color:var(--accent)}
+
+
+/* ── 元件 8：兩張圖並排對照 ─────────────────────────
+   「現在長這樣 → 等一下長這樣」。圖片數量不限，
+   放兩張最清楚。                                        */
+
+.ba{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));
+  gap:1rem; margin:1.6rem 0;
+}
+.ba__it{margin:0}
+.ba__it img{
+  display:block; width:100%; height:auto;
+  border-radius:12px; border:2px solid var(--rule);
+  box-shadow:var(--shadow-sm);
+}
+.ba__it figcaption{
+  margin-top:.6rem; text-align:center;
+  font-size:.85rem; line-height:1.65; color:var(--ink-soft);
+}
+.ba__it figcaption b{display:block; color:var(--accent); font-family:var(--display)}
+
+
+/* ── 元件 9：圖層實驗室（互動）──────────────────────
+   左邊是舞台，右邊是圖層清單。按 ▲▼ 換順序，
+   舞台立刻跟著重疊 —— 學生在進 Canva 之前先把
+   「清單順序＝畫面前後」這件事玩過一次。
+   行為寫在 canva.js。
+   用法：
+     <div class="zlab" data-lock="castle">
+       <div class="zlab__stage">
+         寫在前面的＝一開始在最前面
+         <div class="zlab__o" data-k="castle" data-name="城堡"
+              style="left:18%;top:12%;width:64%;height:78%;background:#1C1726">🏰<span>城堡</span></div>
+         …
+       </div>
+       <div class="zlab__side">
+         <b class="zlab__lb">圖層</b>
+         <ul class="zlab__list"></ul>   ← 由 JS 產生
+         <p class="zlab__say"></p>
+         <button class="zlab__reset" type="button" data-reset>↺ 重來</button>
+       </div>
+     </div>                                              */
+
+.zlab{
+  display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+  gap:1.1rem; align-items:start;
+  background:var(--ground-2); border:2px solid var(--rule);
+  border-radius:16px; padding:1.1rem; margin:1.7rem 0;
+}
+@media (max-width:640px){.zlab{grid-template-columns:1fr}}
+
+.zlab__stage{
+  position:relative; aspect-ratio:3/2; overflow:hidden;
+  border-radius:12px; background:#453C56; border:2px solid #2B2534;
+}
+.zlab__o{
+  position:absolute; overflow:hidden;
+  display:grid; place-content:center; justify-items:center;
+  gap:.15rem; border-radius:10px; padding:.2rem;
+  font-size:1.5rem; line-height:1; color:#fff;
+  box-shadow:0 3px 10px -3px rgba(0,0,0,.55);
+}
+.zlab__o span{
+  font-family:var(--display); font-size:.72rem; font-weight:600;
+  letter-spacing:.02em; line-height:1.2;
+}
+/* 扁扁的物件（標題列）疊著放會爆高，改成左右排 */
+.zlab__o--row{grid-auto-flow:column; align-items:center; gap:.4rem}
+.zlab__o--bump{animation:zlabpop .32s cubic-bezier(.32,.72,0,1)}
+@keyframes zlabpop{
+  0%{transform:scale(1)} 45%{transform:scale(1.06)} 100%{transform:scale(1)}
+}
+@media (prefers-reduced-motion:reduce){
+  .zlab__o--bump{animation:none}
+}
+
+.zlab__lb{
+  display:block; font-family:var(--display); font-weight:600;
+  font-size:.82rem; color:var(--ink-soft); margin-bottom:.5rem;
+}
+.zlab__list{list-style:none; margin:0; padding:0}
+.zlab__row{
+  display:flex; align-items:center; gap:.45rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:10px;
+  padding:.35rem .4rem .35rem .7rem; margin-bottom:.4rem;
+  font-size:.84rem; font-weight:600;
+}
+.zlab__row--lock{
+  background:var(--accent-soft); border-color:var(--accent); color:var(--accent);
+}
+.zlab__row small{
+  font-weight:500; font-size:.72rem; color:var(--ink-soft); margin-left:.15rem;
+}
+.zlab__row--lock small{color:var(--accent)}
+.zlab__arr{
+  width:1.75rem; height:1.75rem; flex:0 0 auto;
+  display:grid; place-items:center; padding:0;
+  background:var(--ground); border:2px solid var(--rule); border-radius:8px;
+  font-size:.7rem; color:var(--ink); cursor:pointer;
+  font-family:var(--body); line-height:1;
+}
+.zlab__arr:first-of-type{margin-left:auto}
+.zlab__arr:hover:not(:disabled){background:var(--accent); border-color:var(--accent); color:#fff}
+.zlab__arr:disabled{opacity:.28; cursor:default}
+.zlab__say{
+  margin:.75rem 0 0; min-height:3.4em;
+  font-size:.84rem; line-height:1.7; color:var(--ink-soft);
+}
+.zlab__say.win{color:var(--go); font-weight:700}
+.zlab__reset{
+  margin-top:.3rem; padding:.3rem .85rem;
+  background:var(--card); border:2px solid var(--rule); border-radius:999px;
+  font-family:var(--display); font-size:.78rem; font-weight:600;
+  color:var(--ink-soft); cursor:pointer;
+}
+.zlab__reset:hover{border-color:var(--accent); color:var(--accent)}

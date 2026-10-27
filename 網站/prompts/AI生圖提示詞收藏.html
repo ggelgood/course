@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 生圖提示詞收藏</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lesson.css?v=9">
+<link rel="stylesheet" href="../assets/prompts.css?v=2">
+</head>
+<body>
+
+<header class="stage-open">
+  <div class="wrap wrap--wide">
+    <a class="backhome" href="../index.html">← 課程總覽</a>
+    <h1>AI 生圖<em>提示詞收藏</em></h1>
+    <p class="pcredit">圖與提示詞分別出自 Threads
+      <a href="https://www.threads.com/@levelsio.ai" target="_blank" rel="noopener">@levelsio.ai</a>、
+      <a href="https://www.threads.com/@jenniferzhao08" target="_blank" rel="noopener">@jenniferzhao08</a>
+      等創作者，著作權屬原作者。每張圖下面都有原貼文連結。</p>
+  </div>
+</header>
+
+<main class="wrap wrap--wide">
+
+<!-- 風格篩選鈕由 prompts.js 依各張卡的 data-tags 自動生成，這個 div 保持空的 -->
+<div class="pfilter"></div>
+
+<div class="pgrid">
+
+  <!-- ╔══════════════════════════════════════════════════╗
+       ║  新增一張卡就複製下面這一段，換掉裡面的內容。     ║
+       ║  完整說明在 網站/README.md 的「AI 生圖提示詞收藏」 ║
+       ║                                                  ║
+       ║  <article class="pcard" data-tags="仰拍 復古">    ║
+       ║    <figure class="pcard__shot">                  ║
+       ║      <img src="../media/prompts/xx.webp"         ║
+       ║           width="1200" height="1200"             ║
+       ║           alt="描述這張圖的內容" loading="lazy"   ║
+       ║           decoding="async">                      ║
+       ║    </figure>                                     ║
+       ║    <div class="pcard__body">                     ║
+       ║      <h2 class="pcard__t">風格名稱</h2>           ║
+       ║      <pre class="pcard__pre">提示詞原文</pre>     ║
+       ║    </div>                                        ║
+       ║    <div class="pcard__foot">                     ║
+       ║      <button class="pcopy" type="button">        ║
+       ║        複製提示詞</button>                        ║
+       ║      <a class="psrc" href="原貼文網址"            ║
+       ║         target="_blank" rel="noopener">          ║
+       ║        原貼文 ↗</a>                               ║
+       ║    </div>                                        ║
+       ║  </article>                                      ║
+       ╚══════════════════════════════════════════════════╝ -->
+
+  <article class="pcard" data-tags="拼貼 旅行">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/旅行手帳拼貼.webp" width="1000" height="1333"
+           alt="多張度假照片拼貼成的手工旅行手帳，背景是暖白色紙張，周圍有膠帶、貝殼、乾燥花等素材裝飾"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">生活/旅行碎片拼貼</h2>
+      <pre class="pcard__pre">请使用我上传的照片，制作一张竖版 3:4 的手工手帐拼贴。
+如果用户指定了主图，严格按照指定执行；如果没有指定，请根据主体清晰度、情绪感染力、构图和辨识度，自行选择最适合作为视觉中心的一张，其余照片作为辅图。所有照片只允许裁剪，不得重绘、融合、拉伸或改变原有内容。
+使用暖白色、带细微纤维质感的纸张画布。整组拼贴小巧地居中放置，可略低于视觉中心，宽度和高度均不得超过画布的一半，四周保留大面积完整留白。
+主图位于最前方，裁成约3:4 至4:5的短竖幅矩形，不能细长。将一张辅图裁成宽而浅的横条，藏在主图上方后侧；另一张裁成窄竖条，藏在主图右侧后方。
+主图必须遮住两张辅图的部分边缘，辅图不能覆盖或罩住主图。照片边缘保持干净笔直，撕边只用于后方纸张。
+在照片后方加入约10-14 层薄而真实的手帐素材，例如纤维纸、描图纸、半透明纸、手工纸、打孔边、细线、纸夹、缝线、票据碎片或少量铅笔线条。素材需根据当前照片重新选择，不要机械重复同一套装饰。
+纸张应以不同大小和偏移量错落叠放，保留缝隙和不规则外轮廓，绝不能连接成正方形、长方形底板或封闭边框。丰富度只能增加在现有小型版心内部，不能扩大整组拼贴。
+素材颜色以暖白、灰米、燕麦和雾灰主，再从照片的次要颜色中选择少量低饱和点缀。如果某种颜色已经大量出现在照片里，不要再把它用于大面积纸张。
+素材需要清晰可见，但不能比主图更醒目。胶带颜色根据每组照片单独选择，使用柔和的次要色；禁止黑色、炭灰色、近黑色胶带，也不要机械重复照片中占比最大的颜色。
+整体应像真实手工粘贴的私人旅行手帐：安静、自然、有纸张厚度、轻微翘边、半透明重叠和柔和阴影。不要做成商业海报、整齐模板或方块拼图。默认不添加文字、Logo 或水印。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/DdvUHFjiS03" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="手繪 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片鉛筆手繪.webp" width="1000" height="1333"
+           alt="貓咪戴魚造型毛帽的照片，與同一隻貓的粉彩蠟筆手繪插畫對照"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 鉛筆手繪</h2>
+      <pre class="pcard__pre">请将我上传的每一张照片分别制作成一张独立的高级设计海报，不多图拼接，每张照片单独输出。整体采用3:4竖版构图，上下两个区域高度严格1:1，各占画面50%。
+
+上半部分保留原始照片，保持主体身份、结构、姿态、真实质感、自然光影和原有色彩氛围，仅进行轻微高级调色，使其具有艺术杂志、独立出版物与展览图像质感。为适配画幅，可自然扩展环境背景，但不得拉伸、扭曲或改变主体。
+
+下半部分先理解原照片最值得被记住的核心主题、主体关系、结构走势、情绪与视觉隐喻，再重构为复古纸张肌理的粉彩蜡笔涂鸦插画。不要逐物复制照片，也不要把所有内容完整转绘，只保留最能代表原物的轮廓、姿态、方向和视觉记忆点，通过删减、概括、轻微夸张和重新组合，使人一眼感受到它与上方照片之间的对应关系。
+
+主体使用粗颗粒粉笔 / 蜡笔式手绘轮廓：线条略粗、松弛、干涩，带有粉末颗粒、断续掉色、轻微抖动和不完全闭合的边缘，笔端自然钝圆。主体内部只加入极少量粉彩色块、简单网格、条纹、圆点或随手涂抹，用最少信息提示结构，不做写实体积和完整细节。
+
+周围小元素与主体使用同一种线条语言，但进一步压缩为一笔或几笔即可识别的涂鸦符号。星星、花朵、植物、器物、环境线索或抽象符号都应简单、稚拙、开放、不完全闭合，以单线轮廓为主，极少填色。不要画成精致图标、贴纸或独立小插画。
+
+构图保持小尺度章印与大面积留白的关系，根据主体自身的方向、比例和视觉重心自由安排位置，可偏心、贴边、悬置或局部裁切。主体与极少量涂鸦符号形成松散但明确的视觉群落，其余空间主动留空。留白本身就是主要构图元素，通过空与实、聚与散、大小反差和不对称关系形成呼吸感、距离感与停顿感；宁可少画，也不要填满。
+
+背景必须使用极浅、明亮、干净的纸张底色，例如奶油白、象牙白、浅米白、淡杏白、极浅灰白或根据原图综合色温智能匹配的近白纸色。纸张只保留非常轻微的纤维与颗粒，不能偏棕、偏黄、偏灰或显得陈旧。背景明度必须明显高于主体线条与色块，确保所有蜡笔轮廓、小符号和文字清楚可见，不得与背景糊在一起。
+
+配色从上方照片中提取 2–4 种最鲜活、最有亲和力、最能代表画面精神的颜色重新调制，转化为明亮柔和的粉彩蜡笔色。可自然形成蜜桃粉、杏橙、奶油黄、薄荷青、天空蓝、淡紫等轻盈色彩；主体线条优先使用比背景更清晰的珊瑚粉、柔蓝、青绿、暖橙、淡紫或奶油深色调，小元素只零星重复这些颜色形成呼应。整体保持浅背景 + 清晰彩线 + 少量柔和色块的对比关系，明快、治愈、轻松、有生活感。避免灰暗、脏褐、沉闷莫兰迪化、低对比、荧光色和廉价糖果感。
+
+文字少量介入，不限制语种。可从主体、动作、情绪、记忆或隐喻中自由提炼短句或文字片段，使用轻薄、疏朗、带轻微字距不齐与旧式机械印字误差的打字排版字体，颜色使用清晰但不刺眼的灰褐、柔黑、深蓝灰或与主体呼应的深色，确保在浅色纸面上有足够可读性。文字自然散落在留白区域，与主体和涂鸦形成图文混排，不做固定标题模板。
+
+整体呈现极浅纸面、粗颗粒蜡笔轮廓、少量粉彩填色、极简涂鸦符号、小尺度主体与大量艺术留白共同构成的高级治愈视觉。重点是让主体与小元素清楚浮现在浅色纸面上，同时保持松弛、天真、温柔和成熟的编辑构图意识。避免深色牛皮纸、暗棕背景、低对比线条、背景与主体糊成一团、精细描边、写实转绘、复杂小图标、背景填满、光滑矢量、3D感和商业模板感。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/DdqgLFRibWc" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="手繪 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片蠟筆手繪.webp" width="1000" height="1333"
+           alt="貓咪坐在銀杏落葉步道上的照片，與同一隻貓的蠟筆手繪插畫對照"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 蠟筆手繪</h2>
+      <pre class="pcard__pre">Use each uploaded photo as the only visual source. Create one independent premium poster per upload and output each separately. Never combine photos. Format: Use a vertical 3:4 canvas split into two strictly equal horizontal halves, top 50% and bottom 50%, with a precise 1:1 division.
+
+Upper half: Keep the upload photographic. Preserve subject identity, structure, pose, real texture, natural light, and original color mood. Apply only subtle grading so it feels like an exhibition print. You may extend minor background areas to fit the layout, but never stretch, distort, mirror, replace, or redesign the subject.
+
+Lower half: Identify the most memorable part of the photo: the core theme, structure, emotion, and visual metaphor. Then reinterpret it as a pastel-crayon doodle on pale paper. Do not copy every object or fully redraw the whole scene. Keep only key contours, poses, directions, and memory points so the lower image is instantly linked to the photo above. Use simplification, gentle exaggeration, and recombination to create a distilled memory.
+
+Main subject drawing: Use coarse powdery chalk-and-crayon outlines. The line should be slightly thick, loose, dry, and hand-drawn, with visible grain, broken color loss, minor wobble, and not-fully-closed edges. Stroke ends feel blunt and soft. Inside the subject, add only a small amount of pastel color blocks, stripes, dots, or rubbed marks. Use the minimum information needed to suggest structure. Do not render realistic volume or full detail.
+
+Small elements: Stars, flowers, plants, objects, environment hints, and abstract signs must use the same line language, but be reduced into one-stroke or few-stroke doodles. They should feel naive and incomplete, mostly line-based with almost no fill. Never turn them into icons or stickers.
+
+Composition: Keep the lower half spacious and editorial. Build one small visual cluster from the main subject and a few tiny doodle marks, then leave most of the remaining space empty. The cluster may sit off-center, touch an edge, hover, or be partly cropped. White space is a major compositional element.
+
+Background: Use a very pale, bright, clean paper tone matched to the source warmth. Show only subtle paper fiber and fine grain. The background must stay clearly brighter than the subject lines and color blocks.
+
+Color: Extract 2 to 4 lively representative colors from the photo and remix them into soft bright pastel-crayon tones. Use clearer coral, soft blue, teal, warm orange, or gentle violet for key outlines and accents.
+
+Overall feeling: A refined memory study, with real photography above and a distilled crayon doodle below. Calm, airy, modern, and premium. If text appears, keep it tiny, English only, and secondary.
+
+Negative: No collage, no unequal split, no literal full redraw, no dense filling, no dark or dirty paper, no muddy palette, no sticker look, no refined icons, no polished digital illustration, no realistic shading, no 3D, no glossy rendering, no loud scrapbook clutter, no gibberish text, no watermark, no logo, no UI.</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/DdMC7OxCfTN" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="拼貼 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片紙膠帶拼貼.webp" width="1000" height="1333"
+           alt="金毛犬趴在沙發邊的照片，與同一隻狗的紙膠帶拼貼插畫對照，插畫旁寫著 lazy day"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 紙膠帶拼貼</h2>
+      <pre class="pcard__pre">配色从原图中提取约 4–6 种低饱和颜色，以纯色纸胶带为主，可少量加入条纹、格纹、网格或圆点等简单纸胶带图案，并至多加入一点克制的暖色点缀；整体色彩必须柔和、统一、具有设计感，避免过多碎色和密集马赛克感。如需文字，只可加入 1–3 个英文单词的短标题，使用略微褪色的打字机字体，小尺度放置在主体附近但不得遮挡主体；不要添加无意义的小字、票据、邮票、标签、贴纸、印章等装饰。最终效果应像真实手工和纸胶带拼贴 / masking tape art：简洁、松弛、触感真实、结构清晰、留白充足，同时兼具笔记本素材感与现代编辑插画气质。避免普通矢量插画、照片滤镜、写实绘画、3D 纸雕、密集手帐、胶带过多、强烈折痕、数字渐变、光滑塑料质感、复古票据元素、伪文字、Logo 和水印。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/DdId2f4CRK3" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="明信片 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片蠟筆回憶明信片.webp" width="1000" height="1333"
+           alt="戴廚師帽的臘腸狗坐在南瓜食材旁的照片，與同一隻狗的蠟筆回憶明信片插畫對照，寫著 Good Food、Happy Pup"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 蠟筆回憶明信片</h2>
+      <pre class="pcard__pre">Based on the uploaded reference photo, directly create a **3:4 vertical travel souvenir postcard** in the style of **"real photograph × quirky crayon memory illustration."** First understand the content and visual story of the photo, then generate the final artwork directly. Do not output any explanation, analysis, or additional prompt text.
+
+### OVERALL COMPOSITION
+
+Use a strict **3:4 vertical composition** divided horizontally into **two equal sections**, with the **top 50% and bottom 50% exactly the same height**. The two sections should feel naturally connected while maintaining a clear contrast between a real photographic moment and a hand-drawn memory of that moment.
+
+### TOP 50% — REAL PHOTOGRAPH
+
+Keep the uploaded photograph as the primary visual source. Preserve the original subjects, number of people or animals, identity, pose, body proportions, facial expressions, clothing, objects, spatial relationships, perspective, composition, and realistic photographic texture.
+
+Preserve the original natural lighting, shadows, atmosphere, and environmental details as much as possible. Only apply subtle editorial color grading to make the photograph feel warm, refined, and slightly nostalgic.
+
+If the image needs to be adapted to the 3:4 format, use only natural cropping or a seamless extension of existing environmental edges such as sky, ground, walls, water, roads, or vegetation. Never stretch, mirror, duplicate, redesign, or alter the original subjects.
+
+### BOTTOM 50% — QUIRKY CRAYON MEMORY ILLUSTRATION
+
+Transform the visual memory of the photograph into a **simple horizontal hand-drawn illustration** rather than applying a full-photo-to-illustration filter.
+
+Extract **2–5 of the most recognizable and memorable elements** from the original photo and rearrange them into a clean, centered, horizontal mini-scene. For people or animals, preserve their recognizable pose, silhouette, proportions, and key facial characteristics.
+
+Remove complicated distant backgrounds, tiny textures, repetitive structures, realistic photographic shadows, and irrelevant clutter. The illustration should feel like **someone came home from a trip and redrew the scene from memory with crayons**.
+
+Use a warm **ivory, cream, or off-white handmade paper background** with subtle paper fibers, grain, and a slightly vintage printed texture.
+
+### HAND-DRAWN STYLE
+
+The illustration should look **naive, relaxed, slightly clumsy, warm, and handmade**, as if carefully drawn by someone with good taste using crayons and colored pencils, but without trying to make the drawing technically perfect.
+
+Use **crayon as the main medium**, supported by colored-pencil details. Lines should be dark gray, gray-brown, or soft black, with uneven thickness, slight trembling, occasional breaks, small overlaps, imperfect angles, and visible hand-drawn inaccuracies.
+
+Use rough crayon grain, hand hatching, uneven color filling, layered strokes, slight color overflow, and areas where the paper texture naturally shows through. Even simple geometric objects should retain a subtle handmade imperfection.
+
+The visual language should feel like **retro children's picture books × independent magazine illustration × personal travel journal**.
+
+### COLOR
+
+Extract **2–4 representative colors directly from the uploaded photograph** and use them as the main crayon colors.
+
+Keep the colors **soft and slightly muted, but still clearly visible and lively**. Do not make the illustration pale, gray, washed out, or lifeless. Preserve the most memorable color from the original photograph so the illustration still feels visually connected to the real photo.
+
+### TEXT & TYPOGRAPHY
+
+Include only **two very short English handwritten phrases** in the bottom half.
+
+- One short phrase above the illustration: **1–4 words**
+- One short phrase below the illustration: **2–6 words**
+
+The wording must be naturally derived from the actual content, atmosphere, or emotional tone of the uploaded photograph. Do not use fixed phrases, generic inspirational quotes, advertising language, or artificial travel slogans.
+
+Use dark gray or soft black handwritten lettering with slightly irregular spacing and imperfect strokes.
+
+If accurate English text cannot be generated, **leave the text area blank rather than creating incorrect or meaningless words.**
+
+### OVERALL FEEL
+
+The top half represents **the real moment**.
+The bottom half represents **the memory of that moment**.
+
+The final image should feel **warm, healing, relaxed, nostalgic, handmade, slightly retro, collectible, and editorial**, with the quiet charm of an independent lifestyle magazine.
+
+**Cute but not cutesy. Naive but not childish. Simple but not cheap. Premium but not overly polished.**
+
+### STRICTLY AVOID
+
+Do not change, replace, beautify, or redesign the original subjects. Do not add any person, animal, vehicle, building, plant, prop, decoration, or environmental element that does not exist in the original photograph.
+
+Do not use realistic watercolor, detailed watercolor painting, ultra-light pastel colors, washed-out colors, gray low-saturation colors, realistic pencil sketches, clean vector illustrations, anime, manga, chibi, stickers, commercial cartoon styles, oil painting, thick digital painting, digital gradients, 3D rendering, plastic textures, or overly polished digital artwork.
+
+Do not add tape, pins, torn-paper edges, postage-stamp borders, color blocks, decorative frames, complex collage elements, location labels, dates, numbers, archive layouts, logos, watermarks, platform UI, play buttons, subtitles, or black borders.
+
+**Generate only the final image. Do not output explanations, analysis, prompt text, or any other written response.**</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/DdDvQoTiedz" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="塗鴉 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片手繪塗鴉.webp" width="1000" height="1333"
+           alt="貓咪與小狗隔著窗戶對望的照片，與加上黑線手繪小人物的插畫對照，寫著 A small hello、Worth stopping for"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 手繪塗鴉</h2>
+      <pre class="pcard__pre">請將每張上傳的照片分別製作成一張獨立的高端編輯海報。每張照片單獨輸出，禁止多圖拼貼、照片網格或合併多張照片。
+
+【整體構圖】
+
+嚴格使用 3:4 直式構圖。
+
+畫面上下嚴格 1:1 分割，上半部分佔 50%，下半部分佔 50%。
+
+整體風格為高端生活方式雜誌、獨立出版物、藝術攝影與手繪插畫結合。
+
+畫面乾淨、明亮、克制、富有藝術感，大量留白。
+
+【上半部分｜原始攝影】
+
+上半部分必須最大程度保留原始照片。
+
+保留人物、動物或物體的身份特徵、姿勢、動作、比例、材質、構圖關係、空間關係、自然光影和真實攝影質感。
+
+不得改變人物臉部、身體、服裝或動物特徵，不得拉伸、扭曲或重構主體。
+
+僅進行輕微高級攝影調色：優化曝光、層次、對比度和色彩，使照片具有 editorial photography、lifestyle magazine、獨立攝影作品 的質感。
+
+如果畫面邊緣不足，只允許自然延伸背景，不得改變主體。
+
+【下半部分｜二次藝術敘事】
+
+先理解原照片真正的視覺核心和故事，而不是簡單識別照片中有什麼。
+
+判斷最值得記住的是一個動作、關係、情緒、方向、瞬間、視覺細節或象徵意義。
+
+圍繞這個核心重新設計下半部分，讓它像「同一張照片被重新想像了一次」。
+
+保留原照片中最重要的真實主體，並保持真實攝影質感。
+
+可以將主體自然去背、重新調整位置和比例、簡化無關背景、優化構圖，但觀眾必須一眼認出它來自原始照片。
+
+不要把真實主體變成插畫。
+
+【黑線塗鴉小人】
+
+加入少量極簡黑色或深灰色細線手繪小人物。
+
+小人物具有隨手繪製的自然感，線條輕盈、簡單、不完美，避免精緻商業向量風。
+
+他們不是裝飾，而是故事參與者。
+
+小人物的動作必須根據原照片的主體、動作和環境自然生成：
+
+跟隨、觀察、奔跑、指引、攀爬、追逐、模仿、陪伴、互動或製造輕微幽默感。
+
+讓他們看起來真正生活在照片的故事中，而不是隨意擺姿勢。
+
+【色彩】
+
+從原始照片中提取最具有辨識度的主色，並轉化為下半部分的視覺色彩。
+
+背景以米白、奶油白、暖白或極淺灰為主。
+
+真實主體保留原始色彩。
+
+塗鴉人物使用黑色或深灰色細線。
+
+整體低飽和、柔和、統一，避免過度鮮豔和雜亂。
+
+【手繪元素】
+
+根據照片故事自然加入少量黑線手繪元素，例如花朵、鳥、蝴蝶、雲、風線、紙飛機、梯子、氣球、路徑、小動物、箭頭或簡單植物。
+
+所有元素必須服務於原照片的故事，不要堆滿畫面。
+
+保持大量留白。
+
+【文字】
+
+根據照片的核心情緒生成 1–2 組極短英文手寫文案。
+
+不要直接描述物品，不要寫廣告標題，不要解釋照片。
+
+文字像攝影師旁白、小人物的隨手一句話、溫柔觀察或輕微文字遊戲。
+
+例如：
+
+"Let the wind carry us."
+
+"Good days run better with you."
+
+"A small hello can be the biggest adventure."
+
+"Some days are for looking up."
+
+"Worth the little detour."
+
+文字使用自然手寫體，黑色或深灰色，小字號，可沿主體動作、輪廓或空白區域自然排列。
+
+文字必須少，留白比文字更重要。
+
+【最終效果】
+
+真實攝影 + 黑線手繪 + 高端編輯設計 + 輕鬆敘事 + 溫暖生活方式美學。
+
+重點表現「真實照片被插畫師重新閱讀和想像」的感覺。
+
+【禁止】
+
+兒童繪本風、卡通海報、純插畫、普通照片拼貼、複雜資訊圖、商業廣告風、過度裝飾、過多文字、過多塗鴉、改變原始主體身份、改變人物臉部、改變動物特徵、拉伸或扭曲照片。
+
+【嚴格輸出】
+
+3:4 直式
+
+上 50% = 原始攝影
+
+下 50% = 真實主體 + 黑線塗鴉 + 二次敘事
+
+每張照片獨立輸出一張海報。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/Dc-ObUFiWus" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="海報 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片簡約插畫海報.webp" width="1000" height="1333"
+           alt="貓咪坐在銀杏落葉步道上的照片，與極簡手繪紙刻插畫對照，寫著 somewhere、Same sunlight Same leaves A quieter day"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 簡約插畫海報</h2>
+      <pre class="pcard__pre">Create one independent high-end editorial poster for each uploaded photo. Do not combine multiple photos into a collage. Each photo must be processed and output as a separate poster.
+
+OVERALL FORMAT
+
+Strict 3:4 vertical composition.
+
+Divide the canvas horizontally into two exactly equal sections, with a precise 1:1 height ratio.
+
+The top half occupies exactly 50% of the canvas.
+
+The bottom half occupies exactly 50% of the canvas.
+
+The two sections should feel visually connected as one refined art publication cover.
+
+TOP HALF — ORIGINAL PHOTOGRAPH
+
+Preserve the original photograph as faithfully as possible.
+
+Keep the main composition, subjects, identity, facial features, body proportions, poses, expressions, clothing, objects, and spatial relationships unchanged.
+
+Preserve the realistic photographic texture, natural lighting, shadows, atmosphere, and original color mood.
+
+Apply only subtle, sophisticated editorial color grading, creating the feeling of a premium magazine photograph, contemporary art book, or high-end independent publication.
+
+The image should remain photorealistic and authentic, never overly retouched or artificially stylized.
+
+If necessary to fit the 3:4 composition naturally, extend the sky, ground, walls, or surrounding environmental background.
+
+Background extension must feel seamless and photographic.
+
+Never stretch, distort, reshape, replace, or alter the main subject.
+
+BOTTOM HALF — MINIMAL HAND-DRAWN PAPER ILLUSTRATION
+
+Extract the most recognizable visual elements from the original photograph and reinterpret them as a minimalist hand-drawn paper-cover illustration.
+
+Preserve:
+
+The most recognizable subject
+
+Essential silhouette and proportions
+
+Key pose or gesture
+
+Important objects
+
+The core narrative relationship between people and objects
+
+Highly simplify the image. Remove unnecessary details and retain only the visual information needed for immediate recognition.
+
+Use:
+
+Delicate, slightly imperfect hand-drawn lines
+
+A small number of bold, clearly defined acrylic-style flat color shapes
+
+Rough paper texture
+
+Visible handmade brush marks
+
+Slightly irregular, organic edges
+
+Subtle imperfections that make it feel genuinely handmade
+
+The main illustrated subject should be small, centered, and carefully composed, occupying approximately 10–20% of the bottom half.
+
+Leave a large amount of negative space around the illustration.
+
+The background should primarily resemble:
+
+Rough white paper
+
+Warm off-white paper
+
+Pale natural paper
+
+Minimal editorial book-cover stock
+
+Use only a few lines or small color shapes to suggest the surrounding environment.
+
+COLOR PALETTE
+
+Extract the dominant colors directly from the original photograph.
+
+Compress the palette into no more than 4 main colors.
+
+Keep the colors restrained, sophisticated, and harmonious.
+
+Use bold but controlled flat color blocks.
+
+Avoid excessive color variation.
+
+Preserve subtle paper grain and handmade brush texture.
+
+The illustration should visually feel like a simplified color interpretation of the photograph.
+
+TYPOGRAPHY
+
+A small amount of simple typography may be included when appropriate.
+
+Possible elements:
+
+A short title
+
+Keyword
+
+Object name
+
+Location
+
+Year
+
+Number
+
+Short phrase
+
+Text should be minimal, understated, and editorial.
+
+Typography should naturally interact with the large areas of negative space and the small illustration, evoking:
+
+Art book covers
+
+Independent publishing
+
+Contemporary editorial design
+
+Thoughtful children's picture books
+
+Do not force text into the composition if it does not naturally fit the photograph.
+
+VISUAL LANGUAGE
+
+The final poster should feel:
+
+Quiet · Poetic · Refined · Minimal · Innocent · Relaxed · Artistic · Thoughtful · High-recognition · Premium
+
+The visual concept should be:
+
+"A small subject surrounded by a large amount of empty space."
+
+The result should resemble a carefully designed independent art publication cover, rather than a commercial advertisement.
+
+AVOID
+
+Do not use:
+
+Colored-pencil aesthetics
+
+Crayon textures
+
+Bleeding watercolor
+
+Pure line-art illustration
+
+Complex realistic illustration
+
+Heavy oil-painting effects
+
+Smooth polished digital illustration
+
+3D rendering
+
+Glossy 3D textures
+
+Commercial cartoon aesthetics
+
+Cute commercial character design
+
+E-commerce advertising aesthetics
+
+Generic poster templates
+
+Excessive decorative elements
+
+Busy compositions
+
+Excessive typography
+
+FINAL ART DIRECTION
+
+The top half should feel like a beautiful, authentic editorial photograph.
+
+The bottom half should feel like a small, handmade visual poem derived from that photograph.
+
+The two halves should clearly belong to the same visual story, while maintaining a strong contrast between photographic realism above and minimal handmade illustration below.
+
+Prioritize recognition, restraint, negative space, material texture, subtle imperfection, editorial sophistication, and artistic storytelling over decorative complexity.</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/Dc828j7iSud" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="郵票 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片撕頁郵票.webp" width="1000" height="1500"
+           alt="兩隻橘白小貓坐在陽光下的照片，畫面中撕出一塊郵票形狀的鏤空，下半頁用同一塊照片拼回郵票裡，寫著 Sunny Companions"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 撕頁郵票</h2>
+      <pre class="pcard__pre">将上传图片转换为单张编辑艺术印刷品 / 艺术家书籍 / 独立zine刊物风格构图。禁止使用任何参考图，上传图片为唯一视觉素材。最终画面构成- 将画布划分为两个高度完全相等的水平区域- 上半区域全部为照片- 下半区域全部为暖象牙色纸张- 两个分区高度必须完全一致- 整体画面质感要像实体印刷成品，而非数字海报。上半区域 — 照片与镂空裁切- 使用上传照片完整填充上半区域- 对照片做专业编辑裁切，保留最有表现力的画面构图- 不得替换、重绘、美化或大幅修改原始照片，保留手机实拍照片原生质感- 在照片内选取一处具备视觉意义的焦点：房屋、树木、人物、花朵、物件、光斑、风景地貌等- 在上半区域视觉正中心，制作一处竖版邮票形状镂空- 邮票镂空必须在上半区域水平、垂直双向居中- 镂空区域内不能保留任何照片内容，填充和下半区完全一致的暖象牙纸张底色- 邮票镂空效果模拟照片被物理打孔、撕取后的书页效果- 采用精致、间距均匀的邮票齿孔边缘- 镂空尺寸：占画布宽度20‑30%，占上半区域高度30‑40%- 禁止把镂空当成装饰白色图层叠加在照片表面；必须呈现照片被实实在在打通孔洞的视觉效果。核心图像提取规则 在制作象牙色镂空之前，截取镂空位置对应的原始照片画面。该截取的照片片段，要复用至下半区的邮票图形内。禁止重新生成画面、禁止二次演绎、禁止生成不同版本画面、禁止使用通用素材、禁止下半邮票填充象牙底色。下半区邮票必须使用从上半区挖取出来的那一块原图，构图、色彩、物体、细节全部保持原样。执行逻辑：原始照片 → 选取一处有意义画面 → 复制该画面裁剪块 → 将上半区对应位置替换为象牙色纸张做出空洞 → 将复制出来的照片片段放入下半区邮票轮廓内。上半镂空处：纯象牙空白；下半邮票：存放从上半挖走的照片片段。下半区域 — 纸张基底- 整个下半区域铺满 暖象牙色纸张 - 纸张带有细微天然纤维肌理、噪点、微弱深浅变化，轻微印刷瑕疵- 质感如同扫描得到的艺术家书籍独立刊物实体纸页，不要干净的数字纯白- 提取出来的照片邮票，放置在下半区域视觉中心- 下半邮票，尺寸、比例、齿孔边缘样式，必须和上半的镂空完全一致- 邮票内照片内容清晰可识别- 禁止添加浓重阴影、光泽特效、3D效果、现代贴纸效果。文字排版 参考复古明信片、艺术家画册、档案笔记、独立印刷刊物，排版克制简约，文字体量要小，不能抢夺画面主体。1. 日期 放置在下半区域左上角；无元数据则使用当前日期；格式：MM.DD.YYYY；深灰色；字号偏小，周围预留充足留白。2. 标题 基于原图氛围创作诗意标题，严格2‑3个英文单词；放置下半区域左下角；低饱和度暗红色；字号偏小，如同画册配图说明，不要海报大标题；使用优雅复古衬线字体，低调内敛。3. 诗意短句 基于照片写一段简短诗意文本，8‑12个英文单词；拆分为两行短文本；紧贴标题下方；深灰色；小衬线字体，字号和标题接近或略小；换行节奏均衡；不要直白描述画面物体；氛围安静、具备观察感、略带朦胧留白感。4. 线稿手绘 从原图选取一处和邮票截取内容不一样的次要景物；绘制极简松散单色线稿；物体必须来自原图；放置下半区域右下角；深灰色；模拟手账本随手速写；极简、细腻、带手绘瑕疵、略带稚拙；禁止精致专业插画，不新增原图不存在的物体。5. 微型档案文字 在线稿旁边增加5行极细小深灰色英文文本；仅作为图形档案装饰，不需要传递有效信息；可以是碎片化观察笔记、坐标、目录条目、印刷残段；字号极小，视觉权重最低，模拟真实印刷品，不要突出可读。整体视觉风格 成品观感如同当代艺术家画册、个人档案、明信片、独立zine杂志里撕出的一页。融合元素：普通实拍照片、编辑平面设计、模拟拼贴、邮票图形、暖象牙纸张、克制排版、简易手绘、细微印刷瑕疵、安静诗意氛围。核心创意：普通实拍照片，搭配实体邮票撕取镂空的视觉反差。画面气质：高级、诗意、私人化、略带疏离感、低调克制。色彩沿用原图原生色调，搭配： 暖象牙色 、深灰色、低饱和暗红色。全局叠加极淡纸张纤维、印刷噪点、油墨不完美痕迹、模拟扫描实物质感；效果轻柔自然。硬性重要约束- 上传照片是唯一图像来源- 保留原始照片的样貌与特质- 禁止把照片重绘成AI插画- 禁止凭空增加画面内容- 禁止多余装饰元素- 禁用渐变、光泽、强烈阴影、3D效果、现代UI图形- 文字字号不能过大- 除指定位置外，不要过度追求完全对称，保留充足负空间- 上半邮票镂空必须完全是象牙空白- 下半邮票必须放置从上半挖取出来的原照片片段，二者尺寸形态严格对应- 标题与诗意短句保持小巧低调的画册排版风格，诗意句子强制拆为两行- 最终成品是实体印刷画册页面，不要通用AI海报模板。整体画面逻辑统一；照片素材决定裁切范围、诗意标题、短句、线稿主题与微型档案文本。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@levelsio.ai/post/DdBgL-tG0DF" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="拆解 動物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片回憶拆解圖示.webp" width="768" height="1024"
+           alt="粉紅山脈與藍湖旁站著一匹黑馬的照片，與拆解成九宮格手繪小圖示（山、小屋、馬、花田等）的插畫對照，寫著 Pink Mountain"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 回憶拆解圖示</h2>
+      <pre class="pcard__pre">请将我上传的每一张照片分别制作成一张独立的高级设计海报，不多图拼接，每张照片单独输出。整体采用3:4竖版构图，上下两个区域高度严格1:1，各占画面50%。 上半部分保留原始照片，保持主体身份、结构、姿态、真实质感、自然光影和原有色彩氛围，仅进行轻微高级调色，使其具有艺术杂志、独立出版物与展览图像质感。为适配画幅，可自然扩展环境背景，但不得拉伸、扭曲或改变主体。 下半部分提取照片中最具识别性的主体、局部元素、动作线索、物件细节与叙事关系，重构为一套 3×3 模块化图标网格 + 手绘稚拙涂鸦插画 + 蜡笔/彩铅颗粒质感 + 手写文字 的视觉系统。不要完整描摹原图，也不要做写实插画，而是将复杂信息压缩为 9 个最值得被记住的视觉单元：可以是主体本身、局部特征、随身物件、植物、食物、交通方式、姿态、情绪符号或场景中的小记忆点。每个单元都应来自上方同一画面的语义延伸，使人一眼感到它们属于同一张照片的"记忆清单"。 构图采用隐性的 3×3 松散网格。九宫格只作为底层秩序，不必画得过于工整；每个图标的位置、大小、角度和落点都可轻微偏移，形成既有秩序又不机械的 loose grid / organic grid 感。顶部可加入一个简短手写标题，并配少量轻松的小波浪线、星点或符号；底部可加入一句极小的手写 caption，使整体像一页私人手帐、视觉日记或 collection sheet。留白必须充足，版面要松弛、可爱、克制而不凌乱。 画风采用Naïve Hand-drawn Doodle Illustration：形体简洁、略带稚拙感，轮廓轻微抖动、粗细不均、不完全闭合，保留有意识的不完美。填色不要铺得太满，允许看到纸纹、白色颗粒和边缘毛糙感。可混合黑色细线轮廓、彩铅/蜡笔填色和少量局部色块，不依赖真实光影塑造，而以 flat color / spot color 的方式建立图形关系。网格辅助线若出现，应极淡，像铅笔轻轻打出的底稿，而不是电脑绘制的规则表格。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/Dd6CDM2m7H5" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="雕塑 動物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片光柵雕塑.webp" width="768" height="1024"
+           alt="戴帽牛仔騎馬站在水池旁、周圍有紅色灌木的照片，與同一畫面轉成藍白光柵線條雕塑的插畫對照，寫著 lines reveal what we hide"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 光柵雕塑</h2>
+      <pre class="pcard__pre">将上传的每张照片分别制作成独立海报，不合并多张照片。上下严格1:1，各占画面50%。 上半部分保留原照主体身份、结构、姿态、真实材质、自然光影和色彩氛围，仅轻微调色。可以延展背景适配画幅，不得拉伸、扭曲或改变主体。 下半部分以连续、细密的平行光栅线条重构同一主体，让它像隐藏的三维形态从线条场中向外推挤。通过线条的压缩、扩张、弯曲与负空间显现形体，不用独立轮廓线或写实渲染。主体占下半部构图约70%–80%，只设置少数大型、受控的变形区域；远离主体处逐渐恢复笔直平行。 线条必须细密、锐利、平滑、均匀且连续。在安静的负空间加入2–3个小型现代无衬线排版块。整体呈现视幻艺术、实验编辑海报与现代雕塑的极简气质。 避免断线、交叉线、锯齿、混乱涟漪、过度写实、线框轮廓、科幻UI、过多文字、标志、编号、星爆与闪光。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/DevdOMslEy9" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="海報 時尚">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片光學玻璃雙聯海報.webp" width="768" height="1024"
+           alt="模特兒披著摺扇狀白色布料、露出後背的時尚攝影，與同畫面覆蓋長虹玻璃光學扭曲效果的雙聯海報對照，寫著 SILENCE IN FORM、THROUGH GLASS"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 光學玻璃雙聯海報</h2>
+      <pre class="pcard__pre">每张上传照片分别生成一张独立的高级艺术双联海报，不拼接、不混合、不合并不同照片。画布严格为3:4竖版，上下两个区域各占50%，以干净平直的水平线自然分界，不使用相框、卡片、胶带、撕纸、卷边、拼贴阴影或装饰边界。整体融合真实摄影、奢侈品广告、实验摄影、现代光学艺术、极简主义与高级编辑设计。上半区完整保留对应原始照片，人物或动物的身份、五官、眼睛、神态、毛发、服饰、动作与姿态保持一致；花卉、植物、建筑、风景、交通工具及静物的轮廓、结构、位置、材质、透视、环境、景深、自然光影与色彩关系不得改变。仅允许轻微高级调色、曝光优化及背景自然延展，不得拉伸、扭曲、替换主体或增加无关元素。原照满版覆盖上半区，直达顶部、左右边缘及中央分界线，呈现真实、细腻的艺术杂志摄影质感。下半区以同一张原照为唯一视觉依据，保留主体身份、关键结构、姿态、空间关系与原有色彩，在整个区域前方覆盖一整块100%满版的超密、超细、连续纵向长虹玻璃，玻璃从下半区顶部延伸至底部并覆盖左右边缘。纹理方向严格纵向，密度约为普通长虹玻璃的3—5倍，形成极细连续的微型光学光栅；玻璃必须具有真实透明度变化、柔和高光、边缘反射、光线透射与折射层次，不得表现为条纹贴纸、普通百叶窗、雨水玻璃、运动模糊或简单数字滤镜。主体与背景经过纵向波纹扭曲、错位、拉伸、棱镜分裂与细长色带折射，但主体物理结构不可被错误改变。根据原照自动识别视觉中心：人物或动物的眼睛与面部、花卉花心、建筑标志结构、风景焦点或静物核心细节。中心区域玻璃仍然存在，但保持约85%—95%的视觉通透度与较弱折射，让关键识别特征清晰可辨；从中心向四周平滑增强折射，避免圆形、矩形或生硬蒙版边界；外围形成约75%—95%强度的密集纵向光带、形态分裂与抽象光影，同时保留原照整体构图与色彩记忆。禁止主体消失、重复、断裂、五官错位或肢体变形。背景和折射色彩从原照提取，可使用低对比度环境奶油白暖米色浅灰或柔和渐变。采用柔和商业摄影布光，突出真实玻璃质感，避免过曝反光霓虹色杂乱光斑与廉价特效。加入少量有真实含义的英文标题、简短副标题或编号，使用纤细高对比度Serif衬线字体与简洁Sans-serif小字，自由非对称排版，不遮挡主体焦点，不出现乱码、伪英文、水印。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/Dex_SSlFAqO" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="塗鴉 動物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片醜萌塗鴉.webp" width="768" height="1024"
+           alt="兩隻綿羊對鏡頭的照片，與刻意畫得又醜又好笑、眼睛超大吐舌頭的塗鴉版本對照"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 醜萌塗鴉</h2>
+      <pre class="pcard__pre">3:4 비율의 이미지를 생성하고, 상하로 각각 1:1 비율로 나누어 상단에는 업로드된 원본 이미지를, 하단에는 그려야 할 그림을 배치합니다. 그려야 할 그림: 사진이나 그림을 올리면 일부러 못생기고 웃긴 낙서 캐릭터로 바꿔드립니다. 사람, 반려동물, 캐릭터, 사물 새로 그려드립니다. 잘 그릴수록 실패, 못 그릴수록 성공.</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/Detf9rVGy9p" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="版畫 動物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片民藝版畫.webp" width="768" height="1024"
+           alt="一個人坐在彎曲樹幹上、身旁站著大象的照片，與同畫面轉成密集點刻紋理的民藝版畫插畫對照"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 民藝版畫</h2>
+      <pre class="pcard__pre">Create one vertically stacked before-and-after comparison using the supplied image as the only source.
+LAYOUT:Exactly two equal-height panels: original image on top, transformed image on bottom. Both panels have the source image's aspect ratio and identical width. The complete canvas is twice the source image's height. Join the panels directly at a clean horizontal seam. No thick divider, extra panel, decorative frame, labels, or added text.
+TOP PANEL — ORIGINAL:Place the supplied image unchanged in the upper half. Preserve its full composition, original colors, lighting, details, existing text, and crop. Do not redraw, retouch, stylize, or apply texture to this panel.
+BOTTOM PANEL — OUTSIDER ART:Redraw the same scene as a flat, densely textured naïve folk-art print. Preserve the main subject, recognizable silhouettes, relative positions, important objects, and overall composition. Do not invent additional subjects or props.
+Flatten the ground into map-like color zones, with people, trees, buildings, and objects shown in simple frontal or side elevation. Remove converging perspective, photographic depth, directional lighting, and cast shadows.Use warm paper white, warm ink black, and two to four subdued colors derived from the source. Choose one existing object or connected detail as the only saturated accent. Give each large zone one consistent handmade texture: stitch marks, irregular window grids, or dense foliage marks. Keep the texture dense, rhythmic, and slightly imperfect.
+Where people appear, use small, solid, faceless figures with filled clothing and limbs of visible width. Render every surface as opaque printed ink on matte paper, with no photographic remnants.Keep all illustration, paper texture, and color changes strictly inside the lower panel. No gradients, glossy vector finish, watercolor, stick figures, cute cartoon proportions, invented lettering, or watermark.</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/Des6-oNFFsd" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="插畫 居家">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/室內家居雜誌插畫.webp" width="768" height="1024"
+           alt="擺著黑膠唱機和綠色植物的客廳照片，與同一空間轉成溫暖復古插畫的紀念卡片對照，寫著 Sunlight, good art, and a quieter life"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">室內 × 家居雜誌插畫</h2>
+      <pre class="pcard__pre">以输入的室内照片为唯一内容，生成一张3:4竖版"真实照片＋简约插画"纪念卡片。保留房间的空间结构、家具数量、主要陈设、门窗位置和相互关系，不改变原有布局，不增加无关物品。
+【构图】
+画面上下分区，各占约50%。上半部分完整保留原照片与真实摄影质感，根据横向区域自然裁切；下半部分使用温暖的象牙白手工纸背景，将同一室内场景重新绘制成居中的横向插画。插画约占下半部分宽度的65%，四周保留充足留白。
+【造型】
+保留墙面、门窗、橱柜、沙发、桌椅、灯具和大型装饰物的核心轮廓，维持原照片的视角、空间层次和主要比例。删除细碎杂物、材质纹理、真实反光和复杂阴影，将空间简化为清晰、略显笨拙的几何色块与纤细手绘线条。轮廓允许轻微歪斜、断续和错位，但房间结构仍应容易辨认。
+【色彩】
+从原照片提取4—6种代表色，转换为柔和、低饱和的奶油白、灰绿、焦糖棕、砖红、灰蓝和淡黄色。使用扁平平涂，仅保留少量色块区分墙面、地面、家具和装饰，不做复杂渐变或立体塑形。
+【质感】
+融合蜡笔、粉彩、丝网印刷与旧书插图质感，保留纸张透白、细密颗粒、颜色不均、边缘磨损和轻微套色偏移。整体像印在旧纸上的家居杂志插画，温暖、安静、朴素且有收藏感。
+【文字】
+插画下方可加入两行与空间氛围相关的简短英文文案，使用小号复古衬线字体并左对齐；无法准确生成时保留留白，不生成乱码。
+不要改变房间格局，不要增减主要家具；删除人物、手机界面、字幕和截图元素；避免写实绘画、建筑效果图、精致水彩、动漫、矢量、油画、厚涂、3D、Logo、水印和黑边。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/DeqW4jwFLq7" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="海報 創意">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/插畫實景合成海報.webp" width="768" height="1024"
+           alt="洋芋片堆成沙漠的照片，上面疊了白色線條手繪的駱駝商隊插畫，標題寫著 SMALL JOURNEYS big stories"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">插畫 × 實景合成海報</h2>
+      <pre class="pcard__pre">Mixed-media editorial poster, clean and minimal composition, minimalist white outline line art illustration of [character], overlaid on [a real background], large retro serif headline "[text]", small handwritten sub-caption "[text]", two or three minimal hand-drawn doodles, subtle, generous white space, breathing room around all elements, less is more aesthetic, Wes Anderson style meets collage aesthetic and editorial minimalism</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/Den0peTFOaV" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="版畫 動物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片復古印刷風.webp" width="768" height="1024"
+           alt="黑貓坐在紅牆黃窗邊的照片，與同畫面轉成復古兩色版畫插畫對照"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 復古印刷風</h2>
+      <pre class="pcard__pre">请将我上传的每一张照片分别制作成一张独立的高级设计海报，不多图拼接，每张照片单独输出。整体采用3:4竖版构图，上下两个区域高度严格1:1，各占画面50%。 上半部分保留原始照片，保持主体身份、结构、姿态、真实质感、自然光影和原有色彩氛围，仅进行轻微高级调色，使其具有艺术杂志、独立出版物与展览图像质感。为适配画幅，可自然扩展环境背景，但不得拉伸、扭曲或改变主体。 下半部分提取照片中最具识别性的主体、轮廓、结构、姿态与叙事关系，重构为 Mid-century vernacular graphic illustration + schematic line drawing + two-color spot printing 风格的复古民间商业插画。不要完整描摹照片，而是通过 diagrammatic abstraction 将复杂对象压缩成少量清晰几何形、功能性轮廓和必要结构，使主体像旧说明书、广告卡、技术标签或民间印刷品中的图解，一眼可辨，却比真实对象更加直接、幽默和符号化。 造型强调 economy of line：能用一根线说明的结构，不使用多余笔触。以直接的黑色钢笔轮廓、矩形、圆形、菱形、直线和简单切面概括对象；人物、动物和器物可适度夸张比例，机器、建筑与复杂结构则压缩成清楚的方盒、孔洞、面板和轮廓关系。透视采用平面化、示意性的 diagrammatic perspective，不追求真实光影和严谨写实空间，让画面保持"插画与技术图解之间"的特殊状态。 构图根据原图最重要的叙事关系重新整理，保持一个明确主体，并利用少量辅助对象、指示线、方向关系或结构符号强化故事。重视视觉重心、几何秩序、尺度反差、正负形与留白，画面可以略显笨拙和民间，但不能杂乱；所有信息都应像为了"解释这件事"而存在，而不是为了装饰而存在。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/DejOMXBG2d3" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="手繪 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/寵物紙感手繪插畫.webp" width="768" height="1024"
+           alt="毛茸茸的狗狗在草地上吐舌微笑的照片，與同一隻狗的淡彩紙感手繪插畫對照"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">寵物 × 紙感手繪插畫</h2>
+      <pre class="pcard__pre">你是一名擅长极简插画、纸张媒介、丙烯色块绘画与视觉提炼的封面插画师。 请将我上传的每一张照片，分别制作成一张独立的3:4竖版双画面作品。每张照片单独处理、单独输出，不得多图拼接。整张画面上下严格按照1:1划分，上半部分占50%，下半部分占50%，只输出一张完整图片。
+【上半部分：保留真实照片】 上半部分使用上传的原始照片，尽量保留照片本身，不要重新生成或改变主体身份。 严格保持人物原有的五官、脸型、年龄、发型、表情、动作、姿态、身体比例、服装、配饰及人物之间的互动关系。若照片中有宠物，也要保留宠物原有的品种、毛色、体态、表情与动作。保留原照片真实自然的摄影质感、光线方向、环境氛围与原有色彩，只做轻微的清晰度、明暗和色彩优化，使画面呈现自然、温暖、干净的艺术摄影质感。 不得美化成假脸，不得改变人物长相，不得卡通化，不得拉伸、变形或重新设计服装。为了适配3:4画幅，可以自然扩展天空、墙面、草地、室内背景等环境，但不能裁掉关键人物，也不能改变原始构图关系。
+【下半部分：极简纸感手绘再创作】 下半部分根据上方照片进行艺术再创作，生成具有经典杂志手稿感的极简纸本插画。 提取照片中最具识别性的主体、轮廓、姿态、动作、互动关系、空间关系与叙事情绪。重点保留最能代表这个瞬间的视觉记忆点。 不要完整写实复制照片，不要机械描边，也不要简单把照片转换成线稿。需要大幅删减复杂背景、五官细节、衣服纹理和无关物品，只保留最关键的造型与情绪，让观者可以一眼对应上方照片。使用纤细、自然、松散、轻微不稳定的手绘线条表达人物。线条可以出现自然断续、轻重变化、轻微错位和未闭合边缘，像画家在粗糙纸张上快速记录下来的手稿。 搭配少量明确而克制的丙烯平涂色块、水粉笔触或马克笔笔触。色块不必完全贴合轮廓，可以保留轻微越界、涂抹痕迹、笔刷拖痕和不规则边缘，形成自然的手工绘画感。 人物五官只保留少量最有记忆点的特征，避免精细刻画。形象要自然、灵动、温暖，不要画成夸张的大头卡通人物，也不要出现僵硬的人体结构。
+【构图与留白】 下半部分采用小尺度主体与大面积留白的构图。 插画主体应小而集中，只占下半部分面积的约10%—20%，可以位于画面中央偏下、左下、右下或根据原照片动作方向进行偏心安排。 不要把人物画得过大，不要铺满整个下半部分。四周保留充足的呼吸空间，重视人物运动方向、正负形关系和视觉节奏。 背景以暖白色、奶油白或浅米色的粗糙纸张为主，必须呈现清晰、自然的纸张纤维和轻微颗粒。只允许用极少量淡色线条或色面暗示草地、天空、窗户、家具或地面，不得重新绘制复杂写实背景，不得形成第二视觉中心。
+【颜色与质感】 配色从上方原照片中提取并压缩为不超过4种主要颜色。优先保留最具有识别度的服装色、肤色、植物色、天空色或宠物毛色，并将其整理为柔和、克制、耐看的色彩系统，例如奶油白、柔和黄色、鼠尾草绿、浅雾蓝、暖灰、珊瑚粉、浅棕色或炭黑色。 画面需要保留纸张颗粒、铅笔感、墨线感、丙烯平涂痕迹、水粉笔触与轻微印刷感。 避免光滑矢量效果、数码涂鸦感、厚重油画堆叠、3D渲染、照片滤镜、塑料质感、过度锐化和过度精修。
+【文字要求】 默认不添加任何文字。 不要出现中文、英文标题、装饰性单词、编号、Logo、签名、平台标志或水印。 如果确实需要文字，只允许在下半部分边角加入一句非常小、非常轻的英文手写短句，不得抢夺主体视线；但本次优先生成完全无文字版本。
+【整体效果】 最终作品应像一张照片与手绘插画相互呼应的私人纪念封面：上半部分真实、自然、有生活感；下半部分轻盈、克制、有纸张触感和手工温度。 整体气质温暖、安静、松弛、干净、有故事感。 避免：写实复制、复杂背景、主体过大、细节过密、线条过于整齐、卡通感、儿童简笔画感、厚重油画、油画棒厚涂、3D效果、光滑矢量、廉价模板感、错误五官、错误手脚、多余人物、人物变形、宠物变形、大段文字、Logo与水印。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/Deii8IYlAQ8" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="拼貼 寵物">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片極簡拼貼畫.webp" width="768" height="1024"
+           alt="橘白長毛貓坐在紅牆上仰望的照片，與同一隻貓轉成撕紙拼貼插畫對照，寫著 Small happiness, big world"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 極簡拼貼畫</h2>
+      <pre class="pcard__pre">请将每张上传照片分别制作成一张独立的高级设计海报，单张输出，不多图拼接，不沿用其他照片的内容与设计。
+【画幅与摄影】严格3:4竖版，上下等高，各占50%，水平边界平直、直接衔接。上半保留原照主体身份、结构、姿态、真实质感、自然光影及原有色彩氛围，仅轻微高级调色，呈现艺术杂志、独立出版物与展览图像质感。适配画幅时可自然扩展环境，不得拉伸、扭曲或改变主体。
+【下半插画】提取照片最具识别性的主体、轮廓、结构、姿态与叙事关系，重新判断并重构为色场基座式纸艺拼贴。删除绝大多数背景及无关细节，仅保留代表原物的视觉记忆点，以剪纸轮廓、纸片层叠、几何概括和少量纹理重新组织，让人一眼识别与原照的对应关系。禁止完整复制、逐物转绘。
+【色场与构图】采用split color-field composition：下半区域内部，上方保留大片近白负空间，底部以一整块横向贯穿画幅的纯色基座封底；边界水平，无透视、桌沿或渐变。主体落在色域分界附近，可跨越两个色场。必要时在主体后方加入局部几何背景板，形成"近白留白、局部背景板、主体、纯色基座"的平面层叠。 允许重新导演下半画面，通过删减、重组、裁切、尺度变化、位置调整与留白，改善原图杂乱、背景复杂或主体过小的问题。强调主体集中、关系清晰、大面积负空间、不对称平衡、块面比例与疏密节奏，宁少勿满。
+【纸艺材质】采用cut-paper collage逻辑，将人物、建筑、动物、植物、器物或景观概括为少量完整纸片形状。边缘略带手工裁切的不规则感，保留细腻纸粒、轻微叠层与印刷质感。空间依靠色块遮挡和前后层级，不依赖写实透视、立体阴影或复杂明暗。
+【配色】从原照提取2–4种最具辨识度与生命力的颜色，整理为柔和、明亮、干净的pastel色场。基座使用稳定主色，背景板与主体以相邻色或少量对比色建立层次。整体轻盈、温和、有生活感，避免灰脏、暗沉、过度莫兰迪化、高饱和撞色及廉价糖果感。
+【文字与气质】文字极少，不限语种，不预设标题或编号；从主体、地点、动作、情绪或隐喻提炼，安静置于插画留白、色场边界或版面边角，保持克制精致的编辑式图文关系。 整体融合剪纸拼贴、上下色域分割、全宽纯色基座、局部背景色块、大面积留白与编辑排版。避免完整场景转绘、复杂背景、写实透视、渐变、厚重阴影、填满画面、卡通感、3D感及模板化拼贴。</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/Def_MbLlJmo" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <article class="pcard" data-tags="立體書 風景">
+    <figure class="pcard__shot">
+      <img src="../media/prompts/照片第二世界立體書.webp" width="768" height="1024"
+           alt="燈塔與白色海崖的風景照，與同畫面掀起一角、變成立體書頁的插畫對照，兩個線稿小人正在翻頁，寫著 Same place, different layer"
+           loading="lazy" decoding="async">
+    </figure>
+    <div class="pcard__body">
+      <h2 class="pcard__t">照片 × 第二世界立體書</h2>
+      <pre class="pcard__pre">请基于我上传的照片，生成一张3:4竖版「第二世界」摄影二创海报。硬性结构：画面上下严格1:1。上半部分必须是原照片本体，只允许等比裁切，保留原有主体、人物、空间关系、色彩、自然光影，不要重绘，不要改成插画，不要重新设计照片内容。下半部分必须是暖米白纸张背景+大量留白。核心创意：请先观察原照片里最有辨识度的视觉结构（如水纹、树冠、云层、山脊、影子、建筑开口、道路、倒影等），然后把其中一个结构提取出来，在下半部分变成一个可触碰、可使用的"摄影物体"。这个物体必须：仍然保留原照片的真实摄影纹理；具有明显3D立体感，像一块被拿出来的照片材料/薄片/布片/窗口/洞口/水面；有边缘厚度、轻微卷曲或折起、自然投影、透视关系、与纸面的接触感；不能只是普通撕纸边，也不能让下半部分只剩小人，必须清楚看到这块"由原图延伸出来的摄影形体"。人物与文字：可加入0–2个极简黑色线稿小人。小人必须真的与这块摄影物体互动，比如：拉开、推开、撑住、铺平、划行、进入、提起、修补、展开。小人不是装饰，不要密集。添加一句简短英文手写旁白，自然、轻松、稍微有点幽默感，不要鸡汤，不要励志语录。风格要求：真实摄影+暖米白纸张+极简黑线涂鸦+轻微手工拼贴感+独立杂志感。干净、克制、明亮、惊艳。禁止：整张图重绘或插画化；只做"撕纸+小人"模板；下半部分没有摄影物体，只剩线稿；随意添加树叶、星星、爱心等无关装饰；商业/广告感、复杂插画感、密集元素；重复使用陈词滥调文案，如"Same...,different..."。重点：下半部分必须清晰保留一块由原照片结构转化而来的"立体摄影物体"，效果要有真实纸片/材质立体感，而不是简单白底加小人。主体锁定规则：先识别照片中视觉权重最高的核心主体。若画面存在明确地标建筑、人物、动物或独立物体，则下半部分的"第二世界"必须围绕该主体展开。主体必须完整、清晰、可辨认地保留真实摄影纹理，不得用天空、水面、道路、云层等背景元素取代主体。背景只能辅助创意。下半部分至少保留主体的大部分完整轮廓，不允许主体消失、被裁碎或沦为装饰。创意可以改变主体的"物理属性"，但不能改变主体的"身份"。看到下半部分第一眼仍必须认出原照片的核心主体</pre>
+    </div>
+    <div class="pcard__foot">
+      <button class="pcopy" type="button">複製提示詞</button>
+      <a class="psrc" href="https://www.threads.com/@jenniferzhao08/post/DeeHut8mzJx" target="_blank" rel="noopener">原貼文 ↗</a>
+    </div>
+  </article>
+
+  <div class="pempty">
+    <b>卡片還沒放進來</b>
+    <p>版面、複製按鈕、出處標示都已經做好了，圖與提示詞補上就會顯示在這裡。</p>
+    <p>做法寫在 <code>網站/README.md</code>。</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>內容出自 Threads
+    <a href="https://www.threads.com/@levelsio.ai" target="_blank" rel="noopener">@levelsio.ai</a>、
+    <a href="https://www.threads.com/@jenniferzhao08" target="_blank" rel="noopener">@jenniferzhao08</a>
+    等創作者，著作權屬原作者</p>
+</footer>
+
+</main>
+
+<script src="../assets/prompts.js?v=1"></script>
+</body>
+</html>

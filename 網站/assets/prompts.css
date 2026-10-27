@@ -1,0 +1,144 @@
+/* ──────────────────────────────────────────────
+   AI 生圖提示詞收藏 — 專用樣式
+   ──────────────────────────────────────────────
+   只有 prompts/ 底下那一頁用得到。
+   這一頁不是講義，是作品牆：一張圖配一段提示詞，
+   沒有分節、沒有編號、沒有進度脊椎。
+   底色、字型、.stage-open、footer 吃 lesson.css，
+   這裡只放這一頁自己多出來的東西。
+   載入順序固定：
+     <link rel="stylesheet" href="../assets/lesson.css?v=9">
+     <link rel="stylesheet" href="../assets/prompts.css?v=2">
+   ⚠️ 改完這個檔，記得把頁面裡 prompts.css?v= 的數字 +1。
+   ────────────────────────────────────────────── */
+
+
+/* ── 比課頁寬 ────────────────────────────────────────
+   課頁的 .wrap 是 60rem（一欄文字好讀的寬度），
+   但這一頁是圖牆，窄了只能排一欄，所以加寬。     */
+
+.wrap--wide{max-width:76rem}
+
+
+/* ── 元件 1：開場的出處一行 ──────────────────────────
+   內容是別人的，出處要在第一眼就看得到，
+   所以放在標題正下方，不是頁尾小字。
+   深色底，字要亮。                                   */
+
+.pcredit{
+  font-size:clamp(.95rem,1.8vw,1.08rem);
+  color:#E6D9C4; margin:0; font-weight:500;
+}
+.pcredit a{
+  color:#FFBF00; font-weight:700;
+  text-decoration:none; border-bottom:2px solid currentColor;
+}
+.pcredit a:hover{color:#FFD766}
+
+
+/* ── 元件 2：風格篩選鈕 ──────────────────────────────
+   鈕是 prompts.js 依每張卡的 data-tags 自動生出來的，
+   HTML 只要放一個空的 <div class="pfilter"></div>。
+   卡片不到兩種標籤時整條會自己隱藏。                 */
+
+.pfilter{display:flex; flex-wrap:wrap; gap:.5rem; margin:2rem 0 0}
+.pfilter[hidden]{display:none}
+.pfilter button{
+  font-family:var(--display); font-weight:500; font-size:.86rem;
+  color:var(--ink); background:var(--card);
+  border:2px solid var(--rule); border-radius:999px;
+  padding:.35rem .95rem; cursor:pointer;
+  box-shadow:var(--shadow-sm);
+}
+.pfilter button:hover{border-color:var(--accent)}
+.pfilter button[aria-pressed="true"]{
+  background:var(--accent); border-color:var(--accent); color:#fff;
+}
+
+
+/* ── 元件 3：提示詞卡 ────────────────────────────────
+   一篇貼文一張卡，由上到下就三件事：
+     成果圖 → 提示詞原文 → 複製鈕 ＋ 原貼文連結
+   完整用法寫在 網站/README.md。                       */
+
+.pgrid{
+  display:grid; gap:1.6rem; margin:2rem 0 4rem;
+  grid-template-columns:repeat(auto-fill,minmax(20rem,1fr));
+  align-items:start;
+}
+
+.pcard{
+  background:var(--card); border:2px solid var(--rule);
+  border-radius:18px; overflow:hidden;
+  box-shadow:var(--shadow-md);
+}
+.pcard[hidden]{display:none}
+
+/* 成果圖：寬度撐滿，高度隨圖。img 一定要寫 width/height，
+   不然圖載入時整面牆會跳一下。 */
+.pcard__shot{margin:0; background:var(--ground-2); border-bottom:2px solid var(--rule)}
+.pcard__shot img{display:block; width:100%; height:auto}
+
+.pcard__body{padding:1.1rem 1.2rem .9rem}
+
+.pcard__t{
+  font-family:var(--display); font-weight:700; font-size:1.15rem;
+  margin:0 0 .7rem; line-height:1.4;
+}
+
+.pcard__pre{
+  margin:0; padding:1rem 1.1rem;
+  font-family:var(--mono); font-size:.86rem; line-height:1.8;
+  white-space:pre-wrap; word-break:break-word;      /* 長提示詞要自己折行 */
+  background:#2B2119; color:#F4EBDB;
+  border-radius:12px;
+  max-height:20rem; overflow:auto;
+}
+
+.pcard__foot{
+  display:flex; flex-wrap:wrap; gap:.8rem; align-items:center;
+  padding:0 1.2rem 1.2rem;
+}
+
+/* 一鍵複製。複製成功後字會變成「已複製 ✓」兩秒，
+   這個狀態由 prompts.js 加 data-ok 控制。 */
+.pcopy{
+  font-family:var(--display); font-weight:600; font-size:.9rem;
+  color:#fff; background:var(--accent);
+  border:none; border-radius:999px;
+  padding:.5rem 1.2rem; cursor:pointer;
+  box-shadow:0 2px 0 #C4460A;
+}
+.pcopy:hover{filter:brightness(1.06)}
+.pcopy:active{transform:translateY(1px); box-shadow:0 1px 0 #C4460A}
+.pcopy[data-ok]{background:var(--go); box-shadow:0 2px 0 #0B7C6F}
+
+.psrc{
+  font-size:.86rem; color:var(--accent); font-weight:500;
+  text-decoration:none; border-bottom:1.5px solid currentColor;
+}
+.psrc:hover{color:#C4460A}
+
+
+/* ── 元件 4：還沒有內容時的佔位 ──────────────────────
+   卡片一張都還沒有的時候才會看到；prompts.js 發現
+   頁面上已經有 .pcard 就會把它隱藏起來。
+   grid-column 要橫跨整排，不然它只佔一欄。          */
+
+.pempty{
+  grid-column:1/-1;
+  border:2px dashed var(--rule); border-radius:18px;
+  padding:2.5rem 1.5rem; text-align:center; color:var(--ink-soft);
+  background:rgba(255,255,255,.5);
+}
+.pempty[hidden]{display:none}
+.pempty b{
+  display:block; font-family:var(--display); font-size:1.1rem;
+  color:var(--ink); margin-bottom:.5rem;
+}
+.pempty p{margin:.4rem 0; font-size:.9rem}
+
+
+@media (prefers-reduced-motion: reduce){
+  .pcopy:active{transform:none}
+}
