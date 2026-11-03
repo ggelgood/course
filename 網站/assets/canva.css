@@ -186,6 +186,9 @@
   font-size:.92rem; line-height:1.75; color:#C9B99F;
 }
 
+/* 直式作品（海報）加 .goal--tall，不然圖會比一個螢幕還高 */
+.goal--tall img{max-width:22rem}
+
 
 /* ── 元件 7：圖層堆疊示意圖 ─────────────────────────
    講「圖層」概念用它。排版刻意做成跟 Canva 圖層清單
@@ -341,3 +344,58 @@
   color:var(--ink-soft); cursor:pointer;
 }
 .zlab__reset:hover{border-color:var(--accent); color:var(--accent)}
+
+
+/* ── 元件 10：海報資訊對照表 ────────────────────────
+   把幾張海報「寫了什麼」排在一起比，一眼看出誰少了什麼。
+   沒寫的格子加 --miss。手機放不下時只有表格自己左右滑，
+   整頁不會跟著被撐寬。
+   用法：
+     <div class="infotb"><table>
+       <thead><tr><th></th><th>海報 A</th><th>海報 B</th></tr></thead>
+       <tbody>
+         <tr><th>哪一天</th><td>9/5</td><td class="infotb__miss">沒有寫</td></tr>
+       </tbody>
+     </table></div>                                     */
+
+.infotb{overflow-x:auto; margin:1.2rem 0}
+.infotb table{
+  width:100%; min-width:34rem; border-collapse:collapse;
+  font-size:.92rem; line-height:1.6;
+}
+.infotb th, .infotb td{
+  padding:.6rem .75rem; text-align:left; vertical-align:top;
+  border-bottom:2px solid var(--rule);
+}
+.infotb thead th{
+  font-family:var(--display); font-weight:600; color:var(--accent);
+  border-bottom-color:var(--accent);
+}
+.infotb tbody th{font-weight:700; white-space:nowrap}
+.infotb tbody tr:last-child th, .infotb tbody tr:last-child td{border-bottom:0}
+.infotb__miss{background:var(--accent-soft); color:var(--accent); font-weight:700}
+
+
+/* ── 元件 11：可複製的素材圖庫 ──────────────────────
+   學生在圖片上按右鍵 → 複製圖片，再到 Canva 貼上，
+   所以 img 要直接放原圖，不能換成縮圖，貼過去才夠清楚。
+   每張下面留一個下載連結，貼上有問題時改用上傳。
+   用法：
+     <div class="matgrid">
+       <figure class="matgrid__it">
+         <img src="…" alt="…" loading="lazy">
+         <figcaption>名稱 <a href="…" download>下載</a></figcaption>
+       </figure>
+     </div>                                             */
+
+.matgrid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(9rem,1fr));
+  gap:.8rem; margin:1.4rem 0;
+}
+.matgrid__it{
+  margin:0; padding:.55rem; text-align:center;
+  background:var(--card); border:2px solid var(--rule);
+  border-radius:12px; box-shadow:var(--shadow-sm);
+}
+.matgrid__it img{display:block; width:100%; height:8rem; object-fit:contain}
+.matgrid__it figcaption{margin-top:.4rem; font-size:.82rem; line-height:1.5}
