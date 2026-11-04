@@ -288,3 +288,47 @@ body.home{background-image:none;background:var(--ground)}
   .ls a:hover .ls__n{transform:none}
   .ls__go{opacity:1;translate:0 0}
 }
+
+/* ═══ 資訊面板滑上卡片（AI 生圖提示詞頁）═══════════════════════
+   平常只露出底部標題列；hover／focus 時霧面面板滑上來、圖片微放大上移 */
+.icards{margin-top:1.4rem}
+.icards__h{font-family:var(--display);font-size:1.15rem;margin:2rem 0 .9rem;color:var(--ink)}
+.icards__row{display:grid;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr));gap:1rem}
+.icard{
+  --bar:3.1rem;                       /* 標題列高度 */
+  position:relative;display:block;aspect-ratio:3/4;overflow:hidden;
+  border-radius:16px;border:1px solid var(--rule);background:var(--card);
+  box-shadow:var(--shadow-md);color:var(--ink);text-decoration:none;isolation:isolate;
+}
+.icard__bg{
+  position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 38%,#fff),var(--c));
+  transition:transform .5s cubic-bezier(.22,.8,.3,1);
+}
+.icard__bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.icard__emoji{font-size:4.6rem;line-height:1;transform:translateY(-1.2rem);filter:drop-shadow(0 6px 0 rgba(43,33,25,.12))}
+.icard__panel{
+  position:absolute;left:0;right:0;bottom:0;z-index:1;
+  padding:.8rem 1rem 1rem;
+  background:rgba(251,246,236,.72);
+  -webkit-backdrop-filter:blur(12px) saturate(1.2);backdrop-filter:blur(12px) saturate(1.2);
+  border-top:1px solid rgba(255,255,255,.6);
+  transform:translateY(calc(100% - var(--bar)));
+  transition:transform .5s cubic-bezier(.22,.8,.3,1);
+}
+.icard__t{
+  margin:0;height:calc(var(--bar) - 1.8rem);display:flex;align-items:center;
+  font-family:var(--display);font-size:1rem;line-height:1.2;
+}
+.icard__d{margin:.55rem 0 .6rem;font-size:.82rem;line-height:1.55;color:var(--ink-soft)}
+.icard__go{font-size:.85rem;font-weight:700;color:var(--accent)}
+.icard:hover .icard__panel,.icard:focus-visible .icard__panel{transform:translateY(0)}
+.icard:hover .icard__bg,.icard:focus-visible .icard__bg{transform:scale(1.08) translateY(-.8rem)}
+.icard:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media (hover:none){
+  .icard__panel{transform:translateY(0)}
+  .icard{aspect-ratio:4/3}
+}
+@media (prefers-reduced-motion:reduce){
+  .icard__panel,.icard__bg{transition:none}
+}
